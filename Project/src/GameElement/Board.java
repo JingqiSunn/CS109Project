@@ -8,7 +8,7 @@ class Board {
 
     Board() {
         this.boardLocationSet = new ArrayList<>();
-        controllingCenter = new ControllingCenter();
+        controllingCenter = null;
     }
 
     ArrayList<BoardUnit> getBoardLocationSet() {
@@ -46,6 +46,7 @@ class Board {
         } else {
             for (int locationInTheInputPair = 0; locationInTheInputPair < theSetOfLocationOfBoardUnit.size()/2; locationInTheInputPair++) {
                 boardLocationSet.add(new BoardUnit(theSetOfLocationOfBoardUnit.get(2*locationInTheInputPair),theSetOfLocationOfBoardUnit.get(2*locationInTheInputPair+1)));
+                boardLocationSet.get(locationInTheInputPair).setCurrentPlayingBoard(this);
             }
         }
         return  this;

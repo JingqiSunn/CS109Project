@@ -27,6 +27,23 @@ class BoardUnit {
         return currentPlayingBoard;
     }
 
+    void setxCoordinate(int xCoordinate) {
+        this.xCoordinate = xCoordinate;
+    }
+
+
+    void setyCoordinate(int yCoordinate) {
+        this.yCoordinate = yCoordinate;
+    }
+
+    void setCell(Cell cell) {
+        this.cell = cell;
+    }
+
+    void setCurrentPlayingBoard(Board currentPlayingBoard) {
+        this.currentPlayingBoard = currentPlayingBoard;
+    }
+
     static Boolean whetherTwoBoardUnitsTheSameWhenSetUp(BoardUnit boardUnit1, BoardUnit boardUnit2){
         if(boardUnit1.getxCoordinate()==boardUnit2.getxCoordinate()&&  boardUnit1.getyCoordinate()==boardUnit2.getyCoordinate()){
             return true;

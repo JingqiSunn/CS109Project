@@ -17,11 +17,10 @@ public class ControllingCenter {
         informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
     }
-    public Board SetThePlayingBoard(){
+    public void SetThePlayingBoard(){
         ArrayList<Integer> theSetOfLocationOfBoardUnit = informationOfAllTheCoordinateOfTheBoardUnit;
         Board copyOfTheInitialBoard =currentPlayingBoard.SetThePlayingBoard(theSetOfLocationOfBoardUnit);
         currentPlayingBoard = Board.RemoveTheSameBoardUnit(currentPlayingBoard);
-        return currentPlayingBoard;
     }
     public void GetTheSetUpInformationOfTheBoard(Scanner fetch){
         ArrayList<Integer> coordinateInformationList = new ArrayList<>();
@@ -34,5 +33,8 @@ public class ControllingCenter {
         }
         System.out.println("The information collection is over.");
         informationOfAllTheCoordinateOfTheBoardUnit = coordinateInformationList;
+    }
+    public void addTheBoard(Board targetBoard){
+        targetBoard.setControllingCenter(this);
     }
 }
