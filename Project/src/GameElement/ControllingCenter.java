@@ -8,6 +8,7 @@ public class ControllingCenter {
     private int currentGameScore;
     private Board currentPlayingBoard;
 
+
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
     public ControllingCenter() {
@@ -21,6 +22,10 @@ public class ControllingCenter {
         ArrayList<Integer> theSetOfLocationOfBoardUnit = informationOfAllTheCoordinateOfTheBoardUnit;
         Board copyOfTheInitialBoard =currentPlayingBoard.SetThePlayingBoard(theSetOfLocationOfBoardUnit);
         currentPlayingBoard = Board.RemoveTheSameBoardUnit(currentPlayingBoard);
+        currentPlayingBoard.GetBoardUnitsInTheSameColumn();
+        currentPlayingBoard.GetBoardUnitsInTheSameRow();
+        currentPlayingBoard.GetNeighborBoardUnitInColumn();
+        currentPlayingBoard.GetNeighborBoardUnitInRow();
     }
     public void GetTheSetUpInformationOfTheBoard(Scanner fetch){
         ArrayList<Integer> coordinateInformationList = new ArrayList<>();

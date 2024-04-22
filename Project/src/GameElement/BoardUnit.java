@@ -1,4 +1,8 @@
 package GameElement;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 class BoardUnit {
     private int xCoordinate;
     private int yCoordinate;
@@ -52,4 +56,61 @@ class BoardUnit {
         }
     }
 
+    static Boolean whetherTwoBoardUnitsAreNeighborInRow(BoardUnit boardUnit1, BoardUnit boardUnit2){
+        int xCoordinateOfBoardUnit1 = boardUnit1.getxCoordinate();
+        int yCoordinateOfBoardUnit1 = boardUnit1.getyCoordinate();
+        int xCoordinateOfBoardUnit2 = boardUnit2.getxCoordinate();
+        int yCoordinateOfBoardUnit2 = boardUnit2.getyCoordinate();
+        if (yCoordinateOfBoardUnit1==yCoordinateOfBoardUnit2&&((xCoordinateOfBoardUnit1-xCoordinateOfBoardUnit2)==1||(xCoordinateOfBoardUnit1-xCoordinateOfBoardUnit2)==-1)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static Boolean whetherTwoBoardUnitsAreNeighborInColumn(BoardUnit boardUnit1, BoardUnit boardUnit2){
+        int xCoordinateOfBoardUnit1 = boardUnit1.getxCoordinate();
+        int yCoordinateOfBoardUnit1 = boardUnit1.getyCoordinate();
+        int xCoordinateOfBoardUnit2 = boardUnit2.getxCoordinate();
+        int yCoordinateOfBoardUnit2 = boardUnit2.getyCoordinate();
+        if (xCoordinateOfBoardUnit1==xCoordinateOfBoardUnit2&&((yCoordinateOfBoardUnit1-yCoordinateOfBoardUnit2)==1||(yCoordinateOfBoardUnit1-yCoordinateOfBoardUnit2)==-1)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    static ArrayList<BoardUnit> SortTheBoardUnitSetInTheSameColumnByRow(ArrayList<BoardUnit> originalBoardUnitSet){
+        ArrayList<Integer> recordOfYCoordinate = new ArrayList<>();
+        ArrayList<BoardUnit> BoardUnitSetAfterSortingByY=new ArrayList<>();
+        for (int indexInTheOriginalBoardUnitSet = 0; indexInTheOriginalBoardUnitSet < originalBoardUnitSet.size(); indexInTheOriginalBoardUnitSet++) {
+            recordOfYCoordinate.add(originalBoardUnitSet.get(indexInTheOriginalBoardUnitSet).getyCoordinate());
+        }
+        Collections.sort(recordOfYCoordinate);
+        for (int indexInTheRecordOfYCoordinate = 0; indexInTheRecordOfYCoordinate < recordOfYCoordinate.size(); indexInTheRecordOfYCoordinate++) {
+            for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit < originalBoardUnitSet.size(); indexInTheOriginalBoardUnit++) {
+                if(recordOfYCoordinate.get(indexInTheRecordOfYCoordinate)==originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getyCoordinate()){
+                    BoardUnitSetAfterSortingByY.add(originalBoardUnitSet.get(indexInTheOriginalBoardUnit));
+                    break;
+                }
+            }
+        }
+        return BoardUnitSetAfterSortingByY;
+    }
+    static ArrayList<BoardUnit> SortTheBoardUnitSetInTheSameRowByColumn(ArrayList<BoardUnit> originalBoardUnitSet){
+        ArrayList<Integer> recordOfXCoordinate = new ArrayList<>();
+        ArrayList<BoardUnit> BoardUnitSetAfterSortingByX=new ArrayList<>();
+        for (int indexInTheOriginalBoardUnitSet = 0; indexInTheOriginalBoardUnitSet < originalBoardUnitSet.size(); indexInTheOriginalBoardUnitSet++) {
+            recordOfXCoordinate.add(originalBoardUnitSet.get(indexInTheOriginalBoardUnitSet).getxCoordinate());
+        }
+        Collections.sort(recordOfXCoordinate);
+        for (int indexInTheRecordOfXCoordinate = 0; indexInTheRecordOfXCoordinate < recordOfXCoordinate.size(); indexInTheRecordOfXCoordinate++) {
+            for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit < originalBoardUnitSet.size(); indexInTheOriginalBoardUnit++) {
+                if(recordOfXCoordinate.get(indexInTheRecordOfXCoordinate)==originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getxCoordinate()){
+                    BoardUnitSetAfterSortingByX.add(originalBoardUnitSet.get(indexInTheOriginalBoardUnit));
+                    break;
+                }
+            }
+        }
+        return BoardUnitSetAfterSortingByX;
+    }
 }

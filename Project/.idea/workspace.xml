@@ -28,7 +28,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
@@ -88,7 +88,11 @@
       <workItem from="1713655314092" duration="86000" />
       <workItem from="1713655484043" duration="750000" />
       <workItem from="1713673778952" duration="2730000" />
-      <workItem from="1713744464291" duration="1037000" />
+      <workItem from="1713744464291" duration="6666000" />
+      <workItem from="1713755779697" duration="399000" />
+      <workItem from="1713763376389" duration="2458000" />
+      <workItem from="1713768766686" duration="479000" />
+      <workItem from="1713775448846" duration="6569000" />
     </task>
     <servers />
   </component>
@@ -99,19 +103,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/Board.java</url>
-          <line>4</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameElement/BoardUnit.java</url>
-          <line>1</line>
+          <line>2</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
-          <line>20</line>
-          <option name="timeStamp" value="17" />
+          <url>file://$PROJECT_DIR$/src/GameElement/Board.java</url>
+          <line>215</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />
@@ -121,8 +120,18 @@
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.Boolean" memberName="value" />
+        <PinnedItemInfo parentTag="GameElement.Board" memberName="existingXCoordinate" />
         <PinnedItemInfo parentTag="GameElement.Board" memberName="boardLocationSet" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="lastBoardUnit" />
+        <watch expression="currentNeighborSet" />
+        <watch expression="((Board)this).neighborBoardUnitsInColumn" custom="GameElement.Board" />
+        <watch expression="currentBoardUnit" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
