@@ -32,12 +32,15 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "H:/project-demo-src",
+    "last_opened_file_path": "T:/Assignments/CS109/CS109Project/Project/lib",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -45,6 +48,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
+      <option name="VM_PARAMETERS" value="--module-path T:\Assignments\CS109\CS109Project\Project\lib --add-modules javafx.controls,javafx.fxml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -83,7 +87,8 @@
       <workItem from="1713655210845" duration="27000" />
       <workItem from="1713655314092" duration="86000" />
       <workItem from="1713655484043" duration="750000" />
-      <workItem from="1713673778952" duration="396000" />
+      <workItem from="1713673778952" duration="2730000" />
+      <workItem from="1713744464291" duration="1037000" />
     </task>
     <servers />
   </component>
@@ -105,13 +110,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
-          <line>26</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>6</line>
-          <option name="timeStamp" value="15" />
+          <line>20</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />
@@ -119,5 +119,10 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="GameElement.Board" memberName="boardLocationSet" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
