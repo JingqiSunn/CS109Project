@@ -1,6 +1,7 @@
 package GameElement;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ControllingCenter {
@@ -39,7 +40,38 @@ public class ControllingCenter {
         System.out.println("The information collection is over.");
         informationOfAllTheCoordinateOfTheBoardUnit = coordinateInformationList;
     }
-    public void addTheBoard(Board targetBoard){
+    public void AddTheBoard(Board targetBoard){
         targetBoard.setControllingCenter(this);
+    }
+
+    public void RightAction(){
+        currentPlayingBoard.BoardRightMove();
+        currentGameScore=currentPlayingBoard.getCurrentScore();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+    }
+    public void LeftAction(){
+        currentPlayingBoard.BoardLeftMove();
+        currentGameScore=currentPlayingBoard.getCurrentScore();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+    }
+    public void DownAction(){
+        currentPlayingBoard.BoardDownMove();
+        currentGameScore=currentPlayingBoard.getCurrentScore();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+    }
+    public void UpAction(){
+        currentPlayingBoard.BoardUpMove();
+        currentGameScore=currentPlayingBoard.getCurrentScore();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+    }
+    public void UpdateGameValidity(){
+        currentPlayingBoard.ReIdentifyEmptyBoardUnits();
+        boolean whetherValid = false;
+        for (int indexInDirection = 0; indexInDirection < 4; indexInDirection++) {
+            if(currentPlayingBoard.getAvailableDirectionSet()[indexInDirection]==1){
+                whetherValid =true;
+            }
+        }
+        gameValidity = whetherValid;
     }
 }

@@ -113,4 +113,14 @@ class BoardUnit {
         }
         return BoardUnitSetAfterSortingByX;
     }
+
+    static Boolean WhetherTheContentInTheTwoMeaningfulBoardUnitsCanBeEliminated(BoardUnit boardUnit1,BoardUnit boardUnit2){
+        if(Cell.WhetherHaveTheSameValue(boardUnit1.getCell(),boardUnit2.getCell())){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }
