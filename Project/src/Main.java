@@ -1,5 +1,5 @@
 import GameElement.ControllingCenter;
-import GameViual.Projector;
+import GameVisual.Projector;
 import java.util.Scanner;
 
 public class Main {
