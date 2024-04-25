@@ -275,6 +275,7 @@ import java.util.Random;
         boolean whetherFullyArrangedOnRight = true;
         if (neighborBoardUnitInTheSameRow.size() == 1) {
             whetherFullyArrangedOnRight = true;
+            return whetherFullyArrangedOnRight;
         }
         boolean whetherAllEmpty = true;
         for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameRow.size() - 1; indexInTheArrayList++) {
@@ -300,7 +301,7 @@ import java.util.Random;
         boolean whetherFullyArrangedOnLeft = true;
         if (neighborBoardUnitInTheSameRow.size() == 1) {
             whetherFullyArrangedOnLeft = true;
-        }
+            return whetherFullyArrangedOnLeft;        }
         boolean whetherAllEmpty = true;
         for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameRow.size() - 1; indexInTheArrayList++) {
             if (neighborBoardUnitInTheSameRow.get(indexInTheArrayList).getCell() != null) {
@@ -325,6 +326,7 @@ import java.util.Random;
         boolean whetherFullyArrangedByTop = true;
         if (neighborBoardUnitInTheSameColumn.size() == 1) {
             whetherFullyArrangedByTop = true;
+            return whetherFullyArrangedByTop;
         }
         boolean whetherAllEmpty = true;
         for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameColumn.size() - 1; indexInTheArrayList++) {
@@ -350,6 +352,7 @@ import java.util.Random;
         boolean whetherFullyArrangedByBottom = true;
         if (neighborBoardUnitInTheSameColumn.size() == 1) {
             whetherFullyArrangedByBottom = true;
+            return whetherFullyArrangedByBottom;
         }
         boolean whetherAllEmpty = true;
         for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameColumn.size() - 1; indexInTheArrayList++) {
@@ -374,25 +377,25 @@ import java.util.Random;
     void UpdateTheValidityForEveryDirection() {
         Arrays.fill(availableDirectionSet,0);
         for (int indexInNeighborBoardUnitsInRow = 0; indexInNeighborBoardUnitsInRow < neighborBoardUnitsInRow.size(); indexInNeighborBoardUnitsInRow++) {
-            if ((this.WhetherAlreadyFullyArrangedOnLeftForARow(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow))) == true) {
+            if (this.WhetherAlreadyFullyArrangedOnLeftForARow(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == true) {
                 availableDirectionSet[2] = 1;
                 break;
             }
         }
         for (int indexInNeighborBoardUnitsInRow = 0; indexInNeighborBoardUnitsInRow < neighborBoardUnitsInRow.size(); indexInNeighborBoardUnitsInRow++) {
-            if ((this.WhetherAlreadyFullyArrangedOnRightForARow(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow))) == true) {
+            if (this.WhetherAlreadyFullyArrangedOnRightForARow(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == true) {
                 availableDirectionSet[3] = 1;
                 break;
             }
         }
         for (int indexInNeighborBoardUnitsInColumn = 0; indexInNeighborBoardUnitsInColumn < neighborBoardUnitsInColumn.size(); indexInNeighborBoardUnitsInColumn++) {
-            if ((this.WhetherAlreadyFullyArrangedByTopForAColumn(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn))) == true) {
+            if (this.WhetherAlreadyFullyArrangedByTopForAColumn(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn)) == true) {
                 availableDirectionSet[0] = 1;
                 break;
             }
         }
         for (int indexInNeighborBoardUnitsInColumn = 0; indexInNeighborBoardUnitsInColumn < neighborBoardUnitsInColumn.size(); indexInNeighborBoardUnitsInColumn++) {
-            if ((this.WhetherAlreadyFullyArrangedByBottomForAColumn(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn))) == true) {
+            if (this.WhetherAlreadyFullyArrangedByBottomForAColumn(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInColumn.get(indexInNeighborBoardUnitsInColumn)) == true) {
                 availableDirectionSet[1] = 1;
                 break;
             }
@@ -402,7 +405,7 @@ import java.util.Random;
     void ReIdentifyEmptyBoardUnits() {
         emptyBoardUnitSet = new ArrayList<>();
         for (int indexInBoardLocationSet = 0; indexInBoardLocationSet < boardLocationSet.size(); indexInBoardLocationSet++) {
-            if (boardLocationSet.get(indexInBoardLocationSet).getCell() != null) {
+            if (boardLocationSet.get(indexInBoardLocationSet).getCell() == null) {
                 emptyBoardUnitSet.add(boardLocationSet.get(indexInBoardLocationSet));
             }
         }

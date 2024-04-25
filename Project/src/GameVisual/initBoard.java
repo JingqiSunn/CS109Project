@@ -5,7 +5,7 @@ import GameElement.ControllingCenter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class initBoard {
+public class InitBoard {
     ArrayList<BoardUnit> boardInformation;
     ControllingCenter controllingCenter=new ControllingCenter();
 
@@ -25,7 +25,7 @@ public class initBoard {
         return controllingCenter;
     }
 
-    initBoard() {
+    InitBoard() {
         Scanner fetch = new Scanner(System.in);
         controllingCenter.GetTheSetUpInformationOfTheBoard(fetch);
         controllingCenter.SetThePlayingBoard();

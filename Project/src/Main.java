@@ -1,4 +1,4 @@
-import GameVisual.myBoard;
+import GameVisual.MyBoard;
 
 import javax.swing.*;
 
@@ -7,7 +7,7 @@ public class Main {
 
         JFrame jf = new JFrame("Game_2048");
 
-        jf.add(new myBoard());
+        jf.add(new MyBoard());
 
         jf.setSize(401,552);
         jf.setLocationRelativeTo(null);     //居中

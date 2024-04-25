@@ -2,19 +2,17 @@ package GameVisual;
 
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
-import GameVisual.initBoard;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import java.awt.event.*;
 import java.util.Random;
 import java.awt.Font;
 
 
-public class myBoard extends JPanel implements KeyListener, Runnable {
+public class MyBoard extends JPanel implements KeyListener, Runnable {
     boolean isStart;
 
     int source=0;
@@ -23,10 +21,10 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     int rand_location;
 
     int fx; //描述上下左右
-    initBoard boardInformation1 = new initBoard();
+    InitBoard boardInformation1 = new InitBoard();
     ArrayList<BoardUnit> boardInformation = boardInformation1.getBoardInformation();
     ControllingCenter controllingCenter=boardInformation1.getControllingCenter();
-    public myBoard(){
+    public MyBoard(){
         setFocusable(true);
         setBackground(new Color(241, 228, 219));
         this.addKeyListener(this);
