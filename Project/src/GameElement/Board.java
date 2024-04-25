@@ -515,10 +515,8 @@ import java.util.Random;
                 break;
             }
         }
-        originalBoardUnitSetAfterFullyArranged = Board.GetItFullyRightArranged(originalBoardUnitSet);
-
-        while (whetherContinue&&!whetherempty) {
-            originalBoardUnitSetAfterFullyArranged = Board.GetItFullyRightArranged(originalBoardUnitSetAfterFullyArranged);
+        if(!whetherempty) {
+        originalBoardUnitSetAfterFullyArranged = Board.GetItFullyLeftArranged(originalBoardUnitSet);
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < originalBoardUnitSetAfterFullyArranged.size(); indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
                     indexWhenItStartsToHaveCell = indexInTheOriginalBoardUnitSetAfterFullyArranged;
@@ -532,9 +530,6 @@ import java.util.Random;
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().setWhetherNeedToDisappear(true);
                     scoreThisTerm+=originalValue;
                 }
-            }
-            if (originalBoardUnitSetAfterFullyArranged == Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged)) {
-                whetherContinue = false;
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
         }
@@ -553,9 +548,8 @@ import java.util.Random;
                 break;
             }
         }
-        originalBoardUnitSetAfterFullyArranged = Board.GetItFullyLeftArranged(originalBoardUnitSet);
-        while (whetherContinue&&!whetherempty) {
-            originalBoardUnitSetAfterFullyArranged = Board.GetItFullyLeftArranged(originalBoardUnitSetAfterFullyArranged);
+        if(!whetherempty) {
+            originalBoardUnitSetAfterFullyArranged = Board.GetItFullyLeftArranged(originalBoardUnitSet);
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = originalBoardUnitSetAfterFullyArranged.size() - 1; indexInTheOriginalBoardUnitSetAfterFullyArranged > 0; indexInTheOriginalBoardUnitSetAfterFullyArranged--) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
                     indexWhenItStartsToHaveCell = indexInTheOriginalBoardUnitSetAfterFullyArranged;
@@ -569,9 +563,6 @@ import java.util.Random;
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().setWhetherNeedToDisappear(true);
                     scoreThisTerm+=originalValue;
                 }
-            }
-            if (originalBoardUnitSetAfterFullyArranged.equals(Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged))) {
-                whetherContinue = false;
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
         }
@@ -590,8 +581,7 @@ import java.util.Random;
                 break;
             }
         }
-        originalBoardUnitSetAfterFullyArranged = Board.GetItFullyTopArranged(originalBoardUnitSet);
-        while (whetherContinue&&!whetherempty) {
+        if(!whetherempty) {
             originalBoardUnitSetAfterFullyArranged = Board.GetItFullyTopArranged(originalBoardUnitSetAfterFullyArranged);
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < originalBoardUnitSetAfterFullyArranged.size(); indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
@@ -606,9 +596,6 @@ import java.util.Random;
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().setWhetherNeedToDisappear(true);
                     scoreThisTerm+=originalValue;
                 }
-            }
-            if (originalBoardUnitSetAfterFullyArranged == Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged)) {
-                whetherContinue = false;
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
         }
@@ -626,8 +613,7 @@ import java.util.Random;
                 break;
             }
         }
-        originalBoardUnitSetAfterFullyArranged = Board.GetItFullyBottomArranged(originalBoardUnitSet);
-        while (whetherContinue&&!whetherempty) {
+        if(!whetherempty) {
             originalBoardUnitSetAfterFullyArranged = Board.GetItFullyBottomArranged(originalBoardUnitSetAfterFullyArranged);
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = originalBoardUnitSetAfterFullyArranged.size()-1; indexInTheOriginalBoardUnitSetAfterFullyArranged >0; indexInTheOriginalBoardUnitSetAfterFullyArranged--) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
@@ -642,9 +628,6 @@ import java.util.Random;
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().setWhetherNeedToDisappear(true);
                     scoreThisTerm+=originalValue;
                 }
-            }
-            if (originalBoardUnitSetAfterFullyArranged.equals(Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged)) ) {
-                whetherContinue = false;
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
         }
