@@ -91,7 +91,11 @@ public class MyBoard extends JPanel implements KeyListener, Runnable {
         g.drawString("按上下左右键控制，按空格重新开始游戏", 15, 100);
 
         for (int i = 0; i < boardInformation.size(); i++) {
-            paintBlock(g,new Block(boardInformation.get(i).getCell().getValue()),boardInformation.get(i).getxCoordinate(),boardInformation.get(i).getyCoordinate());
+            int cell_value = 0;
+            if(boardInformation.get(i).getCell()!=null){
+                cell_value = boardInformation.get(i).getCell().getValue();
+            }
+            paintBlock(g,new Block(cell_value),boardInformation.get(i).getxCoordinate(),boardInformation.get(i).getyCoordinate());
         }
 
     }

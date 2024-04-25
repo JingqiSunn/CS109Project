@@ -31,7 +31,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "Application.Projector.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -121,6 +121,7 @@
       <workItem from="1714032720605" duration="1682000" />
       <workItem from="1714044860189" duration="22000" />
       <workItem from="1714047108817" duration="749000" />
+      <workItem from="1714048273531" duration="615000" />
     </task>
     <servers />
   </component>
