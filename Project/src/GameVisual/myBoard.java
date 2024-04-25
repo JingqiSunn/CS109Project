@@ -12,7 +12,7 @@ import java.util.Random;
 import java.awt.Font;
 
 
-public class MyBoard extends JPanel implements KeyListener, Runnable {
+public class myBoard extends JPanel implements KeyListener, Runnable {
     boolean isStart;
 
     int source=0;
@@ -21,10 +21,10 @@ public class MyBoard extends JPanel implements KeyListener, Runnable {
     int rand_location;
 
     int fx; //描述上下左右
-    InitBoard boardInformation1 = new InitBoard();
+    initBoard boardInformation1 = new initBoard();
     ArrayList<BoardUnit> boardInformation = boardInformation1.getBoardInformation();
     ControllingCenter controllingCenter=boardInformation1.getControllingCenter();
-    public MyBoard(){
+    public myBoard(){
         setFocusable(true);
         setBackground(new Color(241, 228, 219));
         this.addKeyListener(this);
