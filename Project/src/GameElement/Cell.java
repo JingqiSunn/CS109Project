@@ -3,7 +3,7 @@ package GameElement;
 
 import java.awt.font.TextHitInfo;
 
-class Cell {
+public class Cell {
     private int value;
     private BoardUnit boardUnit;
     private Boolean whetherNeedToDisappear;

@@ -3,7 +3,7 @@ package GameElement;
 import java.util.ArrayList;
 import java.util.Collections;
 
-class BoardUnit {
+public class BoardUnit {
     private int xCoordinate;
     private int yCoordinate;
     private Cell cell;
@@ -15,15 +15,15 @@ class BoardUnit {
         this.yCoordinate = yCoordinate;
     }
 
-    int getxCoordinate() {
+    public int getxCoordinate() {
         return xCoordinate;
     }
 
-    int getyCoordinate() {
+    public int  getyCoordinate() {
         return yCoordinate;
     }
 
-    Cell getCell() {
+    public Cell getCell() {
         return cell;
     }
 

@@ -1,7 +1,6 @@
 package GameElement;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class ControllingCenter {
@@ -9,6 +8,21 @@ public class ControllingCenter {
     private int currentGameScore;
     private Board currentPlayingBoard;
 
+    public boolean getGameValidity() {
+        return gameValidity;
+    }
+
+    public int getCurrentGameScore() {
+        return currentGameScore;
+    }
+
+    public Board getCurrentPlayingBoard() {
+        return currentPlayingBoard;
+    }
+
+    public ArrayList<Integer> getInformationOfAllTheCoordinateOfTheBoardUnit() {
+        return informationOfAllTheCoordinateOfTheBoardUnit;
+    }
 
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
@@ -45,27 +59,31 @@ public class ControllingCenter {
     }
 
     public void RightAction(){
+        if(currentPlayingBoard.getAvailableDirectionSet()[3]==1){
         currentPlayingBoard.BoardRightMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
     }
     public void LeftAction(){
+        if(currentPlayingBoard.getAvailableDirectionSet()[2]==1){
         currentPlayingBoard.BoardLeftMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
     }
     public void DownAction(){
+        if(currentPlayingBoard.getAvailableDirectionSet()[1]==1){
         currentPlayingBoard.BoardDownMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
     }
     public void UpAction(){
+        if(currentPlayingBoard.getAvailableDirectionSet()[0]==1){
         currentPlayingBoard.BoardUpMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
     }
     public void UpdateGameValidity(){
-        currentPlayingBoard.ReIdentifyEmptyBoardUnits();
+        currentPlayingBoard.UpdateTheValidityForEveryDirection();
         boolean whetherValid = false;
         for (int indexInDirection = 0; indexInDirection < 4; indexInDirection++) {
             if(currentPlayingBoard.getAvailableDirectionSet()[indexInDirection]==1){
@@ -73,5 +91,12 @@ public class ControllingCenter {
             }
         }
         gameValidity = whetherValid;
+    }
+    public ArrayList <BoardUnit> getBoardUnitInformation (){
+        return currentPlayingBoard.getBoardLocationSet();
+    }
+    public void RandomlyGenerateCellInEmptyBoardUnits(){
+        currentPlayingBoard.ReIdentifyEmptyBoardUnits();
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
     }
 }

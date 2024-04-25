@@ -1,11 +1,12 @@
 package GameElement;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-class Board {
+ public class Board {
     private ArrayList<ArrayList<BoardUnit>> neighborBoardUnitsInRow;
     private ArrayList<ArrayList<BoardUnit>> neighborBoardUnitsInColumn;
 
@@ -371,6 +372,7 @@ class Board {
     }
 
     void UpdateTheValidityForEveryDirection() {
+        Arrays.fill(availableDirectionSet,0);
         for (int indexInNeighborBoardUnitsInRow = 0; indexInNeighborBoardUnitsInRow < neighborBoardUnitsInRow.size(); indexInNeighborBoardUnitsInRow++) {
             if ((this.WhetherAlreadyFullyArrangedOnLeftForARow(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow))) == true) {
                 availableDirectionSet[2] = 1;
