@@ -44,6 +44,31 @@ public class MyBoard extends JPanel implements KeyListener, Runnable {
     }
 
     public void paint(Graphics g) {
+        super.paint(g);
+        initPaint(g);
+        g.setColor(Color.white);
+        g.setFont(new Font("宋体", Font.BOLD, 25));
+        FontMetrics fm = getFontMetrics(new Font("宋体", Font.BOLD, 20));
+
+        String value1 = controllingCenter.getCurrentGameScore() + "";
+        g.drawString(value1,
+                195 + (80 - fm.stringWidth(value1)) / 2,
+                30 + (50 - fm.getAscent() - fm.getDescent()) / 2 + fm.getAscent());
+        String value2 = best + "";
+        g.drawString(value2,
+                285 + (80 - fm.stringWidth(value2)) / 2,
+                30 + (50 - fm.getAscent() - fm.getDescent()) / 2 + fm.getAscent());
+
+        if (!isStart) {
+            g.setColor(new Color(0, 0, 0, 0.5f));
+            g.fillRect(0, 0, getWidth(), getHeight());
+            g.setFont(new Font("宋体", Font.BOLD, 60));
+            fm = getFontMetrics(new Font("宋体", Font.BOLD, 60));
+            String value = "游戏结束";
+            g.drawString(value,
+                    (getWidth() - fm.stringWidth(value)) / 2,
+                    (getHeight() - fm.getAscent() - fm.getDescent()) / 2 + fm.getAscent());
+        }
 
     }
 

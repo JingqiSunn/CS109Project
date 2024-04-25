@@ -489,6 +489,7 @@ import java.util.Random;
         if (emptyBoardUnitSet != null) {
             int randomIndexInTheEmptyBoardSet = random.nextInt(emptyBoardUnitSet.size());
             Cell randomNewCell = new Cell(randomValueForTheNextRandomCell, emptyBoardUnitSet.get(randomIndexInTheEmptyBoardSet));
+            emptyBoardUnitSet.get(randomIndexInTheEmptyBoardSet).setCell(randomNewCell);
         }
     }
 

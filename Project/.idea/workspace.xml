@@ -119,6 +119,8 @@
       <workItem from="1713859252557" duration="1156000" />
       <workItem from="1713873643708" duration="343000" />
       <workItem from="1714032720605" duration="1682000" />
+      <workItem from="1714044860189" duration="22000" />
+      <workItem from="1714047108817" duration="749000" />
     </task>
     <servers />
   </component>
@@ -139,19 +141,9 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
-          <line>98</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
-          <line>99</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/MyBoard.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="26" />
+          <line>43</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />
@@ -165,6 +157,7 @@
         <PinnedItemInfo parentTag="GameElement.Board" memberName="boardUnitsInTheSameRow" />
         <PinnedItemInfo parentTag="java.lang.Boolean" memberName="value" />
         <PinnedItemInfo parentTag="GameElement.Board" memberName="neighborBoardUnitsInRow" />
+        <PinnedItemInfo parentTag="GameElement.Board" memberName="existingXCoordinate" />
         <PinnedItemInfo parentTag="GameElement.Board" memberName="boardLocationSet" />
         <PinnedItemInfo parentTag="GameElement.Board" memberName="neighborBoardUnitsInColumn" />
       </pinned-members>
