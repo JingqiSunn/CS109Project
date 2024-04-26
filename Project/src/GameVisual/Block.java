@@ -25,67 +25,67 @@ public class Block {
     public void setAllFont() {
         switch (kind) {
             case 0 -> bColor = new Color(206, 194, 180);
-            case 1 -> {
+            case 2 -> {
                 wFont = font1;          //文字字体
                 wColor = color1;        //文字颜色
                 bColor = new Color(237, 229, 218);     //背景颜色
                 s = 2 + "";
             }
-            case 2 -> {
+            case 4 -> {
                 wFont = font1;
                 wColor = color1;
                 bColor = new Color(237, 220, 190);
                 s = 4 + "";
             }
-            case 3 -> {
+            case 8 -> {
                 wFont = font1;
                 wColor = color1;
                 bColor = new Color(242, 177, 123);
                 s = 8 + "";
             }
-            case 4 -> {
+            case 16 -> {
                 wFont = font2;
                 wColor = color2;
                 bColor = new Color(246, 147, 92);
                 s = 16 + "";
             }
-            case 5 -> {
+            case 32 -> {
                 wFont = font2;
                 wColor = color2;
                 bColor = new Color(245, 118, 86);
                 s = 32 + "";
             }
-            case 6 -> {
+            case 64 -> {
                 wFont = font2;
                 wColor = color2;
                 bColor = new Color(245, 83, 45);
                 s = 64 + "";
             }
-            case 7 -> {
+            case 128 -> {
                 wFont = font3;
                 wColor = color2;
                 bColor = new Color(237, 206, 115);
                 s = 128 + "";
             }
-            case 8 -> {
+            case 256 -> {
                 wFont = font3;
                 wColor = color2;
                 bColor = new Color(230,209,81);
                 s = 256 + "";
             }
-            case 9 -> {
+            case 512 -> {
                 wFont = font3;
                 wColor = color2;
                 bColor = new Color(207,163,12);
                 s = 512 + "";
             }
-            case 10 -> {
+            case 1024 -> {
                 wFont = font4;
                 wColor = color2;
                 bColor = new Color(229,180,6);
                 s = 1024 + "";
             }
-            case 11 -> {
+            case 2048 -> {
                 wFont = font4;
                 wColor = color2;
                 bColor = new Color(161,131,115);

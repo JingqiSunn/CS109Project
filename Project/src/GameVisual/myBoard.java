@@ -5,6 +5,9 @@ import GameElement.ControllingCenter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.awt.event.*;
@@ -34,14 +37,31 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         isStart= controllingCenter.getGameValidity();
 
         source = 0;
-        //try {
-        //    best = getS();        //读取文档内容（还没写）
-        //} catch (IOException e) {
-        //    throw new RuntimeException(e);
-        //}
+
+        try {
+            best = getS();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         //理应初始值就是0
         controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();//随机选取位置填入2或4（我觉得可能得把2或4改成case1或2----不确定）
     }
+
+    public int getS() throws IOException{
+        String filePath = "src\\GameVisual\\bestScore.txt";
+        FileReader fileReader = new FileReader(filePath);
+
+        int data = 0;
+        String s = "";
+        while ((data = fileReader.read()) != -1) {
+            s += (char) data;
+        }
+        int y = Integer.parseInt(s);
+        fileReader.close();
+        return y;
+    }
+
 
     public void paint(Graphics g) {
         super.paint(g);
@@ -153,24 +173,73 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     }
 
     @Override
-    public void run() {    //尚未完成
+    public void run() {
+
+        for (int k = 0; k < 3; k++) {
+            switch (fx) {
+                case 0 -> Up();
+                case 1 -> Right();
+                case 2 -> Down();
+                case 3 -> Left();
+                default -> {
+                }
+            }
+            try {
+                Thread.sleep(40);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (best < source) {
+                best = source;
+                try {
+                    setS(source);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+            }
+            repaint();
+            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
 
     }
 
-    private void Down(){
-        controllingCenter.DownAction();
-        controllingCenter.UpdateGameValidity();
+
+
     }
-    private void Up(){
-        controllingCenter.UpAction();
-        controllingCenter.UpdateGameValidity();
+
+
+    private void setS(int y) throws IOException {
+        String filePath = "src\\GameVisual\\bestScore.txt";
+        FileWriter fileWriter = new FileWriter(filePath);
+        String yy = y + "";
+        fileWriter.write(yy);
+        fileWriter.close();
     }
-    private void Left(){
+
+    private void Left() {
         controllingCenter.LeftAction();
+        source=controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
-    private void Right(){
+
+    private void Down() {
+        controllingCenter.DownAction();
+        source=controllingCenter.getCurrentGameScore();
+        controllingCenter.UpdateGameValidity();
+    }
+
+    private void Right() {
         controllingCenter.RightAction();
+        source=controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
-}
+
+    private void Up() {
+        controllingCenter.UpAction();
+        source=controllingCenter.getCurrentGameScore();
+        controllingCenter.UpdateGameValidity();
+    }
+
+    }
+
