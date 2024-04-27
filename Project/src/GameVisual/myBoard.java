@@ -17,15 +17,17 @@ import java.awt.Font;
 public class myBoard extends JPanel implements KeyListener, Runnable {
     boolean isStart;
 
-    int source=0;
-    int best;
+    int score =0;
+    int bestScore;
 
     int fx; //描述上下左右
     InitBoard currentBoard;
-    ArrayList<BoardUnit> currentBoardInformation = currentBoard.getBoardInformation();
-    ControllingCenter controllingCenter= currentBoard.getControllingCenter();
+    ArrayList<BoardUnit> currentBoardInformation;
+    ControllingCenter controllingCenter;
     public myBoard(){
         currentBoard = new InitBoard();
+        currentBoardInformation = currentBoard.getBoardInformation();
+        controllingCenter= currentBoard.getControllingCenter();
         setFocusable(true);
         setBackground(new Color(241, 228, 219));
         this.addKeyListener(this);
@@ -39,10 +41,10 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     private void init(){
         isStart= controllingCenter.getGameValidity();
 
-        source = 0;
+        score = 0;
 
         try {
-            best = getS();
+            bestScore = getS();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,10 +63,10 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         controllingCenter.ReIdentifyEmptyBoardUnitSet();
         isStart= controllingCenter.getGameValidity();
 
-        source = 0;
+        score = 0;
 
         try {
-            best = getS();
+            bestScore = getS();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -105,7 +107,7 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         g.drawString(value1,
                 195 + (80 - fm.stringWidth(value1)) / 2,
                 30 + (50 - fm.getAscent() - fm.getDescent()) / 2 + fm.getAscent());
-        String value2 = best + "";
+        String value2 = bestScore + "";
         g.drawString(value2,
                 285 + (80 - fm.stringWidth(value2)) / 2,
                 30 + (50 - fm.getAscent() - fm.getDescent()) / 2 + fm.getAscent());
@@ -142,24 +144,24 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         g.drawString("按上下左右键控制，按空格重新开始游戏", 15, 100);
 
         for (int i = 0; i < currentBoardInformation.size(); i++) {
-            int cell_value = 0;
+            int valueOfTheBlock = 0;
             if(currentBoardInformation.get(i).getCell()!=null){
-                cell_value = currentBoardInformation.get(i).getCell().getValue();
+                valueOfTheBlock = currentBoardInformation.get(i).getCell().getValue();
             }
-            paintBlock(g,new Block(cell_value), currentBoardInformation.get(i).getxCoordinate(),3- currentBoardInformation.get(i).getyCoordinate());
+            paintBlock(g,new Block(valueOfTheBlock), currentBoardInformation.get(i).getxCoordinate(),3- currentBoardInformation.get(i).getyCoordinate());
         }
 
     }
 
     private void paintBlock(Graphics g, Block block, int x, int y) {
         block.setAllFont();
-        g.setColor(block.bColor);
+        g.setColor(block.colorOfTheBlock);
         g.fillRect(10+x*90+7,120+y*90+7,83,83);
-        if (block.kind > 0) {
-            g.setColor(block.wColor);
-            g.setFont(block.wFont);
-            FontMetrics fm = getFontMetrics(block.wFont);
-            String value = block.s;
+        if (block.value > 0) {
+            g.setColor(block.colorOfTheNumberInTheBlock);
+            g.setFont(block.fontOfTheNumberInTheBlock);
+            FontMetrics fm = getFontMetrics(block.fontOfTheNumberInTheBlock);
+            String value = block.valueOfTheBlockInString;
             g.drawString(value,
                     10 + x * 90 + 7 + (83 - fm.stringWidth(value)) / 2,
                     120 + y * 90 + 7 + (83 - fm.getAscent() - fm.getDescent()) / 2 + fm.getAscent());
@@ -174,29 +176,32 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int keyCode =e.getKeyCode();
+        int keyCode = e.getKeyCode();
         if (isStart) {
-            Thread thread = new Thread(this);
-            if (keyCode == KeyEvent.VK_DOWN) {
-                fx = 2;
-                thread.start();
-            } else if (keyCode == KeyEvent.VK_UP) {
-                fx = 0;
-                thread.start();
-            } else if (keyCode == KeyEvent.VK_RIGHT) {
-                fx = 1;
-                thread.start();
-            } else if (keyCode == KeyEvent.VK_LEFT) {
-                fx = 3;
-                thread.start();
+            switch (keyCode) {
+                case KeyEvent.VK_DOWN:
+                    fx = 1;
+                    Down();
+                    break;
+                case KeyEvent.VK_UP:
+                    fx = 0;
+                    Up();
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    fx = 3;
+                    Right();
+                    break;
+                case KeyEvent.VK_LEFT:
+                    fx = 2;
+                    Left();
+                    break;
             }
         }
-        if (keyCode==KeyEvent.VK_SPACE){
-            Reinit();                                   //空格重启
+        if (keyCode == KeyEvent.VK_SPACE) {
+            Reinit();
         }
-            repaint();
-        }
-
+        repaint();
+    }
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -209,9 +214,9 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         for (int k = 0; k < 3; k++) {
             switch (fx) {
                 case 0 -> Up();
-                case 1 -> Right();
-                case 2 -> Down();
-                case 3 -> Left();
+                case 3 -> Right();
+                case 1 -> Down();
+                case 2 -> Left();
                 default -> {
                 }
             }
@@ -221,19 +226,18 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
                 throw new RuntimeException(e);
             }
 
-            if (best < source) {
-                best = source;
+            if (bestScore < score) {
+                bestScore = score;
                 try {
-                    setS(source);
+                    setS(score);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
 
             }
             repaint();
-            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
             controllingCenter.UpdateGameValidity();
-    }
+        }
     }
 
 
@@ -246,26 +250,30 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     }
 
     private void Left() {
+        controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.LeftAction();
-        source=controllingCenter.getCurrentGameScore();
+        score =controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 
     private void Down() {
+        controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.DownAction();
-        source=controllingCenter.getCurrentGameScore();
+        score =controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 
     private void Right() {
+        controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.RightAction();
-        source=controllingCenter.getCurrentGameScore();
+        score =controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 
     private void Up() {
+        controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.UpAction();
-        source=controllingCenter.getCurrentGameScore();
+        score =controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 

@@ -29,26 +29,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Projector.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ProjectorDemo&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;T:/Assignments/CS109/CS109Project/Project/lib&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.Projector.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "ProjectorDemo",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "T:/Assignments/CS109/CS109Project/Project/lib",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -125,7 +125,7 @@
       <workItem from="1714044860189" duration="22000" />
       <workItem from="1714047108817" duration="749000" />
       <workItem from="1714048273531" duration="615000" />
-      <workItem from="1714211073302" duration="1011000" />
+      <workItem from="1714211073302" duration="15885000" />
     </task>
     <servers />
   </component>
@@ -141,9 +141,9 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/Board.java</url>
-          <line>372</line>
-          <option name="timeStamp" value="18" />
+          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="59" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />
@@ -153,15 +153,16 @@
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
-        <PinnedItemInfo parentTag="GameElement.Board" memberName="boardUnitsIntheSameColumn" />
-        <PinnedItemInfo parentTag="GameElement.Board" memberName="boardUnitsInTheSameRow" />
         <PinnedItemInfo parentTag="java.lang.Boolean" memberName="value" />
         <PinnedItemInfo parentTag="GameElement.Board" memberName="neighborBoardUnitsInRow" />
-        <PinnedItemInfo parentTag="GameElement.Board" memberName="existingXCoordinate" />
         <PinnedItemInfo parentTag="GameElement.Board" memberName="boardLocationSet" />
-        <PinnedItemInfo parentTag="GameElement.Board" memberName="neighborBoardUnitsInColumn" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="controllingCenter.currentPlayingBoard.neighborBoardUnitsInRow" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

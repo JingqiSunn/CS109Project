@@ -107,4 +107,8 @@ public class ControllingCenter {
     public void ReIdentifyEmptyBoardUnitSet(){
         this.getCurrentPlayingBoard().ReIdentifyEmptyBoardUnits();
     }
+public void UpdateTheAvailableDirectionSet(){
+        currentPlayingBoard.UpdateTheValidityForEveryDirection();
 }
+}
+
