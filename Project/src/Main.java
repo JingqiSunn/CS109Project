@@ -1,3 +1,4 @@
+import GameElement.ControllingCenter;
 import GameVisual.myBoard;
 
 import javax.swing.*;
@@ -7,8 +8,9 @@ public class Main {
 
 
         JFrame jf = new JFrame("Game_2048");
-
-        jf.add(new myBoard());
+        myBoard currentBoard = new myBoard();
+        jf.add(currentBoard);
+        ControllingCenter currentControllingCenter = currentBoard.getControllingCenter();
 
         jf.setSize(401,552);
         jf.setLocationRelativeTo(null);     //居中

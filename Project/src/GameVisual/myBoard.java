@@ -33,6 +33,11 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         this.addKeyListener(this);
         init();
     }
+
+    public ControllingCenter getControllingCenter() {
+        return controllingCenter;
+    }
+
     private void init(){
         isStart= controllingCenter.getGameValidity();
 
@@ -47,6 +52,34 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         //理应初始值就是0
         controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();//随机选取位置填入2或4（我觉得可能得把2或4改成case1或2----不确定）
     }
+
+
+    private void Reinit(){
+        ArrayList<Integer> formerBoardLocationSet = new ArrayList<>();
+        formerBoardLocationSet = controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit();
+        ControllingCenter controllingCenter = new ControllingCenter();
+        controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(formerBoardLocationSet);
+        controllingCenter.SetThePlayingBoard();
+        controllingCenter.ReIdentifyEmptyBoardUnitSet();
+        isStart= controllingCenter.getGameValidity();
+
+        source = 0;
+
+        try {
+            best = getS();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //理应初始值就是0
+        controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();//随机选取位置填入2或4（我觉得可能得把2或4改成case1或2----不确定）
+    }
+
+
+
+
+
+
 
     public int getS() throws IOException{
         String filePath = "src\\GameVisual\\bestScore.txt";
@@ -104,7 +137,7 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         g.setColor(Color.black);
         g.setFont(new Font("宋体", Font.BOLD, 20));
         g.drawString("得分", 220, 35);
-        g.drawString("最高得分", 300, 35);
+        g.drawString("最高分", 300, 35);
         g.setFont(new Font("宋体", Font.BOLD, 35));
         g.drawString("游戏说明", 15, 55);
         g.setFont(new Font("宋体", Font.BOLD, 20));
@@ -115,7 +148,7 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
             if(boardInformation.get(i).getCell()!=null){
                 cell_value = boardInformation.get(i).getCell().getValue();
             }
-            paintBlock(g,new Block(cell_value),boardInformation.get(i).getxCoordinate(),boardInformation.get(i).getyCoordinate());
+            paintBlock(g,new Block(cell_value),boardInformation.get(i).getxCoordinate(),3-boardInformation.get(i).getyCoordinate());
         }
 
     }
@@ -144,12 +177,12 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode =e.getKeyCode();
-        if (isStart){
+        if (isStart) {
             Thread thread = new Thread(this);
-            if (keyCode == KeyEvent.VK_DOWN){
+            if (keyCode == KeyEvent.VK_DOWN) {
                 fx = 2;
                 thread.start();
-            }else if (keyCode == KeyEvent.VK_UP) {
+            } else if (keyCode == KeyEvent.VK_UP) {
                 fx = 0;
                 thread.start();
             } else if (keyCode == KeyEvent.VK_RIGHT) {
@@ -159,13 +192,13 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
                 fx = 3;
                 thread.start();
             }
-            if (keyCode==KeyEvent.VK_SPACE){
-                init();                                   //空格重启
-            }
+        }
+        if (keyCode==KeyEvent.VK_SPACE){
+            Reinit();                                   //空格重启
+        }
             repaint();
         }
 
-    }
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -201,11 +234,8 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
             }
             repaint();
             controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
-
+            controllingCenter.UpdateGameValidity();
     }
-
-
-
     }
 
 

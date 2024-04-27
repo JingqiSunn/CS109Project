@@ -33,6 +33,11 @@ public class ControllingCenter {
         informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
     }
+
+    public void setInformationOfAllTheCoordinateOfTheBoardUnit(ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit) {
+        this.informationOfAllTheCoordinateOfTheBoardUnit = informationOfAllTheCoordinateOfTheBoardUnit;
+    }
+
     public void SetThePlayingBoard(){
         ArrayList<Integer> theSetOfLocationOfBoardUnit = informationOfAllTheCoordinateOfTheBoardUnit;
         Board copyOfTheInitialBoard =currentPlayingBoard.SetThePlayingBoard(theSetOfLocationOfBoardUnit);
@@ -98,5 +103,8 @@ public class ControllingCenter {
     public void RandomlyGenerateCellInEmptyBoardUnits(){
         currentPlayingBoard.ReIdentifyEmptyBoardUnits();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+    }
+    public void ReIdentifyEmptyBoardUnitSet(){
+        this.getCurrentPlayingBoard().ReIdentifyEmptyBoardUnits();
     }
 }
