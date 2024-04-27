@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import java.awt.event.*;
-import java.util.Random;
 import java.awt.Font;
 
 
@@ -20,14 +19,13 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
 
     int source=0;
     int best;
-    Random rand1 = new Random();
-    int rand_location;
 
     int fx; //描述上下左右
-    initBoard boardInformation1 = new initBoard();
-    ArrayList<BoardUnit> boardInformation = boardInformation1.getBoardInformation();
-    ControllingCenter controllingCenter=boardInformation1.getControllingCenter();
+    InitBoard currentBoard;
+    ArrayList<BoardUnit> currentBoardInformation = currentBoard.getBoardInformation();
+    ControllingCenter controllingCenter= currentBoard.getControllingCenter();
     public myBoard(){
+        currentBoard = new InitBoard();
         setFocusable(true);
         setBackground(new Color(241, 228, 219));
         this.addKeyListener(this);
@@ -143,12 +141,12 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         g.setFont(new Font("宋体", Font.BOLD, 20));
         g.drawString("按上下左右键控制，按空格重新开始游戏", 15, 100);
 
-        for (int i = 0; i < boardInformation.size(); i++) {
+        for (int i = 0; i < currentBoardInformation.size(); i++) {
             int cell_value = 0;
-            if(boardInformation.get(i).getCell()!=null){
-                cell_value = boardInformation.get(i).getCell().getValue();
+            if(currentBoardInformation.get(i).getCell()!=null){
+                cell_value = currentBoardInformation.get(i).getCell().getValue();
             }
-            paintBlock(g,new Block(cell_value),boardInformation.get(i).getxCoordinate(),3-boardInformation.get(i).getyCoordinate());
+            paintBlock(g,new Block(cell_value), currentBoardInformation.get(i).getxCoordinate(),3- currentBoardInformation.get(i).getyCoordinate());
         }
 
     }
