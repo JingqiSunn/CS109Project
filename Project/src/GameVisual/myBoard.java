@@ -14,8 +14,7 @@ import java.awt.event.*;
 import java.awt.Font;
 
 
-
-public class myBoard extends JPanel implements KeyListener,Runnable {
+public class myBoard extends JPanel implements KeyListener {
     boolean isRunning = false;
     boolean isStart;
 
@@ -173,83 +172,43 @@ public class myBoard extends JPanel implements KeyListener,Runnable {
     }
 
 
-
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (isStart && !isRunning) {
-            switch (keyCode) {
-                case KeyEvent.VK_DOWN:
-                    fx = 1;
-                    break;
-                case KeyEvent.VK_UP:
-                    fx = 0;
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    fx = 3;
-                    break;
-                case KeyEvent.VK_LEFT:
-                    fx = 2;
-                    break;
+        if (isStart) {
+            if (keyCode == KeyEvent.VK_DOWN) {
+                Down();
+            } else if (keyCode == KeyEvent.VK_UP) {
+                Up();
+            } else if (keyCode == KeyEvent.VK_RIGHT) {
+                Right();
+            } else if (keyCode == KeyEvent.VK_LEFT) {
+                Left();
+            } else if (keyCode == KeyEvent.VK_SPACE) {
+                Reinit();
             }
-            new Thread(this).start();
-            isRunning = true;
-
-        }
-        if (keyCode == KeyEvent.VK_SPACE) {
-            Reinit();
-
         }
         repaint();
     }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
 
-    @Override
-    public void run() {
-        for (int k = 0; k < 3; k++) {
-            switch (fx) {
-                case 0 -> Up();
-                case 3 -> Right();
-                case 1 -> Down();
-                case 2 -> Left();
-                default -> {
-                }
-            }
-            try {
-                Thread.sleep(40);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            if (bestScore < score) {
-                bestScore = score;
-                try {
-                    setS(score);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-
-            }
-            controllingCenter.UpdateGameValidity();
-        }
-        isRunning = false;
-        repaint();
-    }
 
 
-    private void setS(int y) throws IOException {
+    /*private void setS(int y) throws IOException {
         String filePath = "src\\GameVisual\\bestScore.txt";
         FileWriter fileWriter = new FileWriter(filePath);
         String yy = y + "";
         fileWriter.write(yy);
         fileWriter.close();
-    }
+    }*/
 
     private void Left() {
+        System.out.println("Left");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.LeftAction();
         score = controllingCenter.getCurrentGameScore();
@@ -257,6 +216,7 @@ public class myBoard extends JPanel implements KeyListener,Runnable {
     }
 
     private void Down() {
+        System.out.println("Down");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.DownAction();
         score = controllingCenter.getCurrentGameScore();
@@ -264,6 +224,7 @@ public class myBoard extends JPanel implements KeyListener,Runnable {
     }
 
     private void Right() {
+        System.out.println("Right");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.RightAction();
         score = controllingCenter.getCurrentGameScore();
@@ -271,6 +232,7 @@ public class myBoard extends JPanel implements KeyListener,Runnable {
     }
 
     private void Up() {
+        System.out.println("Up");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.UpAction();
         score = controllingCenter.getCurrentGameScore();
