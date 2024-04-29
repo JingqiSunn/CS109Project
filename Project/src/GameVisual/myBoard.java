@@ -14,20 +14,23 @@ import java.awt.event.*;
 import java.awt.Font;
 
 
-public class myBoard extends JPanel implements KeyListener, Runnable {
+
+public class myBoard extends JPanel implements KeyListener,Runnable {
+    boolean isRunning = false;
     boolean isStart;
 
-    int score =0;
+    int score = 0;
     int bestScore;
 
     int fx; //描述上下左右
     InitBoard currentBoard;
     ArrayList<BoardUnit> currentBoardInformation;
     ControllingCenter controllingCenter;
-    public myBoard(){
+
+    public myBoard() {
         currentBoard = new InitBoard();
         currentBoardInformation = currentBoard.getBoardInformation();
-        controllingCenter= currentBoard.getControllingCenter();
+        controllingCenter = currentBoard.getControllingCenter();
         setFocusable(true);
         setBackground(new Color(241, 228, 219));
         this.addKeyListener(this);
@@ -38,8 +41,8 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
         return controllingCenter;
     }
 
-    private void init(){
-        isStart= controllingCenter.getGameValidity();
+    private void init() {
+        isStart = controllingCenter.getGameValidity();
 
         score = 0;
 
@@ -54,14 +57,14 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     }
 
 
-    private void Reinit(){
+    private void Reinit() {
         ArrayList<Integer> formerBoardLocationSet = new ArrayList<>();
         formerBoardLocationSet = controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit();
         ControllingCenter controllingCenter = new ControllingCenter();
         controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(formerBoardLocationSet);
         controllingCenter.SetThePlayingBoard();
         controllingCenter.ReIdentifyEmptyBoardUnitSet();
-        isStart= controllingCenter.getGameValidity();
+        isStart = controllingCenter.getGameValidity();
 
         score = 0;
 
@@ -76,12 +79,7 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     }
 
 
-
-
-
-
-
-    public int getS() throws IOException{
+    public int getS() throws IOException {
         String filePath = "src\\GameVisual\\bestScore.txt";
         FileReader fileReader = new FileReader(filePath);
 
@@ -145,10 +143,10 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
 
         for (int i = 0; i < currentBoardInformation.size(); i++) {
             int valueOfTheBlock = 0;
-            if(currentBoardInformation.get(i).getCell()!=null){
+            if (currentBoardInformation.get(i).getCell() != null) {
                 valueOfTheBlock = currentBoardInformation.get(i).getCell().getValue();
             }
-            paintBlock(g,new Block(valueOfTheBlock), currentBoardInformation.get(i).getxCoordinate(),3- currentBoardInformation.get(i).getyCoordinate());
+            paintBlock(g, new Block(valueOfTheBlock), currentBoardInformation.get(i).getxCoordinate(), 3 - currentBoardInformation.get(i).getyCoordinate());
         }
 
     }
@@ -156,7 +154,7 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     private void paintBlock(Graphics g, Block block, int x, int y) {
         block.setAllFont();
         g.setColor(block.colorOfTheBlock);
-        g.fillRect(10+x*90+7,120+y*90+7,83,83);
+        g.fillRect(10 + x * 90 + 7, 120 + y * 90 + 7, 83, 83);
         if (block.value > 0) {
             g.setColor(block.colorOfTheNumberInTheBlock);
             g.setFont(block.fontOfTheNumberInTheBlock);
@@ -174,31 +172,33 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
 
     }
 
+
+
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (isStart) {
+        if (isStart && !isRunning) {
             switch (keyCode) {
                 case KeyEvent.VK_DOWN:
                     fx = 1;
-                    Down();
                     break;
                 case KeyEvent.VK_UP:
                     fx = 0;
-                    Up();
                     break;
                 case KeyEvent.VK_RIGHT:
                     fx = 3;
-                    Right();
                     break;
                 case KeyEvent.VK_LEFT:
                     fx = 2;
-                    Left();
                     break;
             }
+            new Thread(this).start();
+            isRunning = true;
+
         }
         if (keyCode == KeyEvent.VK_SPACE) {
             Reinit();
+
         }
         repaint();
     }
@@ -210,7 +210,6 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
 
     @Override
     public void run() {
-
         for (int k = 0; k < 3; k++) {
             switch (fx) {
                 case 0 -> Up();
@@ -235,9 +234,10 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
                 }
 
             }
-            repaint();
             controllingCenter.UpdateGameValidity();
         }
+        isRunning = false;
+        repaint();
     }
 
 
@@ -252,30 +252,30 @@ public class myBoard extends JPanel implements KeyListener, Runnable {
     private void Left() {
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.LeftAction();
-        score =controllingCenter.getCurrentGameScore();
+        score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 
     private void Down() {
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.DownAction();
-        score =controllingCenter.getCurrentGameScore();
+        score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 
     private void Right() {
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.RightAction();
-        score =controllingCenter.getCurrentGameScore();
+        score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 
     private void Up() {
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.UpAction();
-        score =controllingCenter.getCurrentGameScore();
+        score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
 
-    }
+}
 
