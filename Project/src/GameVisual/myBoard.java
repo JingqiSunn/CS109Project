@@ -276,6 +276,5 @@ public class myBoard extends JPanel implements KeyListener,Runnable {
         score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
     }
-
 }
 
