@@ -2,36 +2,57 @@ package GameVisual;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class TotalGameFrame extends JFrame {
+public class TotalGameFrame extends JFrame implements KeyListener {
 
     int totalWides;
     int totalHeight;
 
     Dimension screenSize;
     LoginPage loginPage;
+    Boolean whetherFullScreenNow;
+    UpBoundWhenNotFullScreen upBoundWhenNotFullScreen;
 
     public TotalGameFrame(){
         this.setLayout(null);
         this.UpdateTheSizeOfTheScreen();
         this.SetFullScreen();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+        this.addKeyListener(this);
         this.LoadLoginPage();
+        this.setFocusable(true);
+        this.setVisible(true);
     }
-
-    //OK
     void SetFullScreen(){
-        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        if(graphicsDevice.isFullScreenSupported()){
+        GraphicsDevice currentDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        if(currentDevice.isFullScreenSupported()){
             this.setUndecorated(true);
-            graphicsDevice.setFullScreenWindow(this);
+            currentDevice.setFullScreenWindow(this);
+            whetherFullScreenNow = true;
         } else {
             System.out.println("Full screen is not supported in your device!");
         }
     }
 
-    //OK
+    void outOfFullScreen(){
+        GraphicsDevice currentDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        if (whetherFullScreenNow && currentDevice.isFullScreenSupported()){
+            currentDevice.setFullScreenWindow(null);
+            whetherFullScreenNow = false;
+            totalWides = 1100;
+            totalHeight = 800;
+            screenSize.setSize(totalWides,totalHeight);
+            int xIndex = (int) ((Toolkit.getDefaultToolkit().getScreenSize().getWidth()-totalWides)/2);
+            int yIndex = (int) ((Toolkit.getDefaultToolkit().getScreenSize().getHeight()-totalHeight)/2);
+            this.setBounds(xIndex,yIndex,totalWides,totalHeight);
+            upBoundWhenNotFullScreen = new UpBoundWhenNotFullScreen(xIndex,yIndex);
+            this.add(upBoundWhenNotFullScreen);
+            setFocusable(true);
+        }
+    }
+
     void UpdateTheSizeOfTheScreen(){
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         totalWides = (int) screenSize.getWidth();
@@ -42,6 +63,25 @@ public class TotalGameFrame extends JFrame {
         loginPage = new LoginPage(screenSize);
         loginPage.setVisible(true);
         this.add(loginPage);
-        loginPage.requestFocus();
+        loginPage.setFocusable(true);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyBeingActivated = e.getKeyCode();
+        if(keyBeingActivated == KeyEvent.VK_ESCAPE){
+            this.outOfFullScreen();
+            setVisible(true);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

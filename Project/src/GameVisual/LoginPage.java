@@ -70,6 +70,12 @@ class LoginPage extends JPanel implements MouseListener {
     }
 
     void SetInsideComponentOfOptions(){
+        loginOption.setBackground(Color.LIGHT_GRAY);
+        touristOption.setBackground(Color.LIGHT_GRAY);
+        registrationOption.setBackground(Color.LIGHT_GRAY);
+        loginOption.addMouseListener(this);
+        touristOption.addMouseListener(this);
+        registrationOption.addMouseListener(this);
         Font font = new Font("Times New Roman",Font.BOLD,40);
         loginLabel = new JLabel("Login");
         touristLabel = new JLabel("Tourist");
@@ -86,9 +92,6 @@ class LoginPage extends JPanel implements MouseListener {
         loginOption.add(loginLabel,locationOfLabelInOption);
         touristOption.add(touristLabel,locationOfLabelInOption);
         registrationOption.add(registrationLabel,locationOfLabelInOption);
-        loginOption.setBackground(Color.LIGHT_GRAY);
-        touristOption.setBackground(Color.LIGHT_GRAY);
-        registrationOption.setBackground(Color.LIGHT_GRAY);
     }
 
     void setUpTheLocationOfLabelInOptions(){
@@ -113,10 +116,10 @@ class LoginPage extends JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println("Get it");
         Component componentActivated = e.getComponent();
         if(componentActivated.equals(loginOption)){
             loginOption.setBackground(Color.BLACK);
+            loginOption.setVisible(true);
             loginOption.repaint();
         } else if (componentActivated.equals(touristOption)) {
             touristOption.setBackground(Color.BLACK);
@@ -129,6 +132,17 @@ class LoginPage extends JPanel implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        Component componentActivated = e.getComponent();
+        if(componentActivated.equals(loginOption)){
+            loginOption.setBackground(Color.LIGHT_GRAY);
+            loginOption.setVisible(true);
+            loginOption.repaint();
+        } else if (componentActivated.equals(touristOption)) {
+            touristOption.setBackground(Color.LIGHT_GRAY);
+            touristOption.repaint();
+        } else if (componentActivated.equals(registrationOption)) {
+            registrationOption.setBackground(Color.LIGHT_GRAY);
+            registrationOption.repaint();
+        }
     }
 }
