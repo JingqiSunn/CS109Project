@@ -355,7 +355,7 @@ import java.util.Random;
             return whetherFullyArrangedByBottom;
         }
         boolean whetherAllEmpty = true;
-        for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameColumn.size() - 1; indexInTheArrayList++) {
+        for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameColumn.size(); indexInTheArrayList++) {
             if (neighborBoardUnitInTheSameColumn.get(indexInTheArrayList).getCell() != null) {
                 whetherAllEmpty = false;
                 break;

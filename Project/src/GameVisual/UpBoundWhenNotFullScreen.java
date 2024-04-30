@@ -19,7 +19,8 @@ public class UpBoundWhenNotFullScreen extends JPanel implements MouseListener {
         this.width = 1100;
         this.height = 15;
         setBounds(xIndex,yIndex,width,height);
-        setBackground(Color.decode("#F5F5F5"));
+        this.DesignedTheCloseButton();
+        closeButton.setBackground(Color.BLACK);
         this.add(closeButton);
         closeButton.addMouseListener(this);
         setVisible(true);
@@ -28,7 +29,7 @@ public class UpBoundWhenNotFullScreen extends JPanel implements MouseListener {
     void DesignedTheCloseButton(){
         closeButton = new JPanel();
         closeButton.setBounds(xIndex+width-height,0,height,height);
-
+        closeButton.setVisible(true);
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
