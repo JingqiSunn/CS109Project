@@ -187,10 +187,19 @@ public class myBoard extends JPanel implements KeyListener {
             } else if (keyCode == KeyEvent.VK_SPACE) {
                 Reinit();
             }
-        }
-        repaint();
-    }
+            if (bestScore < score) {
+                bestScore = score;
+                try {
+                    setS(score);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
 
+            }
+
+            repaint();
+        }
+    }
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -199,13 +208,13 @@ public class myBoard extends JPanel implements KeyListener {
 
 
 
-    /*private void setS(int y) throws IOException {
+    private void setS(int y) throws IOException {
         String filePath = "src\\GameVisual\\bestScore.txt";
         FileWriter fileWriter = new FileWriter(filePath);
         String yy = y + "";
         fileWriter.write(yy);
         fileWriter.close();
-    }*/
+    }
 
     private void Left() {
         System.out.println("Left");
