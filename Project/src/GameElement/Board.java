@@ -262,7 +262,7 @@ import java.util.Random;
     boolean WhetherCanBeEliminated(ArrayList<BoardUnit> targetBoardUnitList) {
         boolean EliminationValidity = false;
         for (int indexInTheTargetBoardUnitList = 0; indexInTheTargetBoardUnitList < targetBoardUnitList.size() - 1; indexInTheTargetBoardUnitList++) {
-            while (targetBoardUnitList.get(indexInTheTargetBoardUnitList).getCell() != null && targetBoardUnitList.get(indexInTheTargetBoardUnitList + 1).getCell() != null) {
+            if (targetBoardUnitList.get(indexInTheTargetBoardUnitList).getCell() != null && targetBoardUnitList.get(indexInTheTargetBoardUnitList + 1).getCell() != null) {
                 if (targetBoardUnitList.get(indexInTheTargetBoardUnitList).getCell().getValue() == targetBoardUnitList.get(indexInTheTargetBoardUnitList + 1).getCell().getValue()) {
                     EliminationValidity = true;
                 }

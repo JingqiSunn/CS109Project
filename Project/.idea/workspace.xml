@@ -130,7 +130,7 @@
       <workItem from="1714396592335" duration="9892000" />
       <workItem from="1714438416884" duration="301000" />
       <workItem from="1714443607096" duration="196000" />
-      <workItem from="1714454381205" duration="1997000" />
+      <workItem from="1714454381205" duration="5379000" />
     </task>
     <servers />
   </component>
@@ -144,31 +144,6 @@
           <url>file://$PROJECT_DIR$/src/GameElement/BoardUnit.java</url>
           <line>2</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/Board.java</url>
-          <line>377</line>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
-          <line>110</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/Board.java</url>
-          <line>351</line>
-          <option name="timeStamp" value="63" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />
@@ -185,7 +160,8 @@
     </pin-to-top-manager>
     <watches-manager>
       <configuration name="Application">
-        <watch expression="controllingCenter.currentPlayingBoard.neighborBoardUnitsInRow" />
+        <watch expression="controllingCenter.gameValidity" />
+        <watch expression="((java.util.ArrayList)((Board)((ControllingCenter)((myBoard)this).controllingCenter).currentPlayingBoard).boardUnitsInTheSameRow).get(0)" custom="GameElement.Board,GameElement.ControllingCenter,GameVisual.myBoard,java.util.ArrayList" />
       </configuration>
     </watches-manager>
   </component>
