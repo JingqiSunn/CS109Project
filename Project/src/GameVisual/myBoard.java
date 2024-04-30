@@ -66,7 +66,6 @@ public class myBoard extends JPanel implements KeyListener {
         }
 
 
-
         try {
             bestScore = getS();
         } catch (IOException e) {
@@ -218,35 +217,35 @@ public class myBoard extends JPanel implements KeyListener {
     }
 
     private void Left() {
-        System.out.println("Left");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.LeftAction();
         score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
+        isStart = controllingCenter.getGameValidity();
     }
 
     private void Down() {
-        System.out.println("Down");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.DownAction();
         score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
+        isStart = controllingCenter.getGameValidity();
     }
 
     private void Right() {
-        System.out.println("Right");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.RightAction();
         score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
+        isStart = controllingCenter.getGameValidity();
     }
 
     private void Up() {
-        System.out.println("Up");
         controllingCenter.UpdateTheAvailableDirectionSet();
         controllingCenter.UpAction();
         score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
+        isStart = controllingCenter.getGameValidity();
     }
 }
 

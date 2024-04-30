@@ -114,6 +114,9 @@ public class ControllingCenter {
         currentPlayingBoard.ReIdentifyEmptyBoardUnits();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
     }
+    public void setSpecificCellToBeNull(int indexInTheSetOfCell){
+        currentPlayingBoard.getBoardLocationSet().get(indexInTheSetOfCell).setCell(null);
+    }
     public void ReIdentifyEmptyBoardUnitSet(){
         this.getCurrentPlayingBoard().ReIdentifyEmptyBoardUnits();
     }
