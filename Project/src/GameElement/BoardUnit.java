@@ -40,7 +40,7 @@ public class BoardUnit {
         this.yCoordinate = yCoordinate;
     }
 
-    void setCell(Cell cell) {
+    public void setCell(Cell cell) {
         this.cell = cell;
     }
 

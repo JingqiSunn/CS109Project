@@ -88,6 +88,15 @@ public class ControllingCenter {
         currentGameScore=currentPlayingBoard.getCurrentScore();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
     }
+
+    public void setCurrentGameScore(int currentGameScore) {
+        this.currentGameScore = currentGameScore;
+    }
+
+    public void setGameValidity(boolean gameValidity) {
+        this.gameValidity = gameValidity;
+    }
+
     public void UpdateGameValidity(){
         currentPlayingBoard.UpdateTheValidityForEveryDirection();
         boolean whetherValid = false;

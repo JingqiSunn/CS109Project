@@ -43,7 +43,6 @@ public class myBoard extends JPanel implements KeyListener {
     private void init() {
         isStart = controllingCenter.getGameValidity();
 
-        score = 0;
 
         try {
             bestScore = getS();
@@ -57,15 +56,16 @@ public class myBoard extends JPanel implements KeyListener {
 
 
     private void Reinit() {
-        ArrayList<Integer> formerBoardLocationSet = new ArrayList<>();
-        formerBoardLocationSet = controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit();
-        ControllingCenter controllingCenter = new ControllingCenter();
-        controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(formerBoardLocationSet);
-        controllingCenter.SetThePlayingBoard();
-        controllingCenter.ReIdentifyEmptyBoardUnitSet();
+        controllingCenter.setGameValidity(true);
         isStart = controllingCenter.getGameValidity();
+        controllingCenter.setCurrentGameScore(0);
+        for (int i = 0; i < currentBoardInformation.size(); i++) {
+            if (currentBoardInformation.get(i).getCell()!=null){
+                currentBoardInformation.get(i).setCell(null);
+            }
+        }
 
-        score = 0;
+
 
         try {
             bestScore = getS();
@@ -186,6 +186,7 @@ public class myBoard extends JPanel implements KeyListener {
                 Left();
             } else if (keyCode == KeyEvent.VK_SPACE) {
                 Reinit();
+
             }
             if (bestScore < score) {
                 bestScore = score;
