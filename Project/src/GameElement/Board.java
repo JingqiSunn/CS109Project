@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
- public class Board {
+public class Board {
     private ArrayList<ArrayList<BoardUnit>> neighborBoardUnitsInRow;
     private ArrayList<ArrayList<BoardUnit>> neighborBoardUnitsInColumn;
 
@@ -18,7 +18,7 @@ import java.util.Random;
     private ControllingCenter controllingCenter;
     private ArrayList<Integer> existingXCoordinate;
     private ArrayList<Integer> existingYCoordinate;
-    private int currentScore ;
+    private int currentScore;
     private static int scoreThisTerm;
 
     Board() {
@@ -41,7 +41,7 @@ import java.util.Random;
         return boardLocationSet;
     }
 
-    public  int getCurrentScore() {
+    public int getCurrentScore() {
         return currentScore;
     }
 
@@ -288,7 +288,7 @@ import java.util.Random;
             whetherFullyArrangedOnRight = true;
         }
         if (whetherAllEmpty == false) {
-            for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameRow.size()-1; indexInTheArrayList++) {
+            for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameRow.size() - 1; indexInTheArrayList++) {
                 if (neighborBoardUnitInTheSameRow.get(indexInTheArrayList).getCell() != null && neighborBoardUnitInTheSameRow.get(indexInTheArrayList + 1).getCell() == null) {
                     whetherFullyArrangedOnRight = false;
                 }
@@ -301,7 +301,8 @@ import java.util.Random;
         boolean whetherFullyArrangedOnLeft = true;
         if (neighborBoardUnitInTheSameRow.size() == 1) {
             whetherFullyArrangedOnLeft = true;
-            return whetherFullyArrangedOnLeft;        }
+            return whetherFullyArrangedOnLeft;
+        }
         boolean whetherAllEmpty = true;
         for (int indexInTheArrayList = 0; indexInTheArrayList < neighborBoardUnitInTheSameRow.size(); indexInTheArrayList++) {
             if (neighborBoardUnitInTheSameRow.get(indexInTheArrayList).getCell() != null) {
@@ -375,7 +376,7 @@ import java.util.Random;
     }
 
     void UpdateTheValidityForEveryDirection() {
-        Arrays.fill(availableDirectionSet,0);
+        Arrays.fill(availableDirectionSet, 0);
         for (int indexInNeighborBoardUnitsInRow = 0; indexInNeighborBoardUnitsInRow < neighborBoardUnitsInRow.size(); indexInNeighborBoardUnitsInRow++) {
             if (this.WhetherAlreadyFullyArrangedOnLeftForARow(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == false || this.WhetherCanBeEliminated(neighborBoardUnitsInRow.get(indexInNeighborBoardUnitsInRow)) == true) {
                 availableDirectionSet[2] = 1;
@@ -508,19 +509,20 @@ import java.util.Random;
     static ArrayList<BoardUnit> FullyEliminateWhenRightwards(ArrayList<BoardUnit> originalBoardUnitSet) {
         scoreThisTerm = 0;
         ArrayList<BoardUnit> originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
-        originalBoardUnitSetAfterFullyArranged=originalBoardUnitSet;
+        originalBoardUnitSetAfterFullyArranged = originalBoardUnitSet;
         int indexWhenItStartsToHaveCell = 0;
         boolean whetherContinue = true;
         boolean whetherempty = true;
-        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit <originalBoardUnitSet.size() ; indexInTheOriginalBoardUnit++) {
-            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell()!=null){
+        Boolean whetherSkip = false;
+        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit < originalBoardUnitSet.size(); indexInTheOriginalBoardUnit++) {
+            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell() != null) {
                 whetherempty = false;
                 originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
                 break;
             }
         }
-        if(!whetherempty) {
-        originalBoardUnitSetAfterFullyArranged = Board.GetItFullyRightArranged(originalBoardUnitSet);
+        if (!whetherempty) {
+            originalBoardUnitSetAfterFullyArranged = Board.GetItFullyRightArranged(originalBoardUnitSet);
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < originalBoardUnitSetAfterFullyArranged.size(); indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
                     indexWhenItStartsToHaveCell = indexInTheOriginalBoardUnitSetAfterFullyArranged;
@@ -528,11 +530,16 @@ import java.util.Random;
                 }
             }
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = originalBoardUnitSetAfterFullyArranged.size() - 1; indexInTheOriginalBoardUnitSetAfterFullyArranged > indexWhenItStartsToHaveCell; indexInTheOriginalBoardUnitSetAfterFullyArranged--) {
+                if(whetherSkip){
+                    whetherSkip = false;
+                    continue;
+                }
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue() == originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().getValue()) {
                     int originalValue = originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue();
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().setValue(originalValue * 2);
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().setWhetherNeedToDisappear(true);
-                    scoreThisTerm+=originalValue;
+                    scoreThisTerm += originalValue*2;
+                    whetherSkip = true;
                 }
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
@@ -544,18 +551,19 @@ import java.util.Random;
     static ArrayList<BoardUnit> FullyEliminateWhenLeftwards(ArrayList<BoardUnit> originalBoardUnitSet) {
         scoreThisTerm = 0;
         ArrayList<BoardUnit> originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
-        originalBoardUnitSetAfterFullyArranged=originalBoardUnitSet;
+        originalBoardUnitSetAfterFullyArranged = originalBoardUnitSet;
         int indexWhenItStartsToHaveCell = 0;
         boolean whetherContinue = true;
         boolean whetherempty = true;
-        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit <originalBoardUnitSet.size() ; indexInTheOriginalBoardUnit++) {
-            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell()!=null){
+        Boolean whetherSkip = false;
+        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit < originalBoardUnitSet.size(); indexInTheOriginalBoardUnit++) {
+            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell() != null) {
                 whetherempty = false;
                 originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
                 break;
             }
         }
-        if(!whetherempty) {
+        if (!whetherempty) {
             originalBoardUnitSetAfterFullyArranged = Board.GetItFullyLeftArranged(originalBoardUnitSet);
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = originalBoardUnitSetAfterFullyArranged.size() - 1; indexInTheOriginalBoardUnitSetAfterFullyArranged > 0; indexInTheOriginalBoardUnitSetAfterFullyArranged--) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
@@ -564,11 +572,16 @@ import java.util.Random;
                 }
             }
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < indexWhenItStartsToHaveCell; indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
+                if(whetherSkip){
+                    whetherSkip = false;
+                    continue;
+                }
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue() == originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().getValue()) {
                     int originalValue = originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue();
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().setValue(originalValue * 2);
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().setWhetherNeedToDisappear(true);
-                    scoreThisTerm+=originalValue;
+                    scoreThisTerm += originalValue*2;
+                    whetherSkip = true;
                 }
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
@@ -580,18 +593,19 @@ import java.util.Random;
     static ArrayList<BoardUnit> FullyEliminateWhenUpwards(ArrayList<BoardUnit> originalBoardUnitSet) {
         scoreThisTerm = 0;
         ArrayList<BoardUnit> originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
-        originalBoardUnitSetAfterFullyArranged=originalBoardUnitSet;
+        originalBoardUnitSetAfterFullyArranged = originalBoardUnitSet;
         int indexWhenItStartsToHaveCell = 0;
         boolean whetherContinue = true;
         boolean whetherempty = true;
-        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit <originalBoardUnitSet.size() ; indexInTheOriginalBoardUnit++) {
-            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell()!=null){
+        Boolean whetherSkip = false;
+        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit < originalBoardUnitSet.size(); indexInTheOriginalBoardUnit++) {
+            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell() != null) {
                 whetherempty = false;
                 originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
                 break;
             }
         }
-        if(!whetherempty) {
+        if (!whetherempty) {
             originalBoardUnitSetAfterFullyArranged = Board.GetItFullyTopArranged(originalBoardUnitSet);
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < originalBoardUnitSetAfterFullyArranged.size(); indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
@@ -600,46 +614,58 @@ import java.util.Random;
                 }
             }
             for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = originalBoardUnitSetAfterFullyArranged.size() - 1; indexInTheOriginalBoardUnitSetAfterFullyArranged > indexWhenItStartsToHaveCell; indexInTheOriginalBoardUnitSetAfterFullyArranged--) {
-                if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue() == originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().getValue()) {
-                    int originalValue = originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue();
-                    originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().setValue(originalValue * 2);
-                    originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().setWhetherNeedToDisappear(true);
-                    scoreThisTerm+=originalValue;
-                }
+                    if(whetherSkip){
+                        whetherSkip = false;
+                        continue;
+                    }
+                    if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue() == originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().getValue()) {
+                        int originalValue = originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue();
+                        originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().setValue(originalValue * 2);
+                        originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged - 1).getCell().setWhetherNeedToDisappear(true);
+                        scoreThisTerm += originalValue*2;
+                        whetherSkip = true;
+                    }
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
             originalBoardUnitSetAfterFullyArranged = Board.GetItFullyTopArranged(originalBoardUnitSetAfterFullyArranged);
         }
         return originalBoardUnitSetAfterFullyArranged;
     }
+
     static ArrayList<BoardUnit> FullyEliminateWhenDownwards(ArrayList<BoardUnit> originalBoardUnitSet) {
         scoreThisTerm = 0;
         ArrayList<BoardUnit> originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
-        originalBoardUnitSetAfterFullyArranged=originalBoardUnitSet;
+        originalBoardUnitSetAfterFullyArranged = originalBoardUnitSet;
         int indexWhenItStartsToHaveCell = 0;
         boolean whetherContinue = true;
         boolean whetherempty = true;
-        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit <originalBoardUnitSet.size() ; indexInTheOriginalBoardUnit++) {
-            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell()!=null){
+        Boolean whetherSkip = false;
+        for (int indexInTheOriginalBoardUnit = 0; indexInTheOriginalBoardUnit < originalBoardUnitSet.size(); indexInTheOriginalBoardUnit++) {
+            if (originalBoardUnitSet.get(indexInTheOriginalBoardUnit).getCell() != null) {
                 whetherempty = false;
                 originalBoardUnitSetAfterFullyArranged = new ArrayList<>();
                 break;
             }
         }
-        if(!whetherempty) {
+        if (!whetherempty) {
             originalBoardUnitSetAfterFullyArranged = Board.GetItFullyBottomArranged(originalBoardUnitSet);
-            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = originalBoardUnitSetAfterFullyArranged.size()-1; indexInTheOriginalBoardUnitSetAfterFullyArranged >0; indexInTheOriginalBoardUnitSetAfterFullyArranged--) {
+            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = originalBoardUnitSetAfterFullyArranged.size() - 1; indexInTheOriginalBoardUnitSetAfterFullyArranged > 0; indexInTheOriginalBoardUnitSetAfterFullyArranged--) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell() != null) {
                     indexWhenItStartsToHaveCell = indexInTheOriginalBoardUnitSetAfterFullyArranged;
                     break;
                 }
             }
-            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged <indexWhenItStartsToHaveCell; indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
+            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < indexWhenItStartsToHaveCell; indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
+                if(whetherSkip){
+                    whetherSkip = false;
+                    continue;
+                }
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue() == originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().getValue()) {
                     int originalValue = originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue();
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().setValue(originalValue * 2);
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().setWhetherNeedToDisappear(true);
-                    scoreThisTerm+=originalValue;
+                    scoreThisTerm += originalValue*2;
+                    whetherSkip = true;
                 }
             }
             originalBoardUnitSetAfterFullyArranged = Board.DeleteAllTheCellWithTrue(originalBoardUnitSetAfterFullyArranged);
@@ -647,36 +673,40 @@ import java.util.Random;
         }
         return originalBoardUnitSetAfterFullyArranged;
     }
-    void BoardRightMove(){
+
+    void BoardRightMove() {
         ArrayList<ArrayList<BoardUnit>> newOfNeighborBoardUnitsInRow = new ArrayList<>();
         for (int indexInTheNeighborBoardsUnitInRow = 0; indexInTheNeighborBoardsUnitInRow < neighborBoardUnitsInRow.size(); indexInTheNeighborBoardsUnitInRow++) {
             newOfNeighborBoardUnitsInRow.add(Board.FullyEliminateWhenRightwards(neighborBoardUnitsInRow.get(indexInTheNeighborBoardsUnitInRow)));
-            currentScore+=scoreThisTerm;
+            currentScore += scoreThisTerm;
         }
-        neighborBoardUnitsInRow=newOfNeighborBoardUnitsInRow;
+        neighborBoardUnitsInRow = newOfNeighborBoardUnitsInRow;
     }
-    void BoardLeftMove(){
+
+    void BoardLeftMove() {
         ArrayList<ArrayList<BoardUnit>> newOfNeighborBoardUnitsInRow = new ArrayList<>();
         for (int indexInTheNeighborBoardsUnitInRow = 0; indexInTheNeighborBoardsUnitInRow < neighborBoardUnitsInRow.size(); indexInTheNeighborBoardsUnitInRow++) {
             newOfNeighborBoardUnitsInRow.add(Board.FullyEliminateWhenLeftwards(neighborBoardUnitsInRow.get(indexInTheNeighborBoardsUnitInRow)));
-            currentScore+=scoreThisTerm;
+            currentScore += scoreThisTerm;
         }
-        neighborBoardUnitsInRow=newOfNeighborBoardUnitsInRow;
+        neighborBoardUnitsInRow = newOfNeighborBoardUnitsInRow;
     }
-    void BoardUpMove(){
+
+    void BoardUpMove() {
         ArrayList<ArrayList<BoardUnit>> newOfNeighborBoardUnitsInColumn = new ArrayList<>();
         for (int indexInTheNeighborBoardsUnitInColumn = 0; indexInTheNeighborBoardsUnitInColumn < neighborBoardUnitsInColumn.size(); indexInTheNeighborBoardsUnitInColumn++) {
             newOfNeighborBoardUnitsInColumn.add(Board.FullyEliminateWhenUpwards(neighborBoardUnitsInColumn.get(indexInTheNeighborBoardsUnitInColumn)));
-            currentScore+=scoreThisTerm;
+            currentScore += scoreThisTerm;
         }
-        neighborBoardUnitsInColumn=newOfNeighborBoardUnitsInColumn;
+        neighborBoardUnitsInColumn = newOfNeighborBoardUnitsInColumn;
     }
-    void BoardDownMove(){
+
+    void BoardDownMove() {
         ArrayList<ArrayList<BoardUnit>> newOfNeighborBoardUnitsInColumn = new ArrayList<>();
         for (int indexInTheNeighborBoardsUnitInColumn = 0; indexInTheNeighborBoardsUnitInColumn < neighborBoardUnitsInColumn.size(); indexInTheNeighborBoardsUnitInColumn++) {
             newOfNeighborBoardUnitsInColumn.add(Board.FullyEliminateWhenDownwards(neighborBoardUnitsInColumn.get(indexInTheNeighborBoardsUnitInColumn)));
-            currentScore+=scoreThisTerm;
+            currentScore += scoreThisTerm;
         }
-        neighborBoardUnitsInColumn=newOfNeighborBoardUnitsInColumn;
+        neighborBoardUnitsInColumn = newOfNeighborBoardUnitsInColumn;
     }
 }
