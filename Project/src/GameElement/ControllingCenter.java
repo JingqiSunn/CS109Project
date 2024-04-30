@@ -70,6 +70,7 @@ public class ControllingCenter {
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
     }
     public void LeftAction(){
+
         if(currentPlayingBoard.getAvailableDirectionSet()[2]==1){
         currentPlayingBoard.BoardLeftMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();

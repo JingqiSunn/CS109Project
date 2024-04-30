@@ -130,7 +130,7 @@
       <workItem from="1714396592335" duration="9892000" />
       <workItem from="1714438416884" duration="301000" />
       <workItem from="1714443607096" duration="196000" />
-      <workItem from="1714454381205" duration="5379000" />
+      <workItem from="1714454381205" duration="7075000" />
     </task>
     <servers />
   </component>
@@ -144,6 +144,11 @@
           <url>file://$PROJECT_DIR$/src/GameElement/BoardUnit.java</url>
           <line>2</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
+          <line>73</line>
+          <option name="timeStamp" value="69" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />

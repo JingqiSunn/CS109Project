@@ -563,7 +563,7 @@ import java.util.Random;
                     break;
                 }
             }
-            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < indexWhenItStartsToHaveCell - 1; indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
+            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged < indexWhenItStartsToHaveCell; indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue() == originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().getValue()) {
                     int originalValue = originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue();
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().setValue(originalValue * 2);
@@ -634,7 +634,7 @@ import java.util.Random;
                     break;
                 }
             }
-            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged <indexWhenItStartsToHaveCell-1; indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
+            for (int indexInTheOriginalBoardUnitSetAfterFullyArranged = 0; indexInTheOriginalBoardUnitSetAfterFullyArranged <indexWhenItStartsToHaveCell; indexInTheOriginalBoardUnitSetAfterFullyArranged++) {
                 if (originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue() == originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged + 1).getCell().getValue()) {
                     int originalValue = originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().getValue();
                     originalBoardUnitSetAfterFullyArranged.get(indexInTheOriginalBoardUnitSetAfterFullyArranged).getCell().setValue(originalValue * 2);
