@@ -37,6 +37,10 @@ public class Board {
         scoreThisTerm = 0;
     }
 
+    public void setCurrentScore(int currentScore) {
+        this.currentScore = currentScore;
+    }
+
     ArrayList<BoardUnit> getBoardLocationSet() {
         return boardLocationSet;
     }

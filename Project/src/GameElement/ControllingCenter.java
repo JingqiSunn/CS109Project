@@ -91,6 +91,7 @@ public class ControllingCenter {
 
     public void setCurrentGameScore(int currentGameScore) {
         this.currentGameScore = currentGameScore;
+        currentPlayingBoard.setCurrentScore(currentGameScore);
     }
 
     public void setGameValidity(boolean gameValidity) {
