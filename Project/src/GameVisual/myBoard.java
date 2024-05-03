@@ -22,12 +22,12 @@ public class myBoard extends JPanel implements KeyListener {
     int bestScore;
 
     int fx; //描述上下左右
-    InitBoard currentBoard;
+    initBoard currentBoard;
     ArrayList<BoardUnit> currentBoardInformation;
     ControllingCenter controllingCenter;
 
     public myBoard() {
-        currentBoard = new InitBoard();
+        currentBoard = new initBoard();
         currentBoardInformation = currentBoard.getBoardInformation();
         controllingCenter = currentBoard.getControllingCenter();
         setFocusable(true);

@@ -124,5 +124,23 @@ public class ControllingCenter {
 public void UpdateTheAvailableDirectionSet(){
         currentPlayingBoard.UpdateTheValidityForEveryDirection();
 }
+public int FindTheMaxXCoordinate(){
+        int maxXCoordinate = 0;
+    for (int indexInPoints = 0; indexInPoints < this.getInformationOfAllTheCoordinateOfTheBoardUnit().size()/2; indexInPoints++) {
+        if(this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2)>maxXCoordinate){
+            maxXCoordinate = this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2);
+        }
+    }
+    return maxXCoordinate;
+}
+    public int FindTheMaxYCoordinate(){
+        int maxYCoordinate = 0;
+        for (int indexInPoints = 0; indexInPoints < this.getInformationOfAllTheCoordinateOfTheBoardUnit().size()/2; indexInPoints++) {
+            if(this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2+1)>maxYCoordinate){
+                maxYCoordinate = this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2+1);
+            }
+        }
+        return maxYCoordinate;
+    }
 }
 
