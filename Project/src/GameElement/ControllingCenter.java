@@ -59,6 +59,9 @@ public class ControllingCenter {
         System.out.println("The information collection is over.");
         informationOfAllTheCoordinateOfTheBoardUnit = coordinateInformationList;
     }
+    public ArrayList<BoardUnit> GetTheBoardUnitSet(){
+        return currentPlayingBoard.getBoardLocationSet();
+    }
     public void AddTheBoard(Board targetBoard){
         targetBoard.setControllingCenter(this);
     }
@@ -141,6 +144,14 @@ public int FindTheMaxXCoordinate(){
             }
         }
         return maxYCoordinate;
+    }
+    public void SetUpTheControllingCenterForDIY(){
+        currentPlayingBoard.SetThePlayingBoard(informationOfAllTheCoordinateOfTheBoardUnit);
+        currentPlayingBoard = Board.RemoveTheSameBoardUnit(currentPlayingBoard);
+        currentPlayingBoard.GetBoardUnitsInTheSameColumn();
+        currentPlayingBoard.GetBoardUnitsInTheSameRow();
+        currentPlayingBoard.GetNeighborBoardUnitInColumn();
+        currentPlayingBoard.GetNeighborBoardUnitInRow();
     }
 }
 

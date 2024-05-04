@@ -52,8 +52,7 @@ public class InGamePage extends JPanel {
         totalBoard.setBounds(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,heightOfTheBlockSet);
         totalBoard.setBackground(Color.LIGHT_GRAY);
         for (int indexInBlocks = 0; indexInBlocks < blockUnits.size(); indexInBlocks++) {
-            blockUnits.get(indexInBlocks).setBackground(blockUnits.get(indexInBlocks).getColorOfTheBlock());
-            blockUnits.get(indexInBlocks).setVisible(true);
+            blockUnits.get(indexInBlocks).UpdateTheOutputShow();
             totalBoard.add(blockUnits.get(indexInBlocks));
         }
         totalBoard.setVisible(true);

@@ -345,6 +345,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         currentInformationAboutCoordinate = getMinimumXCoordinates(currentInformationAboutCoordinate);
         currentInformationAboutCoordinate = getMinimumYCoordinates(currentInformationAboutCoordinate);
         controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(currentInformationAboutCoordinate);
+        controllingCenter.SetUpTheControllingCenterForDIY();
     }
 
     private ArrayList<Integer> getMinimumXCoordinates(ArrayList<Integer> originalCoordinateSet) {
