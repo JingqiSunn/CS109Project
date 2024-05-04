@@ -139,7 +139,11 @@
       <workItem from="1714555456157" duration="1509000" />
       <workItem from="1714560830687" duration="1363000" />
       <workItem from="1714569792429" duration="52000" />
-      <workItem from="1714701338835" duration="29455000" />
+      <workItem from="1714701338835" duration="31386000" />
+      <workItem from="1714743292713" duration="693000" />
+      <workItem from="1714788164094" duration="33000" />
+      <workItem from="1714788614062" duration="335000" />
+      <workItem from="1714825857766" duration="2037000" />
     </task>
     <servers />
   </component>
@@ -158,6 +162,16 @@
           <url>file://$PROJECT_DIR$/src/GameElement/ControllingCenter.java</url>
           <line>73</line>
           <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePage.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/DrawnBlockUnit.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="79" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />

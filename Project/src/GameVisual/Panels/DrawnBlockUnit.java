@@ -27,15 +27,21 @@ public class DrawnBlockUnit extends JPanel {
         this.xCoordinate=xCoordinate;
         this.yCoordinate = yCoordinate;
         this.sizeOfTheBlockUnit = sizeOfTheBlockUnit;
-        this.sizeOfTheBlock = sizeOfTheBlockUnit/8*10;
+        this.sizeOfTheBlock = (int)(((double)sizeOfTheBlockUnit/(double) 92)*100);
         this.controllingCenter = controllingCenter;
         maxX = controllingCenter.FindTheMaxXCoordinate();
         maxY = controllingCenter.FindTheMaxYCoordinate();
+
         startX = sizeOfTheBlock*xCoordinate+(sizeOfTheBlock-sizeOfTheBlockUnit)/2;
         startY = sizeOfTheBlock*(maxY-yCoordinate)+(sizeOfTheBlock-sizeOfTheBlockUnit)/2;
         this.setBounds(startX,startY,sizeOfTheBlockUnit,sizeOfTheBlockUnit);
         this.setAllFont();
     }
+
+    public Color getColorOfTheBlock() {
+        return colorOfTheBlock;
+    }
+
     private final Font font1 = new Font("Times New Roman", Font.BOLD, 46);
     private final Font font2 = new Font("Times New Roman", Font.BOLD, 40);
     private final Font font3 = new Font("Times New Roman", Font.BOLD, 34);
@@ -48,9 +54,9 @@ public class DrawnBlockUnit extends JPanel {
         switch (currentValue) {
             case 0 -> colorOfTheBlock = new Color(206, 194, 180);
             case 2 -> {
-                fontOfTheNumberInTheBlock = font1;          //文字字体
-                colorOfTheNumberInTheBlock = color1;        //文字颜色
-                colorOfTheBlock = new Color(237, 229, 218);     //背景颜色
+                fontOfTheNumberInTheBlock = font1;
+                colorOfTheNumberInTheBlock = color1;
+                colorOfTheBlock = new Color(237, 229, 218);
                 valueOfTheBlockInString = 2 + "";
             }
             case 4 -> {

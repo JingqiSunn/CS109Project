@@ -34,12 +34,12 @@ public class InGamePage extends JPanel {
         totalSize = screenSize;
         totalHeight = (int) screenSize.getHeight();
         totalWidth = (int) screenSize.getWidth();
-        sizeOfTheBlock = Math.min((totalHeight/13)/(controllingCenter.FindTheMaxYCoordinate()+1)*10,(totalWidth/13)/(controllingCenter.FindTheMaxXCoordinate()+1)*10);
-        sizeOfTheBlockUnit = (sizeOfTheBlock/10)*8;
+        sizeOfTheBlock = Math.min((totalHeight/14)/(controllingCenter.FindTheMaxYCoordinate()+1)*10,(totalWidth/14)/(controllingCenter.FindTheMaxXCoordinate()+1)*10);
+        sizeOfTheBlockUnit = (int)(((double)sizeOfTheBlock/(double) 100)*92);
         widthOfTheBlockSet = sizeOfTheBlock*(controllingCenter.FindTheMaxXCoordinate()+1);
         heightOfTheBlockSet=sizeOfTheBlock*(controllingCenter.FindTheMaxYCoordinate()+1);
         startXOfBlockSet = (totalWidth-widthOfTheBlockSet)/2;
-        startYOfBlockSet = (totalHeight-heightOfTheBlockSet)/2;
+        startYOfBlockSet = (totalHeight-heightOfTheBlockSet)*3/4;
         blockUnits = new ArrayList<>();
         for (int sequenceInPoints = 0; sequenceInPoints < controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit().size()/2; sequenceInPoints++) {
             DrawnBlockUnit newBlockUnit = new DrawnBlockUnit(controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit().get(sequenceInPoints*2),controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit().get(sequenceInPoints*2+1),sizeOfTheBlockUnit,controllingCenter);
@@ -52,6 +52,7 @@ public class InGamePage extends JPanel {
         totalBoard.setBounds(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,heightOfTheBlockSet);
         totalBoard.setBackground(Color.LIGHT_GRAY);
         for (int indexInBlocks = 0; indexInBlocks < blockUnits.size(); indexInBlocks++) {
+            blockUnits.get(indexInBlocks).setBackground(blockUnits.get(indexInBlocks).getColorOfTheBlock());
             blockUnits.get(indexInBlocks).setVisible(true);
             totalBoard.add(blockUnits.get(indexInBlocks));
         }

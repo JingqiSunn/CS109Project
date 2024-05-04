@@ -126,7 +126,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e)   {
         int keyBeingActivated = e.getKeyCode();
         if (keyBeingActivated == KeyEvent.VK_ESCAPE) {
             this.outOfFullScreen();
