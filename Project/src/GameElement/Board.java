@@ -57,7 +57,7 @@ public class Board {
         return availableDirectionSet;
     }
 
-    void setBoardLocationSet(ArrayList<BoardUnit> boardLocationSet) {
+    public void setBoardLocationSet(ArrayList<BoardUnit> boardLocationSet) {
         this.boardLocationSet = boardLocationSet;
     }
 

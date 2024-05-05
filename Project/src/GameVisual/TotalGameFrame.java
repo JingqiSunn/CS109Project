@@ -1,5 +1,6 @@
 package GameVisual;
 
+import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameVisual.Panels.*;
 
@@ -10,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
@@ -25,6 +27,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     BoardSizeDIYPage boardSizeDIYPage;
     Boolean whetherFullScreenNow;
     ControllingCenter controllingCenter;
+    ArrayList<BoardUnit> currentBoardInformation;
 
 
     public TotalGameFrame() {

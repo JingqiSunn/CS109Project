@@ -2,6 +2,7 @@ package GameVisual;
 
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
+import GameElement.ArtificialIntelligenceSupply;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,8 +26,10 @@ public class myBoard extends JPanel implements KeyListener {
     initBoard currentBoard;
     ArrayList<BoardUnit> currentBoardInformation;
     ControllingCenter controllingCenter;
+    ArtificialIntelligenceSupply AI;
 
     public myBoard() {
+        AI = new ArtificialIntelligenceSupply();
         currentBoard = new initBoard();
         currentBoardInformation = currentBoard.getBoardInformation();
         controllingCenter = currentBoard.getControllingCenter();
@@ -185,7 +188,17 @@ public class myBoard extends JPanel implements KeyListener {
                 Left();
             } else if (keyCode == KeyEvent.VK_SPACE) {
                 Reinit();
-
+            } else if (keyCode == KeyEvent.VK_S) {
+                String direction = AI.mostScoresEarned(controllingCenter);
+                if (direction == "Down"){
+                    Down();
+                } else if (direction == "Up") {
+                    Up();
+                }else if (direction == "Left"){
+                    Left();
+                } else if (direction == "Right") {
+                    Right();
+                }
             }
             if (bestScore < score) {
                 bestScore = score;
@@ -194,7 +207,6 @@ public class myBoard extends JPanel implements KeyListener {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-
             }
 
             repaint();

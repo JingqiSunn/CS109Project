@@ -8,9 +8,9 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
 
-        TotalGameFrame totalGameFrame = new TotalGameFrame();
+        //TotalGameFrame totalGameFrame = new TotalGameFrame();
 
-        /*JFrame jf = new JFrame("Game_2048");
+        JFrame jf = new JFrame("Game_2048");
         myBoard currentBoard = new myBoard();
         jf.add(currentBoard);
         ControllingCenter currentControllingCenter = currentBoard.getControllingCenter();
@@ -19,6 +19,6 @@ public class Main {
         jf.setLocationRelativeTo(null);     //居中
         jf.setResizable(false);
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jf.setVisible(true);*/
+        jf.setVisible(true);
     }
 }

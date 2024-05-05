@@ -6,6 +6,11 @@ import java.util.Scanner;
 public class ControllingCenter {
     private boolean gameValidity;
     private int currentGameScore;
+
+    public void setCurrentPlayingBoard(Board currentPlayingBoard) {
+        this.currentPlayingBoard = currentPlayingBoard;
+    }
+
     private Board currentPlayingBoard;
 
     public boolean getGameValidity() {
