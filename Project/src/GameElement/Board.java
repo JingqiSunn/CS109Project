@@ -41,7 +41,7 @@ public class Board {
         this.currentScore = currentScore;
     }
 
-    ArrayList<BoardUnit> getBoardLocationSet() {
+    public ArrayList<BoardUnit> getBoardLocationSet() {
         return boardLocationSet;
     }
 
