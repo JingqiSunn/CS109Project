@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84b23187-489a-439b-b09d-0f98be192935" name="Changes" comment="" />
+    <list default="true" id="84b23187-489a-439b-b09d-0f98be192935" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GameSave/FileWritten.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GameSave/FormerInformation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GameSave/FormerInformationArrayList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameElement/ArtificialIntelligenceSupply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameElement/ArtificialIntelligenceSupply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameElement/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameElement/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameElement/BoardUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameElement/BoardUnit.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +45,12 @@
     &quot;Application.Projector.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+<<<<<<< HEAD
     &quot;git-widget-placeholder&quot;: &quot;ProjectorDemo&quot;,
+=======
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Version0.2.0&quot;,
+>>>>>>> d5eda84399e5b44e2b8a7042b393d07362d3078b
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;T:/Assignments/CS109/CS109Project/Project/lib&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -47,6 +62,14 @@
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+<<<<<<< HEAD
+=======
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+>>>>>>> d5eda84399e5b44e2b8a7042b393d07362d3078b
   }
 }</component>
   <component name="RunManager" selected="Application.Main">
@@ -84,7 +107,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-20.0.2-corretto-20.0.2.1-4caba194b151-5bc9ecd2" />
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
       </set>
     </attachedChunks>
   </component>
@@ -147,12 +170,19 @@
       <workItem from="1714913733130" duration="4844000" />
       <workItem from="1714951845392" duration="2044000" />
       <workItem from="1714954831123" duration="4703000" />
+<<<<<<< HEAD
       <workItem from="1714959926500" duration="283000" />
       <workItem from="1714960864778" duration="1200000" />
       <workItem from="1714965100614" duration="548000" />
       <workItem from="1714974565269" duration="703000" />
       <workItem from="1714978288384" duration="877000" />
       <workItem from="1714979209752" duration="5111000" />
+=======
+      <workItem from="1714965009558" duration="622000" />
+      <workItem from="1714974568103" duration="6352000" />
+      <workItem from="1714982375219" duration="5391000" />
+      <workItem from="1714988009440" duration="7000" />
+>>>>>>> d5eda84399e5b44e2b8a7042b393d07362d3078b
     </task>
     <servers />
   </component>

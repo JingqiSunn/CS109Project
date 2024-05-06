@@ -153,5 +153,4 @@ public class ArtificialIntelligenceSupply {
         }
         controllingCenterTemp.getCurrentPlayingBoard().setCurrentScore(controllingCenter.getCurrentPlayingBoard().getCurrentScore());
     }
-
 }

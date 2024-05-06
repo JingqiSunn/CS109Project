@@ -31,12 +31,12 @@ public class BoardUnit {
         return currentPlayingBoard;
     }
 
-    void setxCoordinate(int xCoordinate) {
+    public void setxCoordinate(int xCoordinate) {
         this.xCoordinate = xCoordinate;
     }
 
 
-    void setyCoordinate(int yCoordinate) {
+    public void setyCoordinate(int yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
 
