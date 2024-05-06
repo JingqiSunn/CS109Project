@@ -2,11 +2,11 @@ package GameVisual.Panels;
 
 import javax.swing.*;
 
-public class UnitBlock extends JPanel {
+public class UnitBlockInDIY extends JPanel {
     boolean whetherChoosing = false;
     int xCoordinate;
     int yCoordinate;
-    UnitBlock(){
+    UnitBlockInDIY(){
         super();
         whetherChoosing = false;
     }

@@ -143,7 +143,10 @@
       <workItem from="1714743292713" duration="693000" />
       <workItem from="1714788164094" duration="33000" />
       <workItem from="1714788614062" duration="335000" />
-      <workItem from="1714825857766" duration="4495000" />
+      <workItem from="1714825857766" duration="4844000" />
+      <workItem from="1714913733130" duration="4844000" />
+      <workItem from="1714951845392" duration="2044000" />
+      <workItem from="1714954831123" duration="4703000" />
     </task>
     <servers />
   </component>
@@ -153,16 +156,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameElement/BoardUnit.java</url>
-          <line>2</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/DrawnBlockUnit.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.StackOverflowError" package="java.lang" />
           <option name="timeStamp" value="7" />

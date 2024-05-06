@@ -9,7 +9,7 @@ public class BoardSizeDIYPage extends JPanel {
     Dimension totalSize;
     JPanel blockSets;
 
-    UnitBlock[][] blockSet;
+    UnitBlockInDIY[][] blockSet;
     int [][] startXOfBlocks;
     int [][] startYOfBlocks;
     int totalWidth;
@@ -28,7 +28,7 @@ public class BoardSizeDIYPage extends JPanel {
         this.SetUpOptionsInTheLoginPage();
     }
 
-    public UnitBlock[][] getBlockSet() {
+    public UnitBlockInDIY[][] getBlockSet() {
         return blockSet;
     }
 
@@ -56,10 +56,10 @@ public class BoardSizeDIYPage extends JPanel {
         blockSets.setBounds(startXOfBlockSet,startYOfBlockSet,sizeOfTheBlockSet,sizeOfTheBlockSet);
         blockSets.setLayout(null);
         blockSets.setBackground(Color.LIGHT_GRAY);
-        blockSet = new UnitBlock[10][10];
+        blockSet = new UnitBlockInDIY[10][10];
         for (int layerInTheBlockSizeInRow = 0; layerInTheBlockSizeInRow < 10; layerInTheBlockSizeInRow++) {
             for (int layerInTheBlockSizeInColumn = 0; layerInTheBlockSizeInColumn < 10; layerInTheBlockSizeInColumn++) {
-                blockSet [layerInTheBlockSizeInRow][layerInTheBlockSizeInColumn] = new UnitBlock();
+                blockSet [layerInTheBlockSizeInRow][layerInTheBlockSizeInColumn] = new UnitBlockInDIY();
                 blockSet [layerInTheBlockSizeInRow][layerInTheBlockSizeInColumn].setxCoordinate(layerInTheBlockSizeInColumn);
                 blockSet [layerInTheBlockSizeInRow][layerInTheBlockSizeInColumn].setyCoordinate(9-layerInTheBlockSizeInRow);
                 int startX = startXOfBlocks[layerInTheBlockSizeInRow][layerInTheBlockSizeInColumn];

@@ -136,16 +136,32 @@ public class DrawnBlockUnit extends JPanel {
         currentValueToShow.setVerticalAlignment(JLabel.CENTER);
         currentValueToShow.setForeground(colorOfTheNumberInTheBlock);
         currentValueToShow.setFont(fontOfTheNumberInTheBlock);
-        if (currentValue ==1){
+        if (currentValue ==0){
             currentValueToShow.setVisible(false);
         } else {
-            setVisible(true);
+            currentValueToShow.setVisible(true);
         }
         this.add(currentValueToShow,BorderLayout.CENTER);
         this.setBackground(colorOfTheBlock);
     }
 
-    public void UpdateTheData() {
+    void UpdateTheOutputShowInGame(){
+        currentValueToShow.setVisible(true);
+        this.remove(currentValueToShow);
+        this.UpdateTheData();
+        currentValueToShow.setText(String.valueOf(currentValue));
+        currentValueToShow.setForeground(colorOfTheNumberInTheBlock);
+        currentValueToShow.setFont(fontOfTheNumberInTheBlock);
+        if (currentValue ==0){
+            currentValueToShow.setVisible(false);
+        } else {
+            currentValueToShow.setVisible(true);
+        }
+        this.add(currentValueToShow,BorderLayout.CENTER);
+        this.setBackground(colorOfTheBlock);
+    }
+
+    void UpdateTheData() {
         if (correspondingBoardUnit.getCell() == null) {
             currentValue = 0;
         } else {
@@ -154,7 +170,7 @@ public class DrawnBlockUnit extends JPanel {
         this.setAllFont();
     }
 
-    public void ConnectWithCorrespondingBoardUnit() {
+    void ConnectWithCorrespondingBoardUnit() {
         for (int indexInAllTheBoardUnit = 0; indexInAllTheBoardUnit < controllingCenter.GetTheBoardUnitSet().size(); indexInAllTheBoardUnit++) {
             if (this.xCoordinate == controllingCenter.GetTheBoardUnitSet().get(indexInAllTheBoardUnit).getxCoordinate() && this.yCoordinate == controllingCenter.GetTheBoardUnitSet().get(indexInAllTheBoardUnit).getyCoordinate()) {
                 this.correspondingBoardUnit = controllingCenter.GetTheBoardUnitSet().get(indexInAllTheBoardUnit);

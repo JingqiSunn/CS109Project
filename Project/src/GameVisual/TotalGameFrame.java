@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
@@ -118,6 +117,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
     void LoadInGamePage() {
         inGamePage = new InGamePage(screenSize,controllingCenter);
+        inGamePage.addKeyListener(this);
         inGamePage.setVisible(true);
         this.add(inGamePage);
         setFocusable(true);
@@ -134,14 +134,34 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         if (keyBeingActivated == KeyEvent.VK_ESCAPE) {
             this.outOfFullScreen();
             this.setVisible(true);
-        }
-        if (boardSizeDIYPage != null && keyBeingActivated == KeyEvent.VK_SPACE) {
+        }else if (boardSizeDIYPage != null && keyBeingActivated == KeyEvent.VK_SPACE) {
             this.remove(boardSizeDIYPage);
             UpdateTheCoordinateSetInTheControllingCenter();
             boardSizeDIYPage = null;
+            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
             this.LoadInGamePage();
             repaint();
             setVisible(true);
+        }else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_UP){
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePage.UpdateBlockUnitsInGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_DOWN) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePage.UpdateBlockUnitsInGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_LEFT) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePage.UpdateBlockUnitsInGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_RIGHT) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            inGamePage.UpdateBlockUnitsInGame();
+            controllingCenter.UpdateGameValidity();
         }
     }
 
@@ -180,19 +200,19 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
         }
         if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
-            if (componentActivated instanceof UnitBlock) {
-                if (!((UnitBlock) componentActivated).getWhetherChoosing()) {
+            if (componentActivated instanceof UnitBlockInDIY) {
+                if (!((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
                     componentActivated.setBackground(Color.LIGHT_GRAY);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
-                    ((UnitBlock) componentActivated).setBorder(borderOfTheBlock);
-                    ((UnitBlock) componentActivated).setWhetherChoosing(true);
+                    ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
+                    ((UnitBlockInDIY) componentActivated).setWhetherChoosing(true);
                     repaint();
                     componentActivated.setVisible(true);
-                } else if (((UnitBlock) componentActivated).getWhetherChoosing()) {
+                } else if (((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
                     componentActivated.setBackground(Color.WHITE);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
-                    ((UnitBlock) componentActivated).setBorder(borderOfTheBlock);
-                    ((UnitBlock) componentActivated).setWhetherChoosing(false);
+                    ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
+                    ((UnitBlockInDIY) componentActivated).setWhetherChoosing(false);
                     repaint();
                     componentActivated.setVisible(true);
                 }
@@ -250,17 +270,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             boardSizeChoosingPage.getDIYOption().setVisible(true);
             boardSizeChoosingPage.getDIYOption().repaint();
         }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlock) componentActivated).getWhetherChoosing()) {
+        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.BLACK);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
-            ((UnitBlock) componentActivated).setBorder(borderOfTheBlock);
+            ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
         }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlock) componentActivated).getWhetherChoosing()) {
+        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.RED);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
-            ((UnitBlock) componentActivated).setBorder(borderOfTheBlock);
+            ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
         }
@@ -306,17 +326,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             boardSizeChoosingPage.getDIYOption().setVisible(true);
             boardSizeChoosingPage.getDIYOption().repaint();
         }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlock) componentActivated).getWhetherChoosing()) {
+        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.WHITE);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
-            ((UnitBlock) componentActivated).setBorder(borderOfTheBlock);
+            ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
         }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlock) componentActivated).getWhetherChoosing()) {
+        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.LIGHT_GRAY);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
-            ((UnitBlock) componentActivated).setBorder(borderOfTheBlock);
+            ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
         }

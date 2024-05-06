@@ -58,4 +58,10 @@ public class InGamePage extends JPanel {
         totalBoard.setVisible(true);
         this.add(totalBoard);
     }
+    public void UpdateBlockUnitsInGame(){
+        for (DrawnBlockUnit blockUnit : blockUnits) {
+            blockUnit.UpdateTheOutputShowInGame();
+        }
+        repaint();
+    }
 }
