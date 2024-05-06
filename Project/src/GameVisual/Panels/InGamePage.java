@@ -7,10 +7,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class InGamePage extends JPanel {
+    boolean whetherTourist;
     ControllingCenter controllingCenter;
     Dimension totalSize;
     ArrayList<DrawnBlockUnit> blockUnits;
     JPanel totalBoard;
+    ScorePanel scorePanel;
     int totalWidth;
     int totalHeight;
     int startXOfBlockSet;
@@ -20,8 +22,9 @@ public class InGamePage extends JPanel {
     int sizeOfTheBlockUnit;
     int widthOfTheBlockSet;
     int heightOfTheBlockSet;
-    public InGamePage(Dimension screenSize, ControllingCenter controllingCenter){
+    public InGamePage(Dimension screenSize, ControllingCenter controllingCenter,boolean whetherTourist){
         this.setLayout(null);
+        this.whetherTourist = whetherTourist;
         this.controllingCenter = controllingCenter;
         this.totalSize = screenSize;
         this.UpdateSizeAndLocationForOptions(totalSize,controllingCenter);
@@ -57,11 +60,24 @@ public class InGamePage extends JPanel {
         }
         totalBoard.setVisible(true);
         this.add(totalBoard);
+        this.LoadTheScorePanel();
     }
     public void UpdateBlockUnitsInGame(){
         for (DrawnBlockUnit blockUnit : blockUnits) {
             blockUnit.UpdateTheOutputShowInGame();
         }
+        scorePanel.UpdateTheScorePanel();
         repaint();
+    }
+    void LoadTheScorePanel(){
+        scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist);
+        scorePanel.setVisible(true);
+        this.add(scorePanel);
+    }
+    public void RestartTheGame(){
+        controllingCenter.CleanThePlayingBoardForRestart();
+        controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
+        controllingCenter.UpdateGameValidity();
+        this.UpdateBlockUnitsInGame();
     }
 }

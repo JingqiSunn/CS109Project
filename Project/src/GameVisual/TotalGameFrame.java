@@ -115,8 +115,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         setFocusable(true);
     }
-    void LoadInGamePage() {
-        inGamePage = new InGamePage(screenSize,controllingCenter);
+    void LoadInGamePageForTourist() {
+        inGamePage = new InGamePage(screenSize,controllingCenter,true);
         inGamePage.addKeyListener(this);
         inGamePage.setVisible(true);
         this.add(inGamePage);
@@ -139,7 +139,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             UpdateTheCoordinateSetInTheControllingCenter();
             boardSizeDIYPage = null;
             controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
-            this.LoadInGamePage();
+            this.LoadInGamePageForTourist();
             repaint();
             setVisible(true);
         }else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_UP){
@@ -162,6 +162,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             controllingCenter.RightAction();
             inGamePage.UpdateBlockUnitsInGame();
             controllingCenter.UpdateGameValidity();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_R) {
+            inGamePage.RestartTheGame();
         }
     }
 
@@ -198,8 +200,23 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
+        } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.FourOption)) {
+            remove(boardSizeChoosingPage);
+            boardSizeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
+            this.LoadInGamePageForTourist();
+            repaint();
+            setVisible(true);
+        } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.ThreeOption)) {
+            remove(boardSizeChoosingPage);
+            boardSizeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForThree();
+            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
+            this.LoadInGamePageForTourist();
+            repaint();
+            setVisible(true);
+        } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
             if (componentActivated instanceof UnitBlockInDIY) {
                 if (!((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
                     componentActivated.setBackground(Color.LIGHT_GRAY);
@@ -367,6 +384,67 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         currentInformationAboutCoordinate = getMinimumXCoordinates(currentInformationAboutCoordinate);
         currentInformationAboutCoordinate = getMinimumYCoordinates(currentInformationAboutCoordinate);
+        controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(currentInformationAboutCoordinate);
+        controllingCenter.SetUpTheControllingCenterForDIY();
+    }
+
+    private void UpdateTheCoordinateSetInTheControllingCenterForFour(){
+        ArrayList<Integer> currentInformationAboutCoordinate = new ArrayList<>();
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(3);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(3);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(3);
+        currentInformationAboutCoordinate.add(3);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(3);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(3);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(3);
+        currentInformationAboutCoordinate.add(3);
+        controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(currentInformationAboutCoordinate);
+        controllingCenter.SetUpTheControllingCenterForDIY();
+    }
+    private void UpdateTheCoordinateSetInTheControllingCenterForThree(){
+        ArrayList<Integer> currentInformationAboutCoordinate = new ArrayList<>();
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(0);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(1);
+        currentInformationAboutCoordinate.add(2);
+        currentInformationAboutCoordinate.add(2);
         controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(currentInformationAboutCoordinate);
         controllingCenter.SetUpTheControllingCenterForDIY();
     }

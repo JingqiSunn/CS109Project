@@ -158,5 +158,14 @@ public int FindTheMaxXCoordinate(){
         currentPlayingBoard.GetNeighborBoardUnitInColumn();
         currentPlayingBoard.GetNeighborBoardUnitInRow();
     }
+    public void CleanThePlayingBoardForRestart(){
+        for (int indexInBoardUnitSet = 0; indexInBoardUnitSet < currentPlayingBoard.getBoardLocationSet().size(); indexInBoardUnitSet++) {
+            if (currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).getCell()!=null){
+                currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).setCell(null);
+            }
+        }
+        currentGameScore = 0;
+        currentPlayingBoard.setCurrentScore(0);
+    }
 }
 
