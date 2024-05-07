@@ -33,7 +33,11 @@ public class InGamePage extends JPanel {
         this.setVisible(true);
     }
 
-    void UpdateSizeAndLocationForOptions(Dimension screenSize,ControllingCenter controllingCenter){
+    public boolean GetWhetherTourist() {
+        return whetherTourist;
+    }
+
+    void UpdateSizeAndLocationForOptions(Dimension screenSize, ControllingCenter controllingCenter){
         totalSize = screenSize;
         totalHeight = (int) screenSize.getHeight();
         totalWidth = (int) screenSize.getWidth();
@@ -76,7 +80,7 @@ public class InGamePage extends JPanel {
     }
     public void RestartTheGame(){
         controllingCenter.CleanThePlayingBoardForRestart();
-        controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
+        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
         controllingCenter.UpdateGameValidity();
         this.UpdateBlockUnitsInGame();
     }

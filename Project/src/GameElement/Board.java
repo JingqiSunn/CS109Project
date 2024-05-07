@@ -498,6 +498,25 @@ public class Board {
             ReIdentifyEmptyBoardUnits();
         }
     }
+    void RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp(){
+        this.ReIdentifyEmptyBoardUnits();
+        int randomValueForTheNextRandomCell = 2;
+        Random random = new Random();
+        if (emptyBoardUnitSet != null) {
+            int randomIndexInTheEmptyBoardSet = random.nextInt(emptyBoardUnitSet.size());
+            Cell randomNewCell = new Cell(randomValueForTheNextRandomCell, emptyBoardUnitSet.get(randomIndexInTheEmptyBoardSet));
+            emptyBoardUnitSet.get(randomIndexInTheEmptyBoardSet).setCell(randomNewCell);
+            ReIdentifyEmptyBoardUnits();
+        }
+        this.ReIdentifyEmptyBoardUnits();
+        randomValueForTheNextRandomCell = 4;
+        if (emptyBoardUnitSet != null) {
+            int randomIndexInTheEmptyBoardSet = random.nextInt(emptyBoardUnitSet.size());
+            Cell randomNewCell = new Cell(randomValueForTheNextRandomCell, emptyBoardUnitSet.get(randomIndexInTheEmptyBoardSet));
+            emptyBoardUnitSet.get(randomIndexInTheEmptyBoardSet).setCell(randomNewCell);
+            ReIdentifyEmptyBoardUnits();
+        }
+    }
 
     static ArrayList<BoardUnit> DeleteAllTheCellWithTrue(ArrayList<BoardUnit> originalSetOFBoardUnit) {
         ArrayList<BoardUnit> originalBoardUnitSetAfterFullyArranged = new ArrayList<>();

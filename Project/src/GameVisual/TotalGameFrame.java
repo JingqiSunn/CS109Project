@@ -7,11 +7,10 @@ import GameVisual.Panels.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
+import javax.swing.Timer;
+
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
 
@@ -22,15 +21,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     LoginPage loginPage;
     ModeChoosingPage modeChoosingPage;
     BoardSizeChoosingPage boardSizeChoosingPage;
+    TouristDiePage touristDiePage;
     InGamePage inGamePage;
     BoardSizeDIYPage boardSizeDIYPage;
     Boolean whetherFullScreenNow;
     ControllingCenter controllingCenter;
     ArrayList<BoardUnit> currentBoardInformation;
-
+    boolean timerIsRunning;
 
     public TotalGameFrame() {
         controllingCenter = new ControllingCenter();
+        this.timerIsRunning = false;
         this.setLayout(null);
         this.UpdateTheSizeOfTheScreen();
         this.SetFullScreen();
@@ -122,6 +123,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(inGamePage);
         setFocusable(true);
     }
+    void LoadTouristDiePage() {
+        touristDiePage = new TouristDiePage(screenSize,controllingCenter,0);
+        touristDiePage.setVisible(true);
+        this.add(touristDiePage);
+        touristDiePage.getBackToMenuOption().addMouseListener(this);
+        touristDiePage.getRestartOption().addMouseListener(this);
+        setFocusable(true);
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -138,7 +147,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.remove(boardSizeDIYPage);
             UpdateTheCoordinateSetInTheControllingCenter();
             boardSizeDIYPage = null;
-            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             this.LoadInGamePageForTourist();
             repaint();
             setVisible(true);
@@ -147,22 +156,30 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePage.UpdateBlockUnitsInGame();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_DOWN) {
+            this.repaint();
+            this.JudgeWhetherEndOfGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePage.UpdateBlockUnitsInGame();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_LEFT) {
+            this.repaint();
+            this.JudgeWhetherEndOfGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePage.UpdateBlockUnitsInGame();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_RIGHT) {
+            this.repaint();
+            this.JudgeWhetherEndOfGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
             inGamePage.UpdateBlockUnitsInGame();
             controllingCenter.UpdateGameValidity();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_R) {
+            this.repaint();
+            this.JudgeWhetherEndOfGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
             inGamePage.RestartTheGame();
         }
     }
@@ -204,7 +221,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
-            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             this.LoadInGamePageForTourist();
             repaint();
             setVisible(true);
@@ -212,7 +229,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForThree();
-            controllingCenter.RandomlyGenerateCellInEmptyBoardUnits();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             this.LoadInGamePageForTourist();
             repaint();
             setVisible(true);
@@ -234,6 +251,23 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     componentActivated.setVisible(true);
                 }
             }
+        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+            controllingCenter = new ControllingCenter();
+            this.remove(touristDiePage);
+            touristDiePage = null;
+            this.LoadBoardSizeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+            this.remove(touristDiePage);
+            touristDiePage = null;
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForTourist();
+            repaint();
+            setVisible(true);
         }
     }
 
@@ -286,20 +320,26 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             boardSizeChoosingPage.getDIYOption().setBackground(Color.BLACK);
             boardSizeChoosingPage.getDIYOption().setVisible(true);
             boardSizeChoosingPage.getDIYOption().repaint();
-        }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.BLACK);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
-        }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.RED);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
+        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+            touristDiePage.getBackToMenuOption().setBackground(Color.BLACK);
+            touristDiePage.getBackToMenuOption().setVisible(true);
+            touristDiePage.getBackToMenuOption().repaint();
+        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+            touristDiePage.getRestartOption().setBackground(Color.BLACK);
+            touristDiePage.getRestartOption().setVisible(true);
+            touristDiePage.getRestartOption().repaint();
         }
     }
 
@@ -342,20 +382,26 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             boardSizeChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
             boardSizeChoosingPage.getDIYOption().setVisible(true);
             boardSizeChoosingPage.getDIYOption().repaint();
-        }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.WHITE);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
-        }
-        if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.LIGHT_GRAY);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
+        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+            touristDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
+            touristDiePage.getBackToMenuOption().setVisible(true);
+            touristDiePage.getBackToMenuOption().repaint();
+        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+            touristDiePage.getRestartOption().setBackground(Color.LIGHT_GRAY);
+            touristDiePage.getRestartOption().setVisible(true);
+            touristDiePage.getRestartOption().repaint();
         }
     }
 
@@ -490,5 +536,28 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         return lastCoordinateInformation;
+    }
+    public void JudgeWhetherEndOfGame() {
+        controllingCenter.UpdateGameValidity();
+        if (!controllingCenter.getGameValidity()) {
+            timerIsRunning = true;
+            Timer timer = new Timer(2000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timerIsRunning = false;
+
+                    if (inGamePage.GetWhetherTourist()) {
+                        remove(inGamePage);
+                        inGamePage = null;
+                        LoadTouristDiePage();
+                        setFocusable(true);
+                        repaint();
+                        setVisible(true);
+                        System.out.println("hi");
+                    }
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
     }
 }
