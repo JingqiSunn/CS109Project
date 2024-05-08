@@ -2,6 +2,7 @@ package GameVisual;
 
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
+import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     Boolean whetherFullScreenNow;
     ControllingCenter controllingCenter;
     ArrayList<BoardUnit> currentBoardInformation;
-
+DocumentReaderAndWriter documentReaderAndWriter;
 
     public TotalGameFrame() {
         controllingCenter = new ControllingCenter();
@@ -164,6 +165,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             controllingCenter.UpdateGameValidity();
         } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_R) {
             inGamePage.RestartTheGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_S) {
+            documentReaderAndWriter = new DocumentReaderAndWriter(controllingCenter);
+            documentReaderAndWriter.save();
         }
     }
 
@@ -491,4 +495,5 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         return lastCoordinateInformation;
     }
+
 }

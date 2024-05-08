@@ -167,5 +167,6 @@ public int FindTheMaxXCoordinate(){
         currentGameScore = 0;
         currentPlayingBoard.setCurrentScore(0);
     }
+
 }
 

@@ -1,6 +1,7 @@
 package GameVisual;
 
 import GameElement.BoardUnit;
+import GameElement.Cell;
 import GameElement.ControllingCenter;
 import GameElement.ArtificialIntelligenceSupply;
 
@@ -9,10 +10,13 @@ import java.awt.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import java.awt.event.*;
 import java.awt.Font;
+import java.util.List;
 
 
 public class myBoard extends JPanel implements KeyListener {
@@ -199,7 +203,15 @@ public class myBoard extends JPanel implements KeyListener {
                 } else if (direction == "Right") {
                     Right();
                 }
+            }else if (keyCode == KeyEvent.VK_0){
+                List<String> file = readFile();
+                ArrayList<BoardUnit> formerPlayingBoard = loadCurrentPlayingBoardArray(file);
+                ArrayList<Integer>  coordinatesInformation = coordinatesInformation(formerPlayingBoard);
+                ArrayList<Integer>  valuesInformation = valueInformation(formerPlayingBoard);
+                System.out.println(coordinatesInformation);
+                System.out.println(valuesInformation);
             }
+
             if (bestScore < score) {
                 bestScore = score;
                 try {
@@ -258,6 +270,96 @@ public class myBoard extends JPanel implements KeyListener {
         score = controllingCenter.getCurrentGameScore();
         controllingCenter.UpdateGameValidity();
         isStart = controllingCenter.getGameValidity();
+    }
+
+
+
+
+    public List<String> readFile() {
+        try {
+            return Files.readAllLines(Path.of("src/GameSave/userInformation.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<BoardUnit> loadCurrentPlayingBoardArray(List<String> file){
+        int size = file.size();
+        ArrayList<BoardUnit> currentBoard = new ArrayList<>();
+        for (int i = 0; i < size-2; i++) {
+            String informationPerUnit = file.get(i);
+            String x = "";
+            String y = "";
+            String cellValue = "";
+            int spaceCount = 0;
+            for (int j = 0; j < informationPerUnit.length(); j++) {
+                char element = informationPerUnit.charAt(j);
+                boolean flag = true;
+                if (element == ' ' ){
+                    spaceCount += 1;
+                    flag = false;
+                }
+                if (spaceCount == 0 && flag){
+                    x = x + element;
+                } else if (spaceCount == 1 && flag) {
+                    y = y + element;
+                } else if (spaceCount == 2 && flag) {
+                    cellValue = cellValue + element;
+                }
+            }
+            int xInt = Integer.parseInt(x);
+            int yInt = Integer.parseInt(y);
+            int valueInt = Integer.parseInt(cellValue);
+            BoardUnit unitInformation = new BoardUnit(xInt,yInt);
+            if (valueInt != 0) {
+                Cell cellInformation = new Cell(valueInt, unitInformation);
+                unitInformation.setCell(cellInformation);
+            }else{
+                unitInformation.setCell(null);
+            }
+            currentBoard.add(unitInformation);
+        }
+        return currentBoard;
+    }
+
+    public ArrayList<Integer> coordinatesInformation(ArrayList<BoardUnit> loadCurrentPlayingBoardArray){
+        ArrayList<Integer> coordinates = new ArrayList<>();
+        for (int i = 0; i < loadCurrentPlayingBoardArray.size(); i++) {
+            int x = loadCurrentPlayingBoardArray.get(i).getxCoordinate();
+            int y = loadCurrentPlayingBoardArray.get(i).getyCoordinate();
+            coordinates.add(x);
+            coordinates.add(y);
+        }
+        return coordinates;
+    }
+
+    public ArrayList<Integer> valueInformation(ArrayList<BoardUnit> loadCurrentPlayingBoardArray){
+        ArrayList<Integer> values = new ArrayList<>();
+        int value;
+        for (int i = 0; i < loadCurrentPlayingBoardArray.size(); i++) {
+            if (loadCurrentPlayingBoardArray.get(i).getCell() != null) {
+                value = loadCurrentPlayingBoardArray.get(i).getCell().getValue();
+            }else{
+                value = 0;
+            }
+            values.add(value);
+        }
+        return values;
+
+    }
+
+    public int loadCurrentScore(List<String> file){
+        int size = file.size();
+        String currentScore = file.get(size - 2);
+        int currentScoreInt = Integer.parseInt(currentScore);
+        return currentScoreInt;
+    }
+    public int loadHighScore(List<String> file){
+        int size = file.size();
+        String highScore = file.get(size - 1);
+        int highScoreInt = Integer.parseInt(highScore);
+        return highScoreInt;
     }
 }
 

@@ -10,7 +10,7 @@ public class BoardUnit {
 
     private Board currentPlayingBoard;
 
-    BoardUnit(int xCoordinate, int yCoordinate) {
+    public BoardUnit(int xCoordinate, int yCoordinate) {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
     }
