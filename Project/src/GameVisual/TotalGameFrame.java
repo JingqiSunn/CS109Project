@@ -2,6 +2,7 @@ package GameVisual;
 
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
+import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
 
 import javax.swing.*;
@@ -10,7 +11,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.Timer;
-
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
 
@@ -26,9 +26,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     BoardSizeDIYPage boardSizeDIYPage;
     Boolean whetherFullScreenNow;
     ControllingCenter controllingCenter;
+    DocumentReaderAndWriter documentReaderAndWriter;
     ArrayList<BoardUnit> currentBoardInformation;
     boolean timerIsRunning;
-
+    UserLoginPage userLoginPage;
     public TotalGameFrame() {
         controllingCenter = new ControllingCenter();
         this.timerIsRunning = false;
@@ -131,6 +132,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         touristDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
     }
+    void LoadUserLoginPage(){
+        userLoginPage = new UserLoginPage(screenSize);
+        userLoginPage.setVisible(true);
+        this.add(userLoginPage);
+        setFocusable(true);
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -181,6 +188,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherEndOfGame();
         } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
             inGamePage.RestartTheGame();
+        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_S) {
+            documentReaderAndWriter = new DocumentReaderAndWriter(controllingCenter);
+            documentReaderAndWriter.save();
         }
     }
 
@@ -192,7 +202,15 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     @Override
     public void mouseClicked(MouseEvent e) {
         Component componentActivated = e.getComponent();
-        if (loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+        if (loginPage != null && componentActivated.equals(loginPage.getLoginOption())) {
+            remove(loginPage);
+            loginPage = null;
+            this.LoadUserLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if(loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
             remove(loginPage);
             loginPage = null;
             this.LoadModeChoosingPage();
@@ -200,8 +218,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }
-        else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadBoardSizeChoosingPage();

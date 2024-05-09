@@ -152,6 +152,8 @@
       <workItem from="1715058475957" duration="3293000" />
       <workItem from="1715067409125" duration="2230000" />
       <workItem from="1715086246295" duration="5164000" />
+      <workItem from="1715234489061" duration="5144000" />
+      <workItem from="1715240164934" duration="6607000" />
     </task>
     <servers />
   </component>
@@ -169,11 +171,6 @@
           <url>file://$PROJECT_DIR$/src/GameVisual/Panels/DiePage.java</url>
           <line>74</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>557</line>
-          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

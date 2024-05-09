@@ -89,7 +89,7 @@ public class LoginPage extends JPanel {
         Font font = new Font("Times New Roman", Font.BOLD, 40);
         loginLabel = new JLabel("Login");
         touristLabel = new JLabel("Tourist");
-        registrationLabel = new JLabel("Join Us");
+        registrationLabel = new JLabel("Registration");
         loginLabel.setFont(font);
         touristLabel.setFont(font);
         registrationLabel.setFont(font);
