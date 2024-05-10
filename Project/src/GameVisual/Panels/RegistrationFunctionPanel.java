@@ -42,9 +42,9 @@ public class RegistrationFunctionPanel extends JPanel {
     JLabel warnForPassWordLabel;
     JLabel warnForAgainPassWordLabel;
 
-    RegistrationFunctionPanel(Dimension totalSize, int startX, int startY){
+    RegistrationFunctionPanel(Dimension totalSize, int startX, int startY) {
         this.setLayout(null);
-        this.UpdateSizeAndLocationForOptions(totalSize,startX,startY);
+        this.UpdateSizeAndLocationForOptions(totalSize, startX, startY);
         this.SetUpThePanel();
     }
 
@@ -56,24 +56,25 @@ public class RegistrationFunctionPanel extends JPanel {
         return registrationConfirmButton;
     }
 
-    void UpdateSizeAndLocationForOptions(Dimension totalSize, int startX, int startY){
+    void UpdateSizeAndLocationForOptions(Dimension totalSize, int startX, int startY) {
         this.totalSize = totalSize;
         this.startX = startX;
         this.startY = startY;
         totalWidth = totalSize.width;
         totalHeight = totalSize.height;
         border = BorderFactory.createLineBorder(Color.BLACK, 0, true);
-        thicknessOfField = totalHeight/14;
-        widthOfField = totalWidth*4/7;
-        widthOfLabel = totalWidth*2/7;
+        thicknessOfField = totalHeight / 14;
+        widthOfField = totalWidth * 4 / 7;
+        widthOfLabel = totalWidth * 2 / 7;
         startXOfField = widthOfLabel;
         bigFont = new Font("Lucida Calligraphy", Font.BOLD, 100);
         smallFont = new Font("Times New Roman", Font.BOLD, 30);
         warningFont = new Font("Times New Roman", Font.BOLD, 15);
     }
-    void SetUpThePanel(){
+
+    void SetUpThePanel() {
         this.setBorder(border);
-        this.setBounds(startX,startY,totalWidth,totalHeight);
+        this.setBounds(startX, startY, totalWidth, totalHeight);
         userNameTextField = new JTextField();
         passWordField = new JPasswordField();
         this.SetUpTheRegistrationTitle();
@@ -95,9 +96,10 @@ public class RegistrationFunctionPanel extends JPanel {
         this.add(clickHereToLogin);
         this.setVisible(true);
     }
-    void SetUpTheRegistrationTitle(){
+
+    void SetUpTheRegistrationTitle() {
         registrationPanel = new JPanel();
-        registrationPanel.setBounds(0,thicknessOfField,totalWidth,3*thicknessOfField);
+        registrationPanel.setBounds(0, thicknessOfField, totalWidth, 3 * thicknessOfField);
         registrationPanel.setBackground(new Color(0xE3E1D9));
         registrationPanel.setLayout(new BorderLayout());
         registrationLabel = new JLabel("Register");
@@ -107,9 +109,10 @@ public class RegistrationFunctionPanel extends JPanel {
         registrationLabel.setVerticalAlignment(JLabel.CENTER);
         registrationPanel.add(registrationLabel);
     }
-    void SetUpUserNameTextField(){
+
+    void SetUpUserNameTextField() {
         userNamePanel = new JPanel();
-        userNamePanel.setBounds(0,5*thicknessOfField,totalWidth/3,thicknessOfField);
+        userNamePanel.setBounds(0, 5 * thicknessOfField, totalWidth / 3, thicknessOfField);
         userNamePanel.setBackground(new Color(0xE3E1D9));
         userNamePanel.setLayout(new BorderLayout());
         userNameLabel = new JLabel("User Name:");
@@ -120,11 +123,12 @@ public class RegistrationFunctionPanel extends JPanel {
         userNamePanel.add(userNameLabel);
         userNameTextField = new JTextField();
         userNameTextField.setFont(smallFont);
-        userNameTextField.setBounds(totalWidth/3,5*thicknessOfField,(int)((double)totalWidth*(double)9/(double)15 ),thicknessOfField);
+        userNameTextField.setBounds(totalWidth / 3, 5 * thicknessOfField, (int) ((double) totalWidth * (double) 9 / (double) 15), thicknessOfField);
     }
-    void SetUpPasswordField(){
+
+    void SetUpPasswordField() {
         passWordPanel = new JPanel();
-        passWordPanel.setBounds(0,7*thicknessOfField,totalWidth/3,thicknessOfField);
+        passWordPanel.setBounds(0, 7 * thicknessOfField, totalWidth / 3, thicknessOfField);
         passWordPanel.setBackground(new Color(0xE3E1D9));
         passWordPanel.setLayout(new BorderLayout());
         passWordLabel = new JLabel("Password:");
@@ -135,11 +139,12 @@ public class RegistrationFunctionPanel extends JPanel {
         passWordPanel.add(passWordLabel);
         passWordField = new JPasswordField();
         passWordField.setFont(smallFont);
-        passWordField.setBounds(totalWidth/3,7*thicknessOfField,(int)((double)totalWidth*(double)9/(double)15 ),thicknessOfField);
+        passWordField.setBounds(totalWidth / 3, 7 * thicknessOfField, (int) ((double) totalWidth * (double) 9 / (double) 15), thicknessOfField);
     }
-    void SetUpAgainPasswordField(){
+
+    void SetUpAgainPasswordField() {
         againPassWordPanel = new JPanel();
-        againPassWordPanel.setBounds(0,9*thicknessOfField,totalWidth/3,thicknessOfField);
+        againPassWordPanel.setBounds(0, 9 * thicknessOfField, totalWidth / 3, thicknessOfField);
         againPassWordPanel.setBackground(new Color(0xE3E1D9));
         againPassWordPanel.setLayout(new BorderLayout());
         againPassWordLabel = new JLabel("Confirm:");
@@ -150,11 +155,12 @@ public class RegistrationFunctionPanel extends JPanel {
         againPassWordPanel.add(againPassWordLabel);
         againPassWordField = new JPasswordField();
         againPassWordField.setFont(smallFont);
-        againPassWordField.setBounds(totalWidth/3,9*thicknessOfField,(int)((double)totalWidth*(double)9/(double)15 ),thicknessOfField);
+        againPassWordField.setBounds(totalWidth / 3, 9 * thicknessOfField, (int) ((double) totalWidth * (double) 9 / (double) 15), thicknessOfField);
     }
-    void SetUpConfirmingAndSwitch(){
+
+    void SetUpConfirmingAndSwitch() {
         registrationConfirmButton = new JPanel();
-        registrationConfirmButton.setBounds(totalWidth/4,11*thicknessOfField,totalWidth/2,3*thicknessOfField/2);
+        registrationConfirmButton.setBounds(totalWidth / 4, 11 * thicknessOfField, totalWidth / 2, 3 * thicknessOfField / 2);
         registrationConfirmButton.setBackground(new Color(0xF2EFE5));
         registrationConfirmButton.setLayout(new BorderLayout());
         registrationConfirmingLabel = new JLabel("Create");
@@ -164,9 +170,10 @@ public class RegistrationFunctionPanel extends JPanel {
         registrationConfirmingLabel.setVerticalAlignment(JLabel.CENTER);
         registrationConfirmButton.add(registrationConfirmingLabel);
     }
-    void SetUpLoginRecommendation(){
+
+    void SetUpLoginRecommendation() {
         alreadyHaveAccount = new JPanel();
-        alreadyHaveAccount.setBounds(totalWidth/5,25*thicknessOfField/2,totalWidth/3,thicknessOfField);
+        alreadyHaveAccount.setBounds(totalWidth / 5, 25 * thicknessOfField / 2, totalWidth / 3, thicknessOfField);
         alreadyHaveAccount.setBackground(new Color(0xE3E1D9));
         alreadyHaveAccount.setLayout(new BorderLayout());
         alreadyHaveAccountLabel = new JLabel("Already have an account? ");
@@ -176,7 +183,7 @@ public class RegistrationFunctionPanel extends JPanel {
         alreadyHaveAccountLabel.setVerticalAlignment(JLabel.CENTER);
         alreadyHaveAccount.add(alreadyHaveAccountLabel);
         clickHereToLogin = new JPanel();
-        clickHereToLogin.setBounds(totalWidth/2,25*thicknessOfField/2,totalWidth/3,thicknessOfField);
+        clickHereToLogin.setBounds(totalWidth / 2, 25 * thicknessOfField / 2, totalWidth / 3, thicknessOfField);
         clickHereToLogin.setBackground(new Color(0xE3E1D9));
         clickHereToLogin.setLayout(new BorderLayout());
         clickHereToLoginLabel = new JLabel("<html><u>Click here login!</u><html>");
@@ -186,16 +193,38 @@ public class RegistrationFunctionPanel extends JPanel {
         clickHereToLoginLabel.setVerticalAlignment(JLabel.CENTER);
         clickHereToLogin.add(clickHereToLoginLabel);
     }
-    public void EstablishWarnForUserName(String wordsOutput){
+
+    public void EstablishWarnForUserName(String wordsOutput) {
+        if (warnForUserName != null) {
+            this.remove(warnForUserName);
+            warnForUserName = null;
+            warnForUserNameLabel = null;
+        }
         warnForUserName = new JPanel();
-        warnForUserName.setBounds(totalWidth/4,11*thicknessOfField,totalWidth/2,3*thicknessOfField/2);
-        registrationConfirmButton.setBackground(new Color(0xF2EFE5));
-        registrationConfirmButton.setLayout(new BorderLayout());
-        registrationConfirmingLabel = new JLabel("Create");
-        registrationConfirmingLabel.setForeground(Color.BLACK);
-        registrationConfirmingLabel.setFont(new Font("Times New Roman", Font.BOLD, 35));
-        registrationConfirmingLabel.setHorizontalAlignment(JLabel.CENTER);
-        registrationConfirmingLabel.setVerticalAlignment(JLabel.CENTER);
-        registrationConfirmButton.add(registrationConfirmingLabel);
+        warnForUserName.setBounds(totalWidth / 3, 6 * thicknessOfField, (int) ((double) totalWidth * (double) 9 / (double) 15), 3 * thicknessOfField / 8);
+        warnForUserName.setBackground(new Color(0xE3E1D9));
+        warnForUserName.setLayout(new BorderLayout());
+        warnForUserNameLabel = new JLabel(wordsOutput);
+        warnForUserNameLabel.setForeground(Color.RED);
+        warnForUserNameLabel.setFont(new Font("Times New Roman", Font.BOLD, 13));
+        warnForUserNameLabel.setHorizontalAlignment(JLabel.LEFT);
+        warnForUserNameLabel.setVerticalAlignment(JLabel.CENTER);
+        warnForUserNameLabel.setVisible(true);
+        warnForUserName.add(warnForUserNameLabel, BorderLayout.WEST);
+        warnForUserName.setVisible(true);
+        this.add(warnForUserName);
+        this.repaint();
+        this.setVisible(true);
+    }
+
+    public void CleanExistingWarning() {
+        this.setVisible(false);
+        if (warnForUserName != null) {
+            this.remove(warnForUserName);
+            warnForUserName = null;
+            warnForUserNameLabel = null;
+        }
+        this.repaint();
+        this.setVisible(true);
     }
 }

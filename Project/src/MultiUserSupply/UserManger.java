@@ -7,6 +7,19 @@ public class UserManger {
     String feedBackForUserName;
     String feedBackForPassWords;
     String feedbackForConfirmPasswords;
+
+    public String getFeedBackForUserName() {
+        return feedBackForUserName;
+    }
+
+    public String getFeedBackForPassWords() {
+        return feedBackForPassWords;
+    }
+
+    public String getFeedbackForConfirmPasswords() {
+        return feedbackForConfirmPasswords;
+    }
+
     public void CreateDirectoryForSpecificUser(String userName){
         String directoryPath = "src/UserInformation/PersonalInformation"+ userName;
         File folder = new File(directoryPath);
@@ -14,7 +27,7 @@ public class UserManger {
     public boolean ExamineValidityOfUserName(String userName) {
         boolean whetherValid = true;
         feedBackForUserName = null;
-        if(userName==null){
+        if(userName.isEmpty()){
             whetherValid = false;
             feedBackForUserName = "User name can not be null!";
         }else if (userName.length()<4||userName.length()>16){
@@ -22,6 +35,7 @@ public class UserManger {
             feedBackForUserName ="The username must consist of 4 to 16 characters composed of English letters!";
         } else if(!ExamineUsernameWhetherOnlyLetterNumberAndDash(userName)){
             whetherValid = false;
+            System.out.println("hi");
             feedBackForUserName = "There exists invalid chars in your user name!";
         }
         return whetherValid;

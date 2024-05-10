@@ -65,4 +65,7 @@ public class UserRegistrationPage extends JPanel {
         char[] againPassWordsInChars = registrationFunctionPanel.againPassWordField.getPassword();
         return new String(againPassWordsInChars);
     }
+    public RegistrationFunctionPanel GetRegistrationFunctionPanel(){
+        return registrationFunctionPanel;
+    }
 }

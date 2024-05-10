@@ -322,7 +322,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if(userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
-
+            this.DealWithRegistrationIssue();
         }
     }
 
@@ -623,7 +623,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         setFocusable(true);
                         repaint();
                         setVisible(true);
-                        System.out.println("hi");
                     }
                 }
             });
@@ -633,8 +632,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
     private void DealWithRegistrationIssue(){
         UserManger userManger= new UserManger();
+        userRegistrationPage.GetRegistrationFunctionPanel().CleanExistingWarning();
         if (!userManger.ExamineValidityOfUserName(userRegistrationPage.GetUserName())){
-
+            userRegistrationPage.GetRegistrationFunctionPanel().EstablishWarnForUserName(userManger.getFeedBackForUserName());
+            this.repaint();
         }
     }
 }
