@@ -8,12 +8,12 @@ public class UserRegistrationPage extends JPanel {
 
     int totalWidth;
     int totalHeight;
-    int startXOfLoginFunctionPanel;
-    int startYOfLoginFunctionPanel;
-    int widthOfLoginFunctionPanel;
-    int heightYOfLoginFunctionPanel;
-    Dimension sizeOfLoginFunctionPanel;
-    LoginFunctionPanel loginFunctionPanel;
+    int startXOfRegistrationFunctionPanel;
+    int startYOfRegistrationFunctionPanel;
+    int widthOfRegistrationFunctionPanel;
+    int heightYOfRegistrationFunctionPanel;
+    Dimension sizeOfRegistrationFunctionPanel;
+    RegistrationFunctionPanel registrationFunctionPanel;
     JPanel upperPart;
     JPanel lowerPart;
 
@@ -23,30 +23,46 @@ public class UserRegistrationPage extends JPanel {
         this.UpdateSizeAndLocationForOptions(screenSize);
         this.SetUpThePanel();
     }
+    public JPanel GetClickHereToLoginPanel(){
+        return registrationFunctionPanel.getClickHereToLogin();
+    }
+    public JPanel GetRegistrationConfirmPanel(){
+        return registrationFunctionPanel.getRegistrationConfirmButton();
+    }
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize) {
         totalSize = screenSize;
         totalHeight = totalSize.height;
         totalWidth = totalSize.width;
-        startXOfLoginFunctionPanel = totalWidth/3;
-        widthOfLoginFunctionPanel = totalWidth/3;
-        startYOfLoginFunctionPanel = totalHeight/7;
-        heightYOfLoginFunctionPanel = totalHeight*5/7;
-        sizeOfLoginFunctionPanel = new Dimension(widthOfLoginFunctionPanel,heightYOfLoginFunctionPanel);
+        startXOfRegistrationFunctionPanel = totalWidth/3;
+        widthOfRegistrationFunctionPanel = totalWidth/3;
+        startYOfRegistrationFunctionPanel = totalHeight/7;
+        heightYOfRegistrationFunctionPanel = totalHeight*5/7;
+        sizeOfRegistrationFunctionPanel = new Dimension(widthOfRegistrationFunctionPanel, heightYOfRegistrationFunctionPanel);
     }
     void SetUpThePanel() {
         this.setBounds(0,0,totalWidth,totalHeight);
         upperPart = new JPanel();
         upperPart.setBounds(0,0,totalWidth,totalHeight*2/3);
-        upperPart.setBackground(new Color(0x7469B6));
+        upperPart.setBackground(new Color(0xB4B4B8));
         lowerPart = new JPanel();
         lowerPart.setBounds(0,totalHeight*2/3,totalWidth,totalHeight/3);
-        lowerPart.setBackground(new Color(0xAD88C6));
-        loginFunctionPanel = new LoginFunctionPanel(sizeOfLoginFunctionPanel, startXOfLoginFunctionPanel, startYOfLoginFunctionPanel);
-        this.add(loginFunctionPanel);
+        lowerPart.setBackground(new Color(0xC7C8CC));
+        registrationFunctionPanel = new RegistrationFunctionPanel(sizeOfRegistrationFunctionPanel, startXOfRegistrationFunctionPanel, startYOfRegistrationFunctionPanel);
+        this.add(registrationFunctionPanel);
         this.add(upperPart);
         this.add(lowerPart);
         this.setVisible(true);
     }
-
+    public String GetUserName(){
+        return registrationFunctionPanel.userNameTextField.getText();
+    }
+    public String GetUserPassWord(){
+        char[] passWordsInChars= registrationFunctionPanel.passWordField.getPassword();
+        return new String(passWordsInChars);
+    }
+    public String GetUserAgainPassWord(){
+        char[] againPassWordsInChars = registrationFunctionPanel.againPassWordField.getPassword();
+        return new String(againPassWordsInChars);
+    }
 }

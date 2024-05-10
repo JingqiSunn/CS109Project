@@ -23,6 +23,12 @@ public class UserLoginPage extends JPanel {
         this.UpdateSizeAndLocationForOptions(screenSize);
         this.SetUpThePanel();
     }
+    public JPanel GetClickHereToRegister(){
+        return loginFunctionPanel.getClickHereToGetOne();
+    }
+    public JPanel GetLoginConfirmPanel(){
+        return loginFunctionPanel.getLoginConfirmButton();
+    }
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize) {
         totalSize = screenSize;
@@ -48,5 +54,4 @@ public class UserLoginPage extends JPanel {
         this.add(lowerPart);
         this.setVisible(true);
     }
-
 }

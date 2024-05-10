@@ -37,6 +37,15 @@ public class LoginFunctionPanel extends JPanel {
         this.UpdateSizeAndLocationForOptions(totalSize,startX,startY);
         this.SetUpThePanel();
     }
+
+    public JPanel getClickHereToGetOne() {
+        return clickHereToGetOne;
+    }
+
+    public JPanel getLoginConfirmButton() {
+        return loginConfirmButton;
+    }
+
     void UpdateSizeAndLocationForOptions(Dimension totalSize, int startX, int startY){
         this.totalSize = totalSize;
         this.startX = startX;
