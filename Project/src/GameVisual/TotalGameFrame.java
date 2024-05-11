@@ -5,6 +5,8 @@ import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
 import MultiUserSupply.UserManger;
+import Music.BackGroundMusic;
+import Music.ClickMusic;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -32,8 +34,11 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     DocumentReaderAndWriter documentReaderAndWriter;
     ArrayList<BoardUnit> currentBoardInformation;
     boolean timerIsRunning;
+    BackGroundMusic audioPlayWave;
     public TotalGameFrame() {
         controllingCenter = new ControllingCenter();
+        audioPlayWave = new BackGroundMusic("src/Music/music.wav");
+        audioPlayWave.start();
         this.timerIsRunning = false;
         this.setLayout(null);
         this.UpdateTheSizeOfTheScreen();
@@ -41,6 +46,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(this);
         this.LoadLoginPage();
+        
         this.addMouseListener(this);
         this.setFocusable(true);
         this.setVisible(true);
@@ -170,28 +176,28 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.LoadInGamePageForTourist();
             repaint();
             setVisible(true);
-        }else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_UP){
+        }else if (inGamePage != null &&((keyBeingActivated == KeyEvent.VK_UP)||(keyBeingActivated == KeyEvent.VK_W))&&!timerIsRunning){
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePage.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGame();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
+        } else if (inGamePage != null && ((keyBeingActivated == KeyEvent.VK_DOWN)||(keyBeingActivated == KeyEvent.VK_S))&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePage.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGame();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
+        } else if (inGamePage != null && ((keyBeingActivated == KeyEvent.VK_LEFT)||(keyBeingActivated == KeyEvent.VK_A))&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePage.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGame();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
+        } else if (inGamePage != null && ((keyBeingActivated == KeyEvent.VK_RIGHT)||(keyBeingActivated == KeyEvent.VK_D))&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
             inGamePage.UpdateBlockUnitsInGame();
@@ -215,6 +221,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     public void mouseClicked(MouseEvent e) {
         Component componentActivated = e.getComponent();
         if (loginPage != null && componentActivated.equals(loginPage.getLoginOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(loginPage);
             loginPage = null;
             this.LoadUserLoginPage();
@@ -223,6 +231,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if(loginPage != null && componentActivated.equals(loginPage.getRegistrationOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(loginPage);
             loginPage = null;
             this.LoadUserRegistrationPage();
@@ -231,6 +241,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if(loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(loginPage);
             loginPage = null;
             this.LoadModeChoosingPage();
@@ -239,6 +251,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadBoardSizeChoosingPage();
@@ -247,6 +261,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getDIYOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             this.LoadBoardSizeDIYPage();
@@ -255,6 +271,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.FourOption)) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -263,6 +281,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.ThreeOption)) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForThree();
@@ -273,6 +293,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
             if (componentActivated instanceof UnitBlockInDIY) {
                 if (!((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+                    audioPlayWave.start();
                     componentActivated.setBackground(Color.LIGHT_GRAY);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
                     ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
@@ -280,6 +302,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     repaint();
                     componentActivated.setVisible(true);
                 } else if (((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+                    audioPlayWave.start();
                     componentActivated.setBackground(Color.WHITE);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
                     ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
