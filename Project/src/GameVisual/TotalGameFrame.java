@@ -4,6 +4,7 @@ import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
+import Music.ClickMusic;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -180,6 +181,8 @@ DocumentReaderAndWriter documentReaderAndWriter;
     public void mouseClicked(MouseEvent e) {
         Component componentActivated = e.getComponent();
         if (loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(loginPage);
             loginPage = null;
             this.LoadModeChoosingPage();
@@ -189,6 +192,8 @@ DocumentReaderAndWriter documentReaderAndWriter;
             this.setVisible(true);
         }
         else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadBoardSizeChoosingPage();
@@ -197,6 +202,8 @@ DocumentReaderAndWriter documentReaderAndWriter;
             repaint();
             this.setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getDIYOption())) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             this.LoadBoardSizeDIYPage();
@@ -205,6 +212,8 @@ DocumentReaderAndWriter documentReaderAndWriter;
             repaint();
             this.setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.FourOption)) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -213,6 +222,8 @@ DocumentReaderAndWriter documentReaderAndWriter;
             repaint();
             setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.ThreeOption)) {
+            ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+            audioPlayWave.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForThree();
@@ -223,6 +234,8 @@ DocumentReaderAndWriter documentReaderAndWriter;
         } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
             if (componentActivated instanceof UnitBlockInDIY) {
                 if (!((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+                    audioPlayWave.start();
                     componentActivated.setBackground(Color.LIGHT_GRAY);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
                     ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
@@ -230,6 +243,8 @@ DocumentReaderAndWriter documentReaderAndWriter;
                     repaint();
                     componentActivated.setVisible(true);
                 } else if (((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
+                    audioPlayWave.start();
                     componentActivated.setBackground(Color.WHITE);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
                     ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
