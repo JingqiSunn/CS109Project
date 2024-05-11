@@ -4,8 +4,11 @@ import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
+<<<<<<< HEAD
 import MultiUserSupply.UserManger;
 import Music.BackGroundMusic;
+=======
+>>>>>>> 030a927ca493fb9f8933fd13c67c48668289c6ae
 import Music.ClickMusic;
 
 import javax.swing.*;
@@ -220,6 +223,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     @Override
     public void mouseClicked(MouseEvent e) {
         Component componentActivated = e.getComponent();
+<<<<<<< HEAD
         if (loginPage != null && componentActivated.equals(loginPage.getLoginOption())) {
             ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
             audioPlayWave.start();
@@ -241,6 +245,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if(loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+=======
+        if (loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+>>>>>>> 030a927ca493fb9f8933fd13c67c48668289c6ae
             ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
             audioPlayWave.start();
             remove(loginPage);
@@ -250,7 +257,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
+<<<<<<< HEAD
         } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
+=======
+        }
+        else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
+>>>>>>> 030a927ca493fb9f8933fd13c67c48668289c6ae
             ClickMusic audioPlayWave = new ClickMusic("src/Music/music_click.wav");
             audioPlayWave.start();
             remove(modeChoosingPage);
