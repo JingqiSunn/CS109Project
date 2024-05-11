@@ -21,11 +21,5 @@ public class Main {
         jf.setResizable(false);
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jf.setVisible(true);*/
-<<<<<<< HEAD
-
-=======
-        BackGroundMusic audioPlayWave = new BackGroundMusic("src/Music/music.wav");
-        audioPlayWave.start();
->>>>>>> 030a927ca493fb9f8933fd13c67c48668289c6ae
     }
 }

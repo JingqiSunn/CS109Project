@@ -69,7 +69,4 @@ public class ClickMusic extends Thread {
         }
     }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 030a927ca493fb9f8933fd13c67c48668289c6ae
