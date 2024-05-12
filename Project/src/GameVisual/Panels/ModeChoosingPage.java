@@ -13,15 +13,15 @@ public class ModeChoosingPage extends JPanel {
     int heightOfComponent;
     int widthOfComponent;
 
-    int xOfCenterOfSinglePlayerOption;
-    int xOfCenterOfOtherModesOption;
-    int xOfCenterOfMultiplePlayerOption;
-    int yOfCenterOfSinglePlayerOption;
-    int yOfCenterOfOtherModesOption;
-    int yOfCenterOfMultiplePlayerOption;
+    int xOfCenterOfNoTimeLimitationOption;
+    int xOfCenterOfRegistrationOption;
+    int xOfCenterOfLimitedTimeOption;
+    int yOfCenterOfNoTimeLimitationOption;
+    int yOfCenterOfRegistrationOption;
+    int yOfCenterOfLimitedTimeOption;
     public JPanel noTimeLimitationOption;
     public JPanel limitedTimeOption;
-    public JPanel RegisterOption;
+    public JPanel registerOption;
     JLabel noTimeLimitationLabel;
     JLabel limitedTimeLabel;
     JLabel RegisterLabel;
@@ -45,23 +45,23 @@ public class ModeChoosingPage extends JPanel {
     }
 
     public JPanel getRegisterOption() {
-        return RegisterOption;
+        return registerOption;
     }
 
     void SetUpOptionsInTheModeChoosingPage() {
         noTimeLimitationOption = new JPanel(new GridBagLayout());
         limitedTimeOption = new JPanel(new GridBagLayout());
-        RegisterOption = new JPanel(new GridBagLayout());
-        noTimeLimitationOption.setBounds(xOfCenterOfSinglePlayerOption - widthOfComponent / 2, yOfCenterOfSinglePlayerOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
-        limitedTimeOption.setBounds(xOfCenterOfMultiplePlayerOption - widthOfComponent / 2, yOfCenterOfMultiplePlayerOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
-        RegisterOption.setBounds(xOfCenterOfOtherModesOption - widthOfComponent / 2, yOfCenterOfOtherModesOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        registerOption = new JPanel(new GridBagLayout());
+        noTimeLimitationOption.setBounds(xOfCenterOfNoTimeLimitationOption - widthOfComponent / 2, yOfCenterOfNoTimeLimitationOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        limitedTimeOption.setBounds(xOfCenterOfLimitedTimeOption - widthOfComponent / 2, yOfCenterOfLimitedTimeOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        registerOption.setBounds(xOfCenterOfRegistrationOption - widthOfComponent / 2, yOfCenterOfRegistrationOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
         this.SetInsideComponentOfOptions();
         noTimeLimitationOption.setVisible(true);
         limitedTimeOption.setVisible(true);
-        RegisterOption.setVisible(true);
+        registerOption.setVisible(true);
         this.add(noTimeLimitationOption);
         this.add(limitedTimeOption);
-        this.add(RegisterOption);
+        this.add(registerOption);
     }
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize) {
@@ -70,21 +70,21 @@ public class ModeChoosingPage extends JPanel {
         totalWidth = totalSize.width;
         heightOfComponent = totalHeight / 7;
         widthOfComponent = totalWidth * 3 / 7;
-        xOfCenterOfSinglePlayerOption = totalWidth / 2;
-        xOfCenterOfOtherModesOption = totalWidth / 2;
-        xOfCenterOfMultiplePlayerOption = totalWidth / 2;
-        yOfCenterOfSinglePlayerOption = totalHeight * 4 / 14;
-        yOfCenterOfMultiplePlayerOption = totalHeight * 7 / 14;
-        yOfCenterOfOtherModesOption = totalHeight * 10 / 14;
+        xOfCenterOfNoTimeLimitationOption = totalWidth / 2;
+        xOfCenterOfRegistrationOption = totalWidth / 2;
+        xOfCenterOfLimitedTimeOption = totalWidth / 2;
+        yOfCenterOfNoTimeLimitationOption = totalHeight * 4 / 14;
+        yOfCenterOfLimitedTimeOption = totalHeight * 7 / 14;
+        yOfCenterOfRegistrationOption = totalHeight * 10 / 14;
     }
 
     void SetInsideComponentOfOptions() {
         noTimeLimitationOption.setBackground(Color.LIGHT_GRAY);
         limitedTimeOption.setBackground(Color.LIGHT_GRAY);
-        RegisterOption.setBackground(Color.LIGHT_GRAY);
+        registerOption.setBackground(Color.LIGHT_GRAY);
         Font font = new Font("Times New Roman", Font.BOLD, 40);
         noTimeLimitationLabel = new JLabel("Unlimited Time Mode");
-        limitedTimeLabel = new JLabel("CountDown Mode");
+        limitedTimeLabel = new JLabel("Count Down Mode");
         RegisterLabel = new JLabel("Register");
         noTimeLimitationLabel.setFont(font);
         limitedTimeLabel.setFont(font);
@@ -97,7 +97,7 @@ public class ModeChoosingPage extends JPanel {
         RegisterLabel.setVisible(true);
         noTimeLimitationOption.add(noTimeLimitationLabel, locationOfLabelInOption);
         limitedTimeOption.add(limitedTimeLabel, locationOfLabelInOption);
-        RegisterOption.add(RegisterLabel, locationOfLabelInOption);
+        registerOption.add(RegisterLabel, locationOfLabelInOption);
     }
 
     void setUpTheLocationOfLabelInOptions() {

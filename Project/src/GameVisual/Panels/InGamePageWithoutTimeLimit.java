@@ -5,8 +5,9 @@ import GameElement.ControllingCenter;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Timer;
 
-public class InGamePage extends JPanel {
+public class InGamePageWithoutTimeLimit extends JPanel {
     boolean whetherTourist;
     ControllingCenter controllingCenter;
     Dimension totalSize;
@@ -22,7 +23,7 @@ public class InGamePage extends JPanel {
     int sizeOfTheBlockUnit;
     int widthOfTheBlockSet;
     int heightOfTheBlockSet;
-    public InGamePage(Dimension screenSize, ControllingCenter controllingCenter,boolean whetherTourist){
+    public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist){
         this.setLayout(null);
         this.whetherTourist = whetherTourist;
         this.controllingCenter = controllingCenter;

@@ -6,6 +6,8 @@ import java.util.Scanner;
 public class ControllingCenter {
     private boolean gameValidity;
     private int currentGameScore;
+    public int timeLimitation;
+    public boolean whetherTimeLimitationMode;
 
     public void setCurrentPlayingBoard(Board currentPlayingBoard) {
         this.currentPlayingBoard = currentPlayingBoard;
@@ -32,6 +34,8 @@ public class ControllingCenter {
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
     public ControllingCenter() {
+        timeLimitation = 0;
+        whetherTimeLimitationMode = false;
         this.gameValidity = true;
         this.currentGameScore = 0;
         currentPlayingBoard = new Board();
@@ -95,6 +99,22 @@ public class ControllingCenter {
         currentPlayingBoard.BoardUpMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
+    }
+
+    public int getTimeLimitation() {
+        return timeLimitation;
+    }
+
+    public boolean GetWhetherTimeLimitationMode() {
+        return whetherTimeLimitationMode;
+    }
+
+    public void setTimeLimitation(int timeLimitation) {
+        this.timeLimitation = timeLimitation;
+    }
+
+    public void setWhetherTimeLimitationMode(boolean whetherTimeLimitationMode) {
+        this.whetherTimeLimitationMode = whetherTimeLimitationMode;
     }
 
     public void setCurrentGameScore(int currentGameScore) {
@@ -171,5 +191,6 @@ public int FindTheMaxXCoordinate(){
         currentGameScore = 0;
         currentPlayingBoard.setCurrentScore(0);
     }
+
 }
 
