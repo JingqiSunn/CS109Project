@@ -23,6 +23,17 @@ public class UserLoginPage extends JPanel {
         this.UpdateSizeAndLocationForOptions(screenSize);
         this.SetUpThePanel();
     }
+
+    public LoginFunctionPanel getLoginFunctionPanel() {
+        return loginFunctionPanel;
+    }
+
+    public String GetUserName(){
+        return loginFunctionPanel.userNameTextField.getText();
+    }
+    public String GetPassWord(){
+        return loginFunctionPanel.passWordField.getText();
+    }
     public JPanel GetClickHereToRegister(){
         return loginFunctionPanel.getClickHereToGetOne();
     }

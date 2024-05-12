@@ -34,7 +34,6 @@
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Version0.2.0&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -174,7 +173,8 @@
       <workItem from="1715406054499" duration="316000" />
       <workItem from="1715432624098" duration="3678000" />
       <workItem from="1715443807406" duration="1228000" />
-      <workItem from="1715445356873" duration="1633000" />
+      <workItem from="1715445356873" duration="1779000" />
+      <workItem from="1715473120523" duration="26108000" />
     </task>
     <servers />
   </component>

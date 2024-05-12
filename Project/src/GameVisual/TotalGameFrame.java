@@ -4,6 +4,7 @@ import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
+import MultiUserSupply.User;
 import MultiUserSupply.UserManger;
 
 import javax.swing.*;
@@ -12,13 +13,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.Timer;
-import Music.ClickMusic;
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
-
+    User user;
     int totalWides;
     int totalHeight;
-
     Dimension screenSize;
     LoginPage loginPage;
     ModeChoosingPage modeChoosingPage;
@@ -28,6 +27,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     BoardSizeDIYPage boardSizeDIYPage;
     UserLoginPage userLoginPage;
     UserRegistrationPage userRegistrationPage;
+    SuccessfullyRegisteredPage successfullyRegisteredPage;
     Boolean whetherFullScreenNow;
     ControllingCenter controllingCenter;
     DocumentReaderAndWriter documentReaderAndWriter;
@@ -93,9 +93,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         modeChoosingPage = new ModeChoosingPage(screenSize);
         modeChoosingPage.setVisible(true);
         this.add(modeChoosingPage);
-        modeChoosingPage.getSinglePlayerOption().addMouseListener(this);
-        modeChoosingPage.getMultiPlayersOption().addMouseListener(this);
-        modeChoosingPage.getOtherModesOption().addMouseListener(this);
+        modeChoosingPage.getNoTimeLimitationOption().addMouseListener(this);
+        modeChoosingPage.getLimitedTimeOption().addMouseListener(this);
+        modeChoosingPage.getRegisterOption().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -151,6 +151,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userRegistrationPage.GetRegistrationConfirmPanel().addMouseListener(this);
         setFocusable(true);
     }
+    void LoadSuccessfulUserRegistrationPage(){
+        this.add(successfullyRegisteredPage);
+        setFocusable(true);
+        this.addMouseListener(this);
+        this.setFocusable(true);
+        successfullyRegisteredPage.GetBackToMenu().addMouseListener(this);
+        successfullyRegisteredPage.GetToLogin().addMouseListener(this);
+        this.setVisible(true);
+        repaint();
+    }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -171,6 +182,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.LoadInGamePageForTourist();
             repaint();
             setVisible(true);
+        }else if (userRegistrationPage != null && e.isControlDown()&&e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userRegistrationPage);
+            userRegistrationPage = null;
+            this.LoadLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (userLoginPage != null && e.isControlDown()&&e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userLoginPage);
+            userLoginPage = null;
+            this.LoadLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
         }else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_UP){
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
@@ -201,9 +228,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherEndOfGame();
         } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
             inGamePage.RestartTheGame();
-        } else if (inGamePage != null && keyBeingActivated == KeyEvent.VK_S) {
-            documentReaderAndWriter = new DocumentReaderAndWriter(controllingCenter);
-            documentReaderAndWriter.save();
         }
     }
 
@@ -239,10 +263,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getNoTimeLimitationOption())) {
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadBoardSizeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getRegisterOption())) {
+            remove(modeChoosingPage);
+            modeChoosingPage = null;
+            this.LoadUserRegistrationPage();
             this.addMouseListener(this);
             this.setFocusable(true);
             repaint();
@@ -323,8 +355,25 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if(userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
-
             this.DealWithRegistrationIssue();
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
+            this.remove(successfullyRegisteredPage);
+            successfullyRegisteredPage = null;
+            this.LoadLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetToLogin())) {
+            remove(successfullyRegisteredPage);
+            successfullyRegisteredPage = null;
+            this.LoadUserLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if(userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
+            this.DealWithLoginIssue();
         }
     }
 
@@ -353,18 +402,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             loginPage.getRegistrationOption().setBackground(Color.BLACK);
             loginPage.getLoginOption().setVisible(true);
             loginPage.getRegistrationOption().repaint();
-        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
-            modeChoosingPage.getSinglePlayerOption().setBackground(Color.BLACK);
-            modeChoosingPage.getSinglePlayerOption().setVisible(true);
-            modeChoosingPage.getSinglePlayerOption().repaint();
-        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getMultiPlayersOption())) {
-            modeChoosingPage.getMultiPlayersOption().setBackground(Color.BLACK);
-            modeChoosingPage.getMultiPlayersOption().setVisible(true);
-            modeChoosingPage.getMultiPlayersOption().repaint();
-        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getOtherModesOption())) {
-            modeChoosingPage.getOtherModesOption().setBackground(Color.BLACK);
-            modeChoosingPage.getOtherModesOption().setVisible(true);
-            modeChoosingPage.getOtherModesOption().repaint();
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getNoTimeLimitationOption())) {
+            modeChoosingPage.getNoTimeLimitationOption().setBackground(Color.BLACK);
+            modeChoosingPage.getNoTimeLimitationOption().setVisible(true);
+            modeChoosingPage.getNoTimeLimitationOption().repaint();
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getLimitedTimeOption())) {
+            modeChoosingPage.getLimitedTimeOption().setBackground(Color.BLACK);
+            modeChoosingPage.getLimitedTimeOption().setVisible(true);
+            modeChoosingPage.getLimitedTimeOption().repaint();
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getRegisterOption())) {
+            modeChoosingPage.getRegisterOption().setBackground(Color.BLACK);
+            modeChoosingPage.getRegisterOption().setVisible(true);
+            modeChoosingPage.getRegisterOption().repaint();
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getThreeOption())) {
             boardSizeChoosingPage.getThreeOption().setBackground(Color.BLACK);
             boardSizeChoosingPage.getThreeOption().setVisible(true);
@@ -401,10 +450,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userLoginPage.GetLoginConfirmPanel().setBackground(new Color(0xDEAC80));
             userLoginPage.GetLoginConfirmPanel().setVisible(true);
             userLoginPage.GetLoginConfirmPanel().repaint();
-        } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
+        } else if (userRegistrationPage!=null&& userRegistrationPage.GetRegistrationConfirmPanel() != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
             userRegistrationPage.GetRegistrationConfirmPanel().setBackground(new Color(0xE8EFCF));
             userRegistrationPage.GetRegistrationConfirmPanel().setVisible(true);
             userRegistrationPage.GetRegistrationConfirmPanel().repaint();
+        }else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
+            successfullyRegisteredPage.GetBackToMenu().setBackground(new Color(0xFDE49E));
+            successfullyRegisteredPage.GetBackToMenu().setVisible(true);
+            successfullyRegisteredPage.GetBackToMenu().repaint();
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetToLogin())) {
+            successfullyRegisteredPage.GetToLogin().setBackground(new Color(0xFDE49E));
+            successfullyRegisteredPage.GetToLogin().setVisible(true);
+            successfullyRegisteredPage.GetToLogin().repaint();
         }
     }
 
@@ -423,18 +480,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             loginPage.getRegistrationOption().setBackground(Color.LIGHT_GRAY);
             loginPage.getLoginOption().setVisible(true);
             loginPage.getRegistrationOption().repaint();
-        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getSinglePlayerOption())) {
-            modeChoosingPage.getSinglePlayerOption().setBackground(Color.LIGHT_GRAY);
-            modeChoosingPage.getSinglePlayerOption().setVisible(true);
-            modeChoosingPage.getSinglePlayerOption().repaint();
-        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getMultiPlayersOption())) {
-            modeChoosingPage.getMultiPlayersOption().setBackground(Color.LIGHT_GRAY);
-            modeChoosingPage.getMultiPlayersOption().setVisible(true);
-            modeChoosingPage.getMultiPlayersOption().repaint();
-        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getOtherModesOption())) {
-            modeChoosingPage.getOtherModesOption().setBackground(Color.LIGHT_GRAY);
-            modeChoosingPage.getOtherModesOption().setVisible(true);
-            modeChoosingPage.getOtherModesOption().repaint();
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getNoTimeLimitationOption())) {
+            modeChoosingPage.getNoTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
+            modeChoosingPage.getNoTimeLimitationOption().setVisible(true);
+            modeChoosingPage.getNoTimeLimitationOption().repaint();
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getLimitedTimeOption())) {
+            modeChoosingPage.getLimitedTimeOption().setBackground(Color.LIGHT_GRAY);
+            modeChoosingPage.getLimitedTimeOption().setVisible(true);
+            modeChoosingPage.getLimitedTimeOption().repaint();
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getRegisterOption())) {
+            modeChoosingPage.getRegisterOption().setBackground(Color.LIGHT_GRAY);
+            modeChoosingPage.getRegisterOption().setVisible(true);
+            modeChoosingPage.getRegisterOption().repaint();
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getThreeOption())) {
             boardSizeChoosingPage.getThreeOption().setBackground(Color.LIGHT_GRAY);
             boardSizeChoosingPage.getThreeOption().setVisible(true);
@@ -475,6 +532,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userRegistrationPage.GetRegistrationConfirmPanel().setBackground(new Color(0xF2EFE5));
             userRegistrationPage.GetRegistrationConfirmPanel().setVisible(true);
             userRegistrationPage.GetRegistrationConfirmPanel().repaint();
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
+            successfullyRegisteredPage.GetBackToMenu().setBackground(new Color(0x7C7575));
+            successfullyRegisteredPage.GetBackToMenu().setVisible(true);
+            successfullyRegisteredPage.GetBackToMenu().repaint();
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetToLogin())) {
+            successfullyRegisteredPage.GetToLogin().setBackground(new Color(0x7C7575));
+            successfullyRegisteredPage.GetToLogin().setVisible(true);
+            successfullyRegisteredPage.GetToLogin().repaint();
         }
     }
 
@@ -625,7 +690,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         setFocusable(true);
                         repaint();
                         setVisible(true);
-                        System.out.println("hi");
                     }
                 }
             });
@@ -634,12 +698,52 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
     }
     private void DealWithRegistrationIssue(){
+        boolean whetherRegisterSuccessfully = true;
         UserManger userManger= new UserManger();
         userRegistrationPage.GetRegistrationFunctionPanel().CleanExistingWarning();
         if (!userManger.ExamineValidityOfUserName(userRegistrationPage.GetUserName())){
-
             userRegistrationPage.GetRegistrationFunctionPanel().EstablishWarnForUserName(userManger.getFeedBackForUserName());
-            this.repaint();
+            whetherRegisterSuccessfully = false;
+        }
+        if (!userManger.ExamineValidityOfPassWords(userRegistrationPage.GetUserPassWord())){
+            userRegistrationPage.GetRegistrationFunctionPanel().EstablishWarnForPassWords(userManger.getFeedBackForPassWords());
+            whetherRegisterSuccessfully = false;
+        }
+        if (!userManger.ExamineValidityOfAgainPasswords(userRegistrationPage.GetUserAgainPassWord(),userRegistrationPage.GetUserPassWord())){
+            userRegistrationPage.GetRegistrationFunctionPanel().EstablishWarnForAgainPassWords(userManger.getFeedbackForConfirmPasswords());
+            whetherRegisterSuccessfully = false;
+        }
+        if (whetherRegisterSuccessfully){
+            userManger.CreateDirectoryForSpecificUser(userRegistrationPage.GetUserName());
+            documentReaderAndWriter = new DocumentReaderAndWriter(controllingCenter,userRegistrationPage.GetUserName());
+            documentReaderAndWriter.saveUserLoginInformation(userRegistrationPage.GetUserName(),userRegistrationPage.GetUserPassWord());
+            documentReaderAndWriter = null;
+            this.remove(userRegistrationPage);
+            userRegistrationPage = null;
+            successfullyRegisteredPage = new SuccessfullyRegisteredPage(screenSize);
+            this.LoadSuccessfulUserRegistrationPage();
+            setFocusable(true);
+            repaint();
+            setVisible(true);
+        }
+    }
+    private void DealWithLoginIssue(){
+        boolean whetherLoginSuccessfully = true;
+        UserManger userManger= new UserManger();
+        userLoginPage.getLoginFunctionPanel().CleanExistingWarning();
+        if (!userManger.ExamineValidityOfUserNameWhenLogin(userLoginPage.GetUserName())){
+            userLoginPage.getLoginFunctionPanel().EstablishWarnForUserName(userManger.getFeedBackForUserNameInLogin());
+            whetherLoginSuccessfully = false;
+        }
+        if (!userManger.ExamineValidityOfPassWordWhenLogin(userLoginPage.GetUserName(),userLoginPage.GetPassWord())){
+            userLoginPage.getLoginFunctionPanel().EstablishWarnForPassWords(userManger.getFeedBackForPasswordInLogin());
+            whetherLoginSuccessfully = false;
+        }
+        if (whetherLoginSuccessfully){
+            user = new User(userLoginPage.GetUserName());
+            this.remove(userLoginPage);
+            userLoginPage = null;
+            repaint();
         }
     }
 }

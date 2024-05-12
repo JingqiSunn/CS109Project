@@ -19,12 +19,12 @@ public class ModeChoosingPage extends JPanel {
     int yOfCenterOfSinglePlayerOption;
     int yOfCenterOfOtherModesOption;
     int yOfCenterOfMultiplePlayerOption;
-    public JPanel singlePlayerOption;
-    public JPanel multiPlayersOption;
-    public JPanel otherModesOption;
-    JLabel singlePlayerLabel;
-    JLabel multiPlayersLabel;
-    JLabel otherModesLabel;
+    public JPanel noTimeLimitationOption;
+    public JPanel limitedTimeOption;
+    public JPanel RegisterOption;
+    JLabel noTimeLimitationLabel;
+    JLabel limitedTimeLabel;
+    JLabel RegisterLabel;
     GridBagConstraints locationOfLabelInOption;
 
 
@@ -36,32 +36,32 @@ public class ModeChoosingPage extends JPanel {
         this.SetUpOptionsInTheModeChoosingPage();
     }
 
-    public JPanel getSinglePlayerOption() {
-        return singlePlayerOption;
+    public JPanel getNoTimeLimitationOption() {
+        return noTimeLimitationOption;
     }
 
-    public JPanel getMultiPlayersOption() {
-        return multiPlayersOption;
+    public JPanel getLimitedTimeOption() {
+        return limitedTimeOption;
     }
 
-    public JPanel getOtherModesOption() {
-        return otherModesOption;
+    public JPanel getRegisterOption() {
+        return RegisterOption;
     }
 
     void SetUpOptionsInTheModeChoosingPage() {
-        singlePlayerOption = new JPanel(new GridBagLayout());
-        multiPlayersOption = new JPanel(new GridBagLayout());
-        otherModesOption = new JPanel(new GridBagLayout());
-        singlePlayerOption.setBounds(xOfCenterOfSinglePlayerOption - widthOfComponent / 2, yOfCenterOfSinglePlayerOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
-        multiPlayersOption.setBounds(xOfCenterOfMultiplePlayerOption - widthOfComponent / 2, yOfCenterOfMultiplePlayerOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
-        otherModesOption.setBounds(xOfCenterOfOtherModesOption - widthOfComponent / 2, yOfCenterOfOtherModesOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        noTimeLimitationOption = new JPanel(new GridBagLayout());
+        limitedTimeOption = new JPanel(new GridBagLayout());
+        RegisterOption = new JPanel(new GridBagLayout());
+        noTimeLimitationOption.setBounds(xOfCenterOfSinglePlayerOption - widthOfComponent / 2, yOfCenterOfSinglePlayerOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        limitedTimeOption.setBounds(xOfCenterOfMultiplePlayerOption - widthOfComponent / 2, yOfCenterOfMultiplePlayerOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        RegisterOption.setBounds(xOfCenterOfOtherModesOption - widthOfComponent / 2, yOfCenterOfOtherModesOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
         this.SetInsideComponentOfOptions();
-        singlePlayerOption.setVisible(true);
-        multiPlayersOption.setVisible(true);
-        otherModesOption.setVisible(true);
-        this.add(singlePlayerOption);
-        this.add(multiPlayersOption);
-        this.add(otherModesOption);
+        noTimeLimitationOption.setVisible(true);
+        limitedTimeOption.setVisible(true);
+        RegisterOption.setVisible(true);
+        this.add(noTimeLimitationOption);
+        this.add(limitedTimeOption);
+        this.add(RegisterOption);
     }
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize) {
@@ -79,25 +79,25 @@ public class ModeChoosingPage extends JPanel {
     }
 
     void SetInsideComponentOfOptions() {
-        singlePlayerOption.setBackground(Color.LIGHT_GRAY);
-        multiPlayersOption.setBackground(Color.LIGHT_GRAY);
-        otherModesOption.setBackground(Color.LIGHT_GRAY);
+        noTimeLimitationOption.setBackground(Color.LIGHT_GRAY);
+        limitedTimeOption.setBackground(Color.LIGHT_GRAY);
+        RegisterOption.setBackground(Color.LIGHT_GRAY);
         Font font = new Font("Times New Roman", Font.BOLD, 40);
-        singlePlayerLabel = new JLabel("Single Player");
-        multiPlayersLabel = new JLabel("Multiple Players");
-        otherModesLabel = new JLabel("Other Modes");
-        singlePlayerLabel.setFont(font);
-        multiPlayersLabel.setFont(font);
-        otherModesLabel.setFont(font);
-        singlePlayerLabel.setForeground(Color.WHITE);
-        multiPlayersLabel.setForeground(Color.WHITE);
-        otherModesLabel.setForeground(Color.WHITE);
-        singlePlayerLabel.setVisible(true);
-        multiPlayersLabel.setVisible(true);
-        otherModesLabel.setVisible(true);
-        singlePlayerOption.add(singlePlayerLabel, locationOfLabelInOption);
-        multiPlayersOption.add(multiPlayersLabel, locationOfLabelInOption);
-        otherModesOption.add(otherModesLabel, locationOfLabelInOption);
+        noTimeLimitationLabel = new JLabel("Unlimited Time Mode");
+        limitedTimeLabel = new JLabel("CountDown Mode");
+        RegisterLabel = new JLabel("Register");
+        noTimeLimitationLabel.setFont(font);
+        limitedTimeLabel.setFont(font);
+        RegisterLabel.setFont(font);
+        noTimeLimitationLabel.setForeground(Color.WHITE);
+        limitedTimeLabel.setForeground(Color.WHITE);
+        RegisterLabel.setForeground(Color.WHITE);
+        noTimeLimitationLabel.setVisible(true);
+        limitedTimeLabel.setVisible(true);
+        RegisterLabel.setVisible(true);
+        noTimeLimitationOption.add(noTimeLimitationLabel, locationOfLabelInOption);
+        limitedTimeOption.add(limitedTimeLabel, locationOfLabelInOption);
+        RegisterOption.add(RegisterLabel, locationOfLabelInOption);
     }
 
     void setUpTheLocationOfLabelInOptions() {

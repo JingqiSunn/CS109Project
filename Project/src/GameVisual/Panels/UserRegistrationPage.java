@@ -14,6 +14,7 @@ public class UserRegistrationPage extends JPanel {
     int heightYOfRegistrationFunctionPanel;
     Dimension sizeOfRegistrationFunctionPanel;
     RegistrationFunctionPanel registrationFunctionPanel;
+    SuccessfullyRegisteredFunctionPanel successfullyRegisteredFunctionPanel;
     JPanel upperPart;
     JPanel lowerPart;
 
@@ -27,7 +28,9 @@ public class UserRegistrationPage extends JPanel {
         return registrationFunctionPanel.getClickHereToLogin();
     }
     public JPanel GetRegistrationConfirmPanel(){
-        return registrationFunctionPanel.getRegistrationConfirmButton();
+        if (registrationFunctionPanel==null){
+            return null;
+        } else{ return registrationFunctionPanel.getRegistrationConfirmButton();}
     }
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize) {

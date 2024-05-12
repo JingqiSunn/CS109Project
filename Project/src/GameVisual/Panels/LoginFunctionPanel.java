@@ -32,6 +32,10 @@ public class LoginFunctionPanel extends JPanel {
     JLabel noAccountLabel;
     JPanel clickHereToGetOne;
     JLabel clickHereToGetOneLabel;
+    JPanel warnForUserName;
+    JPanel warnForPassWord;
+    JLabel warnForUserNameLabel;
+    JLabel warnForPassWordLabel;
     LoginFunctionPanel(Dimension totalSize, int startX, int startY){
         this.setLayout(null);
         this.UpdateSizeAndLocationForOptions(totalSize,startX,startY);
@@ -157,5 +161,64 @@ public class LoginFunctionPanel extends JPanel {
         clickHereToGetOneLabel.setHorizontalAlignment(JLabel.CENTER);
         clickHereToGetOneLabel.setVerticalAlignment(JLabel.CENTER);
         clickHereToGetOne.add(clickHereToGetOneLabel);
+    }
+    public void CleanExistingWarning() {
+        this.setVisible(false);
+        if (warnForUserName != null) {
+            this.remove(warnForUserName);
+            warnForUserName = null;
+            warnForUserNameLabel = null;
+        }
+        if (warnForPassWord != null){
+            this.remove(warnForPassWord);
+            warnForPassWord = null;
+            warnForPassWordLabel = null;
+        }
+        this.repaint();
+        this.setVisible(true);
+    }
+    public void EstablishWarnForUserName(String wordsOutput) {
+        if (warnForUserName != null) {
+            this.remove(warnForUserName);
+            warnForUserName = null;
+            warnForUserNameLabel = null;
+        }
+        warnForUserName = new JPanel();
+        warnForUserName.setBounds(totalWidth/3,6*thicknessOfField,(int)((double)totalWidth*(double)9/(double)15 ),3*thicknessOfField/8);
+        warnForUserName.setBackground(new Color(0xE1AFD1));
+        warnForUserName.setLayout(new BorderLayout());
+        warnForUserNameLabel = new JLabel(wordsOutput);
+        warnForUserNameLabel.setForeground(Color.RED);
+        warnForUserNameLabel.setFont(new Font("Times New Roman", Font.BOLD, 13));
+        warnForUserNameLabel.setHorizontalAlignment(JLabel.LEFT);
+        warnForUserNameLabel.setVerticalAlignment(JLabel.CENTER);
+        warnForUserNameLabel.setVisible(true);
+        warnForUserName.add(warnForUserNameLabel, BorderLayout.WEST);
+        warnForUserName.setVisible(true);
+        this.add(warnForUserName);
+        this.repaint();
+        this.setVisible(true);
+    }
+    public void EstablishWarnForPassWords(String wordsOutput) {
+        if (warnForPassWord != null) {
+            this.remove(warnForPassWord);
+            warnForPassWord = null;
+            warnForPassWordLabel = null;
+        }
+        warnForPassWord = new JPanel();
+        warnForPassWord.setBounds(totalWidth/3,8*thicknessOfField,(int)((double)totalWidth*(double)9/(double)15 ),3*thicknessOfField/8);
+        warnForPassWord.setBackground(new Color(0xE1AFD1));
+        warnForPassWord.setLayout(new BorderLayout());
+        warnForPassWordLabel = new JLabel(wordsOutput);
+        warnForPassWordLabel.setForeground(Color.RED);
+        warnForPassWordLabel.setFont(new Font("Times New Roman", Font.BOLD, 13));
+        warnForPassWordLabel.setHorizontalAlignment(JLabel.LEFT);
+        warnForPassWordLabel.setVerticalAlignment(JLabel.CENTER);
+        warnForPassWordLabel.setVisible(true);
+        warnForPassWord.add(warnForPassWordLabel, BorderLayout.WEST);
+        warnForPassWord.setVisible(true);
+        this.add(warnForPassWord);
+        this.repaint();
+        this.setVisible(true);
     }
 }

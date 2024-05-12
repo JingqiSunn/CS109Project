@@ -1,5 +1,7 @@
 package GameVisual.Panels;
 
+import MultiUserSupply.User;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -216,6 +218,50 @@ public class RegistrationFunctionPanel extends JPanel {
         this.repaint();
         this.setVisible(true);
     }
+    public void EstablishWarnForPassWords(String wordsOutput) {
+        if (warnForPassWord != null) {
+            this.remove(warnForPassWord);
+            warnForPassWord = null;
+            warnForPassWordLabel = null;
+        }
+        warnForPassWord = new JPanel();
+        warnForPassWord.setBounds(totalWidth / 3, 8 * thicknessOfField, (int) ((double) totalWidth * (double) 9 / (double) 15), 3 * thicknessOfField / 8);
+        warnForPassWord.setBackground(new Color(0xE3E1D9));
+        warnForPassWord.setLayout(new BorderLayout());
+        warnForPassWordLabel = new JLabel(wordsOutput);
+        warnForPassWordLabel.setForeground(Color.RED);
+        warnForPassWordLabel.setFont(new Font("Times New Roman", Font.BOLD, 13));
+        warnForPassWordLabel.setHorizontalAlignment(JLabel.LEFT);
+        warnForPassWordLabel.setVerticalAlignment(JLabel.CENTER);
+        warnForPassWordLabel.setVisible(true);
+        warnForPassWord.add(warnForPassWordLabel, BorderLayout.WEST);
+        warnForPassWord.setVisible(true);
+        this.add(warnForPassWord);
+        this.repaint();
+        this.setVisible(true);
+    }
+    public void EstablishWarnForAgainPassWords(String wordsOutput) {
+        if (warnForAgainPassWord != null) {
+            this.remove(warnForAgainPassWord);
+            warnForAgainPassWord = null;
+            warnForAgainPassWordLabel = null;
+        }
+        warnForAgainPassWord = new JPanel();
+        warnForAgainPassWord.setBounds(totalWidth / 3, 10 * thicknessOfField, (int) ((double) totalWidth * (double) 9 / (double) 15), 3 * thicknessOfField / 8);
+        warnForAgainPassWord.setBackground(new Color(0xE3E1D9));
+        warnForAgainPassWord.setLayout(new BorderLayout());
+        warnForAgainPassWordLabel = new JLabel(wordsOutput);
+        warnForAgainPassWordLabel.setForeground(Color.RED);
+        warnForAgainPassWordLabel.setFont(new Font("Times New Roman", Font.BOLD, 13));
+        warnForAgainPassWordLabel.setHorizontalAlignment(JLabel.LEFT);
+        warnForAgainPassWordLabel.setVerticalAlignment(JLabel.CENTER);
+        warnForAgainPassWordLabel.setVisible(true);
+        warnForAgainPassWord.add(warnForAgainPassWordLabel, BorderLayout.WEST);
+        warnForAgainPassWord.setVisible(true);
+        this.add(warnForAgainPassWord);
+        this.repaint();
+        this.setVisible(true);
+    }
 
     public void CleanExistingWarning() {
         this.setVisible(false);
@@ -223,6 +269,16 @@ public class RegistrationFunctionPanel extends JPanel {
             this.remove(warnForUserName);
             warnForUserName = null;
             warnForUserNameLabel = null;
+        }
+        if (warnForPassWord != null){
+            this.remove(warnForPassWord);
+            warnForPassWord = null;
+            warnForPassWordLabel = null;
+        }
+        if (warnForAgainPassWord != null){
+            this.remove(warnForAgainPassWord);
+            warnForAgainPassWord = null;
+            warnForAgainPassWordLabel = null;
         }
         this.repaint();
         this.setVisible(true);
