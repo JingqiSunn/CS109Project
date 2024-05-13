@@ -66,254 +66,78 @@ public class DrawnBlockUnit extends JPanel {
                 fontOfTheNumberInTheBlock = font1;
                 colorOfTheNumberInTheBlock = color1;
                 colorOfTheBlock = new Color(237, 229, 218);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 2 + "";
+                this.AnimateEffect();
             }
             case 4 -> {
                 fontOfTheNumberInTheBlock = font1;
                 colorOfTheNumberInTheBlock = color1;
                 colorOfTheBlock = new Color(237, 220, 190);
-                final int steps =15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(1, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 4 + "";
+                this.AnimateEffect();
             }
             case 8 -> {
                 fontOfTheNumberInTheBlock = font1;
                 colorOfTheNumberInTheBlock = color1;
                 colorOfTheBlock = new Color(242, 177, 123);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 8 + "";
+                this.AnimateEffect();
             }
             case 16 -> {
                 fontOfTheNumberInTheBlock = font2;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(246, 147, 92);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 16 + "";
+                this.AnimateEffect();
             }
             case 32 -> {
                 fontOfTheNumberInTheBlock = font2;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(245, 118, 86);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 32 + "";
+                this.AnimateEffect();
             }
             case 64 -> {
                 fontOfTheNumberInTheBlock = font2;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(245, 83, 45);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 64 + "";
+                this.AnimateEffect();
             }
             case 128 -> {
                 fontOfTheNumberInTheBlock = font3;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(237, 206, 115);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 128 + "";
+                this.AnimateEffect();
             }
             case 256 -> {
                 fontOfTheNumberInTheBlock = font3;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(230, 209, 81);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 256 + "";
+                this.AnimateEffect();
             }
             case 512 -> {
                 fontOfTheNumberInTheBlock = font3;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(207, 163, 12);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 512 + "";
+                this.AnimateEffect();
             }
             case 1024 -> {
                 fontOfTheNumberInTheBlock = font4;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(229, 180, 6);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 1024 + "";
+                this.AnimateEffect();
             }
             case 2048 -> {
                 fontOfTheNumberInTheBlock = font4;
                 colorOfTheNumberInTheBlock = color2;
                 colorOfTheBlock = new Color(161, 131, 115);
-                final int steps = 15;
-                final int[] currentStep = {0};
-                Timer timer = new Timer(5, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (currentStep[0] >= steps) {
-                            ((Timer) e.getSource()).stop();
-                            return;
-                        }
-                        int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                        int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                        int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                        setBackground(new Color(red,green,blue));
-                        currentStep[0]++;
-                    }
-                });
-                timer.start();
                 valueOfTheBlockInString = 2048 + "";
+                this.AnimateEffect();
             }
             default -> {
             }
@@ -385,6 +209,28 @@ public class DrawnBlockUnit extends JPanel {
             if (this.xCoordinate == controllingCenter.GetTheBoardUnitSet().get(indexInAllTheBoardUnit).getxCoordinate() && this.yCoordinate == controllingCenter.GetTheBoardUnitSet().get(indexInAllTheBoardUnit).getyCoordinate()) {
                 this.correspondingBoardUnit = controllingCenter.GetTheBoardUnitSet().get(indexInAllTheBoardUnit);
             }
+        }
+    }
+    private void AnimateEffect(){
+        if (controllingCenter.whetherAnimated){
+        final int steps = 15;
+        final int[] currentStep = {0};
+        Timer timer = new Timer(5, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentStep[0] >= steps) {
+                    ((Timer) e.getSource()).stop();
+                    return;
+                }
+                int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
+                int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
+                int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
+                setBackground(new Color(red,green,blue));
+                currentStep[0]++;
+            }
+        });
+        timer.start();} else {
+            setBackground(new Color(colorOfTheBlock.getRed(),colorOfTheBlock.getGreen(),colorOfTheBlock.getBlue()));
         }
     }
 }

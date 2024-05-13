@@ -8,6 +8,7 @@ public class ControllingCenter {
     private int currentGameScore;
     public int timeLimitation;
     public boolean whetherTimeLimitationMode;
+    public boolean whetherAnimated;
 
     public void setCurrentPlayingBoard(Board currentPlayingBoard) {
         this.currentPlayingBoard = currentPlayingBoard;
@@ -34,6 +35,7 @@ public class ControllingCenter {
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
     public ControllingCenter() {
+        whetherAnimated = false;
         timeLimitation = 0;
         whetherTimeLimitationMode = false;
         this.gameValidity = true;
