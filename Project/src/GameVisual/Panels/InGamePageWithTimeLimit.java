@@ -4,6 +4,8 @@ import GameElement.ControllingCenter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class InGamePageWithTimeLimit extends JPanel {
@@ -28,17 +30,22 @@ public class InGamePageWithTimeLimit extends JPanel {
     int originalTimeLimit;
     boolean whetherOutOfTime;
     int controllingSize;
+    int currentTime;
+    ThreadForTimer threadForTimer;
     public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,int timeLimit){
         this.setLayout(null);
         this.whetherOutOfTime=false;
         this.whetherTourist = whetherTourist;
         this.originalTimeLimit = timeLimit;
+        currentTime = originalTimeLimit;
         this.controllingCenter = controllingCenter;
         this.totalSize = screenSize;
         this.UpdateSizeAndLocationForOptions(totalSize,controllingCenter);
         this.setBounds(0,0,totalWidth,totalHeight);
         this.SetUpBlockUnitsInGame();
         this.setVisible(true);
+        threadForTimer = new ThreadForTimer();
+        threadForTimer.start();
     }
 
     public int getOriginalTimeLimit() {
@@ -90,7 +97,15 @@ public class InGamePageWithTimeLimit extends JPanel {
             blockUnit.UpdateTheOutputShowInGame();
         }
         scorePanel.UpdateTheScorePanel();
-        this.UpdateTheTimerPanel();
+        this.UpDateTheTimerPanel();
+        repaint();
+    }
+    public void RestartBlockUnitsInGame(){
+        for (DrawnBlockUnit blockUnit : blockUnits) {
+            blockUnit.UpdateTheOutputShowInGame();
+        }
+        scorePanel.UpdateTheScorePanel();
+        this.RestartTheTimerPanel();
         repaint();
     }
     void LoadTheScorePanel(){
@@ -102,14 +117,14 @@ public class InGamePageWithTimeLimit extends JPanel {
         controllingCenter.CleanThePlayingBoardForRestart();
         controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
         controllingCenter.UpdateGameValidity();
-        this.UpdateBlockUnitsInGame();
+        this.RestartBlockUnitsInGame();
     }
     private void LoadTimer(){
         timePanel = new JPanel();
         timePanel.setLayout(new BorderLayout());
         timePanel.setBounds(startXOfBlockSet+widthOfTheBlockSet/3,startYOfBlockSet/3,widthOfTheBlockSet/3,startYOfBlockSet/3);
         timePanel.setBackground(new Color(0x7ABA78));
-        timeLabel = new JLabel(String.valueOf(originalTimeLimit));
+        timeLabel = new JLabel(String.valueOf(currentTime));
         timeLabel.setForeground(Color.BLACK);
         timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.4)));
         timeLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -117,7 +132,22 @@ public class InGamePageWithTimeLimit extends JPanel {
         timePanel.add(timeLabel,BorderLayout.CENTER);
         this.add(timePanel);
     }
-    public void UpdateTheTimerPanel(){
+    public void UpDateTheTimerPanel(){
+        if(whetherTourist){
+            this.remove(timePanel);
+            timePanel.setBackground(new Color(0x7ABA78));
+            timeLabel.setText(String.valueOf(currentTime));
+            timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.4)));
+            timeLabel.setHorizontalAlignment(JLabel.CENTER);
+            timeLabel.setVerticalAlignment(JLabel.CENTER);
+            timeLabel.setVisible(true);
+            timePanel.add(timeLabel,BorderLayout.CENTER);
+            timePanel.setVisible(true);
+            this.add(timePanel);
+        }
+    }
+    public void RestartTheTimerPanel(){
+        currentTime = originalTimeLimit;
         if(whetherTourist){
             this.remove(timePanel);
             timePanel.setBackground(new Color(0x7ABA78));
@@ -131,4 +161,42 @@ public class InGamePageWithTimeLimit extends JPanel {
             this.add(timePanel);
         }
     }
+    public void UpdateTheTimerPanel(){
+        if(whetherTourist){
+            this.remove(timePanel);
+            timePanel.setBackground(new Color(0x7ABA78));
+            timeLabel.setText(String.valueOf(currentTime));
+            timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.4)));
+            timeLabel.setHorizontalAlignment(JLabel.CENTER);
+            timeLabel.setVerticalAlignment(JLabel.CENTER);
+            timeLabel.setVisible(true);
+            timePanel.add(timeLabel,BorderLayout.CENTER);
+            timePanel.setVisible(true);
+            this.add(timePanel);
+            this.repaint();
+        }
+    }
+    class ThreadForTimer extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            Timer timer = new Timer(1000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (controllingCenter.getGameValidity()) {
+                        currentTime -= 1;
+                        UpdateTheTimerPanel();
+
+                        if (currentTime <= 0) {
+                            ((Timer) e.getSource()).stop();
+                        }
+                    } else {
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            });
+            timer.setRepeats(true);
+            timer.start();
+        }
+    }
+
 }
