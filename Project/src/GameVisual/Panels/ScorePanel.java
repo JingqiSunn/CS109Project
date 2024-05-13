@@ -29,7 +29,7 @@ public class ScorePanel extends JPanel {
         this.totalWidth = totalWidth;
         this.controllingCenter=controllingCenter;
         this.whetherTourist = whetherTourist;
-        this.setBounds(startXForBlockSet,startYForBlockSet/5,totalWidth,startYForBlockSet-startYForBlockSet/5);
+        this.setBounds(startXForBlockSet,2*startYForBlockSet/3,totalWidth,startYForBlockSet-2*startYForBlockSet/3);
         this.setLayout(null);
         this.SetUpDataAndPanel();
     }
@@ -38,7 +38,7 @@ public class ScorePanel extends JPanel {
         if(whetherTourist){
             this.UpdateTheCurrentFontForCurrentScore();
             currentScorePanel = new JPanel(new BorderLayout());
-            currentScorePanel.setBounds(totalWidth/3,0,totalWidth/3,startYForBlockSet-startYForBlockSet/5);
+            currentScorePanel.setBounds(totalWidth/3,0,totalWidth/3,startYForBlockSet-2*startYForBlockSet/3);
             currentScoreLabel = new JLabel(String.valueOf(controllingCenter.getCurrentGameScore()));
             currentScoreLabel.setFont(currentFont);
             currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);

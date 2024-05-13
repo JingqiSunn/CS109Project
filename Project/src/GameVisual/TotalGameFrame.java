@@ -33,6 +33,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     ControllingCenter controllingCenter;
     DocumentReaderAndWriter documentReaderAndWriter;
     ArrayList<BoardUnit> currentBoardInformation;
+    InGamePageWithTimeLimit inGamePageWithTimeLimit;
     boolean timerIsRunning;
     public TotalGameFrame() {
         controllingCenter = new ControllingCenter();
@@ -141,7 +142,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(inGamePageWithoutTimeLimit);
         setFocusable(true);
     }
-    void LoadInGamePageForTouristWithTimeLimitation(){
+    void LoadInGamePageForTouristWithTimeLimitation(int timeLimit){
+        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize,controllingCenter,true,timeLimit);
+        inGamePageWithTimeLimit.addKeyListener(this);
+        inGamePageWithTimeLimit.setVisible(true);
+        this.add(inGamePageWithTimeLimit);
+        setFocusable(true);
     }
     void LoadTouristDiePage() {
         touristDiePage = new TouristDiePage(screenSize,controllingCenter,0);
@@ -215,36 +221,66 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP){
+        }else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP&&!timerIsRunning){
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
-            this.JudgeWhetherEndOfGame();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
-            this.JudgeWhetherEndOfGame();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
-            this.JudgeWhetherEndOfGame();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             controllingCenter.UpdateGameValidity();
             this.repaint();
-            this.JudgeWhetherEndOfGame();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
             inGamePageWithoutTimeLimit.RestartTheGame();
+        }else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP&&!timerIsRunning){
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            controllingCenter.UpdateGameValidity();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
+            inGamePageWithTimeLimit.RestartTheGame();
         }
     }
 
@@ -347,6 +383,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 }
             }
         }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+            if (inGamePageWithTimeLimit != null){
+                inGamePageWithTimeLimit = null;
+            }
             controllingCenter = new ControllingCenter();
             this.remove(touristDiePage);
             touristDiePage = null;
@@ -356,13 +395,24 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
-            this.remove(touristDiePage);
-            touristDiePage = null;
-            controllingCenter.CleanThePlayingBoardForRestart();
-            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-            this.LoadInGamePageForTouristWithoutTimeLimitation();
-            repaint();
-            setVisible(true);
+            if ( inGamePageWithTimeLimit == null){
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                controllingCenter.CleanThePlayingBoardForRestart();
+                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                this.LoadInGamePageForTouristWithoutTimeLimitation();
+                repaint();
+                setVisible(true);
+            } else {
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                controllingCenter.CleanThePlayingBoardForRestart();
+                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                this.LoadInGamePageForTouristWithTimeLimitation(inGamePageWithTimeLimit.getOriginalTimeLimit());
+                repaint();
+                setVisible(true);
+            }
+
         }else if(userLoginPage != null && componentActivated.equals(userLoginPage.GetClickHereToRegister())) {
             remove(userLoginPage);
             userLoginPage = null;
@@ -743,17 +793,36 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         return lastCoordinateInformation;
     }
-    public void JudgeWhetherEndOfGame() {
+    public void JudgeWhetherEndOfGameWithoutTimeLimit() {
         controllingCenter.UpdateGameValidity();
         if (!controllingCenter.getGameValidity()) {
             timerIsRunning = true;
             Timer timer = new Timer(2000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     timerIsRunning = false;
-
                     if (inGamePageWithoutTimeLimit.GetWhetherTourist()) {
                         remove(inGamePageWithoutTimeLimit);
                         inGamePageWithoutTimeLimit = null;
+                        LoadTouristDiePage();
+                        setFocusable(true);
+                        repaint();
+                        setVisible(true);
+                    }
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }
+    public void JudgeWhetherEndOfGameWithTimeLimit() {
+        controllingCenter.UpdateGameValidity();
+        if (!controllingCenter.getGameValidity()) {
+            timerIsRunning = true;
+            Timer timer = new Timer(2000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timerIsRunning = false;
+                    if (inGamePageWithTimeLimit.GetWhetherTourist()) {
+                        remove(inGamePageWithTimeLimit);
                         LoadTouristDiePage();
                         setFocusable(true);
                         repaint();
@@ -834,7 +903,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.remove(boardSizeDIYPage);
             controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             if (boardSizeDIYPage.getWhetherTimeLimited()){
-            this.LoadInGamePageForTouristWithTimeLimitation();
+            this.LoadInGamePageForTouristWithTimeLimitation(boardSizeDIYPage.GetTimeLimit());
             }else {
                 this.LoadInGamePageForTouristWithoutTimeLimitation();
             }

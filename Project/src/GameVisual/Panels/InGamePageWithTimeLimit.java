@@ -23,9 +23,16 @@ public class InGamePageWithTimeLimit extends JPanel {
     int widthOfTheBlockSet;
     int heightOfTheBlockSet;
     Timer timer;
-    public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist){
+    JPanel timePanel;
+    JLabel timeLabel;
+    int originalTimeLimit;
+    boolean whetherOutOfTime;
+    int controllingSize;
+    public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,int timeLimit){
         this.setLayout(null);
+        this.whetherOutOfTime=false;
         this.whetherTourist = whetherTourist;
+        this.originalTimeLimit = timeLimit;
         this.controllingCenter = controllingCenter;
         this.totalSize = screenSize;
         this.UpdateSizeAndLocationForOptions(totalSize,controllingCenter);
@@ -34,9 +41,18 @@ public class InGamePageWithTimeLimit extends JPanel {
         this.setVisible(true);
     }
 
+    public int getOriginalTimeLimit() {
+        return originalTimeLimit;
+    }
+
     public boolean GetWhetherTourist() {
         return whetherTourist;
     }
+
+    public boolean GetWhetherOutOfTime() {
+        return whetherOutOfTime;
+    }
+
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize, ControllingCenter controllingCenter){
         totalSize = screenSize;
@@ -53,6 +69,7 @@ public class InGamePageWithTimeLimit extends JPanel {
             DrawnBlockUnit newBlockUnit = new DrawnBlockUnit(controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit().get(sequenceInPoints*2),controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit().get(sequenceInPoints*2+1),sizeOfTheBlockUnit,controllingCenter);
             blockUnits.add(newBlockUnit);
         }
+        controllingSize = Math.min(sizeOfTheBlock/3,startXOfBlockSet-startYOfBlockSet/5);
     }
     public void SetUpBlockUnitsInGame(){
         totalBoard = new JPanel();
@@ -66,12 +83,14 @@ public class InGamePageWithTimeLimit extends JPanel {
         totalBoard.setVisible(true);
         this.add(totalBoard);
         this.LoadTheScorePanel();
+        this.LoadTimer();
     }
     public void UpdateBlockUnitsInGame(){
         for (DrawnBlockUnit blockUnit : blockUnits) {
             blockUnit.UpdateTheOutputShowInGame();
         }
         scorePanel.UpdateTheScorePanel();
+        this.UpdateTheTimerPanel();
         repaint();
     }
     void LoadTheScorePanel(){
@@ -84,5 +103,32 @@ public class InGamePageWithTimeLimit extends JPanel {
         controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
         controllingCenter.UpdateGameValidity();
         this.UpdateBlockUnitsInGame();
+    }
+    private void LoadTimer(){
+        timePanel = new JPanel();
+        timePanel.setLayout(new BorderLayout());
+        timePanel.setBounds(startXOfBlockSet+widthOfTheBlockSet/3,startYOfBlockSet/3,widthOfTheBlockSet/3,startYOfBlockSet/3);
+        timePanel.setBackground(new Color(0x7ABA78));
+        timeLabel = new JLabel(String.valueOf(originalTimeLimit));
+        timeLabel.setForeground(Color.BLACK);
+        timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.4)));
+        timeLabel.setHorizontalAlignment(JLabel.CENTER);
+        timeLabel.setVerticalAlignment(JLabel.CENTER);
+        timePanel.add(timeLabel,BorderLayout.CENTER);
+        this.add(timePanel);
+    }
+    public void UpdateTheTimerPanel(){
+        if(whetherTourist){
+            this.remove(timePanel);
+            timePanel.setBackground(new Color(0x7ABA78));
+            timeLabel.setText(String.valueOf(originalTimeLimit));
+            timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.4)));
+            timeLabel.setHorizontalAlignment(JLabel.CENTER);
+            timeLabel.setVerticalAlignment(JLabel.CENTER);
+            timeLabel.setVisible(true);
+            timePanel.add(timeLabel,BorderLayout.CENTER);
+            timePanel.setVisible(true);
+            this.add(timePanel);
+        }
     }
 }

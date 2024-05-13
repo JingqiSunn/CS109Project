@@ -46,6 +46,13 @@ public class BoardSizeDIYPage extends JPanel {
     public JPanel GetContinueButton(){
         return continueToPlay;
     }
+    public int GetTimeLimit(){
+        if (whetherTimeLimited){
+            return Integer.parseInt(askForLimitField.getText());
+        } else {
+            return 0;
+        }
+    }
     public boolean getWhetherTimeLimited() {
         return whetherTimeLimited;
     }
