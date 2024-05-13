@@ -389,15 +389,24 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
             if (inGamePageWithTimeLimit != null){
                 inGamePageWithTimeLimit = null;
+                controllingCenter = new ControllingCenter();
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                this.LoadTimeLimitChoosingPage();
+                this.addMouseListener(this);
+                this.setFocusable(true);
+                repaint();
+                this.setVisible(true);
+            }else {
+                controllingCenter = new ControllingCenter();
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                this.LoadBoardSizeChoosingPage();
+                this.addMouseListener(this);
+                this.setFocusable(true);
+                repaint();
+                this.setVisible(true);
             }
-            controllingCenter = new ControllingCenter();
-            this.remove(touristDiePage);
-            touristDiePage = null;
-            this.LoadBoardSizeChoosingPage();
-            this.addMouseListener(this);
-            this.setFocusable(true);
-            repaint();
-            this.setVisible(true);
         }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
             if ( inGamePageWithTimeLimit == null){
                 this.remove(touristDiePage);
@@ -408,11 +417,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 repaint();
                 setVisible(true);
             } else {
+                int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
                 this.remove(touristDiePage);
                 touristDiePage = null;
+                inGamePageWithTimeLimit = null;
                 controllingCenter.CleanThePlayingBoardForRestart();
                 controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                this.LoadInGamePageForTouristWithTimeLimitation(inGamePageWithTimeLimit.getOriginalTimeLimit());
+                controllingCenter.UpdateGameValidity();
+                this.LoadInGamePageForTouristWithTimeLimitation(originalTimeLimit);
                 repaint();
                 setVisible(true);
             }

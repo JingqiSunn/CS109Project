@@ -188,7 +188,6 @@ public class InGamePageWithTimeLimit extends JPanel {
                     if (controllingCenter.getGameValidity()) {
                         currentTime -= 1;
                         UpdateTheTimerPanel();
-
                         if (currentTime <= 0) {
                             ((Timer) e.getSource()).stop();
                             controllingCenter.setGameValidity(false);
