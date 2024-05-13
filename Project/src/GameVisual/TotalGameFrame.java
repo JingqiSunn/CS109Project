@@ -143,7 +143,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         setFocusable(true);
     }
     void LoadInGamePageForTouristWithTimeLimitation(int timeLimit){
-        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize,controllingCenter,true,timeLimit);
+        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize,controllingCenter,true,timeLimit,this);
         inGamePageWithTimeLimit.addKeyListener(this);
         inGamePageWithTimeLimit.setVisible(true);
         this.add(inGamePageWithTimeLimit);
@@ -252,6 +252,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
             inGamePageWithoutTimeLimit.RestartTheGame();
         }else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP&&!timerIsRunning){
+            this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
@@ -259,6 +260,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
@@ -266,6 +268,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
@@ -273,6 +276,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
@@ -815,7 +819,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
     }
     public void JudgeWhetherEndOfGameWithTimeLimit() {
-        controllingCenter.UpdateGameValidity();
         if (!controllingCenter.getGameValidity()) {
             timerIsRunning = true;
             Timer timer = new Timer(2000, new ActionListener() {

@@ -1,6 +1,7 @@
 package GameVisual.Panels;
 
 import GameElement.ControllingCenter;
+import GameVisual.TotalGameFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class InGamePageWithTimeLimit extends JPanel {
+    TotalGameFrame totalGameFrame;
     boolean whetherTourist;
     ControllingCenter controllingCenter;
     Dimension totalSize;
@@ -32,9 +34,10 @@ public class InGamePageWithTimeLimit extends JPanel {
     int controllingSize;
     int currentTime;
     ThreadForTimer threadForTimer;
-    public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,int timeLimit){
+    public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,int timeLimit, TotalGameFrame totalGameFrame){
         this.setLayout(null);
         this.whetherOutOfTime=false;
+        this.totalGameFrame = totalGameFrame;
         this.whetherTourist = whetherTourist;
         this.originalTimeLimit = timeLimit;
         currentTime = originalTimeLimit;
@@ -188,6 +191,8 @@ public class InGamePageWithTimeLimit extends JPanel {
 
                         if (currentTime <= 0) {
                             ((Timer) e.getSource()).stop();
+                            controllingCenter.setGameValidity(false);
+                            totalGameFrame.JudgeWhetherEndOfGameWithTimeLimit();
                         }
                     } else {
                         ((Timer) e.getSource()).stop();
