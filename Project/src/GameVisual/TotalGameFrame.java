@@ -186,8 +186,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     void LoadTimeLimitChoosingPage(){
         timeLimitChoosingPage = new TimeLimitChoosingPage(screenSize);
         timeLimitChoosingPage.setVisible(true);
-        timeLimitChoosingPage.getOneMinuteOption().addMouseListener(this);
-        timeLimitChoosingPage.getTwoMinutesOption().addMouseListener(this);
+        timeLimitChoosingPage.getThreeMinutesOption().addMouseListener(this);
+        timeLimitChoosingPage.getSixMinutesOption().addMouseListener(this);
         timeLimitChoosingPage.getDIYOption().addMouseListener(this);
         this.add(timeLimitChoosingPage);
         setFocusable(true);
@@ -477,6 +477,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
         }else if(boardSizeDIYPage != null &&boardSizeDIYPage.getWhetherTimeLimited()&& componentActivated.equals(boardSizeDIYPage.GetContinueButton())){
             this.DealWithTheDIYSetting();
+        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+            remove(timeLimitChoosingPage);
+            timeLimitChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForTouristWithTimeLimitation(180);
+            repaint();
+            setVisible(true);
+        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+            remove(timeLimitChoosingPage);
+            timeLimitChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForTouristWithTimeLimitation(360);
+            repaint();
+            setVisible(true);
         }
     }
 
@@ -565,14 +581,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyRegisteredPage.GetToLogin().setBackground(new Color(0xFDE49E));
             successfullyRegisteredPage.GetToLogin().setVisible(true);
             successfullyRegisteredPage.GetToLogin().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getOneMinuteOption())) {
-            timeLimitChoosingPage.getOneMinuteOption().setBackground(Color.BLACK);
-            timeLimitChoosingPage.getOneMinuteOption().setVisible(true);
-            timeLimitChoosingPage.getOneMinuteOption().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getTwoMinutesOption())) {
-            timeLimitChoosingPage.getTwoMinutesOption().setBackground(Color.BLACK);
-            timeLimitChoosingPage.getTwoMinutesOption().setVisible(true);
-            timeLimitChoosingPage.getTwoMinutesOption().repaint();
+        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+            timeLimitChoosingPage.getThreeMinutesOption().setBackground(Color.BLACK);
+            timeLimitChoosingPage.getThreeMinutesOption().setVisible(true);
+            timeLimitChoosingPage.getThreeMinutesOption().repaint();
+        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+            timeLimitChoosingPage.getSixMinutesOption().setBackground(Color.BLACK);
+            timeLimitChoosingPage.getSixMinutesOption().setVisible(true);
+            timeLimitChoosingPage.getSixMinutesOption().repaint();
         }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
             timeLimitChoosingPage.getDIYOption().setBackground(Color.BLACK);
             timeLimitChoosingPage.getDIYOption().setVisible(true);
@@ -658,14 +674,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyRegisteredPage.GetToLogin().setBackground(new Color(0x7C7575));
             successfullyRegisteredPage.GetToLogin().setVisible(true);
             successfullyRegisteredPage.GetToLogin().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getOneMinuteOption())) {
-            timeLimitChoosingPage.getOneMinuteOption().setBackground(Color.LIGHT_GRAY);
-            timeLimitChoosingPage.getOneMinuteOption().setVisible(true);
-            timeLimitChoosingPage.getOneMinuteOption().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getTwoMinutesOption())) {
-            timeLimitChoosingPage.getTwoMinutesOption().setBackground(Color.LIGHT_GRAY);
-            timeLimitChoosingPage.getTwoMinutesOption().setVisible(true);
-            timeLimitChoosingPage.getTwoMinutesOption().repaint();
+        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+            timeLimitChoosingPage.getThreeMinutesOption().setBackground(Color.LIGHT_GRAY);
+            timeLimitChoosingPage.getThreeMinutesOption().setVisible(true);
+            timeLimitChoosingPage.getThreeMinutesOption().repaint();
+        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+            timeLimitChoosingPage.getSixMinutesOption().setBackground(Color.LIGHT_GRAY);
+            timeLimitChoosingPage.getSixMinutesOption().setVisible(true);
+            timeLimitChoosingPage.getSixMinutesOption().repaint();
         }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
             timeLimitChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
             timeLimitChoosingPage.getDIYOption().setVisible(true);

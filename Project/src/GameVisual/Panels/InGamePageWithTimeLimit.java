@@ -138,7 +138,6 @@ public class InGamePageWithTimeLimit extends JPanel {
     public void UpDateTheTimerPanel(){
         if(whetherTourist){
             this.remove(timePanel);
-            timePanel.setBackground(new Color(0x7ABA78));
             timeLabel.setText(String.valueOf(currentTime));
             timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.4)));
             timeLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -167,7 +166,6 @@ public class InGamePageWithTimeLimit extends JPanel {
     public void UpdateTheTimerPanel(){
         if(whetherTourist){
             this.remove(timePanel);
-            timePanel.setBackground(new Color(0x7ABA78));
             timeLabel.setText(String.valueOf(currentTime));
             timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.4)));
             timeLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -187,6 +185,9 @@ public class InGamePageWithTimeLimit extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (controllingCenter.getGameValidity()) {
                         currentTime -= 1;
+                        if (currentTime<=5){
+                            timePanel.setBackground(Color.RED);
+                        }
                         UpdateTheTimerPanel();
                         if (currentTime <= 0) {
                             ((Timer) e.getSource()).stop();

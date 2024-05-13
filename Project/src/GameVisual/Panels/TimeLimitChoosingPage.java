@@ -19,11 +19,11 @@ public class TimeLimitChoosingPage extends JPanel {
     int yOfCenterOfOneMinuteOption;
     int yOfCenterOfDIYOption;
     int yOfCenterOfTwoMinutesOption;
-    public JPanel OneMinuteOption;
-    public JPanel TwoMinutesOption;
+    public JPanel threeMinutesOption;
+    public JPanel sixMinutesOption;
     public JPanel DIYOption;
-    JLabel OneMinuteLabel;
-    JLabel TwoMinutesLabel;
+    JLabel threeMinutesLabel;
+    JLabel sixMinutesLabel;
     JLabel DIYLabel;
     GridBagConstraints locationOfLabelInOption;
 
@@ -36,12 +36,12 @@ public class TimeLimitChoosingPage extends JPanel {
         this.SetUpOptionsInTheModeChoosingPage();
     }
 
-    public JPanel getOneMinuteOption() {
-        return OneMinuteOption;
+    public JPanel getThreeMinutesOption() {
+        return threeMinutesOption;
     }
 
-    public JPanel getTwoMinutesOption() {
-        return TwoMinutesOption;
+    public JPanel getSixMinutesOption() {
+        return sixMinutesOption;
     }
 
     public JPanel getDIYOption() {
@@ -49,18 +49,18 @@ public class TimeLimitChoosingPage extends JPanel {
     }
 
     void SetUpOptionsInTheModeChoosingPage() {
-        OneMinuteOption = new JPanel(new GridBagLayout());
-        TwoMinutesOption = new JPanel(new GridBagLayout());
+        threeMinutesOption = new JPanel(new GridBagLayout());
+        sixMinutesOption = new JPanel(new GridBagLayout());
         DIYOption = new JPanel(new GridBagLayout());
-        OneMinuteOption.setBounds(xOfCenterOfOneMinuteOption - widthOfComponent / 2, yOfCenterOfOneMinuteOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
-        TwoMinutesOption.setBounds(xOfCenterOfTwoMinutesOption - widthOfComponent / 2, yOfCenterOfTwoMinutesOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        threeMinutesOption.setBounds(xOfCenterOfOneMinuteOption - widthOfComponent / 2, yOfCenterOfOneMinuteOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        sixMinutesOption.setBounds(xOfCenterOfTwoMinutesOption - widthOfComponent / 2, yOfCenterOfTwoMinutesOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
         DIYOption.setBounds(xOfCenterOfDIYOption - widthOfComponent / 2, yOfCenterOfDIYOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
         this.SetInsideComponentOfOptions();
-        OneMinuteOption.setVisible(true);
-        TwoMinutesOption.setVisible(true);
+        threeMinutesOption.setVisible(true);
+        sixMinutesOption.setVisible(true);
         DIYOption.setVisible(true);
-        this.add(OneMinuteOption);
-        this.add(TwoMinutesOption);
+        this.add(threeMinutesOption);
+        this.add(sixMinutesOption);
         this.add(DIYOption);
     }
 
@@ -79,24 +79,24 @@ public class TimeLimitChoosingPage extends JPanel {
     }
 
     void SetInsideComponentOfOptions() {
-        OneMinuteOption.setBackground(Color.LIGHT_GRAY);
-        TwoMinutesOption.setBackground(Color.LIGHT_GRAY);
+        threeMinutesOption.setBackground(Color.LIGHT_GRAY);
+        sixMinutesOption.setBackground(Color.LIGHT_GRAY);
         DIYOption.setBackground(Color.LIGHT_GRAY);
         Font font = new Font("Times New Roman", Font.BOLD, 40);
-        OneMinuteLabel = new JLabel("One Minute");
-        TwoMinutesLabel = new JLabel("Two Minutes");
+        threeMinutesLabel = new JLabel("Three Minutes");
+        sixMinutesLabel = new JLabel("Six Minutes");
         DIYLabel = new JLabel("Create Your Own");
-        OneMinuteLabel.setFont(font);
-        TwoMinutesLabel.setFont(font);
+        threeMinutesLabel.setFont(font);
+        sixMinutesLabel.setFont(font);
         DIYLabel.setFont(font);
-        OneMinuteLabel.setForeground(Color.WHITE);
-        TwoMinutesLabel.setForeground(Color.WHITE);
+        threeMinutesLabel.setForeground(Color.WHITE);
+        sixMinutesLabel.setForeground(Color.WHITE);
         DIYLabel.setForeground(Color.WHITE);
-        OneMinuteLabel.setVisible(true);
-        TwoMinutesLabel.setVisible(true);
+        threeMinutesLabel.setVisible(true);
+        sixMinutesLabel.setVisible(true);
         DIYLabel.setVisible(true);
-        OneMinuteOption.add(OneMinuteLabel, locationOfLabelInOption);
-        TwoMinutesOption.add(TwoMinutesLabel, locationOfLabelInOption);
+        threeMinutesOption.add(threeMinutesLabel, locationOfLabelInOption);
+        sixMinutesOption.add(sixMinutesLabel, locationOfLabelInOption);
         DIYOption.add(DIYLabel, locationOfLabelInOption);
     }
 
