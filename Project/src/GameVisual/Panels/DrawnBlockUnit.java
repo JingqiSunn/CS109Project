@@ -164,25 +164,6 @@ public class DrawnBlockUnit extends JPanel {
         currentValueToShow.setVisible(true);
         this.remove(currentValueToShow);
         this.UpdateTheData();
-
-        /*final int steps = 100;
-        final int[] currentStep = {0};
-        Timer timer = new Timer(5, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentStep[0] >= steps) {
-                    ((Timer) e.getSource()).stop();
-                    return;
-                }
-                int red = colorOfTheBlock.getRed()/steps * currentStep[0];
-                int green = colorOfTheBlock.getGreen()/steps * currentStep[0];
-                int blue = colorOfTheBlock.getBlue()/steps * currentStep[0];
-                setBackground(new Color(red,green,blue));
-                currentStep[0]++;
-            }
-        });
-        timer.start();*/
-
         currentValueToShow.setText(String.valueOf(currentValue));
         currentValueToShow.setForeground(colorOfTheNumberInTheBlock);
         currentValueToShow.setFont(fontOfTheNumberInTheBlock);
