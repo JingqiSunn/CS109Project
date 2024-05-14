@@ -26,7 +26,6 @@ public class InGamePageWithTimeLimit extends JPanel {
     int sizeOfTheBlockUnit;
     int widthOfTheBlockSet;
     int heightOfTheBlockSet;
-    Timer timer;
     JPanel timePanel;
     JLabel timeLabel;
     int originalTimeLimit;
@@ -34,6 +33,13 @@ public class InGamePageWithTimeLimit extends JPanel {
     int controllingSize;
     int currentTime;
     ThreadForTimer threadForTimer;
+    JPanel buttonControllerSwitch;
+    boolean whetherButtonControllerOut;
+    ButtonController buttonController;
+    int sizeOfButtonController;
+    int repeatTimeForButtonControllerToComeOut;
+    int movingSpeedForButtonController;
+
     public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,int timeLimit, TotalGameFrame totalGameFrame){
         this.setLayout(null);
         this.whetherOutOfTime=false;
@@ -51,6 +57,10 @@ public class InGamePageWithTimeLimit extends JPanel {
         threadForTimer.start();
     }
 
+    public void setWhetherButtonControllerOut(boolean whetherButtonControllerOut) {
+        this.whetherButtonControllerOut = whetherButtonControllerOut;
+    }
+
     public int getOriginalTimeLimit() {
         return originalTimeLimit;
     }
@@ -61,6 +71,13 @@ public class InGamePageWithTimeLimit extends JPanel {
 
     public boolean GetWhetherOutOfTime() {
         return whetherOutOfTime;
+    }
+    public JPanel getButtonControllerSwitch() {
+        return buttonControllerSwitch;
+    }
+
+    public boolean GetWhetherDirectionButtonOut() {
+        return whetherButtonControllerOut;
     }
 
 
@@ -80,6 +97,8 @@ public class InGamePageWithTimeLimit extends JPanel {
             blockUnits.add(newBlockUnit);
         }
         controllingSize = Math.min(sizeOfTheBlock/3,startXOfBlockSet-startYOfBlockSet/5);
+        sizeOfButtonController = (totalWidth/24)*3;
+        movingSpeedForButtonController = (totalWidth- (int)(((double)totalWidth*45)/(double)48)+sizeOfButtonController)/10;
     }
     public void SetUpBlockUnitsInGame(){
         totalBoard = new JPanel();
@@ -93,6 +112,7 @@ public class InGamePageWithTimeLimit extends JPanel {
         totalBoard.setVisible(true);
         this.add(totalBoard);
         this.LoadTheScorePanel();
+        this.LoadButtonControllerSwitch();
         this.LoadTimer();
     }
     public void UpdateBlockUnitsInGame(){
@@ -177,6 +197,24 @@ public class InGamePageWithTimeLimit extends JPanel {
             this.repaint();
         }
     }
+    void LoadButtonControllerSwitch(){
+        buttonControllerSwitch = new JPanel();
+        buttonControllerSwitch.setBounds((int)(((double)totalWidth*47)/(double)48),4*totalHeight/5,(int)(((double)totalWidth)/(double)48),5*totalHeight/5);
+        this.add(buttonControllerSwitch);
+    }
+    public void LoadButtonController(){
+        buttonController = new ButtonController(sizeOfButtonController,sizeOfButtonController);
+        buttonController.setBounds(totalWidth,totalHeight-sizeOfButtonController,sizeOfButtonController,sizeOfButtonController);
+        this.add(buttonController);
+        ActionOfMovingButtonControllerIn actionOfMovingButtonControllerIn = new ActionOfMovingButtonControllerIn();
+        actionOfMovingButtonControllerIn.start();
+        whetherButtonControllerOut = true;
+    }
+    public void CleanButtonController(){
+        this.remove(buttonController);
+        buttonController = null;
+        whetherButtonControllerOut = false;
+    }
     class ThreadForTimer extends Thread {
         @Override
         public void run() {
@@ -203,5 +241,26 @@ public class InGamePageWithTimeLimit extends JPanel {
             timer.start();
         }
     }
-
+    class ActionOfMovingButtonControllerIn extends Thread{
+        public void run() {
+            super.run();
+            repeatTimeForButtonControllerToComeOut = 10;
+            Timer timer = new Timer(20, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (controllingCenter.getGameValidity()) {
+                        repeatTimeForButtonControllerToComeOut -=1;
+                        buttonController.setBounds((int)(((double)totalWidth*45)/(double)48)-sizeOfButtonController+repeatTimeForButtonControllerToComeOut*movingSpeedForButtonController,totalHeight-sizeOfButtonController,sizeOfButtonController,sizeOfButtonController);
+                        repaint();
+                        if (repeatTimeForButtonControllerToComeOut < 0) {
+                            ((Timer) e.getSource()).stop();
+                        }
+                    } else {
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            });
+            timer.setRepeats(true);
+            timer.start();
+        }
+    }
 }
