@@ -42,7 +42,21 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.SetUpBlockUnitsInGame();
         this.setVisible(true);
     }
+    public JPanel GetUpButton() {
+        return buttonController.up;
+    }
 
+    public JPanel GetDownButton() {
+        return buttonController.down;
+    }
+
+    public JPanel GetLeftButton() {
+        return buttonController.left;
+    }
+
+    public JPanel GetRightButton() {
+        return buttonController.right;
+    }
     public JPanel getButtonControllerSwitch() {
         return buttonControllerSwitch;
     }
@@ -109,6 +123,8 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.add(buttonControllerSwitch);
     }
     public void RestartTheGame(){
+        controllingCenter.setWhetherReachedTheTargetScore(false);
+        controllingCenter.setWhetherAlreadyShownWinningPage(false);
         controllingCenter.CleanThePlayingBoardForRestart();
         controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
         controllingCenter.UpdateGameValidity();
@@ -123,9 +139,8 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         whetherButtonControllerOut = true;
     }
     public void CleanButtonController(){
-        this.remove(buttonController);
-        buttonController = null;
-        whetherButtonControllerOut = false;
+        InGamePageWithoutTimeLimit.ActionOfMovingButtonControllerOut actionOfMovingButtonControllerOut =new InGamePageWithoutTimeLimit.ActionOfMovingButtonControllerOut();
+        actionOfMovingButtonControllerOut.start();
     }
     class ActionOfMovingButtonControllerIn extends Thread{
         public void run() {
@@ -139,6 +154,31 @@ public class InGamePageWithoutTimeLimit extends JPanel {
                         repaint();
                         if (repeatTimeForButtonControllerToComeOut < 0) {
                             ((Timer) e.getSource()).stop();
+                        }
+                    } else {
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            });
+            timer.setRepeats(true);
+            timer.start();
+        }
+    }
+    class ActionOfMovingButtonControllerOut extends Thread{
+        public void run() {
+            super.run();
+            repeatTimeForButtonControllerToComeOut = 10;
+            Timer timer = new Timer(20, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (controllingCenter.getGameValidity()) {
+                        repeatTimeForButtonControllerToComeOut -=1;
+                        buttonController.setBounds(totalWidth-repeatTimeForButtonControllerToComeOut*movingSpeedForButtonController,totalHeight-sizeOfButtonController,sizeOfButtonController,sizeOfButtonController);
+                        repaint();
+                        if (repeatTimeForButtonControllerToComeOut < 0) {
+                            ((Timer) e.getSource()).stop();
+                            remove(buttonController);
+                            buttonController = null;
+                            whetherButtonControllerOut = false;
                         }
                     } else {
                         ((Timer) e.getSource()).stop();

@@ -34,8 +34,13 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     DocumentReaderAndWriter documentReaderAndWriter;
     ArrayList<BoardUnit> currentBoardInformation;
     InGamePageWithTimeLimit inGamePageWithTimeLimit;
+    TouristWinningPage touristWinningPage;
     boolean timerIsRunning;
+    boolean winningPageIsOnShow;
+    boolean skin;
     public TotalGameFrame() {
+        skin = false;
+        winningPageIsOnShow = false;
         controllingCenter = new ControllingCenter();
         this.timerIsRunning = false;
         this.setLayout(null);
@@ -121,6 +126,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         boardSizeDIYPage.GetContinueButton().addMouseListener(this);
+        boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
         setFocusable(true);
     }
     void LoadBoardSizeDIYPageWithTimeLimit() {
@@ -133,6 +139,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         boardSizeDIYPage.GetContinueButton().addMouseListener(this);
+        boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
         setFocusable(true);
     }
     void LoadInGamePageForTouristWithoutTimeLimitation() {
@@ -157,6 +164,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(touristDiePage);
         touristDiePage.getBackToMenuOption().addMouseListener(this);
         touristDiePage.getRestartOption().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadTouristWinningPage() {
+        touristWinningPage = new TouristWinningPage(screenSize,controllingCenter,0);
+        touristWinningPage.setVisible(true);
+        this.add(touristWinningPage);
+        touristWinningPage.getBackToMenuOption().addMouseListener(this);
+        touristWinningPage.getContinueOption().addMouseListener(this);
         setFocusable(true);
     }
     void LoadUserLoginPage(){
@@ -223,33 +238,37 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP&&!timerIsRunning){
+        }else if (inGamePageWithoutTimeLimit != null &&!winningPageIsOnShow&& keyBeingActivated == KeyEvent.VK_UP&&!timerIsRunning){
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null &&!winningPageIsOnShow&& keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null &&!winningPageIsOnShow&& keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             controllingCenter.UpdateGameValidity();
             this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
             inGamePageWithoutTimeLimit.RestartTheGame();
@@ -389,6 +408,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 }
             }
         }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+            skin = false;
             if (inGamePageWithTimeLimit != null){
                 inGamePageWithTimeLimit = null;
                 controllingCenter = new ControllingCenter();
@@ -413,6 +433,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             if ( inGamePageWithTimeLimit == null){
                 this.remove(touristDiePage);
                 touristDiePage = null;
+                controllingCenter.setWhetherReachedTheTargetScore(false);
+                controllingCenter.setWhetherAlreadyShownWinningPage(false);
                 controllingCenter.CleanThePlayingBoardForRestart();
                 controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
                 this.LoadInGamePageForTouristWithoutTimeLimitation();
@@ -497,10 +519,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             setVisible(true);
         }else if ((inGamePageWithTimeLimit !=null &&!inGamePageWithTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithTimeLimit.LoadButtonController();
+            inGamePageWithTimeLimit.GetUpButton().addMouseListener(this);
+            inGamePageWithTimeLimit.GetDownButton().addMouseListener(this);
+            inGamePageWithTimeLimit.GetLeftButton().addMouseListener(this);
+            inGamePageWithTimeLimit.GetRightButton().addMouseListener(this);
             repaint();
             setVisible(true);
         }else if (inGamePageWithoutTimeLimit !=null &&!inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.LoadButtonController();
+            inGamePageWithoutTimeLimit.GetUpButton().addMouseListener(this);
+            inGamePageWithoutTimeLimit.GetDownButton().addMouseListener(this);
+            inGamePageWithoutTimeLimit.GetLeftButton().addMouseListener(this);
+            inGamePageWithoutTimeLimit.GetRightButton().addMouseListener(this);
             repaint();
             setVisible(true);
         }else if ((inGamePageWithTimeLimit !=null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
@@ -511,6 +541,95 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithoutTimeLimit.CleanButtonController();
             repaint();
             setVisible(true);
+        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+            skin = false;
+            inGamePageWithoutTimeLimit = null;
+            controllingCenter = new ControllingCenter();
+            this.remove(touristWinningPage);
+            touristWinningPage = null;
+            this.LoadBoardSizeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+            this.remove(touristWinningPage);
+            touristWinningPage = null;
+            this.add(inGamePageWithoutTimeLimit);
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())&&!timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())&&!timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())&&!timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())&&!timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())&&!timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())&&!timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())&&!timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())&&!timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&!skin) {
+            skin=true;
+        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&skin) {
+            skin = false;
         }
     }
 
@@ -622,6 +741,50 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(Color.BLACK);
         }else if (inGamePageWithoutTimeLimit !=null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(Color.RED);
+        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+            touristWinningPage.getBackToMenuOption().setBackground(Color.BLACK);
+            touristWinningPage.getBackToMenuOption().setVisible(true);
+            touristWinningPage.getBackToMenuOption().repaint();
+        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+            touristWinningPage.getContinueOption().setBackground(Color.BLACK);
+            touristWinningPage.getContinueOption().setVisible(true);
+            touristWinningPage.getContinueOption().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())) {
+            inGamePageWithTimeLimit.GetUpButton().setBackground(new Color(0xFF7657));
+            inGamePageWithTimeLimit.GetUpButton().setVisible(true);
+            inGamePageWithTimeLimit.GetUpButton().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())) {
+            inGamePageWithTimeLimit.GetDownButton().setBackground(new Color(0xFF7657));
+            inGamePageWithTimeLimit.GetDownButton().setVisible(true);
+            inGamePageWithTimeLimit.GetDownButton().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())) {
+            inGamePageWithTimeLimit.GetLeftButton().setBackground(new Color(0xFF7657));
+            inGamePageWithTimeLimit.GetLeftButton().setVisible(true);
+            inGamePageWithTimeLimit.GetLeftButton().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())) {
+            inGamePageWithTimeLimit.GetRightButton().setBackground(new Color(0xFF7657));
+            inGamePageWithTimeLimit.GetRightButton().setVisible(true);
+            inGamePageWithTimeLimit.GetRightButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())) {
+            inGamePageWithoutTimeLimit.GetUpButton().setBackground(new Color(0xFF7657));
+            inGamePageWithoutTimeLimit.GetUpButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetUpButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())) {
+            inGamePageWithoutTimeLimit.GetDownButton().setBackground(new Color(0xFF7657));
+            inGamePageWithoutTimeLimit.GetDownButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetDownButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())) {
+            inGamePageWithoutTimeLimit.GetLeftButton().setBackground(new Color(0xFF7657));
+            inGamePageWithoutTimeLimit.GetLeftButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetLeftButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())) {
+            inGamePageWithoutTimeLimit.GetRightButton().setBackground(new Color(0xFF7657));
+            inGamePageWithoutTimeLimit.GetRightButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetRightButton().repaint();
+        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&!skin) {
+            boardSizeDIYPage.getSkinSwitcher().setBackground(Color.BLACK);
+        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&skin) {
+            boardSizeDIYPage.getSkinSwitcher().setBackground(Color.RED);
         }
     }
 
@@ -723,6 +886,48 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(null);
         }else if (inGamePageWithoutTimeLimit !=null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&&componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(null);
+        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+            touristWinningPage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
+            touristWinningPage.getBackToMenuOption().setVisible(true);
+            touristWinningPage.getBackToMenuOption().repaint();
+        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+            touristWinningPage.getContinueOption().setBackground(Color.LIGHT_GRAY);
+            touristWinningPage.getContinueOption().setVisible(true);
+            touristWinningPage.getContinueOption().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())) {
+            inGamePageWithTimeLimit.GetUpButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithTimeLimit.GetUpButton().setVisible(true);
+            inGamePageWithTimeLimit.GetUpButton().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())) {
+            inGamePageWithTimeLimit.GetDownButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithTimeLimit.GetDownButton().setVisible(true);
+            inGamePageWithTimeLimit.GetDownButton().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())) {
+            inGamePageWithTimeLimit.GetLeftButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithTimeLimit.GetLeftButton().setVisible(true);
+            inGamePageWithTimeLimit.GetLeftButton().repaint();
+        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())) {
+            inGamePageWithTimeLimit.GetRightButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithTimeLimit.GetRightButton().setVisible(true);
+            inGamePageWithTimeLimit.GetRightButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())) {
+            inGamePageWithoutTimeLimit.GetUpButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithoutTimeLimit.GetUpButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetUpButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())) {
+            inGamePageWithoutTimeLimit.GetDownButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithoutTimeLimit.GetDownButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetDownButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())) {
+            inGamePageWithoutTimeLimit.GetLeftButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithoutTimeLimit.GetLeftButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetLeftButton().repaint();
+        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())) {
+            inGamePageWithoutTimeLimit.GetRightButton().setBackground(new Color(0xFEFEA4));
+            inGamePageWithoutTimeLimit.GetRightButton().setVisible(true);
+            inGamePageWithoutTimeLimit.GetRightButton().repaint();
+        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))) {
+            boardSizeDIYPage.getSkinSwitcher().setBackground(null);
         }
     }
 
@@ -881,6 +1086,27 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             timer.start();
         }
     }
+    public void JudgeWhetherWinningWithoutTimeLimit() {
+        if (controllingCenter.GetWhetherReachedTheTargetScore()&&!controllingCenter.GetWhetherAlreadyShownWinningPage()) {
+            winningPageIsOnShow = true;
+            controllingCenter.setWhetherAlreadyShownWinningPage(true);
+            timerIsRunning = true;
+            Timer timer = new Timer(2000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timerIsRunning = false;
+                    if (inGamePageWithoutTimeLimit.GetWhetherTourist()) {
+                        remove(inGamePageWithoutTimeLimit);
+                        LoadTouristWinningPage();
+                        setFocusable(true);
+                        repaint();
+                        setVisible(true);
+                    }
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }
     public void JudgeWhetherEndOfGameWithTimeLimit() {
         if (!controllingCenter.getGameValidity()) {
             timerIsRunning = true;
@@ -952,6 +1178,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     private void DealWithTheDIYSetting(){
         boolean whetherDIYSucceed = true;
         UpdateTheCoordinateSetInTheControllingCenter();
+        controllingCenter.setSkin(skin);
         boardSizeDIYPage.CleanExistingWarning();
         if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().isEmpty()){
                 boardSizeDIYPage.EstablishWarn("You should at least choose two blocks!");
@@ -964,6 +1191,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 if (boardSizeDIYPage.GetTimeLimitation().isEmpty()){
                     boardSizeDIYPage.EstablishWarn("The time limitation can not be null!");
                     whetherDIYSucceed = false;
+                } else {
+                    try {
+                        //
+                    }
                 }
             }
         }

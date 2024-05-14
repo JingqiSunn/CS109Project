@@ -60,6 +60,8 @@ public class DrawnBlockUnit extends JPanel {
     private final Color color2 = new Color(254, 254, 254);
 
     public void setAllFont() {
+        System.out.println(controllingCenter.GetSkin());
+        if (!controllingCenter.GetSkin()){
         switch (currentValue) {
             case 0 -> colorOfTheBlock = new Color(206, 194, 180);
             case 2 -> {
@@ -141,6 +143,90 @@ public class DrawnBlockUnit extends JPanel {
             }
             default -> {
             }
+        }}
+        else {
+            switch (currentValue) {
+                case 0 -> colorOfTheBlock = new Color(0xE0ECE4);
+                case 2 -> {
+                    fontOfTheNumberInTheBlock = font1;
+                    colorOfTheNumberInTheBlock = color1;
+                    colorOfTheBlock = new Color(0xF7F2E7);
+                    valueOfTheBlockInString = 2 + "";
+                    this.AnimateEffect();
+                }
+                case 4 -> {
+                    fontOfTheNumberInTheBlock = font1;
+                    colorOfTheNumberInTheBlock = color1;
+                    colorOfTheBlock = new Color(0xD8D3CD);
+                    valueOfTheBlockInString = 4 + "";
+                    this.AnimateEffect();
+                }
+                case 8 -> {
+                    fontOfTheNumberInTheBlock = font1;
+                    colorOfTheNumberInTheBlock = color1;
+                    colorOfTheBlock = new Color(0x797A7E);
+                    valueOfTheBlockInString = 8 + "";
+                    this.AnimateEffect();
+                }
+                case 16 -> {
+                    fontOfTheNumberInTheBlock = font2;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(0xFF8A5C);
+                    valueOfTheBlockInString = 16 + "";
+                    this.AnimateEffect();
+                }
+                case 32 -> {
+                    fontOfTheNumberInTheBlock = font2;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(0xF5587B);
+                    valueOfTheBlockInString = 32 + "";
+                    this.AnimateEffect();
+                }
+                case 64 -> {
+                    fontOfTheNumberInTheBlock = font2;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(0xE41749);
+                    valueOfTheBlockInString = 64 + "";
+                    this.AnimateEffect();
+                }
+                case 128 -> {
+                    fontOfTheNumberInTheBlock = font3;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(237, 206, 115);
+                    valueOfTheBlockInString = 128 + "";
+                    this.AnimateEffect();
+                }
+                case 256 -> {
+                    fontOfTheNumberInTheBlock = font3;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(0xE41749);
+                    valueOfTheBlockInString = 256 + "";
+                    this.AnimateEffect();
+                }
+                case 512 -> {
+                    fontOfTheNumberInTheBlock = font3;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(0xB206B0);
+                    valueOfTheBlockInString = 512 + "";
+                    this.AnimateEffect();
+                }
+                case 1024 -> {
+                    fontOfTheNumberInTheBlock = font4;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(0xDD5B82);
+                    valueOfTheBlockInString = 1024 + "";
+                    this.AnimateEffect();
+                }
+                case 2048 -> {
+                    fontOfTheNumberInTheBlock = font4;
+                    colorOfTheNumberInTheBlock = color2;
+                    colorOfTheBlock = new Color(0xFE9797);
+                    valueOfTheBlockInString = 2048 + "";
+                    this.AnimateEffect();
+                }
+                default -> {
+                }
+            }
         }
     }
 
@@ -164,6 +250,9 @@ public class DrawnBlockUnit extends JPanel {
         currentValueToShow.setVisible(true);
         this.remove(currentValueToShow);
         this.UpdateTheData();
+        if (currentValue>=controllingCenter.getTargetWinningScore()&&!controllingCenter.GetWhetherAlreadyShownWinningPage()){
+            controllingCenter.setWhetherReachedTheTargetScore(true);
+        }
         currentValueToShow.setText(String.valueOf(currentValue));
         currentValueToShow.setForeground(colorOfTheNumberInTheBlock);
         currentValueToShow.setFont(fontOfTheNumberInTheBlock);

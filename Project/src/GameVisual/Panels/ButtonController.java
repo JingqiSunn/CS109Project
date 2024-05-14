@@ -63,7 +63,7 @@ public class ButtonController extends JPanel {
         right.setLayout(new BorderLayout());
         right.setBounds(2*size,size,size,size);
         right.setBackground(new Color(0xFEFEA4));
-        rightLabel = new JLabel("LEFT");
+        rightLabel = new JLabel("RIGHT");
         rightLabel.setForeground(new Color(0x5C5757));
         rightLabel.setHorizontalAlignment(JLabel.CENTER);
         rightLabel.setVerticalAlignment(JLabel.CENTER);

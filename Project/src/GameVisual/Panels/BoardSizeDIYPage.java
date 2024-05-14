@@ -28,6 +28,7 @@ public class BoardSizeDIYPage extends JPanel {
     JLabel warnLabel;
     JPanel continueToPlay;
     JLabel continueToPlayLabel;
+    JPanel skinSwitcher;
 
     public BoardSizeDIYPage(Dimension screenSize, boolean whetherTimeLimited){
         this.setLayout(null);
@@ -64,6 +65,10 @@ public class BoardSizeDIYPage extends JPanel {
     }
     public JLabel GetContinueLabel(){
         return continueToPlayLabel;
+    }
+
+    public JPanel getSkinSwitcher() {
+        return skinSwitcher;
     }
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize){
@@ -118,6 +123,7 @@ public class BoardSizeDIYPage extends JPanel {
         continueToPlayLabel.setVerticalAlignment(JLabel.CENTER);
         continueToPlay.add(continueToPlayLabel);
         this.add(continueToPlay);
+        this.LoadSkinSwitcher();
     }
     public void SetUpForAskForTimeLimit() {
         askForLimit = new JPanel();
@@ -167,5 +173,10 @@ public class BoardSizeDIYPage extends JPanel {
         }
         this.repaint();
         this.setVisible(true);
+    }
+    void LoadSkinSwitcher(){
+        skinSwitcher = new JPanel();
+        skinSwitcher.setBounds((int)(((double)totalWidth*47)/(double)48),4*totalHeight/5,(int)(((double)totalWidth)/(double)48),5*totalHeight/5);
+        this.add(skinSwitcher);
     }
 }

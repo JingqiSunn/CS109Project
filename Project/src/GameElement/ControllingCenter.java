@@ -9,12 +9,15 @@ public class ControllingCenter {
     public int timeLimitation;
     public boolean whetherTimeLimitationMode;
     public boolean whetherAnimated;
-
+    int targetWinningScore;
+    boolean whetherReachedTheTargetScore;
     public void setCurrentPlayingBoard(Board currentPlayingBoard) {
         this.currentPlayingBoard = currentPlayingBoard;
     }
 
     private Board currentPlayingBoard;
+    boolean whetherAlreadyShownWinningPage;
+    boolean skin;
 
     public boolean getGameValidity() {
         return gameValidity;
@@ -35,6 +38,10 @@ public class ControllingCenter {
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
     public ControllingCenter() {
+        skin = false;
+        whetherAlreadyShownWinningPage = false;
+        whetherReachedTheTargetScore = false;
+        targetWinningScore = 16;
         whetherAnimated = false;
         timeLimitation = 0;
         whetherTimeLimitationMode = false;
@@ -43,6 +50,34 @@ public class ControllingCenter {
         currentPlayingBoard = new Board();
         informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
+    }
+
+    public boolean GetSkin() {
+        return skin;
+    }
+
+    public void setSkin(boolean skin) {
+        this.skin = skin;
+    }
+
+    public int getTargetWinningScore() {
+        return targetWinningScore;
+    }
+
+    public void setWhetherAlreadyShownWinningPage(boolean whetherAlreadyShownWinningPage) {
+        this.whetherAlreadyShownWinningPage = whetherAlreadyShownWinningPage;
+    }
+
+    public boolean GetWhetherReachedTheTargetScore() {
+        return whetherReachedTheTargetScore;
+    }
+
+    public boolean GetWhetherAlreadyShownWinningPage() {
+        return whetherAlreadyShownWinningPage;
+    }
+
+    public void setWhetherReachedTheTargetScore(boolean whetherReachedTheTargetScore) {
+        this.whetherReachedTheTargetScore = whetherReachedTheTargetScore;
     }
 
     public void setInformationOfAllTheCoordinateOfTheBoardUnit(ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit) {

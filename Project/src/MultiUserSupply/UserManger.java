@@ -47,10 +47,10 @@ public class UserManger {
         feedBackForUserNameInLogin = null;
         if (userName.isEmpty()){
             whetherValid = false;
-            feedBackForUserNameInLogin = "User name can not be null!";
+            feedBackForUserNameInLogin = "Username can not be null!";
         } else if (!ExamineWhetherExistedUserName(userName)){
             whetherValid = false;
-            feedBackForUserNameInLogin = "No existing user name!";
+            feedBackForUserNameInLogin = "No existing username!";
         }
         return whetherValid;
     }
@@ -74,13 +74,13 @@ public class UserManger {
         feedBackForUserName = null;
         if(userName.isEmpty()){
             whetherValid = false;
-            feedBackForUserName = "User name can not be null!";
+            feedBackForUserName = "Username can not be null!";
         }else if (userName.length()<4||userName.length()>16){
             whetherValid = false;
             feedBackForUserName ="The username must consist of 4 to 16 characters!";
         } else if(!ExamineUsernameWhetherOnlyLetterNumberAndDash(userName)){
             whetherValid = false;
-            feedBackForUserName = "There exists invalid chars in your user name!";
+            feedBackForUserName = "There exists invalid chars in your username!";
         } else if (ExamineWhetherExistedUserName(userName)) {
             whetherValid = false;
             feedBackForUserName = "Username is already in use!";
@@ -99,7 +99,7 @@ public class UserManger {
             feedBackForPassWords ="The passwords must consist of 4 to 16 characters!";
         } else if(!ExaminePassWordsWhetherOnlyLetterNumber(passWords)){
             whetherValid = false;
-            feedBackForPassWords = "There exists invalid chars in your user name!";
+            feedBackForPassWords = "There exists invalid chars in your passwords!";
         } else if(!ExamineWhetherUseThreeKindsInPassWords(passWords)){
             whetherValid = false;
         }
