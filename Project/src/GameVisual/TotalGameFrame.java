@@ -1192,8 +1192,19 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     boardSizeDIYPage.EstablishWarn("The time limitation can not be null!");
                     whetherDIYSucceed = false;
                 } else {
+                    if (boardSizeDIYPage.GetTimeLimitation().length() > 5) {
+                        boardSizeDIYPage.EstablishWarn("Time limitation is too long!");
+                        whetherDIYSucceed = false;
+                    }
                     try {
-                        //
+                        int timeLimit = Integer.parseInt(boardSizeDIYPage.GetTimeLimitation());
+                        if (timeLimit > 3600) {
+                            boardSizeDIYPage.EstablishWarn("Time limitation should be no more than 3600 seconds!");
+                            whetherDIYSucceed = false;
+                        }
+                    } catch (NumberFormatException e) {
+                        boardSizeDIYPage.EstablishWarn("There exists invalid characters in time limitation!");
+                        whetherDIYSucceed = false;
                     }
                 }
             }
