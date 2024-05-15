@@ -1,6 +1,7 @@
 package GameVisual.Panels;
 
 import GameElement.ControllingCenter;
+import MultiUserSupply.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,8 +35,19 @@ public abstract class DiePage extends JPanel {
     JLabel backToMenuLabel;
     String contentInWordSpaceOne;
     String contentInWordSpaceTwo;
+    User user;
 
     public DiePage(Dimension screenSize, ControllingCenter controllingCenter, int ownBestScore) {
+        this.controllingCenter = controllingCenter;
+        this.ownBestScore = ownBestScore;
+        this.globalBestScore = 0;
+        this.setLayout(null);
+        this.UpdateSizeAndLocationForOptions(screenSize);
+        this.setBounds(0, 0, totalWidth, totalHeight);
+        this.SetUpOptionsInTheDiePage();
+    }
+    public DiePage(Dimension screenSize, ControllingCenter controllingCenter, int ownBestScore,User user) {
+        this.user = user;
         this.controllingCenter = controllingCenter;
         this.ownBestScore = ownBestScore;
         this.globalBestScore = 0;

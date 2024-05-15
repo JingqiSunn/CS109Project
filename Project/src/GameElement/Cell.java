@@ -38,7 +38,6 @@ public class Cell {
     public void setWhetherNeedToDisappear(Boolean whetherNeedToDisappear) {
         this.whetherNeedToDisappear = whetherNeedToDisappear;
     }
-
     static Boolean WhetherHaveTheSameValue(Cell cell1, Cell cell2){
         if(cell1.getValue()==cell2.getValue()){
             return true;

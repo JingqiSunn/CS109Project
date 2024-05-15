@@ -1,6 +1,7 @@
 package GameVisual.Panels;
 
 import GameElement.ControllingCenter;
+import MultiUserSupply.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,9 @@ public class InGamePageWithoutTimeLimit extends JPanel {
     int sizeOfButtonController;
     int repeatTimeForButtonControllerToComeOut;
     int movingSpeedForButtonController;
+    User user;
+    JPanel userPanel;
+    JLabel userLabel;
 
     public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist){
         whetherButtonControllerOut = false;
@@ -40,6 +44,19 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.UpdateSizeAndLocationForOptions(totalSize,controllingCenter);
         this.setBounds(0,0,totalWidth,totalHeight);
         this.SetUpBlockUnitsInGame();
+        this.setVisible(true);
+    }
+    public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,User user){
+        this.user = user;
+        whetherButtonControllerOut = false;
+        this.setLayout(null);
+        this.whetherTourist = whetherTourist;
+        this.controllingCenter = controllingCenter;
+        this.totalSize = screenSize;
+        this.UpdateSizeAndLocationForOptions(totalSize,controllingCenter);
+        this.setBounds(0,0,totalWidth,totalHeight);
+        this.SetUpBlockUnitsInGame();
+        this.SetUpUserPanel();
         this.setVisible(true);
     }
     public JPanel GetUpButton() {
@@ -188,5 +205,17 @@ public class InGamePageWithoutTimeLimit extends JPanel {
             timer.setRepeats(true);
             timer.start();
         }
+    }
+    void SetUpUserPanel(){
+        userPanel = new JPanel();
+        userPanel.setLayout(new BorderLayout());
+        userPanel.setBounds(0,0,totalWidth/4,totalHeight/24);
+        userLabel = new JLabel(" "+user.getUserName());
+        userLabel.setFont(new Font("Bradley Hand",Font.BOLD, 30));
+        userLabel.setForeground(Color.BLACK);
+        userLabel.setHorizontalAlignment(JLabel.LEFT);
+        userLabel.setVerticalAlignment(JLabel.CENTER);
+        userPanel.add(userLabel,BorderLayout.WEST);
+        this.add(userPanel);
     }
 }

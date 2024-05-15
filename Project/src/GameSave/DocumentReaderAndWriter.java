@@ -2,6 +2,7 @@ package GameSave;
 
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
+import MultiUserSupply.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

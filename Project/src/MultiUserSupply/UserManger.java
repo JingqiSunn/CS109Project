@@ -3,6 +3,11 @@ package MultiUserSupply;
 import GameSave.DocumentReaderAndWriter;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -40,6 +45,7 @@ public class UserManger {
         String directoryPath = "src/UserInformation/PersonalInformation/"+ userName;
         File directory = new File(directoryPath);
         directory.mkdirs();
+        this.CreateInnerDirectoriesForSpecificUser(directoryPath);
     }
     public boolean ExamineValidityOfUserNameWhenLogin(String userName){
         this.FetchUserGeneralInformation();
@@ -272,5 +278,49 @@ public class UserManger {
             whetherCorrect = true;
         }
         return whetherCorrect;
+    }
+    private void CreateInnerDirectoriesForSpecificUser(String directoryPath){
+        File directory = new File(directoryPath+"/MultiPlayer");
+        directory.mkdirs();
+        directory = new File(directoryPath+"/Record");
+        directory.mkdirs();
+        directory = new File(directoryPath+"/SinglePlayer");
+        directory.mkdirs();
+        directory = new File(directoryPath+"/SinglePlayer/Competition");
+        directory.mkdirs();
+        directory = new File(directoryPath+"/SinglePlayer/Practice");
+        directory.mkdirs();
+        directory = new File(directoryPath+"/SinglePlayer/Competition/InThreeMinutes");
+        directory.mkdirs();
+        directory = new File(directoryPath+"/SinglePlayer/Competition/WithoutTimeLimit");
+        directory.mkdirs();
+        directory = new File(directoryPath+"/SinglePlayer/Competition/WithoutTimeLimit");
+        directory.mkdirs();
+        File file = new File(directoryPath+"/SinglePlayer/Competition/WithoutTimeLimit","StepAverage.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Files.write(Path.of(directoryPath+"/SinglePlayer/Competition/WithoutTimeLimit/StepAverage.txt"),
+                    (String.valueOf(0)).getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+                    StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        file = new File(directoryPath+"/SinglePlayer/Competition/WithoutTimeLimit","PersonalBestFiveScoresAndAverage.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Files.write(Path.of(directoryPath+"/SinglePlayer/Competition/WithoutTimeLimit/PersonalBestFiveScoresAndAverage.txt"),
+                    (0+"\n"+0+"\n"+0+"\n"+0+"\n"+0+"\n"+0+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+                    StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
