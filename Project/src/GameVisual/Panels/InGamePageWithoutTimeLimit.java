@@ -109,7 +109,7 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         for (DrawnBlockUnit blockUnit : blockUnits) {
             blockUnit.UpdateTheOutputShowInGame();
         }
-        scorePanel.UpdateTheScorePanel();
+        scorePanel.UpdateTheMonitorPanel();
         repaint();
     }
     void LoadTheScorePanel(){

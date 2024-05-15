@@ -137,7 +137,7 @@ public class InGamePageWithTimeLimit extends JPanel {
         for (DrawnBlockUnit blockUnit : blockUnits) {
             blockUnit.UpdateTheOutputShowInGame();
         }
-        scorePanel.UpdateTheScorePanel();
+        scorePanel.UpdateTheMonitorPanel();
         this.UpDateTheTimerPanel();
         repaint();
     }
@@ -146,7 +146,7 @@ public class InGamePageWithTimeLimit extends JPanel {
         for (DrawnBlockUnit blockUnit : blockUnits) {
             blockUnit.UpdateTheOutputShowInGame();
         }
-        scorePanel.UpdateTheScorePanel();
+        scorePanel.UpdateTheMonitorPanel();
         this.RestartTheTimerPanel();
         repaint();
     }

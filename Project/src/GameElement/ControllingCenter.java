@@ -18,6 +18,8 @@ public class ControllingCenter {
     private Board currentPlayingBoard;
     boolean whetherAlreadyShownWinningPage;
     boolean skin;
+    int numberOfStep;
+    boolean inCompetition;
 
     public boolean getGameValidity() {
         return gameValidity;
@@ -38,6 +40,8 @@ public class ControllingCenter {
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
     public ControllingCenter() {
+        inCompetition = false;
+        numberOfStep = 0;
         skin = false;
         whetherAlreadyShownWinningPage = false;
         whetherReachedTheTargetScore = false;
@@ -50,6 +54,18 @@ public class ControllingCenter {
         currentPlayingBoard = new Board();
         informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
+    }
+
+    public boolean GetInCompetition() {
+        return inCompetition;
+    }
+
+    public void setInCompetition(boolean inCompetition) {
+        this.inCompetition = inCompetition;
+    }
+
+    public int getNumberOfStep() {
+        return numberOfStep;
     }
 
     public boolean GetSkin() {
@@ -116,26 +132,34 @@ public class ControllingCenter {
         if(currentPlayingBoard.getAvailableDirectionSet()[3]==1){
         currentPlayingBoard.BoardRightMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        numberOfStep+=1;
+        }
     }
     public void LeftAction(){
 
         if(currentPlayingBoard.getAvailableDirectionSet()[2]==1){
         currentPlayingBoard.BoardLeftMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        numberOfStep+=1;
+        }
     }
     public void DownAction(){
         if(currentPlayingBoard.getAvailableDirectionSet()[1]==1){
         currentPlayingBoard.BoardDownMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        numberOfStep+=1;
+        }
     }
     public void UpAction(){
         if(currentPlayingBoard.getAvailableDirectionSet()[0]==1){
         currentPlayingBoard.BoardUpMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();}
+        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+        numberOfStep+=1;
+        }
     }
 
     public int getTimeLimitation() {
@@ -227,6 +251,7 @@ public int FindTheMaxXCoordinate(){
         }
         currentGameScore = 0;
         currentPlayingBoard.setCurrentScore(0);
+        numberOfStep = 0;
     }
 
 }
