@@ -1,6 +1,7 @@
 package GameVisual.Panels;
 
 import GameElement.ControllingCenter;
+import MultiUserSupply.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,24 @@ public class ScorePanel extends JPanel {
     JLabel currentStepNumberLabel;
     JPanel personalBestPanel;
     JLabel personalBestLabel;
-    public ScorePanel(int startX,int startY, int totalWidth ,ControllingCenter controllingCenter, boolean whetherTourist){
+    User user;
+    JPanel historicalBestPanel;
+    JLabel historicalBestLabel;
+    boolean whetherTimeLimited;
+    public ScorePanel(int startX, int startY, int totalWidth , ControllingCenter controllingCenter, boolean whetherTourist, User user,boolean whetherTimeLimited){
+        super();
+        this.whetherTimeLimited=whetherTimeLimited;
+        this.user = user;
+        this.startXForBlockSet = startX;
+        this.startYForBlockSet = startY;
+        this.totalWidth = totalWidth;
+        this.controllingCenter=controllingCenter;
+        this.whetherTourist = whetherTourist;
+        this.setBounds(startXForBlockSet,2*startYForBlockSet/3,totalWidth,startYForBlockSet-2*startYForBlockSet/3);
+        this.setLayout(null);
+        this.SetUpDataAndPanel();
+    }
+    public ScorePanel(int startX, int startY, int totalWidth , ControllingCenter controllingCenter, boolean whetherTourist){
         super();
         this.startXForBlockSet = startX;
         this.startYForBlockSet = startY;
@@ -51,7 +69,7 @@ public class ScorePanel extends JPanel {
             currentScorePanel.setBackground(Color.LIGHT_GRAY);
             currentScorePanel.setVisible(true);
             this.add(currentScorePanel);
-        } else if (!whetherTourist) {
+        } else if (!whetherTimeLimited) {
             int controllingSize = Math.min(totalWidth/3,startYForBlockSet-startYForBlockSet/5);
             this.UpdateTheCurrentFontForCurrentScore();
             currentScorePanel = new JPanel(new BorderLayout());
@@ -74,8 +92,44 @@ public class ScorePanel extends JPanel {
             currentStepNumberPanel.add(currentScoreLabel,BorderLayout.CENTER);
             currentStepNumberPanel.setBackground(Color.LIGHT_GRAY);
             currentStepNumberPanel.setVisible(true);
+            historicalBestPanel = new JPanel(new BorderLayout());
+            historicalBestPanel.setBounds(0,0,totalWidth/3,startYForBlockSet-2*startYForBlockSet/3);
+            historicalBestLabel = new JLabel(String.valueOf(user.getBestScoreInCompetitionWithTimeLimit()));
+            historicalBestLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.18) ));
+            historicalBestLabel.setHorizontalAlignment(JLabel.CENTER);
+            historicalBestLabel.setVerticalAlignment(JLabel.CENTER);
+            historicalBestLabel.setVisible(true);
+            historicalBestPanel.add(currentScoreLabel,BorderLayout.CENTER);
+            historicalBestPanel.setBackground(Color.LIGHT_GRAY);
+            historicalBestPanel.setVisible(true);
+            this.add(historicalBestPanel);
             this.add(currentScorePanel);
             this.add(currentStepNumberPanel);
+        } else if (whetherTimeLimited) {
+            int controllingSize = Math.min(totalWidth/3,startYForBlockSet-startYForBlockSet/5);
+            this.UpdateTheCurrentFontForCurrentScore();
+            currentScorePanel = new JPanel(new BorderLayout());
+            currentScorePanel.setBounds(totalWidth/3,0,totalWidth/3,startYForBlockSet-2*startYForBlockSet/3);
+            currentScoreLabel = new JLabel(String.valueOf(controllingCenter.getCurrentGameScore()));
+            currentScoreLabel.setFont(currentFont);
+            currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+            currentScoreLabel.setVerticalAlignment(JLabel.CENTER);
+            currentScoreLabel.setVisible(true);
+            currentScorePanel.add(currentScoreLabel,BorderLayout.CENTER);
+            currentScorePanel.setBackground(Color.LIGHT_GRAY);
+            currentScorePanel.setVisible(true);
+            currentStepNumberPanel = new JPanel(new BorderLayout());
+            currentStepNumberPanel.setBounds(2*totalWidth/3,0,totalWidth/3,startYForBlockSet-2*startYForBlockSet/3);
+            currentStepNumberLabel = new JLabel(String.valueOf(controllingCenter.getNumberOfStep()));
+            currentStepNumberLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.18) ));
+            currentStepNumberLabel.setHorizontalAlignment(JLabel.CENTER);
+            currentStepNumberLabel.setVerticalAlignment(JLabel.CENTER);
+            currentStepNumberLabel.setVisible(true);
+            currentStepNumberPanel.add(currentScoreLabel,BorderLayout.CENTER);
+            currentStepNumberPanel.setBackground(Color.LIGHT_GRAY);
+            currentStepNumberPanel.setVisible(true);
+            this.add(historicalBestPanel);
+            this.add(currentScorePanel);
         }
     }
     void UpdateTheCurrentFontForCurrentScore(){
@@ -111,6 +165,7 @@ public class ScorePanel extends JPanel {
             this.UpdateTheCurrentFontForCurrentScore();
             this.remove(currentScorePanel);
             this.remove(currentStepNumberPanel);
+            this.remove(historicalBestPanel);
             currentScoreLabel.setText(String.valueOf(controllingCenter.getCurrentGameScore()));
             currentScoreLabel.setFont(currentFont);
             currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -124,6 +179,13 @@ public class ScorePanel extends JPanel {
             currentStepNumberLabel.setVisible(true);
             currentStepNumberPanel.add(currentStepNumberLabel,BorderLayout.CENTER);
             currentScorePanel.setVisible(true);
+            historicalBestLabel.setText(String.valueOf(user.getBestScoreInCompetitionWithTimeLimit()));
+            historicalBestLabel.setHorizontalAlignment(JLabel.CENTER);
+            historicalBestLabel.setVerticalAlignment(JLabel.CENTER);
+            currentStepNumberLabel.setVisible(true);
+            historicalBestPanel.add(historicalBestLabel,BorderLayout.CENTER);
+            historicalBestPanel.setVisible(true);
+            this.add(historicalBestPanel);
             this.add(currentScorePanel);
             this.add(currentStepNumberPanel);
         }

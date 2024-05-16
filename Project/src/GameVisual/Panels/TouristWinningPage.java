@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TouristWinningPage extends WinningPage{
-    public TouristWinningPage(Dimension screenSize, ControllingCenter controllingCenter, int ownLeastStep){
-        super(screenSize,controllingCenter,ownLeastStep);
+    public TouristWinningPage(Dimension screenSize, ControllingCenter controllingCenter){
+        super(screenSize,controllingCenter);
     }
     void SetUpWordSpaceOne(){
         contentInWordSpaceOne = String.format("You reached %d successfully!",controllingCenter.getTargetWinningScore());

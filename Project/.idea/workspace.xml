@@ -196,7 +196,12 @@
       <workItem from="1715730012651" duration="1250000" />
       <workItem from="1715734509480" duration="4100000" />
       <workItem from="1715753263178" duration="6364000" />
-      <workItem from="1715772967207" duration="11927000" />
+      <workItem from="1715772967207" duration="12305000" />
+      <workItem from="1715825566163" duration="56000" />
+      <workItem from="1715829093563" duration="449000" />
+      <workItem from="1715836123569" duration="3275000" />
+      <workItem from="1715842332800" duration="181000" />
+      <workItem from="1715845888410" duration="13949000" />
     </task>
     <servers />
   </component>
@@ -216,14 +221,14 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>207</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/Panels/TouristWinningPage.java</url>
           <line>12</line>
           <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -10,7 +10,6 @@ public abstract class WinningPage extends JPanel {
 
     Dimension totalSize;
     ControllingCenter controllingCenter;
-    int ownLeastStep;
     int totalWidth;
     int totalHeight;
     int globalLeastStep;
@@ -37,19 +36,17 @@ public abstract class WinningPage extends JPanel {
     String contentInWordSpaceTwo;
     User user;
 
-    public WinningPage(Dimension screenSize, ControllingCenter controllingCenter, int ownLeastStep) {
+    public WinningPage(Dimension screenSize, ControllingCenter controllingCenter) {
         this.controllingCenter = controllingCenter;
-        this.ownLeastStep = ownLeastStep;
         this.globalLeastStep = 0;
         this.setLayout(null);
         this.UpdateSizeAndLocationForOptions(screenSize);
         this.setBounds(0, 0, totalWidth, totalHeight);
         this.SetUpOptionsInTheDiePage();
     }
-    public WinningPage(Dimension screenSize, ControllingCenter controllingCenter, int ownLeastStep,User user) {
+    public WinningPage(Dimension screenSize, ControllingCenter controllingCenter,User user) {
         this.user = user;
         this.controllingCenter = controllingCenter;
-        this.ownLeastStep = ownLeastStep;
         this.globalLeastStep = 0;
         this.setLayout(null);
         this.UpdateSizeAndLocationForOptions(screenSize);

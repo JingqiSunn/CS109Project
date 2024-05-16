@@ -1,0 +1,10 @@
+#Thu May 16 19:51:44 CST 2024
+BestScoreFive=520
+BestScoreFour=3100
+BestScoreOne=7268
+BestScoreThree=5856
+BestScoreTwo=6668
+TimeOverFourteenThousand=0
+TimeOverSevenThousand=1
+TotalGameNumber=15
+TotalWinTime=21

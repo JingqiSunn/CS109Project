@@ -10,7 +10,7 @@ public class UserWinningPage extends WinningPage{
     JPanel userPanel;
     JLabel userLabel;
     public UserWinningPage(Dimension screenSize, ControllingCenter controllingCenter, User user){
-        super(screenSize,controllingCenter,user.getOwnLeastStepToWinInCompetition(),user);
+        super(screenSize,controllingCenter,user);
         this.SetUpUserPanel();
     }
     void SetUpWordSpaceOne(){

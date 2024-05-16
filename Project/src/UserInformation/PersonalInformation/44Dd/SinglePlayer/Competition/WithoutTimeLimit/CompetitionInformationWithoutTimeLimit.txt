@@ -1,0 +1,9 @@
+#Thu May 16 18:18:38 CST 2024
+AverageScore=0
+BestScoreFive=1012
+BestScoreFour=1020
+BestScoreOne=1052
+BestScoreThree=1028
+BestScoreTwo=1052
+TotalGameNumber=1
+TotalWinTime=1

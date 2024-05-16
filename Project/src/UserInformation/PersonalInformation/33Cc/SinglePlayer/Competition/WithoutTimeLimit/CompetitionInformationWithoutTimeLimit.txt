@@ -1,0 +1,10 @@
+#Thu May 16 18:08:45 CST 2024
+AverageScore=0
+AverageStepsNumberToWin=0
+BestScoreFive=0
+BestScoreFour=0
+BestScoreOne=0
+BestScoreThree=0
+BestScoreTwo=0
+TotalGameNumber=4
+TotalWinTime=4

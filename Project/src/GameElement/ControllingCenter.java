@@ -20,6 +20,7 @@ public class ControllingCenter {
     boolean skin;
     int numberOfStep;
     boolean inCompetition;
+    int scoreEarnLastMove;
 
     public boolean getGameValidity() {
         return gameValidity;
@@ -40,6 +41,7 @@ public class ControllingCenter {
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
     public ControllingCenter() {
+        scoreEarnLastMove = 0;
         inCompetition = false;
         numberOfStep = 0;
         skin = false;
@@ -54,6 +56,10 @@ public class ControllingCenter {
         currentPlayingBoard = new Board();
         informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
+    }
+
+    public int getScoreEarnLastMove() {
+        return scoreEarnLastMove;
     }
 
     public boolean GetInCompetition() {
@@ -129,37 +135,48 @@ public class ControllingCenter {
     }
 
     public void RightAction(){
+        int scoreLastTerm = currentGameScore;
         if(currentPlayingBoard.getAvailableDirectionSet()[3]==1){
         currentPlayingBoard.BoardRightMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
         numberOfStep+=1;
         }
+        scoreLastTerm = currentGameScore - scoreLastTerm;
     }
     public void LeftAction(){
 
+        int scoreLastTerm = currentGameScore;
         if(currentPlayingBoard.getAvailableDirectionSet()[2]==1){
         currentPlayingBoard.BoardLeftMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
         numberOfStep+=1;
         }
+        scoreLastTerm = currentGameScore - scoreLastTerm;
+
     }
     public void DownAction(){
+        int scoreLastTerm = currentGameScore;
         if(currentPlayingBoard.getAvailableDirectionSet()[1]==1){
         currentPlayingBoard.BoardDownMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
         numberOfStep+=1;
         }
+        scoreLastTerm = currentGameScore - scoreLastTerm;
+
     }
     public void UpAction(){
+        int scoreLastTerm = currentGameScore;
         if(currentPlayingBoard.getAvailableDirectionSet()[0]==1){
         currentPlayingBoard.BoardUpMove();
         currentGameScore=currentPlayingBoard.getCurrentScore();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
         numberOfStep+=1;
         }
+        scoreLastTerm = currentGameScore - scoreLastTerm;
+
     }
 
     public int getTimeLimitation() {

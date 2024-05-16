@@ -34,6 +34,8 @@ public class InGamePageWithoutTimeLimit extends JPanel {
     User user;
     JPanel userPanel;
     JLabel userLabel;
+    boolean whetherTimeLimited;
+    boolean whetherCompetition;
 
     public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist){
         whetherButtonControllerOut = false;
@@ -46,7 +48,9 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.SetUpBlockUnitsInGame();
         this.setVisible(true);
     }
-    public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,User user){
+    public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,User user,boolean whetherCompetition,boolean whetherTimeLimited){
+        this.whetherCompetition = whetherCompetition;
+        this.whetherTimeLimited = whetherTimeLimited;
         this.user = user;
         whetherButtonControllerOut = false;
         this.setLayout(null);
@@ -130,7 +134,11 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         repaint();
     }
     void LoadTheScorePanel(){
-        scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist);
+        if (whetherTourist){
+        scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist);}
+        else{
+            scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist,user,whetherTimeLimited);
+        }
         scorePanel.setVisible(true);
         this.add(scorePanel);
     }
@@ -140,6 +148,9 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.add(buttonControllerSwitch);
     }
     public void RestartTheGame(){
+        if (!whetherTourist&&whetherCompetition){
+            user.addOneGameTotalGameNumberForCompetitionWithoutLimit();
+        }
         controllingCenter.setWhetherReachedTheTargetScore(false);
         controllingCenter.setWhetherAlreadyShownWinningPage(false);
         controllingCenter.CleanThePlayingBoardForRestart();

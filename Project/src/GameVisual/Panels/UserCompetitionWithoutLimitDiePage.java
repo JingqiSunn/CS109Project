@@ -6,10 +6,10 @@ import MultiUserSupply.User;
 import javax.swing.*;
 import java.awt.*;
 
-public class UserCompetitionWithLimitDiePage extends DiePage{
+public class UserCompetitionWithoutLimitDiePage extends DiePage{
     JPanel userPanel;
     JLabel userLabel;
-    public UserCompetitionWithLimitDiePage(Dimension screenSize, ControllingCenter controllingCenter, User user){
+    public UserCompetitionWithoutLimitDiePage(Dimension screenSize, ControllingCenter controllingCenter, User user){
         super(screenSize,controllingCenter,user.getBestScoreInCompetitionWithTimeLimit(),user);
         this.SetUpUserPanel();
     }

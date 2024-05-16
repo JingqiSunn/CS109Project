@@ -2,6 +2,7 @@ package GameVisual.Panels;
 
 import GameElement.ControllingCenter;
 import GameVisual.TotalGameFrame;
+import MultiUserSupply.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +40,9 @@ public class InGamePageWithTimeLimit extends JPanel {
     int sizeOfButtonController;
     int repeatTimeForButtonControllerToComeOut;
     int movingSpeedForButtonController;
-
+    User user;
+    JPanel userPanel;
+    JLabel userLabel;
     public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame) {
         this.setLayout(null);
         this.whetherOutOfTime = false;
@@ -52,6 +55,24 @@ public class InGamePageWithTimeLimit extends JPanel {
         this.UpdateSizeAndLocationForOptions(totalSize, controllingCenter);
         this.setBounds(0, 0, totalWidth, totalHeight);
         this.SetUpBlockUnitsInGame();
+        this.setVisible(true);
+        threadForTimer = new ThreadForTimer();
+        threadForTimer.start();
+    }
+    public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame,User user) {
+        this.user = user;
+        this.setLayout(null);
+        this.whetherOutOfTime = false;
+        this.totalGameFrame = totalGameFrame;
+        this.whetherTourist = whetherTourist;
+        this.originalTimeLimit = timeLimit;
+        currentTime = originalTimeLimit;
+        this.controllingCenter = controllingCenter;
+        this.totalSize = screenSize;
+        this.UpdateSizeAndLocationForOptions(totalSize, controllingCenter);
+        this.setBounds(0, 0, totalWidth, totalHeight);
+        this.SetUpBlockUnitsInGame();
+        this.SetUpUserPanel();
         this.setVisible(true);
         threadForTimer = new ThreadForTimer();
         threadForTimer.start();
@@ -317,5 +338,17 @@ public class InGamePageWithTimeLimit extends JPanel {
             timer.setRepeats(true);
             timer.start();
         }
+    }
+    void SetUpUserPanel(){
+        userPanel = new JPanel();
+        userPanel.setLayout(new BorderLayout());
+        userPanel.setBounds(0,0,totalWidth/4,totalHeight/24);
+        userLabel = new JLabel(" "+user.getUserName());
+        userLabel.setFont(new Font("Bradley Hand",Font.BOLD, 30));
+        userLabel.setForeground(Color.BLACK);
+        userLabel.setHorizontalAlignment(JLabel.LEFT);
+        userLabel.setVerticalAlignment(JLabel.CENTER);
+        userPanel.add(userLabel,BorderLayout.WEST);
+        this.add(userPanel);
     }
 }
