@@ -183,6 +183,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         setFocusable(true);
     }
     void LoadInGamePageForUserWithTimeLimitation(int timeLimit){
+        user.UpdateUserInformationForCompetition();
         user.UpdateTheAverageScoreForStartOfGameCompetitionWithTimeLimit();
         user.addOneGameTotalGameNumberForCompetitionWithLimit();
         inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize,controllingCenter,false,timeLimit,this,user,true);
