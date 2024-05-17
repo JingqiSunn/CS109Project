@@ -2,7 +2,8 @@ package MultiUserSupply;
 
 public class User {
     String userName;
-    int historicalWinningTimeInCompetition;
+    int historicalWinningTimeInCompetitionWithoutLimitation;
+    int bestScoreInCompetitionWithoutTimeLimit;
     int bestScoreInCompetitionWithTimeLimit;
     public User(String userName){
         this.userName = userName;
@@ -12,36 +13,58 @@ public class User {
         return userName;
     }
 
-    public int getHistoricalWinningTimeInCompetition() {
-        return historicalWinningTimeInCompetition;
+    public int getHistoricalWinningTimeInCompetitionWithoutLimitation() {
+        return historicalWinningTimeInCompetitionWithoutLimitation;
+    }
+
+    public int getBestScoreInCompetitionWithoutTimeLimit() {
+        return bestScoreInCompetitionWithoutTimeLimit;
+    }
+    public void UpdateUserInformationForCompetition(){
+        UserManger userManger = new UserManger();
+        bestScoreInCompetitionWithoutTimeLimit = userManger.GetBestScoreForWithoutTimeLimitCompetition(this);
+        historicalWinningTimeInCompetitionWithoutLimitation = userManger.GetHistoricalWinningNumberForWithoutTimeLimitCompetition(this);
+        bestScoreInCompetitionWithTimeLimit = userManger.GetBestScoreForWithTimeLimitCompetition(this);
     }
 
     public int getBestScoreInCompetitionWithTimeLimit() {
         return bestScoreInCompetitionWithTimeLimit;
     }
-    public void UpdateUserInformationForCompetitionWithoutLimitation(){
-        UserManger userManger = new UserManger();
-        bestScoreInCompetitionWithTimeLimit= userManger.GetBestScoreForTimeLimitCompetition(this);
-        historicalWinningTimeInCompetition = userManger.GetHistoricalWinningNumberForTimeLimitCompetition(this);
-    }
+
     public void addOneGameTotalGameNumberForCompetitionWithoutLimit(){
+        UserManger userManger = new UserManger();
+        userManger.IncreaseOneGameNumberInCompetitionWithoutTimeLimit(this);
+    }
+    public void addOneGameTotalGameNumberForCompetitionWithLimit(){
         UserManger userManger = new UserManger();
         userManger.IncreaseOneGameNumberInCompetitionWithTimeLimit(this);
     }
     public void UpdateBestFiveScoreForCompetitionWithoutTimeLimit(int currentScore){
         UserManger userManger = new UserManger();
+        userManger.UpdateBestFiveScoresForCompetitionWithoutTimeLimit(this,currentScore);
+    }
+    public void UpdateBestFiveScoreForCompetitionWithTimeLimit(int currentScore){
+        UserManger userManger = new UserManger();
         userManger.UpdateBestFiveScoresForCompetitionWithTimeLimit(this,currentScore);
     }
-    public void IncreaseWinningTimeInCompetitionWithTimeLimit(){
+    public void IncreaseWinningTimeInCompetitionWithoutTimeLimit(){
         UserManger userManger = new UserManger();
-        userManger.IncreaseWinningTimeInCompetitionWithTimeLimit(this);
+        userManger.IncreaseWinningTimeInCompetitionWithoutTimeLimit(this);
     }
-    public void IncreaseSevenThousandTimeInCompetitionWithTimeLimit(){
+    public void IncreaseSevenThousandTimeInCompetitionWithoutTimeLimit(){
         UserManger userManger = new UserManger();
-        userManger.IncreaseSevenThousandTimeInCompetitionWithTimeLimit(this);
+        userManger.IncreaseSevenThousandTimeInCompetitionWithoutTimeLimit(this);
     }
-    public void IncreaseFourteenThousandTimeInCompetitionWithTimeLimit(){
+    public void IncreaseFourteenThousandTimeInCompetitionWithoutTimeLimit(){
         UserManger userManger = new UserManger();
-        userManger.IncreaseFourteenThousandTimeInCompetitionWithTimeLimit(this);
+        userManger.IncreaseFourteenThousandTimeInCompetitionWithoutTimeLimit(this);
+    }
+    public void UpdateTheAverageScoreForStartOfGameCompetitionWithTimeLimit(){
+        UserManger userManger = new UserManger();
+        userManger.UpdateTheAverageScoreForStartOfGameCompetitionWithTimeLimit(this);
+    }
+    public void UpdateTheAverageScoreForEndOfGameCompetitionWithTimeLimit(int newScore){
+        UserManger userManger = new UserManger();
+        userManger.UpdateTheAverageScoreForEndOfGameCompetitionWithTimeLimit(this,newScore);
     }
 }

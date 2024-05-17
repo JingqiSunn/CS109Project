@@ -43,6 +43,7 @@ public class InGamePageWithTimeLimit extends JPanel {
     User user;
     JPanel userPanel;
     JLabel userLabel;
+    boolean whetherCompetition;
     public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame) {
         this.setLayout(null);
         this.whetherOutOfTime = false;
@@ -59,7 +60,8 @@ public class InGamePageWithTimeLimit extends JPanel {
         threadForTimer = new ThreadForTimer();
         threadForTimer.start();
     }
-    public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame,User user) {
+    public InGamePageWithTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame,User user,boolean whetherCompetition) {
+        this.whetherCompetition = whetherCompetition;
         this.user = user;
         this.setLayout(null);
         this.whetherOutOfTime = false;
@@ -173,7 +175,7 @@ public class InGamePageWithTimeLimit extends JPanel {
     }
 
     void LoadTheScorePanel() {
-        scorePanel = new ScorePanel(startXOfBlockSet, startYOfBlockSet, widthOfTheBlockSet, controllingCenter, whetherTourist);
+        scorePanel = new ScorePanel(startXOfBlockSet, startYOfBlockSet, widthOfTheBlockSet, controllingCenter, whetherTourist,user,true);
         scorePanel.setVisible(true);
         this.add(scorePanel);
     }
@@ -230,7 +232,6 @@ public class InGamePageWithTimeLimit extends JPanel {
     }
 
     public void UpdateTheTimerPanel() {
-        if (whetherTourist) {
             this.remove(timePanel);
             timeLabel.setText(String.valueOf(currentTime));
             timeLabel.setFont(new Font("Times New Roman", Font.BOLD, (int) ((double) controllingSize * 0.4)));
@@ -241,7 +242,6 @@ public class InGamePageWithTimeLimit extends JPanel {
             timePanel.setVisible(true);
             this.add(timePanel);
             this.repaint();
-        }
     }
 
     void LoadButtonControllerSwitch() {

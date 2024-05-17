@@ -6,15 +6,15 @@ import MultiUserSupply.User;
 import javax.swing.*;
 import java.awt.*;
 
-public class UserCompetitionWithoutLimitDiePage extends DiePage{
+public class UserCompetitionWithLimitDiePage extends DiePage{
     JPanel userPanel;
     JLabel userLabel;
-    public UserCompetitionWithoutLimitDiePage(Dimension screenSize, ControllingCenter controllingCenter, User user){
-        super(screenSize,controllingCenter,user.getBestScoreInCompetitionWithoutTimeLimit(),user);
+    public UserCompetitionWithLimitDiePage(Dimension screenSize, ControllingCenter controllingCenter, User user){
+        super(screenSize,controllingCenter,user.getBestScoreInCompetitionWithTimeLimit(),user);
         this.SetUpUserPanel();
     }
     void SetUpWordSpaceOne(){
-        if (controllingCenter.getCurrentGameScore()>=user.getBestScoreInCompetitionWithoutTimeLimit()) {
+        if (controllingCenter.getCurrentGameScore()>=user.getBestScoreInCompetitionWithTimeLimit()) {
             contentInWordSpaceOne = String.format("Congratulation!");
         } else {
             contentInWordSpaceOne = String.format("Game ended, You got %d", controllingCenter.getCurrentGameScore());
@@ -22,10 +22,10 @@ public class UserCompetitionWithoutLimitDiePage extends DiePage{
         wordPlaceOneLabel = new JLabel(contentInWordSpaceOne);
     }
     void SetUpWordSpaceTwo(){
-        if (controllingCenter.getCurrentGameScore()>=user.getBestScoreInCompetitionWithoutTimeLimit()) {
+        if (controllingCenter.getCurrentGameScore()>=user.getBestScoreInCompetitionWithTimeLimit()) {
             contentInWordSpaceTwo = String.format("%d is your best score!",controllingCenter.getCurrentGameScore());
         } else {
-            contentInWordSpaceTwo = String.format("Your best score is %d, keep Fighting!",user.getBestScoreInCompetitionWithoutTimeLimit());
+            contentInWordSpaceTwo = String.format("Your best score is %d, keep Fighting!",user.getBestScoreInCompetitionWithTimeLimit());
         }
         wordPlaceTwoLabel = new JLabel(contentInWordSpaceTwo);
     }

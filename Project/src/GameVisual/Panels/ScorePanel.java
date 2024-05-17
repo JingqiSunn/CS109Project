@@ -94,7 +94,7 @@ public class ScorePanel extends JPanel {
             currentStepNumberPanel.setVisible(true);
             historicalBestPanel = new JPanel(new BorderLayout());
             historicalBestPanel.setBounds(0,0,totalWidth/3,startYForBlockSet-2*startYForBlockSet/3);
-            historicalBestLabel = new JLabel(String.valueOf(user.getBestScoreInCompetitionWithTimeLimit()));
+            historicalBestLabel = new JLabel(String.valueOf(user.getBestScoreInCompetitionWithoutTimeLimit()));
             historicalBestLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.18) ));
             historicalBestLabel.setHorizontalAlignment(JLabel.CENTER);
             historicalBestLabel.setVerticalAlignment(JLabel.CENTER);
@@ -128,8 +128,19 @@ public class ScorePanel extends JPanel {
             currentStepNumberPanel.add(currentScoreLabel,BorderLayout.CENTER);
             currentStepNumberPanel.setBackground(Color.LIGHT_GRAY);
             currentStepNumberPanel.setVisible(true);
-            this.add(historicalBestPanel);
+            historicalBestPanel = new JPanel(new BorderLayout());
+            historicalBestPanel.setBounds(0,0,totalWidth/3,startYForBlockSet-2*startYForBlockSet/3);
+            historicalBestLabel = new JLabel(String.valueOf(user.getBestScoreInCompetitionWithTimeLimit()));
+            historicalBestLabel.setFont(new Font("Times New Roman", Font.BOLD, (int)((double)controllingSize*0.18) ));
+            historicalBestLabel.setHorizontalAlignment(JLabel.CENTER);
+            historicalBestLabel.setVerticalAlignment(JLabel.CENTER);
+            historicalBestLabel.setVisible(true);
+            historicalBestPanel.add(currentScoreLabel,BorderLayout.CENTER);
+            historicalBestPanel.setBackground(Color.LIGHT_GRAY);
+            historicalBestPanel.setVisible(true);
+            this.add(currentStepNumberPanel);
             this.add(currentScorePanel);
+            this.add(historicalBestPanel);
         }
     }
     void UpdateTheCurrentFontForCurrentScore(){
@@ -161,11 +172,37 @@ public class ScorePanel extends JPanel {
             currentScorePanel.add(currentScoreLabel,BorderLayout.CENTER);
             currentScorePanel.setVisible(true);
             this.add(currentScorePanel);
-        }else if (!whetherTourist){
+        }else if (!whetherTimeLimited){
             this.UpdateTheCurrentFontForCurrentScore();
             this.remove(currentScorePanel);
             this.remove(currentStepNumberPanel);
             this.remove(historicalBestPanel);
+            currentScoreLabel.setText(String.valueOf(controllingCenter.getCurrentGameScore()));
+            currentScoreLabel.setFont(currentFont);
+            currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+            currentScoreLabel.setVerticalAlignment(JLabel.CENTER);
+            currentScoreLabel.setVisible(true);
+            currentScorePanel.add(currentScoreLabel,BorderLayout.CENTER);
+            currentScorePanel.setVisible(true);
+            currentStepNumberLabel.setText(String.valueOf(controllingCenter.getNumberOfStep()));
+            currentStepNumberLabel.setHorizontalAlignment(JLabel.CENTER);
+            currentStepNumberLabel.setVerticalAlignment(JLabel.CENTER);
+            currentStepNumberLabel.setVisible(true);
+            currentStepNumberPanel.add(currentStepNumberLabel,BorderLayout.CENTER);
+            currentScorePanel.setVisible(true);
+            historicalBestLabel.setText(String.valueOf(user.getBestScoreInCompetitionWithoutTimeLimit()));
+            historicalBestLabel.setHorizontalAlignment(JLabel.CENTER);
+            historicalBestLabel.setVerticalAlignment(JLabel.CENTER);
+            currentStepNumberLabel.setVisible(true);
+            historicalBestPanel.add(historicalBestLabel,BorderLayout.CENTER);
+            historicalBestPanel.setVisible(true);
+            this.add(historicalBestPanel);
+            this.add(currentScorePanel);
+            this.add(currentStepNumberPanel);
+        } else if (whetherTimeLimited) {
+            this.UpdateTheCurrentFontForCurrentScore();
+            this.remove(currentScorePanel);
+            this.remove(currentStepNumberPanel);
             currentScoreLabel.setText(String.valueOf(controllingCenter.getCurrentGameScore()));
             currentScoreLabel.setFont(currentFont);
             currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);

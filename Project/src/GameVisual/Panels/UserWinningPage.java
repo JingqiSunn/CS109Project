@@ -19,9 +19,9 @@ public class UserWinningPage extends WinningPage{
         wordPlaceOneLabel = new JLabel(contentInWordSpaceOne);
     }
     void SetUpWordSpaceTwo(){
-        contentInWordSpaceTwo = String.format("It is your %dth time to achieve that!",user.getHistoricalWinningTimeInCompetition()+1);
+        contentInWordSpaceTwo = String.format("It is your %dth time to achieve that!",user.getHistoricalWinningTimeInCompetitionWithoutLimitation()+1);
         wordPlaceTwoLabel = new JLabel(contentInWordSpaceTwo);
-        System.out.println(user.getHistoricalWinningTimeInCompetition());
+        System.out.println(user.getHistoricalWinningTimeInCompetitionWithoutLimitation());
     }
     void SetUpUserPanel(){
         userPanel = new JPanel();
