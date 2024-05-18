@@ -336,6 +336,7 @@ public class UserManger {
             properties.setProperty("BestScoreFive", "0");
             properties.setProperty("TimeOverSevenThousand","0");
             properties.setProperty("TimeOverFourteenThousand","0");
+            properties.setProperty("AverageScore","0");
             properties.store(new FileWriter(directoryPath + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt"), "UserCompetitionWithoutTimeLimit");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -584,10 +585,36 @@ public class UserManger {
         }
         return averageScore;
     }
+    private int GetAverageScoreOfUSerCompetitionWithoutTimeLimit(User user){
+        int averageScore = 0;
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            averageScore = Integer.parseInt(properties.getProperty("AverageScore"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return averageScore;
+    }
     private int GetTotalGameNumberOfUSerCompetitionWithTimeLimit(User user){
         int gameNumber = 0;
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            gameNumber = Integer.parseInt(properties.getProperty("TotalGameNumber"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return gameNumber;
+    }
+    private int GetTotalGameNumberOfUSerCompetitionWithoutTimeLimit(User user){
+        int gameNumber = 0;
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
             Properties properties = new Properties();
             properties.load(inputStream);
             inputStream.close();
@@ -614,6 +641,23 @@ public class UserManger {
             e.printStackTrace();
         }
     }
+    public void UpdateTheAverageScoreForStartOfGameCompetitionWithoutTimeLimit(User user){
+        int averageScore = GetAverageScoreOfUSerCompetitionWithoutTimeLimit(user);
+        int totalGameNumber = GetTotalGameNumberOfUSerCompetitionWithoutTimeLimit(user);
+        averageScore=(int)(((double)averageScore*(double) totalGameNumber)/(double)(totalGameNumber+1));
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            properties.setProperty("AverageScore", String.valueOf(averageScore));
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
+            properties.store(outputStream, null);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void UpdateTheAverageScoreForEndOfGameCompetitionWithTimeLimit(User user, int score){
         int averageScore = GetAverageScoreOfUSerCompetitionWithTimeLimit(user);
         int totalGameNumber = GetTotalGameNumberOfUSerCompetitionWithTimeLimit(user);
@@ -625,6 +669,23 @@ public class UserManger {
             inputStream.close();
             properties.setProperty("AverageScore", String.valueOf(averageScore));
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
+            properties.store(outputStream, null);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(User user, int score){
+        int averageScore = GetAverageScoreOfUSerCompetitionWithoutTimeLimit(user);
+        int totalGameNumber = GetTotalGameNumberOfUSerCompetitionWithoutTimeLimit(user);
+        averageScore=(int)((((double)averageScore*(double) totalGameNumber)+(double) score)/(double)(totalGameNumber));
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            properties.setProperty("AverageScore", String.valueOf(averageScore));
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
             properties.store(outputStream, null);
             outputStream.close();
         } catch (IOException e) {

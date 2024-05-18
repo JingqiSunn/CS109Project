@@ -41,6 +41,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     UserWinningPage userWinningPage;
     UserCompetitionWithoutLimitDiePage userCompetitionWithoutLimitDiePage;
     UserCompetitionWithLimitDiePage userCompetitionWithLimitDiePage;
+    UserPracticeModeChoosingPage userPracticeModeChoosingPage;
+    UserPracticeWithoutTimeLimitModeWhetherNewPage userPracticeWithoutTimeLimitModeWhetherNewPage;
+    UserPracticeWithTimeLimitModeWhetherNewPage userPracticeWithTimeLimitModeWhetherNewPage;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
@@ -166,6 +169,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         setFocusable(true);
     }
     void LoadInGamePageForUserWithoutTimeLimitation() {
+        user.UpdateUserInformationForCompetition();
+        user.UpdateTheAverageScoreForStartOfGameCompetitionWithoutTimeLimit();
         user.addOneGameTotalGameNumberForCompetitionWithoutLimit();
         inGamePageWithoutTimeLimit = new InGamePageWithoutTimeLimit(screenSize,controllingCenter,false,user,true,false);
         inGamePageWithoutTimeLimit.addKeyListener(this);
@@ -202,6 +207,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         setFocusable(true);
     }
     void LoadUserCompetitionWithoutLimitDiePage() {
+        user.UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(controllingCenter.getCurrentGameScore());
         user.UpdateBestFiveScoreForCompetitionWithoutTimeLimit(controllingCenter.getCurrentGameScore());
         if (controllingCenter.getCurrentGameScore()>=7000){
             user.IncreaseSevenThousandTimeInCompetitionWithoutTimeLimit();
@@ -292,6 +298,30 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(userCompetitionChoosingPage);
         userCompetitionChoosingPage.getWithoutTimeLimitationOption().addMouseListener(this);
         userCompetitionChoosingPage.getWithTimeLimitationOption().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadUserPracticeModeChoosingPage(){
+        userPracticeModeChoosingPage = new UserPracticeModeChoosingPage(screenSize,user);
+        userPracticeModeChoosingPage.setVisible(true);
+        this.add(userPracticeModeChoosingPage);
+        userPracticeModeChoosingPage.getWithoutTimeLimitationOption().addMouseListener(this);
+        userPracticeModeChoosingPage.getWithTimeLimitationOption().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadUserPracticeWithoutTimeLimitModeWhetherNewPage(){
+        userPracticeWithoutTimeLimitModeWhetherNewPage = new UserPracticeWithoutTimeLimitModeWhetherNewPage(screenSize,user);
+        userPracticeWithoutTimeLimitModeWhetherNewPage.setVisible(true);
+        this.add(userPracticeWithoutTimeLimitModeWhetherNewPage);
+        userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().addMouseListener(this);
+        userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadUserPracticeWithTimeLimitModeWhetherNewPage(){
+        userPracticeWithTimeLimitModeWhetherNewPage = new UserPracticeWithTimeLimitModeWhetherNewPage(screenSize,user);
+        userPracticeWithTimeLimitModeWhetherNewPage.setVisible(true);
+        this.add(userPracticeWithTimeLimitModeWhetherNewPage);
+        userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().addMouseListener(this);
+        userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -516,8 +546,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
             skin = false;
-            if (inGamePageWithTimeLimit != null){
-                inGamePageWithTimeLimit = null;
                 controllingCenter = new ControllingCenter();
                 this.remove(userCompetitionWithoutLimitDiePage);
                 userCompetitionWithoutLimitDiePage = null;
@@ -526,16 +554,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 this.setFocusable(true);
                 repaint();
                 this.setVisible(true);
-            }else {
-                controllingCenter = new ControllingCenter();
-                this.remove(userCompetitionWithoutLimitDiePage);
-                userCompetitionWithoutLimitDiePage = null;
-                this.LoadUserCompetitionChoosingPage();
-                this.addMouseListener(this);
-                this.setFocusable(true);
-                repaint();
-                this.setVisible(true);
-            }}else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+            }else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
+            skin = false;
+            controllingCenter = new ControllingCenter();
+            this.remove(userCompetitionWithLimitDiePage);
+            userCompetitionWithoutLimitDiePage = null;
+            inGamePageWithTimeLimit = null;
+            this.LoadUserCompetitionChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
             if ( inGamePageWithTimeLimit == null){
                 this.remove(touristDiePage);
                 touristDiePage = null;
@@ -572,7 +602,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
                 user.UpdateUserInformationForCompetition();
                 int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
-                this.remove(userCompetitionWithoutLimitDiePage);
+                this.remove(userCompetitionWithLimitDiePage);
                 userCompetitionWithLimitDiePage = null;
                 inGamePageWithTimeLimit = null;
                 controllingCenter.CleanThePlayingBoardForRestart();
@@ -804,6 +834,30 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
+        }else if (userSingleModeChoosingPage !=null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())){
+            remove(userSingleModeChoosingPage);
+            userSingleModeChoosingPage = null;
+            this.LoadUserPracticeModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (userPracticeModeChoosingPage !=null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())){
+            remove(userPracticeModeChoosingPage);
+            userPracticeModeChoosingPage = null;
+            this.LoadUserPracticeWithoutTimeLimitModeWhetherNewPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (userPracticeModeChoosingPage !=null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())){
+            remove(userPracticeModeChoosingPage);
+            userPracticeModeChoosingPage = null;
+            this.LoadUserPracticeWithTimeLimitModeWhetherNewPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
         }else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
             remove(userCompetitionChoosingPage);
             userCompetitionChoosingPage = null;
@@ -1005,6 +1059,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userCompetitionChoosingPage.getWithTimeLimitationOption().setBackground(Color.BLACK);
             userCompetitionChoosingPage.getWithTimeLimitationOption().setVisible(true);
             userCompetitionChoosingPage.getWithTimeLimitationOption().repaint();
+        }else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
+            userPracticeModeChoosingPage.getWithoutTimeLimitationOption().setBackground(Color.BLACK);
+            userPracticeModeChoosingPage.getWithoutTimeLimitationOption().setVisible(true);
+            userPracticeModeChoosingPage.getWithoutTimeLimitationOption().repaint();
+        }else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
+            userPracticeModeChoosingPage.getWithTimeLimitationOption().setBackground(Color.BLACK);
+            userPracticeModeChoosingPage.getWithTimeLimitationOption().setVisible(true);
+            userPracticeModeChoosingPage.getWithTimeLimitationOption().repaint();
         }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
@@ -1013,6 +1075,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userCompetitionWithoutLimitDiePage.getRestartOption().setBackground(Color.BLACK);
             userCompetitionWithoutLimitDiePage.getRestartOption().setVisible(true);
             userCompetitionWithoutLimitDiePage.getRestartOption().repaint();
+        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.BLACK);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
+        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.BLACK);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
+        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption())) {
+            userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.BLACK);
+            userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
+            userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
+        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+            userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.BLACK);
+            userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
+            userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
         } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
             userCompetitionWithLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             userCompetitionWithLimitDiePage.getBackToMenuOption().setVisible(true);
@@ -1063,23 +1141,23 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             boardSizeChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
             boardSizeChoosingPage.getDIYOption().setVisible(true);
             boardSizeChoosingPage.getDIYOption().repaint();
-        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.WHITE);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
-        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.LIGHT_GRAY);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
-        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
             touristDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             touristDiePage.getBackToMenuOption().setVisible(true);
             touristDiePage.getBackToMenuOption().repaint();
-        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
             touristDiePage.getRestartOption().setBackground(Color.LIGHT_GRAY);
             touristDiePage.getRestartOption().setVisible(true);
             touristDiePage.getRestartOption().repaint();
@@ -1099,123 +1177,147 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyRegisteredPage.GetToLogin().setBackground(new Color(0x7C7575));
             successfullyRegisteredPage.GetToLogin().setVisible(true);
             successfullyRegisteredPage.GetToLogin().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
             timeLimitChoosingPage.getThreeMinutesOption().setBackground(Color.LIGHT_GRAY);
             timeLimitChoosingPage.getThreeMinutesOption().setVisible(true);
             timeLimitChoosingPage.getThreeMinutesOption().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
             timeLimitChoosingPage.getSixMinutesOption().setBackground(Color.LIGHT_GRAY);
             timeLimitChoosingPage.getSixMinutesOption().setVisible(true);
             timeLimitChoosingPage.getSixMinutesOption().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
             timeLimitChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
             timeLimitChoosingPage.getDIYOption().setVisible(true);
             timeLimitChoosingPage.getDIYOption().repaint();
-        }else if(boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.GetContinueButton())){
+        } else if (boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
             boardSizeDIYPage.GetContinueButton().setBackground(Color.LIGHT_GRAY);
             boardSizeDIYPage.GetContinueLabel().setForeground(Color.BLACK);
-        }else if (inGamePageWithTimeLimit !=null &&(!inGamePageWithTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithTimeLimit != null && (!inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithTimeLimit.getButtonControllerSwitch().setBackground(null);
-        }else if (inGamePageWithTimeLimit !=null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&&componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithTimeLimit.getButtonControllerSwitch().setBackground(null);
-        }else if (inGamePageWithoutTimeLimit !=null &&(!inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithoutTimeLimit != null && (!inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(null);
-        }else if (inGamePageWithoutTimeLimit !=null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&&componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(null);
-        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
             touristWinningPage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             touristWinningPage.getBackToMenuOption().setVisible(true);
             touristWinningPage.getBackToMenuOption().repaint();
-        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
             touristWinningPage.getContinueOption().setBackground(Color.LIGHT_GRAY);
             touristWinningPage.getContinueOption().setVisible(true);
             touristWinningPage.getContinueOption().repaint();
-        }else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
             userWinningPage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             userWinningPage.getBackToMenuOption().setVisible(true);
             userWinningPage.getBackToMenuOption().repaint();
-        }else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
             userWinningPage.getContinueOption().setBackground(Color.LIGHT_GRAY);
             userWinningPage.getContinueOption().setVisible(true);
             userWinningPage.getContinueOption().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())) {
             inGamePageWithTimeLimit.GetUpButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithTimeLimit.GetUpButton().setVisible(true);
             inGamePageWithTimeLimit.GetUpButton().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())) {
             inGamePageWithTimeLimit.GetDownButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithTimeLimit.GetDownButton().setVisible(true);
             inGamePageWithTimeLimit.GetDownButton().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())) {
             inGamePageWithTimeLimit.GetLeftButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithTimeLimit.GetLeftButton().setVisible(true);
             inGamePageWithTimeLimit.GetLeftButton().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())) {
             inGamePageWithTimeLimit.GetRightButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithTimeLimit.GetRightButton().setVisible(true);
             inGamePageWithTimeLimit.GetRightButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())) {
             inGamePageWithoutTimeLimit.GetUpButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithoutTimeLimit.GetUpButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetUpButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())) {
             inGamePageWithoutTimeLimit.GetDownButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithoutTimeLimit.GetDownButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetDownButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())) {
             inGamePageWithoutTimeLimit.GetLeftButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithoutTimeLimit.GetLeftButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetLeftButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())) {
             inGamePageWithoutTimeLimit.GetRightButton().setBackground(new Color(0xFEFEA4));
             inGamePageWithoutTimeLimit.GetRightButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetRightButton().repaint();
-        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))) {
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))) {
             boardSizeDIYPage.getSkinSwitcher().setBackground(null);
-        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
             userGameTypeChoosingPage.getSinglePlayerOption().setBackground(Color.LIGHT_GRAY);
             userGameTypeChoosingPage.getSinglePlayerOption().setVisible(true);
             userGameTypeChoosingPage.getSinglePlayerOption().repaint();
-        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
             userGameTypeChoosingPage.getMultiPlayerOption().setBackground(Color.LIGHT_GRAY);
             userGameTypeChoosingPage.getMultiPlayerOption().setVisible(true);
             userGameTypeChoosingPage.getMultiPlayerOption().repaint();
-        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
             userGameTypeChoosingPage.getRecordOption().setBackground(Color.LIGHT_GRAY);
             userGameTypeChoosingPage.getRecordOption().setVisible(true);
             userGameTypeChoosingPage.getRecordOption().repaint();
-        }else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
             userSingleModeChoosingPage.getCompetitionOption().setBackground(Color.LIGHT_GRAY);
             userSingleModeChoosingPage.getCompetitionOption().setVisible(true);
             userSingleModeChoosingPage.getCompetitionOption().repaint();
-        }else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
             userSingleModeChoosingPage.getPracticeOption().setBackground(Color.LIGHT_GRAY);
             userSingleModeChoosingPage.getPracticeOption().setVisible(true);
             userSingleModeChoosingPage.getPracticeOption().repaint();
-        }else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
             userCompetitionChoosingPage.getWithoutTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
             userCompetitionChoosingPage.getWithoutTimeLimitationOption().setVisible(true);
             userCompetitionChoosingPage.getWithoutTimeLimitationOption().repaint();
-        }else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
             userCompetitionChoosingPage.getWithTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
             userCompetitionChoosingPage.getWithTimeLimitationOption().setVisible(true);
             userCompetitionChoosingPage.getWithTimeLimitationOption().repaint();
-        }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().repaint();
-        }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
             userCompetitionWithoutLimitDiePage.getRestartOption().setBackground(Color.LIGHT_GRAY);
             userCompetitionWithoutLimitDiePage.getRestartOption().setVisible(true);
             userCompetitionWithoutLimitDiePage.getRestartOption().repaint();
-        }else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
+        } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
             userCompetitionWithLimitDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             userCompetitionWithLimitDiePage.getBackToMenuOption().setVisible(true);
             userCompetitionWithLimitDiePage.getBackToMenuOption().repaint();
-        }else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
+        } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
             userCompetitionWithLimitDiePage.getRestartOption().setBackground(Color.LIGHT_GRAY);
             userCompetitionWithLimitDiePage.getRestartOption().setVisible(true);
             userCompetitionWithLimitDiePage.getRestartOption().repaint();
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
+            userPracticeModeChoosingPage.getWithoutTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeModeChoosingPage.getWithoutTimeLimitationOption().setVisible(true);
+            userPracticeModeChoosingPage.getWithoutTimeLimitationOption().repaint();
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
+            userPracticeModeChoosingPage.getWithTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeModeChoosingPage.getWithTimeLimitationOption().setVisible(true);
+            userPracticeModeChoosingPage.getWithTimeLimitationOption().repaint();
+        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
+        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
+            userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
+        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption())) {
+            userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
+            userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
+        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+            userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
+            userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
         }
     }
 

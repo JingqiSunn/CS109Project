@@ -67,4 +67,12 @@ public class User {
         UserManger userManger = new UserManger();
         userManger.UpdateTheAverageScoreForEndOfGameCompetitionWithTimeLimit(this,newScore);
     }
+    public void UpdateTheAverageScoreForStartOfGameCompetitionWithoutTimeLimit(){
+        UserManger userManger = new UserManger();
+        userManger.UpdateTheAverageScoreForStartOfGameCompetitionWithoutTimeLimit(this);
+    }
+    public void UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(int newScore){
+        UserManger userManger = new UserManger();
+        userManger.UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(this,newScore);
+    }
 }
