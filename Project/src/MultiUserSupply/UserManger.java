@@ -8,6 +8,9 @@ import GameVisual.Panels.InGamePageWithoutTimeLimit;
 import GameVisual.Panels.UserPracticeWithoutLimitDiePage;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class UserManger {
@@ -762,6 +765,8 @@ public class UserManger {
             properties.load(inputStream);
             inputStream.close();
             properties.setProperty("BoardUnitLocationSet", String.valueOf(boardUnitLocationSet));
+            properties.setProperty("TargetScore", String.valueOf(controllingCenter.getTargetWinningScore()));
+            properties.setProperty("WhetherWon","false");
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
@@ -779,14 +784,13 @@ public class UserManger {
             properties.load(inputStream);
             inputStream.close();
             properties.setProperty("Step" + String.valueOf(controllingCenter.getNumberOfStep()), controllingCenter.GetTheValueSetForBlockUnitSet());
+            properties.setProperty("Score" + String.valueOf(controllingCenter.getNumberOfStep()), String.valueOf(controllingCenter.getCurrentGameScore()));
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
-        documentReaderAndWriter.saveUserArchiveInformation(archiveName, user);
     }
 
     void GoingOneStepBackWards(User user, String archiveName, ControllingCenter controllingCenter) {
@@ -797,15 +801,15 @@ public class UserManger {
                 properties.load(inputStream);
                 inputStream.close();
                 properties.remove("Step" + String.valueOf(controllingCenter.getNumberOfStep()));
+                properties.remove("Score" + String.valueOf(controllingCenter.getNumberOfStep()));
                 FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
                 properties.store(outputStream, null);
                 outputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
-            documentReaderAndWriter.saveUserArchiveInformation(archiveName, user);
             int[] cellValueSetInIntArraylist = new int[0];
+            int score = 0;
             controllingCenter.setNumberOfStep(controllingCenter.getNumberOfStep() - 1);
             String cellValueSet = new String();
             try {
@@ -814,6 +818,7 @@ public class UserManger {
                 properties.load(inputStream);
                 inputStream.close();
                 cellValueSet = properties.getProperty("Step" + String.valueOf(controllingCenter.getNumberOfStep()));
+                score = Integer.parseInt(properties.getProperty("Score" + String.valueOf(controllingCenter.getNumberOfStep())));
                 String[] cellValueSetInStringArraylist = cellValueSet.split(" ");
                 cellValueSetInIntArraylist = new int[cellValueSetInStringArraylist.length];
                 for (int indexInValueArraylist = 0; indexInValueArraylist < cellValueSetInStringArraylist.length; indexInValueArraylist++) {
@@ -823,12 +828,62 @@ public class UserManger {
                 e.printStackTrace();
             }
             controllingCenter.CleanValueOfCellInThePlayingBoard();
+            controllingCenter.setCurrentGameScore(score);
+            controllingCenter.getCurrentPlayingBoard().setCurrentScore(score);
             for (int indexInValueSet = 0; indexInValueSet < controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().size(); indexInValueSet++) {
                 if (cellValueSetInIntArraylist[indexInValueSet] != 0) {
                     controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet).setCell(new Cell(0,controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet)));
                     controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet).getCell().setValue(cellValueSetInIntArraylist[indexInValueSet]);
                 }
             }
+        }
+    }
+    public boolean ExamineWhetherArchiveAlreadyExisted(User user,String newArchiveName){
+        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+        ArrayList<String> archiveNameAlreadyExistedList = new ArrayList<>();
+        archiveNameAlreadyExistedList = documentReaderAndWriter.getCurrentUserArchiveList(user);
+        boolean whetherAlreadyExisted = false;
+        for (int indexInExistedArchiveNameList = 0; indexInExistedArchiveNameList < archiveNameAlreadyExistedList.size(); indexInExistedArchiveNameList++) {
+            if (newArchiveName.equals(archiveNameAlreadyExistedList.get(indexInExistedArchiveNameList))) {
+                whetherAlreadyExisted = true;
+            }
+        }
+        return whetherAlreadyExisted;
+    }
+    public void DeleteCompleteArchive(User user, String archiveName){
+        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+        ArrayList<String> archiveNameAlreadyExistedList = new ArrayList<>();
+        archiveNameAlreadyExistedList = documentReaderAndWriter.getCurrentUserArchiveList(user);
+        archiveNameAlreadyExistedList.remove(archiveName);
+        try {
+            FileWriter fileWriter = new FileWriter("src/UserInformation/PersonalInformation/"+user.getUserName()+"/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/ArchiveNameList.txt", false);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int indexInArchiveNameList = 0; indexInArchiveNameList < archiveNameAlreadyExistedList.size(); indexInArchiveNameList++) {
+            documentReaderAndWriter.saveUserArchiveInformation(archiveNameAlreadyExistedList.get(indexInArchiveNameList),user);
+        }
+        String filePath = "src/UserInformation/PersonalInformation/"+user.getUserName()+"/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt";
+        Path path = Paths.get(filePath);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void SetWhetherWonToBeTrue(User user, String archiveName){
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            properties.setProperty("WhetherWon","true");
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+            properties.store(outputStream, null);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

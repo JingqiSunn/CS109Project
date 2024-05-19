@@ -1,3 +1,0 @@
-#UserCompetitionWithTimeLimit
-#Thu May 16 17:46:00 CST 2024
-TotalGameNumber=1

@@ -47,6 +47,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     UserPracticeWithoutLimitationModeChoosingPage userPracticeWithoutLimitationModeChoosingPage;
     UserPracticeWinningPage userPracticeWinningPage;
     UserPracticeWithoutLimitDiePage userPracticeWithoutLimitDiePage;
+    AskingForArchivePanel askingForArchivePanel;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
@@ -189,6 +190,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(inGamePageWithoutTimeLimit);
         setFocusable(true);
     }
+    void LoadAskingForArchivePanel() {
+        askingForArchivePanel = new AskingForArchivePanel(screenSize, user);
+        askingForArchivePanel.addKeyListener(this);
+        askingForArchivePanel.setVisible(true);
+        askingForArchivePanel.getContinueToPlay().addMouseListener(this);
+        this.add(askingForArchivePanel);
+        setFocusable(true);
+    }
 
     void LoadInGamePageForUserWithoutTimeLimitationCompetition() {
         user.UpdateUserInformationForCompetition();
@@ -274,6 +283,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userPracticeWithoutLimitDiePage.getBackToMenuOption().addMouseListener(this);
         userPracticeWithoutLimitDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
+        user.DeleteCompleteArchive(controllingCenter.getArchiveName());
     }
 
     void LoadUserCompetitionWithLimitDiePage() {
@@ -297,6 +307,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
 
     void LoadUserPracticeWinningPage() {
+        user.SetWhetherWonToBeTrue(controllingCenter.getArchiveName());
         userPracticeWinningPage = new UserPracticeWinningPage(screenSize, controllingCenter, user);
         userPracticeWinningPage.setVisible(true);
         this.add(userPracticeWinningPage);
@@ -754,6 +765,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             controllingCenter.CleanThePlayingBoardForRestart();
             controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             controllingCenter.UpdateGameValidity();
+            user.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(controllingCenter.getArchiveName(),controllingCenter);
             this.LoadInGamePageForUserWithoutTimeLimitationPractice();
             repaint();
             setVisible(true);
@@ -1071,6 +1083,16 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
+        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+            remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
+            userPracticeWithoutTimeLimitModeWhetherNewPage = null;
+            this.LoadAskingForArchivePanel();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
+            this.DealWithArchiveInput();
         }
     }
 
@@ -1330,6 +1352,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().repaint();
+        }else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
+            askingForArchivePanel.getContinueToPlay().setBackground(Color.BLACK);
+            askingForArchivePanel.getContinueToPlay().setVisible(true);
+            askingForArchivePanel.getContinueToPlay().repaint();
         }
     }
 
@@ -1577,6 +1603,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().repaint();
+        }else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
+            askingForArchivePanel.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
+            askingForArchivePanel.getContinueToPlay().setVisible(true);
+            askingForArchivePanel.getContinueToPlay().repaint();
         }
     }
 
@@ -1951,6 +1981,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             } else if (!userManger.ExaminePassWordsWhetherOnlyLetterNumber(boardSizeDIYPage.GetArchiveName())) {
                 boardSizeDIYPage.EstablishWarn("There exists invalid characters in your archive name!");
                 whetherDIYSucceed = false;
+            } else if (userManger.ExamineWhetherArchiveAlreadyExisted(user,boardSizeDIYPage.GetArchiveName())) {
+                boardSizeDIYPage.EstablishWarn("Archive name already existed!");
+                whetherDIYSucceed = false;
             }
         }
         if (!boardSizeDIYPage.getWhetherTourist()) {
@@ -1988,5 +2021,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
     private void SetUpTheLoginUser() {
         user = new User(userLoginPage.GetUserName());
+    }
+
+    private void DealWithArchiveInput(){
+        boolean whetherArchiveAvailable = true;
+        if (askingForArchivePanel.GetArchiveName().isEmpty()){
+            askingForArchivePanel.EstablishWarn("The archive name can not be null!");
+            whetherArchiveAvailable = false;
+        } else if (!user.ExamineWhetherArchiveAlreadyExisted(askingForArchivePanel.GetArchiveName())){
+            askingForArchivePanel.EstablishWarn("There is no such archive!");
+            whetherArchiveAvailable = false;
+        }
+        if (whetherArchiveAvailable){
+        }
     }
 }

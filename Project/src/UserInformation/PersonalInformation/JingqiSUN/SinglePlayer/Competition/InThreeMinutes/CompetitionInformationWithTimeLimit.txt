@@ -1,9 +1,8 @@
-#UserCompetitionWithTimeLimit
-#Sun May 19 12:21:01 CST 2024
-AverageScore=0
-BestScoreFive=0
-BestScoreFour=0
-BestScoreOne=0
-BestScoreThree=0
-BestScoreTwo=0
-TotalGameNumber=0
+#Sun May 19 23:56:54 CST 2024
+AverageScore=3089
+BestScoreFive=5184
+BestScoreFour=5336
+BestScoreOne=11596
+BestScoreThree=6080
+BestScoreTwo=9700
+TotalGameNumber=34

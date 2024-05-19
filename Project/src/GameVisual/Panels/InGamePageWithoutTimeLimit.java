@@ -166,12 +166,17 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         if (!whetherTourist&&whetherCompetition){
             user.addOneGameTotalGameNumberForCompetitionWithoutLimit();
         }
+        if (!whetherTourist&&!whetherCompetition){
+            user.DeleteCompleteArchive(controllingCenter.getArchiveName());
+        }
         controllingCenter.setWhetherReachedTheTargetScore(false);
         controllingCenter.setWhetherAlreadyShownWinningPage(false);
         controllingCenter.CleanThePlayingBoardForRestart();
         controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
         controllingCenter.UpdateGameValidity();
         this.UpdateBlockUnitsInGame();
+        user.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(controllingCenter.getArchiveName(),controllingCenter);
+        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
     }
     public void LoadButtonController(){
         buttonController = new ButtonController(sizeOfButtonController,sizeOfButtonController);

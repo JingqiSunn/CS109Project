@@ -125,4 +125,19 @@ public class DocumentReaderAndWriter {
         }
         return currentUserPasswordList;
     }
+    public ArrayList<String> getCurrentUserArchiveList(User user){
+        ArrayList<String> currentUserArchiveList = new ArrayList<String>();
+        String pathOfUserNameTxt="src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/ArchiveNameList.txt";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(pathOfUserNameTxt));
+            String currentLine;
+            while((currentLine = reader.readLine())!=null){
+                currentUserArchiveList.add(currentLine);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return currentUserArchiveList;
+    }
 }

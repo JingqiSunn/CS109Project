@@ -11,6 +11,7 @@ public class ControllingCenter {
     public boolean whetherAnimated;
     int targetWinningScore;
     boolean whetherReachedTheTargetScore;
+
     public void setCurrentPlayingBoard(Board currentPlayingBoard) {
         this.currentPlayingBoard = currentPlayingBoard;
     }
@@ -62,7 +63,7 @@ public class ControllingCenter {
         this.gameValidity = true;
         this.currentGameScore = 0;
         currentPlayingBoard = new Board();
-        informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
+        informationOfAllTheCoordinateOfTheBoardUnit = new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
     }
 
@@ -126,19 +127,20 @@ public class ControllingCenter {
         this.informationOfAllTheCoordinateOfTheBoardUnit = informationOfAllTheCoordinateOfTheBoardUnit;
     }
 
-    public void SetThePlayingBoard(){
+    public void SetThePlayingBoard() {
         ArrayList<Integer> theSetOfLocationOfBoardUnit = informationOfAllTheCoordinateOfTheBoardUnit;
-        Board copyOfTheInitialBoard =currentPlayingBoard.SetThePlayingBoard(theSetOfLocationOfBoardUnit);
+        Board copyOfTheInitialBoard = currentPlayingBoard.SetThePlayingBoard(theSetOfLocationOfBoardUnit);
         currentPlayingBoard = Board.RemoveTheSameBoardUnit(currentPlayingBoard);
         currentPlayingBoard.GetBoardUnitsInTheSameColumn();
         currentPlayingBoard.GetBoardUnitsInTheSameRow();
         currentPlayingBoard.GetNeighborBoardUnitInColumn();
         currentPlayingBoard.GetNeighborBoardUnitInRow();
     }
-    public void GetTheSetUpInformationOfTheBoard(Scanner fetch){
+
+    public void GetTheSetUpInformationOfTheBoard(Scanner fetch) {
         ArrayList<Integer> coordinateInformationList = new ArrayList<>();
         System.out.println("How many board unit do you want: ");
-        int totalNumberOfInput = 2*fetch.nextInt();
+        int totalNumberOfInput = 2 * fetch.nextInt();
         System.out.println("Please give me all the coordinate of board unit you want now one by one?");
         for (int sequenceInTheInformation = 0; sequenceInTheInformation < totalNumberOfInput; sequenceInTheInformation++) {
             System.out.println("What about the next?");
@@ -147,53 +149,58 @@ public class ControllingCenter {
         System.out.println("The information collection is over.");
         informationOfAllTheCoordinateOfTheBoardUnit = coordinateInformationList;
     }
-    public ArrayList<BoardUnit> GetTheBoardUnitSet(){
+
+    public ArrayList<BoardUnit> GetTheBoardUnitSet() {
         return currentPlayingBoard.getBoardLocationSet();
     }
-    public void AddTheBoard(Board targetBoard){
+
+    public void AddTheBoard(Board targetBoard) {
         targetBoard.setControllingCenter(this);
     }
 
-    public void RightAction(){
+    public void RightAction() {
         int scoreLastTerm = currentGameScore;
-        if(currentPlayingBoard.getAvailableDirectionSet()[3]==1){
-        currentPlayingBoard.BoardRightMove();
-        currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
-        numberOfStep+=1;
+        if (currentPlayingBoard.getAvailableDirectionSet()[3] == 1) {
+            currentPlayingBoard.BoardRightMove();
+            currentGameScore = currentPlayingBoard.getCurrentScore();
+            currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+            numberOfStep += 1;
         }
         scoreLastTerm = currentGameScore - scoreLastTerm;
     }
-    public void LeftAction(){
+
+    public void LeftAction() {
 
         int scoreLastTerm = currentGameScore;
-        if(currentPlayingBoard.getAvailableDirectionSet()[2]==1){
-        currentPlayingBoard.BoardLeftMove();
-        currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
-        numberOfStep+=1;
-        }
-        scoreLastTerm = currentGameScore - scoreLastTerm;
-
-    }
-    public void DownAction(){
-        int scoreLastTerm = currentGameScore;
-        if(currentPlayingBoard.getAvailableDirectionSet()[1]==1){
-        currentPlayingBoard.BoardDownMove();
-        currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
-        numberOfStep+=1;
+        if (currentPlayingBoard.getAvailableDirectionSet()[2] == 1) {
+            currentPlayingBoard.BoardLeftMove();
+            currentGameScore = currentPlayingBoard.getCurrentScore();
+            currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+            numberOfStep += 1;
         }
         scoreLastTerm = currentGameScore - scoreLastTerm;
 
     }
-    public void UpAction(){
+
+    public void DownAction() {
         int scoreLastTerm = currentGameScore;
-        if(currentPlayingBoard.getAvailableDirectionSet()[0]==1){
-        currentPlayingBoard.BoardUpMove();
-        currentGameScore=currentPlayingBoard.getCurrentScore();
-        currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
-        numberOfStep+=1;
+        if (currentPlayingBoard.getAvailableDirectionSet()[1] == 1) {
+            currentPlayingBoard.BoardDownMove();
+            currentGameScore = currentPlayingBoard.getCurrentScore();
+            currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+            numberOfStep += 1;
+        }
+        scoreLastTerm = currentGameScore - scoreLastTerm;
+
+    }
+
+    public void UpAction() {
+        int scoreLastTerm = currentGameScore;
+        if (currentPlayingBoard.getAvailableDirectionSet()[0] == 1) {
+            currentPlayingBoard.BoardUpMove();
+            currentGameScore = currentPlayingBoard.getCurrentScore();
+            currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
+            numberOfStep += 1;
         }
         scoreLastTerm = currentGameScore - scoreLastTerm;
 
@@ -224,55 +231,64 @@ public class ControllingCenter {
         this.gameValidity = gameValidity;
     }
 
-    public void UpdateGameValidity(){
+    public void UpdateGameValidity() {
         currentPlayingBoard.UpdateTheValidityForEveryDirection();
         boolean whetherValid = false;
         for (int indexInDirection = 0; indexInDirection < 4; indexInDirection++) {
-            if(currentPlayingBoard.getAvailableDirectionSet()[indexInDirection]==1){
-                whetherValid =true;
+            if (currentPlayingBoard.getAvailableDirectionSet()[indexInDirection] == 1) {
+                whetherValid = true;
             }
         }
         gameValidity = whetherValid;
     }
-    public ArrayList <BoardUnit> getBoardUnitInformation (){
+
+    public ArrayList<BoardUnit> getBoardUnitInformation() {
         return currentPlayingBoard.getBoardLocationSet();
     }
-    public void RandomlyGenerateCellInEmptyBoardUnits(){
+
+    public void RandomlyGenerateCellInEmptyBoardUnits() {
         currentPlayingBoard.ReIdentifyEmptyBoardUnits();
         currentPlayingBoard.RandomlyGenerateCellInEmptyBoardUnits();
     }
-    public void RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp(){
+
+    public void RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp() {
         currentPlayingBoard.ReIdentifyEmptyBoardUnits();
         currentPlayingBoard.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
     }
-    public void setSpecificCellToBeNull(int indexInTheSetOfCell){
+
+    public void setSpecificCellToBeNull(int indexInTheSetOfCell) {
         currentPlayingBoard.getBoardLocationSet().get(indexInTheSetOfCell).setCell(null);
     }
-    public void ReIdentifyEmptyBoardUnitSet(){
+
+    public void ReIdentifyEmptyBoardUnitSet() {
         this.getCurrentPlayingBoard().ReIdentifyEmptyBoardUnits();
     }
-public void UpdateTheAvailableDirectionSet(){
+
+    public void UpdateTheAvailableDirectionSet() {
         currentPlayingBoard.UpdateTheValidityForEveryDirection();
-}
-public int FindTheMaxXCoordinate(){
-        int maxXCoordinate = 0;
-    for (int indexInPoints = 0; indexInPoints < this.getInformationOfAllTheCoordinateOfTheBoardUnit().size()/2; indexInPoints++) {
-        if(this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2)>maxXCoordinate){
-            maxXCoordinate = this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2);
-        }
     }
-    return maxXCoordinate;
-}
-    public int FindTheMaxYCoordinate(){
+
+    public int FindTheMaxXCoordinate() {
+        int maxXCoordinate = 0;
+        for (int indexInPoints = 0; indexInPoints < this.getInformationOfAllTheCoordinateOfTheBoardUnit().size() / 2; indexInPoints++) {
+            if (this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints * 2) > maxXCoordinate) {
+                maxXCoordinate = this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints * 2);
+            }
+        }
+        return maxXCoordinate;
+    }
+
+    public int FindTheMaxYCoordinate() {
         int maxYCoordinate = 0;
-        for (int indexInPoints = 0; indexInPoints < this.getInformationOfAllTheCoordinateOfTheBoardUnit().size()/2; indexInPoints++) {
-            if(this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2+1)>maxYCoordinate){
-                maxYCoordinate = this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints*2+1);
+        for (int indexInPoints = 0; indexInPoints < this.getInformationOfAllTheCoordinateOfTheBoardUnit().size() / 2; indexInPoints++) {
+            if (this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints * 2 + 1) > maxYCoordinate) {
+                maxYCoordinate = this.getInformationOfAllTheCoordinateOfTheBoardUnit().get(indexInPoints * 2 + 1);
             }
         }
         return maxYCoordinate;
     }
-    public void SetUpTheControllingCenterForDIY(){
+
+    public void SetUpTheControllingCenterForDIY() {
         currentPlayingBoard.SetThePlayingBoard(informationOfAllTheCoordinateOfTheBoardUnit);
         currentPlayingBoard = Board.RemoveTheSameBoardUnit(currentPlayingBoard);
         currentPlayingBoard.GetBoardUnitsInTheSameColumn();
@@ -280,9 +296,10 @@ public int FindTheMaxXCoordinate(){
         currentPlayingBoard.GetNeighborBoardUnitInColumn();
         currentPlayingBoard.GetNeighborBoardUnitInRow();
     }
-    public void CleanThePlayingBoardForRestart(){
+
+    public void CleanThePlayingBoardForRestart() {
         for (int indexInBoardUnitSet = 0; indexInBoardUnitSet < currentPlayingBoard.getBoardLocationSet().size(); indexInBoardUnitSet++) {
-            if (currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).getCell()!=null){
+            if (currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).getCell() != null) {
                 currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).setCell(null);
             }
         }
@@ -290,20 +307,22 @@ public int FindTheMaxXCoordinate(){
         currentPlayingBoard.setCurrentScore(0);
         numberOfStep = 0;
     }
-public String GetTheValueSetForBlockUnitSet(){
+
+    public String GetTheValueSetForBlockUnitSet() {
         StringBuilder valueSetInString = new StringBuilder();
-    for (int indexInBlockUnits = 0; indexInBlockUnits < currentPlayingBoard.getBoardLocationSet().size(); indexInBlockUnits++) {
-        if (currentPlayingBoard.getBoardLocationSet().get(indexInBlockUnits).getCell() == null){
-            valueSetInString.append(String.valueOf(0)+" ");
-        } else {
-            valueSetInString.append(String.valueOf(currentPlayingBoard.getBoardLocationSet().get(indexInBlockUnits).getCell().getValue())+" ");
+        for (int indexInBlockUnits = 0; indexInBlockUnits < currentPlayingBoard.getBoardLocationSet().size(); indexInBlockUnits++) {
+            if (currentPlayingBoard.getBoardLocationSet().get(indexInBlockUnits).getCell() == null) {
+                valueSetInString.append(String.valueOf(0) + " ");
+            } else {
+                valueSetInString.append(String.valueOf(currentPlayingBoard.getBoardLocationSet().get(indexInBlockUnits).getCell().getValue()) + " ");
+            }
         }
+        return String.valueOf(valueSetInString);
     }
-    return String.valueOf(valueSetInString);
-}
-    public void CleanValueOfCellInThePlayingBoard(){
+
+    public void CleanValueOfCellInThePlayingBoard() {
         for (int indexInBoardUnitSet = 0; indexInBoardUnitSet < currentPlayingBoard.getBoardLocationSet().size(); indexInBoardUnitSet++) {
-            if (currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).getCell()!=null){
+            if (currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).getCell() != null) {
                 currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).setCell(null);
             }
         }

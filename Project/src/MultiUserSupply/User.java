@@ -91,4 +91,20 @@ public class User {
         UserManger userManger = new UserManger();
         userManger.GoingOneStepBackWards(this,archiveName,controllingCenter);
     }
+    public void DeleteCompleteArchive(String archiveName){
+        UserManger userManger = new UserManger();
+        userManger.DeleteCompleteArchive(this,archiveName);
+    }
+    public void SetWhetherWonToBeTrue(String archiveName){
+        UserManger userManger = new UserManger();
+        userManger.SetWhetherWonToBeTrue(this,archiveName);
+    }
+    public void SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(String archiveName,ControllingCenter controllingCenter){
+        UserManger userManger = new UserManger();
+        userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(this,archiveName,controllingCenter);
+    }
+    public boolean ExamineWhetherArchiveAlreadyExisted(String archiveName){
+        UserManger userManger = new UserManger();
+        return userManger.ExamineWhetherArchiveAlreadyExisted(this,archiveName);
+    }
 }
