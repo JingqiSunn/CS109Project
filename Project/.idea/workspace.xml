@@ -212,7 +212,7 @@
       <workItem from="1715997871203" duration="3303000" />
       <workItem from="1716007295272" duration="13688000" />
       <workItem from="1716035284624" duration="259000" />
-      <workItem from="1716039792665" duration="12293000" />
+      <workItem from="1716039792665" duration="17381000" />
     </task>
     <servers />
   </component>
@@ -245,11 +245,6 @@
           <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithTimeLimit.java</url>
           <line>272</line>
           <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>1841</line>
-          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

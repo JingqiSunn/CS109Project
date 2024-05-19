@@ -1,6 +1,7 @@
 package MultiUserSupply;
 
 import GameElement.BoardUnit;
+import GameElement.Cell;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.InGamePageWithoutTimeLimit;
@@ -350,7 +351,7 @@ public class UserManger {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        file = new File(directoryPath+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive", "ArchiveNameList.txt");
+        file = new File(directoryPath + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive", "ArchiveNameList.txt");
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -368,14 +369,15 @@ public class UserManger {
             properties.setProperty("BestScoreThree", "0");
             properties.setProperty("BestScoreFour", "0");
             properties.setProperty("BestScoreFive", "0");
-            properties.setProperty("TimeOverSevenThousand","0");
-            properties.setProperty("TimeOverFourteenThousand","0");
-            properties.setProperty("AverageScore","0");
+            properties.setProperty("TimeOverSevenThousand", "0");
+            properties.setProperty("TimeOverFourteenThousand", "0");
+            properties.setProperty("AverageScore", "0");
             properties.store(new FileWriter(directoryPath + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt"), "UserCompetitionWithoutTimeLimit");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void SetUpInitialKeySetsInTxtCompetitionWithTimeLimit(String directoryPath) {
         try {
             Properties properties = new Properties();
@@ -385,7 +387,7 @@ public class UserManger {
             properties.setProperty("BestScoreThree", "0");
             properties.setProperty("BestScoreFour", "0");
             properties.setProperty("BestScoreFive", "0");
-            properties.setProperty("AverageScore","0");
+            properties.setProperty("AverageScore", "0");
             properties.store(new FileWriter(directoryPath + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt"), "UserCompetitionWithTimeLimit");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -423,6 +425,7 @@ public class UserManger {
         }
         return bestScore;
     }
+
     public int GetBestScoreForWithTimeLimitCompetition(User user) {
         int bestScore = 0;
         try {
@@ -446,7 +449,7 @@ public class UserManger {
             properties.load(inputStream);
             inputStream.close();
             winningNumber = Integer.parseInt(properties.getProperty("TotalWinTime"));
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return winningNumber;
@@ -469,6 +472,7 @@ public class UserManger {
             e.printStackTrace();
         }
     }
+
     public void IncreaseOneGameNumberInCompetitionWithTimeLimit(User user) {
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
@@ -485,6 +489,7 @@ public class UserManger {
             e.printStackTrace();
         }
     }
+
     public void IncreaseWinningTimeInCompetitionWithoutTimeLimit(User user) {
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
@@ -501,6 +506,7 @@ public class UserManger {
             e.printStackTrace();
         }
     }
+
     public void IncreaseSevenThousandTimeInCompetitionWithoutTimeLimit(User user) {
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
@@ -517,6 +523,7 @@ public class UserManger {
             e.printStackTrace();
         }
     }
+
     public void IncreaseFourteenThousandTimeInCompetitionWithoutTimeLimit(User user) {
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
@@ -547,29 +554,30 @@ public class UserManger {
             fiveBestScoreAndOneCurrentScore.add(properties.getProperty("BestScoreFive"));
             fiveBestScoreAndOneCurrentScore.add(String.valueOf(newGameScore));
             fileInputStream.close();
-        Comparator comparator = new Comparator<String>() {
-            @Override
-            public int compare(String stringOne, String stringTwo) {
-                if (Integer.parseInt(stringOne) >= Integer.parseInt(stringTwo)) {
-                    return -1;
-                } else {
-                    return 1;
+            Comparator comparator = new Comparator<String>() {
+                @Override
+                public int compare(String stringOne, String stringTwo) {
+                    if (Integer.parseInt(stringOne) >= Integer.parseInt(stringTwo)) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
                 }
-            }
-        };
-        Collections.sort(fiveBestScoreAndOneCurrentScore, comparator);
+            };
+            Collections.sort(fiveBestScoreAndOneCurrentScore, comparator);
             properties.setProperty("BestScoreOne", fiveBestScoreAndOneCurrentScore.get(0));
             properties.setProperty("BestScoreTwo", fiveBestScoreAndOneCurrentScore.get(1));
             properties.setProperty("BestScoreThree", fiveBestScoreAndOneCurrentScore.get(2));
             properties.setProperty("BestScoreFour", fiveBestScoreAndOneCurrentScore.get(3));
             properties.setProperty("BestScoreFive", fiveBestScoreAndOneCurrentScore.get(4));
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
-            properties.store(outputStream,null);
+            properties.store(outputStream, null);
             outputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void UpdateBestFiveScoresForCompetitionWithTimeLimit(User user, int newGameScore) {
         ArrayList<String> fiveBestScoreAndOneCurrentScore = new ArrayList<String>();
         try {
@@ -600,13 +608,14 @@ public class UserManger {
             properties.setProperty("BestScoreFour", fiveBestScoreAndOneCurrentScore.get(3));
             properties.setProperty("BestScoreFive", fiveBestScoreAndOneCurrentScore.get(4));
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
-            properties.store(outputStream,null);
+            properties.store(outputStream, null);
             outputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    private int GetAverageScoreOfUSerCompetitionWithTimeLimit(User user){
+
+    private int GetAverageScoreOfUSerCompetitionWithTimeLimit(User user) {
         int averageScore = 0;
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
@@ -619,7 +628,8 @@ public class UserManger {
         }
         return averageScore;
     }
-    private int GetAverageScoreOfUSerCompetitionWithoutTimeLimit(User user){
+
+    private int GetAverageScoreOfUSerCompetitionWithoutTimeLimit(User user) {
         int averageScore = 0;
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
@@ -632,7 +642,8 @@ public class UserManger {
         }
         return averageScore;
     }
-    private int GetTotalGameNumberOfUSerCompetitionWithTimeLimit(User user){
+
+    private int GetTotalGameNumberOfUSerCompetitionWithTimeLimit(User user) {
         int gameNumber = 0;
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
@@ -645,7 +656,8 @@ public class UserManger {
         }
         return gameNumber;
     }
-    private int GetTotalGameNumberOfUSerCompetitionWithoutTimeLimit(User user){
+
+    private int GetTotalGameNumberOfUSerCompetitionWithoutTimeLimit(User user) {
         int gameNumber = 0;
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
@@ -658,10 +670,11 @@ public class UserManger {
         }
         return gameNumber;
     }
-    public void UpdateTheAverageScoreForStartOfGameCompetitionWithTimeLimit(User user){
+
+    public void UpdateTheAverageScoreForStartOfGameCompetitionWithTimeLimit(User user) {
         int averageScore = GetAverageScoreOfUSerCompetitionWithTimeLimit(user);
         int totalGameNumber = GetTotalGameNumberOfUSerCompetitionWithTimeLimit(user);
-        averageScore=(int)(((double)averageScore*(double) totalGameNumber)/(double)(totalGameNumber+1));
+        averageScore = (int) (((double) averageScore * (double) totalGameNumber) / (double) (totalGameNumber + 1));
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
             Properties properties = new Properties();
@@ -675,10 +688,11 @@ public class UserManger {
             e.printStackTrace();
         }
     }
-    public void UpdateTheAverageScoreForStartOfGameCompetitionWithoutTimeLimit(User user){
+
+    public void UpdateTheAverageScoreForStartOfGameCompetitionWithoutTimeLimit(User user) {
         int averageScore = GetAverageScoreOfUSerCompetitionWithoutTimeLimit(user);
         int totalGameNumber = GetTotalGameNumberOfUSerCompetitionWithoutTimeLimit(user);
-        averageScore=(int)(((double)averageScore*(double) totalGameNumber)/(double)(totalGameNumber+1));
+        averageScore = (int) (((double) averageScore * (double) totalGameNumber) / (double) (totalGameNumber + 1));
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
             Properties properties = new Properties();
@@ -692,10 +706,11 @@ public class UserManger {
             e.printStackTrace();
         }
     }
-    public void UpdateTheAverageScoreForEndOfGameCompetitionWithTimeLimit(User user, int score){
+
+    public void UpdateTheAverageScoreForEndOfGameCompetitionWithTimeLimit(User user, int score) {
         int averageScore = GetAverageScoreOfUSerCompetitionWithTimeLimit(user);
         int totalGameNumber = GetTotalGameNumberOfUSerCompetitionWithTimeLimit(user);
-        averageScore=(int)((((double)averageScore*(double) totalGameNumber)+(double) score)/(double)(totalGameNumber));
+        averageScore = (int) ((((double) averageScore * (double) totalGameNumber) + (double) score) / (double) (totalGameNumber));
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
             Properties properties = new Properties();
@@ -709,10 +724,11 @@ public class UserManger {
             e.printStackTrace();
         }
     }
-    public void UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(User user, int score){
+
+    public void UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(User user, int score) {
         int averageScore = GetAverageScoreOfUSerCompetitionWithoutTimeLimit(user);
         int totalGameNumber = GetTotalGameNumberOfUSerCompetitionWithoutTimeLimit(user);
-        averageScore=(int)((((double)averageScore*(double) totalGameNumber)+(double) score)/(double)(totalGameNumber));
+        averageScore = (int) ((((double) averageScore * (double) totalGameNumber) + (double) score) / (double) (totalGameNumber));
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
             Properties properties = new Properties();
@@ -726,64 +742,93 @@ public class UserManger {
             e.printStackTrace();
         }
     }
-    public void SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(User user, String archiveName, ControllingCenter controllingCenter){
+
+    public void SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(User user, String archiveName, ControllingCenter controllingCenter) {
         ArrayList<BoardUnit> blockLocationSet = controllingCenter.getCurrentPlayingBoard().getBoardLocationSet();
         StringBuilder boardUnitLocationSet = new StringBuilder();
         for (int indexInBoardUnits = 0; indexInBoardUnits < blockLocationSet.size(); indexInBoardUnits++) {
             boardUnitLocationSet.append(String.valueOf(blockLocationSet.get(indexInBoardUnits).getxCoordinate()));
             boardUnitLocationSet.append(String.valueOf(blockLocationSet.get(indexInBoardUnits).getyCoordinate()));
         }
-        File file = new File("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive", archiveName+".txt");
+        File file = new File("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive", archiveName + ".txt");
         try {
             file.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             Properties properties = new Properties();
             properties.load(inputStream);
             inputStream.close();
             properties.setProperty("BoardUnitLocationSet", String.valueOf(boardUnitLocationSet));
-            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
-        documentReaderAndWriter.saveUserArchiveInformation(archiveName,user);
+        documentReaderAndWriter.saveUserArchiveInformation(archiveName, user);
     }
-    public void SavingCellValueSavingForCurrentStep(User user, String archiveName, ControllingCenter controllingCenter){
+
+    public void SavingCellValueSavingForCurrentStep(User user, String archiveName, ControllingCenter controllingCenter) {
         try {
-            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             Properties properties = new Properties();
             properties.load(inputStream);
             inputStream.close();
-            properties.setProperty("Step"+String.valueOf(controllingCenter.getNumberOfStep()), controllingCenter.GetTheValueSetForBlockUnitSet());
-            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            properties.setProperty("Step" + String.valueOf(controllingCenter.getNumberOfStep()), controllingCenter.GetTheValueSetForBlockUnitSet());
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
-        documentReaderAndWriter.saveUserArchiveInformation(archiveName,user);
+        documentReaderAndWriter.saveUserArchiveInformation(archiveName, user);
     }
-    public void GoingOneStepBackWards(User user, String archiveName, ControllingCenter controllingCenter){
-        try {
-            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            inputStream.close();
-            properties.remove("Step"+String.valueOf(controllingCenter.getNumberOfStep()));
-            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
-            properties.store(outputStream, null);
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    void GoingOneStepBackWards(User user, String archiveName, ControllingCenter controllingCenter) {
+        if (controllingCenter.getNumberOfStep() > 0) {
+            try {
+                FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+                Properties properties = new Properties();
+                properties.load(inputStream);
+                inputStream.close();
+                properties.remove("Step" + String.valueOf(controllingCenter.getNumberOfStep()));
+                FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+                properties.store(outputStream, null);
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+            documentReaderAndWriter.saveUserArchiveInformation(archiveName, user);
+            int[] cellValueSetInIntArraylist = new int[0];
+            controllingCenter.setNumberOfStep(controllingCenter.getNumberOfStep() - 1);
+            String cellValueSet = new String();
+            try {
+                FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+                Properties properties = new Properties();
+                properties.load(inputStream);
+                inputStream.close();
+                cellValueSet = properties.getProperty("Step" + String.valueOf(controllingCenter.getNumberOfStep()));
+                String[] cellValueSetInStringArraylist = cellValueSet.split(" ");
+                cellValueSetInIntArraylist = new int[cellValueSetInStringArraylist.length];
+                for (int indexInValueArraylist = 0; indexInValueArraylist < cellValueSetInStringArraylist.length; indexInValueArraylist++) {
+                    cellValueSetInIntArraylist[indexInValueArraylist] = Integer.parseInt(cellValueSetInStringArraylist[indexInValueArraylist]);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            controllingCenter.CleanValueOfCellInThePlayingBoard();
+            for (int indexInValueSet = 0; indexInValueSet < controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().size(); indexInValueSet++) {
+                if (cellValueSetInIntArraylist[indexInValueSet] != 0) {
+                    controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet).setCell(new Cell(0,controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet)));
+                    controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet).getCell().setValue(cellValueSetInIntArraylist[indexInValueSet]);
+                }
+            }
         }
-        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
-        documentReaderAndWriter.saveUserArchiveInformation(archiveName,user);
     }
 }

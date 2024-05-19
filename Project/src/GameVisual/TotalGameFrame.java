@@ -533,6 +533,11 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithTimeLimit.RestartTheGame();
+        } else if (inGamePageWithoutTimeLimit != null &&!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&& e.isControlDown() && e.getKeyCode() == KeyEvent.VK_W) {
+            user.GoingOneStepBackWards(controllingCenter.getArchiveName(),controllingCenter);
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            controllingCenter.UpdateGameValidity();
+            this.repaint();
         }
     }
 
@@ -946,33 +951,61 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0]==1){
+                whetherToSave = true;
+            }
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1]==1){
+                whetherToSave = true;
+            }
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2]==1){
+                whetherToSave = true;
+            }
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3]==1){
+                whetherToSave = true;
+            }
             controllingCenter.RightAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
@@ -1931,6 +1964,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     UserManger userManger = new UserManger();
                     controllingCenter.setArchiveName(boardSizeDIYPage.GetArchiveName());
                     userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user,boardSizeDIYPage.GetArchiveName(),controllingCenter);
+                    user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
                     this.LoadInGamePageForUserWithoutTimeLimitationPractice();
                 }
                 boardSizeDIYPage = null;
@@ -1952,7 +1986,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
     }
-
     private void SetUpTheLoginUser() {
         user = new User(userLoginPage.GetUserName());
     }

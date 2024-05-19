@@ -55,7 +55,7 @@ public class ControllingCenter {
         skin = false;
         whetherAlreadyShownWinningPage = false;
         whetherReachedTheTargetScore = false;
-        targetWinningScore = 16;
+        targetWinningScore = 2048;
         whetherAnimated = false;
         timeLimitation = 0;
         whetherTimeLimitationMode = false;
@@ -64,6 +64,10 @@ public class ControllingCenter {
         currentPlayingBoard = new Board();
         informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
+    }
+
+    public void setNumberOfStep(int numberOfStep) {
+        this.numberOfStep = numberOfStep;
     }
 
     public String getArchiveName() {
@@ -297,5 +301,12 @@ public String GetTheValueSetForBlockUnitSet(){
     }
     return String.valueOf(valueSetInString);
 }
+    public void CleanValueOfCellInThePlayingBoard(){
+        for (int indexInBoardUnitSet = 0; indexInBoardUnitSet < currentPlayingBoard.getBoardLocationSet().size(); indexInBoardUnitSet++) {
+            if (currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).getCell()!=null){
+                currentPlayingBoard.getBoardLocationSet().get(indexInBoardUnitSet).setCell(null);
+            }
+        }
+    }
 }
 
