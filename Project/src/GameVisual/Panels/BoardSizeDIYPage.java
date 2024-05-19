@@ -1,5 +1,7 @@
 package GameVisual.Panels;
 
+import MultiUserSupply.User;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -8,6 +10,7 @@ public class BoardSizeDIYPage extends JPanel {
 
     Dimension totalSize;
     JPanel blockSets;
+    User user;
 
     UnitBlockInDIY[][] blockSet;
     int [][] startXOfBlocks;
@@ -24,13 +27,24 @@ public class BoardSizeDIYPage extends JPanel {
     JPanel askForLimit;
     JLabel askForLimitLabel;
     JTextField askForLimitField;
+    JPanel askForWinningScore;
+    JLabel askForWinningScoreLabel;
+    JTextField askForWinningScoreField;
     JPanel warnPanel;
     JLabel warnLabel;
     JPanel continueToPlay;
     JLabel continueToPlayLabel;
     JPanel skinSwitcher;
+    JPanel userPanel;
+    JLabel userLabel;
+    boolean whetherTourist;
+    boolean whetherCompetition;
+    JPanel askForArchiveName;
+    JLabel askForArchiveNameLabel;
+    JTextField askForArchiveNameField;
 
     public BoardSizeDIYPage(Dimension screenSize, boolean whetherTimeLimited){
+        this.whetherTourist = true;
         this.setLayout(null);
         this.whetherTimeLimited = whetherTimeLimited;
         this.UpdateSizeAndLocationForOptions(screenSize);
@@ -39,6 +53,33 @@ public class BoardSizeDIYPage extends JPanel {
         if (whetherTimeLimited){
             this.SetUpForAskForTimeLimit();
         }
+    }
+    public BoardSizeDIYPage(Dimension screenSize, boolean whetherTimeLimited, User user,boolean whetherCompetition){
+        this.whetherCompetition = whetherCompetition;
+        this.whetherTourist = false;
+        this.user = user;
+        this.setLayout(null);
+        this.whetherTimeLimited = whetherTimeLimited;
+        this.UpdateSizeAndLocationForOptions(screenSize);
+        this.setBounds(0, 0, totalWidth, totalHeight);
+        this.SetUpOptionsInTheLoginPage();
+        if (whetherTimeLimited){
+            this.SetUpForAskForTimeLimit();
+            this.SetUpUserPanel();
+        }
+        if (!whetherCompetition&&!whetherTimeLimited){
+            this.SetUpForAskForWinningScore();
+            this.SetUpForAskForArchiveName();
+        }
+        this.SetUpUserPanel();
+    }
+
+    public boolean isWhetherCompetition() {
+        return whetherCompetition;
+    }
+
+    public boolean getWhetherTourist() {
+        return whetherTourist;
     }
 
     public UnitBlockInDIY[][] getBlockSet() {
@@ -60,6 +101,18 @@ public class BoardSizeDIYPage extends JPanel {
     public String GetTimeLimitation(){
         if (whetherTimeLimited){
         return askForLimitField.getText();} else {
+            return null;
+        }
+    }
+    public String GetTargetWinningScore(){
+        if (!whetherCompetition&&!whetherTimeLimited){
+            return askForWinningScoreField.getText();} else {
+            return null;
+        }
+    }
+    public String GetArchiveName(){
+        if (!whetherCompetition&&!whetherTimeLimited){
+            return askForArchiveNameField.getText();} else {
             return null;
         }
     }
@@ -142,6 +195,41 @@ public class BoardSizeDIYPage extends JPanel {
         this.add(askForLimit);
         this.add(askForLimitField);
     }
+    public void SetUpForAskForWinningScore() {
+        askForWinningScore = new JPanel();
+        askForWinningScore.setLayout(new BorderLayout());
+        askForWinningScore.setBackground(Color.LIGHT_GRAY);
+        askForWinningScore.setBounds(startXOfBlockSet, startYOfBlockSet / 2, sizeOfTheBlockSet / 2, startYOfBlockSet / 2);
+        askForWinningScoreLabel = new JLabel("Target Score: ");
+        askForWinningScoreLabel.setFont(new Font("Times New Roman", Font.BOLD, 50));
+        askForWinningScoreLabel.setForeground(Color.BLACK);
+        askForWinningScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        askForWinningScoreLabel.setVerticalAlignment(JLabel.CENTER);
+        askForWinningScore.add(askForWinningScoreLabel);
+        askForWinningScoreField = new JTextField();
+        askForWinningScoreField.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        askForWinningScoreField.setBounds(startXOfBlockSet + sizeOfTheBlockSet / 2, startYOfBlockSet / 2, sizeOfTheBlockSet / 2, startYOfBlockSet / 2);
+        this.add(askForWinningScore);
+        this.add(askForWinningScoreField);
+    }
+    public void SetUpForAskForArchiveName() {
+        askForArchiveName = new JPanel();
+        askForArchiveName.setLayout(new BorderLayout());
+        askForArchiveName.setBackground(Color.LIGHT_GRAY);
+        askForArchiveName.setBounds(startXOfBlockSet, 0, sizeOfTheBlockSet / 2, startYOfBlockSet / 2);
+        askForArchiveNameLabel = new JLabel("Archive Name: ");
+        askForArchiveNameLabel.setFont(new Font("Times New Roman", Font.BOLD, 50));
+        askForArchiveNameLabel.setForeground(Color.BLACK);
+        askForArchiveNameLabel.setHorizontalAlignment(JLabel.CENTER);
+        askForArchiveNameLabel.setVerticalAlignment(JLabel.CENTER);
+        askForArchiveName.add(askForArchiveNameLabel);
+        askForArchiveNameField = new JTextField();
+        askForArchiveNameField.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        askForArchiveNameField.setBounds(startXOfBlockSet + sizeOfTheBlockSet / 2, 0, sizeOfTheBlockSet / 2, startYOfBlockSet / 2);
+        this.add(askForArchiveName);
+        this.add(askForArchiveNameField);
+    }
+
         public void EstablishWarn(String wordsOutput) {
             if (warnPanel != null) {
                 this.remove(warnPanel);
@@ -178,5 +266,17 @@ public class BoardSizeDIYPage extends JPanel {
         skinSwitcher = new JPanel();
         skinSwitcher.setBounds((int)(((double)totalWidth*47)/(double)48),4*totalHeight/5,(int)(((double)totalWidth)/(double)48),5*totalHeight/5);
         this.add(skinSwitcher);
+    }
+    void SetUpUserPanel(){
+        userPanel = new JPanel();
+        userPanel.setLayout(new BorderLayout());
+        userPanel.setBounds(0,0,totalWidth/4,totalHeight/24);
+        userLabel = new JLabel(" "+user.getUserName());
+        userLabel.setFont(new Font("Bradley Hand",Font.BOLD, 30));
+        userLabel.setForeground(Color.BLACK);
+        userLabel.setHorizontalAlignment(JLabel.LEFT);
+        userLabel.setVerticalAlignment(JLabel.CENTER);
+        userPanel.add(userLabel,BorderLayout.WEST);
+        this.add(userPanel);
     }
 }

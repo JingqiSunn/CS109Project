@@ -1,5 +1,13 @@
 package MultiUserSupply;
 
+import GameElement.ControllingCenter;
+import GameSave.DocumentReaderAndWriter;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class User {
     String userName;
     int historicalWinningTimeInCompetitionWithoutLimitation;
@@ -74,5 +82,13 @@ public class User {
     public void UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(int newScore){
         UserManger userManger = new UserManger();
         userManger.UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(this,newScore);
+    }
+    public void SavingCellValueSavingForCurrentStep(String archiveName, ControllingCenter controllingCenter){
+        UserManger userManger = new UserManger();
+        userManger.SavingCellValueSavingForCurrentStep(this,archiveName,controllingCenter);
+    }
+    public void GoingOneStepBackWards(String archiveName, ControllingCenter controllingCenter){
+        UserManger userManger = new UserManger();
+        userManger.GoingOneStepBackWards(this,archiveName,controllingCenter);
     }
 }

@@ -1,0 +1,3 @@
+#Sun May 19 13:07:34 CST 2024
+BoardUnitLocationSet=031323021222011121001020
+Step1=0 0 0 0 0 0 2 0 0 4 2 0 

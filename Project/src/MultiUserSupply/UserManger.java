@@ -1,6 +1,10 @@
 package MultiUserSupply;
 
+import GameElement.BoardUnit;
+import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
+import GameVisual.Panels.InGamePageWithoutTimeLimit;
+import GameVisual.Panels.UserPracticeWithoutLimitDiePage;
 
 import java.io.*;
 import java.util.*;
@@ -151,7 +155,7 @@ public class UserManger {
         return whetherValid;
     }
 
-    private boolean ExaminePassWordsWhetherOnlyLetterNumber(String userName) {
+    public boolean ExaminePassWordsWhetherOnlyLetterNumber(String userName) {
         boolean whetherValid = true;
         boolean whetherValidThisTerm = false;
         String availableLetters = "1234567890zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP";
@@ -302,6 +306,18 @@ public class UserManger {
         directory.mkdirs();
         directory = new File(directoryPath + "/SinglePlayer/Practice");
         directory.mkdirs();
+        directory = new File(directoryPath + "/SinglePlayer/Practice/WithoutTimeLimitation");
+        directory.mkdirs();
+        directory = new File(directoryPath + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive");
+        directory.mkdirs();
+        directory = new File(directoryPath + "/SinglePlayer/Practice/WithoutTimeLimitation/CurrentGame");
+        directory.mkdirs();
+        directory = new File(directoryPath + "/SinglePlayer/Practice/WithTimeLimitation");
+        directory.mkdirs();
+        directory = new File(directoryPath + "/SinglePlayer/Practice/WithTimeLimitation/HistoricalArchive");
+        directory.mkdirs();
+        directory = new File(directoryPath + "/SinglePlayer/Practice/WithTimeLimitation/CurrentGame");
+        directory.mkdirs();
         directory = new File(directoryPath + "/SinglePlayer/Competition/InThreeMinutes");
         directory.mkdirs();
         directory = new File(directoryPath + "/SinglePlayer/Competition/WithoutTimeLimit");
@@ -322,6 +338,24 @@ public class UserManger {
             throw new RuntimeException(e);
         }
         this.SetUpInitialKeySetsInTxtCompetitionWithTimeLimit(directoryPath);
+        file = new File(directoryPath + "/SinglePlayer/Practice/WithoutTimeLimitation/CurrentGame", "CurrentGameInformation.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        file = new File(directoryPath + "/SinglePlayer/Practice/WithTimeLimitation/CurrentGame", "CurrentGameInformation.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        file = new File(directoryPath+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive", "ArchiveNameList.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void SetUpInitialKeySetsInTxtCompetitionWithoutTimeLimit(String directoryPath) {
@@ -691,5 +725,65 @@ public class UserManger {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(User user, String archiveName, ControllingCenter controllingCenter){
+        ArrayList<BoardUnit> blockLocationSet = controllingCenter.getCurrentPlayingBoard().getBoardLocationSet();
+        StringBuilder boardUnitLocationSet = new StringBuilder();
+        for (int indexInBoardUnits = 0; indexInBoardUnits < blockLocationSet.size(); indexInBoardUnits++) {
+            boardUnitLocationSet.append(String.valueOf(blockLocationSet.get(indexInBoardUnits).getxCoordinate()));
+            boardUnitLocationSet.append(String.valueOf(blockLocationSet.get(indexInBoardUnits).getyCoordinate()));
+        }
+        File file = new File("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive", archiveName+".txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            properties.setProperty("BoardUnitLocationSet", String.valueOf(boardUnitLocationSet));
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            properties.store(outputStream, null);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+        documentReaderAndWriter.saveUserArchiveInformation(archiveName,user);
+    }
+    public void SavingCellValueSavingForCurrentStep(User user, String archiveName, ControllingCenter controllingCenter){
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            properties.setProperty("Step"+String.valueOf(controllingCenter.getNumberOfStep()), controllingCenter.GetTheValueSetForBlockUnitSet());
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            properties.store(outputStream, null);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+        documentReaderAndWriter.saveUserArchiveInformation(archiveName,user);
+    }
+    public void GoingOneStepBackWards(User user, String archiveName, ControllingCenter controllingCenter){
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            properties.remove("Step"+String.valueOf(controllingCenter.getNumberOfStep()));
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/"+archiveName+".txt");
+            properties.store(outputStream, null);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+        documentReaderAndWriter.saveUserArchiveInformation(archiveName,user);
     }
 }

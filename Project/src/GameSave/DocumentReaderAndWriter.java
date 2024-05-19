@@ -3,6 +3,7 @@ package GameSave;
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import MultiUserSupply.User;
+import MultiUserSupply.UserManger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -62,6 +63,15 @@ public class DocumentReaderAndWriter {
             String hashedPassword = hashPassword(userLoginPassword);
             Files.write(Path.of("src/UserInformation/GeneralInformation/UserLoginInformation/UserPassWord.txt"),
                     (hashedPassword+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+                    StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void saveUserArchiveInformation(String archiveName, User user){
+        try {
+            Files.write(Path.of("src/UserInformation/PersonalInformation/"+user.getUserName()+ "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/ArchiveNameList.txt"),
+                    (archiveName+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
                     StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();

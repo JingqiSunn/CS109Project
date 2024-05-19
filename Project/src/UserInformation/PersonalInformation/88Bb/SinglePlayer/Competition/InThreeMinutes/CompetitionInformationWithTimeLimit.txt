@@ -1,8 +1,8 @@
-#Sat May 18 10:11:10 CST 2024
-AverageScore=984
-BestScoreFive=264
-BestScoreFour=268
-BestScoreOne=2516
-BestScoreThree=456
-BestScoreTwo=2160
-TotalGameNumber=6
+#Sat May 18 14:09:54 CST 2024
+AverageScore=2342
+BestScoreFive=2480
+BestScoreFour=2516
+BestScoreOne=10656
+BestScoreThree=2652
+BestScoreTwo=2816
+TotalGameNumber=11

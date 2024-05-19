@@ -44,9 +44,13 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     UserPracticeModeChoosingPage userPracticeModeChoosingPage;
     UserPracticeWithoutTimeLimitModeWhetherNewPage userPracticeWithoutTimeLimitModeWhetherNewPage;
     UserPracticeWithTimeLimitModeWhetherNewPage userPracticeWithTimeLimitModeWhetherNewPage;
+    UserPracticeWithoutLimitationModeChoosingPage userPracticeWithoutLimitationModeChoosingPage;
+    UserPracticeWinningPage userPracticeWinningPage;
+    UserPracticeWithoutLimitDiePage userPracticeWithoutLimitDiePage;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
+
     public TotalGameFrame() {
         skin = false;
         winningPageIsOnShow = false;
@@ -114,8 +118,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         modeChoosingPage.getRegisterOption().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadUserGameTypeChoosingPage() {
-        userGameTypeChoosingPage = new UserGameTypeChoosingPage(screenSize,user);
+        userGameTypeChoosingPage = new UserGameTypeChoosingPage(screenSize, user);
         userGameTypeChoosingPage.setVisible(true);
         this.add(userGameTypeChoosingPage);
         userGameTypeChoosingPage.getSinglePlayerOption().addMouseListener(this);
@@ -134,8 +139,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         setFocusable(true);
     }
 
-    void LoadBoardSizeDIYPageWithoutTimeLimit() {
-        boardSizeDIYPage = new BoardSizeDIYPage(screenSize,false);
+    void LoadBoardSizeDIYPageWithoutTimeLimitForTourist() {
+        boardSizeDIYPage = new BoardSizeDIYPage(screenSize, false);
         boardSizeDIYPage.setVisible(true);
         this.add(boardSizeDIYPage);
         for (int layerInRow = 0; layerInRow < 10; layerInRow++) {
@@ -147,8 +152,23 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
         setFocusable(true);
     }
+
+    void LoadBoardSizeDIYPageWithoutTimeLimitForUserPractice() {
+        boardSizeDIYPage = new BoardSizeDIYPage(screenSize, false, user, false);
+        boardSizeDIYPage.setVisible(true);
+        this.add(boardSizeDIYPage);
+        for (int layerInRow = 0; layerInRow < 10; layerInRow++) {
+            for (int layerInColumn = 0; layerInColumn < 10; layerInColumn++) {
+                boardSizeDIYPage.getBlockSet()[layerInRow][layerInColumn].addMouseListener(this);
+            }
+        }
+        boardSizeDIYPage.GetContinueButton().addMouseListener(this);
+        boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
+        setFocusable(true);
+    }
+
     void LoadBoardSizeDIYPageWithTimeLimit() {
-        boardSizeDIYPage = new BoardSizeDIYPage(screenSize,true);
+        boardSizeDIYPage = new BoardSizeDIYPage(screenSize, true);
         boardSizeDIYPage.setVisible(true);
         this.add(boardSizeDIYPage);
         for (int layerInRow = 0; layerInRow < 10; layerInRow++) {
@@ -160,96 +180,142 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadInGamePageForTouristWithoutTimeLimitation() {
-        inGamePageWithoutTimeLimit = new InGamePageWithoutTimeLimit(screenSize,controllingCenter,true);
+        inGamePageWithoutTimeLimit = new InGamePageWithoutTimeLimit(screenSize, controllingCenter, true);
         inGamePageWithoutTimeLimit.addKeyListener(this);
         inGamePageWithoutTimeLimit.setVisible(true);
         inGamePageWithoutTimeLimit.getButtonControllerSwitch().addMouseListener(this);
         this.add(inGamePageWithoutTimeLimit);
         setFocusable(true);
     }
-    void LoadInGamePageForUserWithoutTimeLimitation() {
+
+    void LoadInGamePageForUserWithoutTimeLimitationCompetition() {
         user.UpdateUserInformationForCompetition();
         user.UpdateTheAverageScoreForStartOfGameCompetitionWithoutTimeLimit();
         user.addOneGameTotalGameNumberForCompetitionWithoutLimit();
-        inGamePageWithoutTimeLimit = new InGamePageWithoutTimeLimit(screenSize,controllingCenter,false,user,true,false);
+        inGamePageWithoutTimeLimit = new InGamePageWithoutTimeLimit(screenSize, controllingCenter, false, user, true, false);
         inGamePageWithoutTimeLimit.addKeyListener(this);
         inGamePageWithoutTimeLimit.setVisible(true);
         inGamePageWithoutTimeLimit.getButtonControllerSwitch().addMouseListener(this);
         this.add(inGamePageWithoutTimeLimit);
         setFocusable(true);
     }
-    void LoadInGamePageForTouristWithTimeLimitation(int timeLimit){
-        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize,controllingCenter,true,timeLimit,this);
+
+    void LoadInGamePageForUserWithoutTimeLimitationPractice() {
+        inGamePageWithoutTimeLimit = new InGamePageWithoutTimeLimit(screenSize, controllingCenter, false, user, false, false);
+        inGamePageWithoutTimeLimit.addKeyListener(this);
+        inGamePageWithoutTimeLimit.setVisible(true);
+        inGamePageWithoutTimeLimit.getButtonControllerSwitch().addMouseListener(this);
+        this.add(inGamePageWithoutTimeLimit);
+        setFocusable(true);
+    }
+
+    void LoadInGamePageForTouristWithTimeLimitation(int timeLimit) {
+        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize, controllingCenter, true, timeLimit, this);
         inGamePageWithTimeLimit.addKeyListener(this);
         inGamePageWithTimeLimit.setVisible(true);
         inGamePageWithTimeLimit.getButtonControllerSwitch().addMouseListener(this);
         this.add(inGamePageWithTimeLimit);
         setFocusable(true);
     }
-    void LoadInGamePageForUserWithTimeLimitation(int timeLimit){
+
+    void LoadInGamePageForUserWithTimeLimitationCompetition(int timeLimit) {
         user.UpdateUserInformationForCompetition();
         user.UpdateTheAverageScoreForStartOfGameCompetitionWithTimeLimit();
         user.addOneGameTotalGameNumberForCompetitionWithLimit();
-        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize,controllingCenter,false,timeLimit,this,user,true);
+        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize, controllingCenter, false, timeLimit, this, user, true);
         inGamePageWithTimeLimit.addKeyListener(this);
         inGamePageWithTimeLimit.setVisible(true);
         inGamePageWithTimeLimit.getButtonControllerSwitch().addMouseListener(this);
         this.add(inGamePageWithTimeLimit);
         setFocusable(true);
     }
+
+    void LoadInGamePageForUserWithTimeLimitationPractice(int timeLimit) {
+        inGamePageWithTimeLimit = new InGamePageWithTimeLimit(screenSize, controllingCenter, false, timeLimit, this, user, false);
+        inGamePageWithTimeLimit.addKeyListener(this);
+        inGamePageWithTimeLimit.setVisible(true);
+        inGamePageWithTimeLimit.getButtonControllerSwitch().addMouseListener(this);
+        this.add(inGamePageWithTimeLimit);
+        setFocusable(true);
+    }
+
     void LoadTouristDiePage() {
-        touristDiePage = new TouristDiePage(screenSize,controllingCenter,0);
+        touristDiePage = new TouristDiePage(screenSize, controllingCenter, 0);
         touristDiePage.setVisible(true);
         this.add(touristDiePage);
         touristDiePage.getBackToMenuOption().addMouseListener(this);
         touristDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadUserCompetitionWithoutLimitDiePage() {
         user.UpdateTheAverageScoreForEndOfGameCompetitionWithoutTimeLimit(controllingCenter.getCurrentGameScore());
         user.UpdateBestFiveScoreForCompetitionWithoutTimeLimit(controllingCenter.getCurrentGameScore());
-        if (controllingCenter.getCurrentGameScore()>=7000){
+        if (controllingCenter.getCurrentGameScore() >= 7000) {
             user.IncreaseSevenThousandTimeInCompetitionWithoutTimeLimit();
         }
-        if (controllingCenter.getCurrentGameScore()>=14000){
+        if (controllingCenter.getCurrentGameScore() >= 14000) {
             user.IncreaseFourteenThousandTimeInCompetitionWithoutTimeLimit();
         }
-        userCompetitionWithoutLimitDiePage = new UserCompetitionWithoutLimitDiePage(screenSize,controllingCenter,user);
+        userCompetitionWithoutLimitDiePage = new UserCompetitionWithoutLimitDiePage(screenSize, controllingCenter, user);
         userCompetitionWithoutLimitDiePage.setVisible(true);
         this.add(userCompetitionWithoutLimitDiePage);
         userCompetitionWithoutLimitDiePage.getBackToMenuOption().addMouseListener(this);
         userCompetitionWithoutLimitDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
     }
+
+    void LoadUserPracticeWithoutLimitDiePage() {
+        userPracticeWithoutLimitDiePage = new UserPracticeWithoutLimitDiePage(screenSize, controllingCenter, 0, user);
+        userPracticeWithoutLimitDiePage.setVisible(true);
+        this.add(userPracticeWithoutLimitDiePage);
+        userPracticeWithoutLimitDiePage.getBackToMenuOption().addMouseListener(this);
+        userPracticeWithoutLimitDiePage.getRestartOption().addMouseListener(this);
+        setFocusable(true);
+    }
+
     void LoadUserCompetitionWithLimitDiePage() {
         user.UpdateBestFiveScoreForCompetitionWithTimeLimit(controllingCenter.getCurrentGameScore());
         user.UpdateTheAverageScoreForEndOfGameCompetitionWithTimeLimit(controllingCenter.getCurrentGameScore());
-        userCompetitionWithLimitDiePage = new UserCompetitionWithLimitDiePage(screenSize,controllingCenter,user);
+        userCompetitionWithLimitDiePage = new UserCompetitionWithLimitDiePage(screenSize, controllingCenter, user);
         userCompetitionWithLimitDiePage.setVisible(true);
         this.add(userCompetitionWithLimitDiePage);
         userCompetitionWithLimitDiePage.getBackToMenuOption().addMouseListener(this);
         userCompetitionWithLimitDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadTouristWinningPage() {
-        touristWinningPage = new TouristWinningPage(screenSize,controllingCenter);
+        touristWinningPage = new TouristWinningPage(screenSize, controllingCenter);
         touristWinningPage.setVisible(true);
         this.add(touristWinningPage);
         touristWinningPage.getBackToMenuOption().addMouseListener(this);
         touristWinningPage.getContinueOption().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadUserWinningPage(){
+
+    void LoadUserPracticeWinningPage() {
+        userPracticeWinningPage = new UserPracticeWinningPage(screenSize, controllingCenter, user);
+        userPracticeWinningPage.setVisible(true);
+        this.add(userPracticeWinningPage);
+        userPracticeWinningPage.getBackToMenuOption().addMouseListener(this);
+        userPracticeWinningPage.getContinueOption().addMouseListener(this);
+        setFocusable(true);
+    }
+
+    void LoadUserWinningPage() {
         user.IncreaseWinningTimeInCompetitionWithoutTimeLimit();
-        userWinningPage = new UserWinningPage(screenSize,controllingCenter,user);
+        userWinningPage = new UserWinningPage(screenSize, controllingCenter, user);
         userWinningPage.setVisible(true);
         this.add(userWinningPage);
         userWinningPage.getBackToMenuOption().addMouseListener(this);
         userWinningPage.getContinueOption().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadUserLoginPage(){
+
+    void LoadUserLoginPage() {
         userLoginPage = new UserLoginPage(screenSize);
         userLoginPage.setVisible(true);
         this.add(userLoginPage);
@@ -257,7 +323,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userLoginPage.GetLoginConfirmPanel().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadUserRegistrationPage(){
+
+    void LoadUserRegistrationPage() {
         userRegistrationPage = new UserRegistrationPage(screenSize);
         userRegistrationPage.setVisible(true);
         this.add(userRegistrationPage);
@@ -265,7 +332,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userRegistrationPage.GetRegistrationConfirmPanel().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadSuccessfulUserRegistrationPage(){
+
+    void LoadSuccessfulUserRegistrationPage() {
         this.add(successfullyRegisteredPage);
         setFocusable(true);
         this.addMouseListener(this);
@@ -275,7 +343,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.setVisible(true);
         repaint();
     }
-    void LoadTimeLimitChoosingPage(){
+
+    void LoadTimeLimitChoosingPage() {
         timeLimitChoosingPage = new TimeLimitChoosingPage(screenSize);
         timeLimitChoosingPage.setVisible(true);
         timeLimitChoosingPage.getThreeMinutesOption().addMouseListener(this);
@@ -284,44 +353,59 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(timeLimitChoosingPage);
         setFocusable(true);
     }
-    void LoadUserSingleModeChoosingPage(){
-        userSingleModeChoosingPage = new UserSingleModeChoosingPage(screenSize,user);
+
+    void LoadUserSingleModeChoosingPage() {
+        userSingleModeChoosingPage = new UserSingleModeChoosingPage(screenSize, user);
         userSingleModeChoosingPage.setVisible(true);
         this.add(userSingleModeChoosingPage);
         userSingleModeChoosingPage.getCompetitionOption().addMouseListener(this);
         userSingleModeChoosingPage.getPracticeOption().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadUserCompetitionChoosingPage(){
-        userCompetitionChoosingPage = new UserCompetitionChoosingPage(screenSize,user);
+
+    void LoadUserCompetitionChoosingPage() {
+        userCompetitionChoosingPage = new UserCompetitionChoosingPage(screenSize, user);
         userCompetitionChoosingPage.setVisible(true);
         this.add(userCompetitionChoosingPage);
         userCompetitionChoosingPage.getWithoutTimeLimitationOption().addMouseListener(this);
         userCompetitionChoosingPage.getWithTimeLimitationOption().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadUserPracticeModeChoosingPage(){
-        userPracticeModeChoosingPage = new UserPracticeModeChoosingPage(screenSize,user);
+
+    void LoadUserPracticeModeChoosingPage() {
+        userPracticeModeChoosingPage = new UserPracticeModeChoosingPage(screenSize, user);
         userPracticeModeChoosingPage.setVisible(true);
         this.add(userPracticeModeChoosingPage);
         userPracticeModeChoosingPage.getWithoutTimeLimitationOption().addMouseListener(this);
         userPracticeModeChoosingPage.getWithTimeLimitationOption().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadUserPracticeWithoutTimeLimitModeWhetherNewPage(){
-        userPracticeWithoutTimeLimitModeWhetherNewPage = new UserPracticeWithoutTimeLimitModeWhetherNewPage(screenSize,user);
+
+    void LoadUserPracticeWithoutTimeLimitModeWhetherNewPage() {
+        userPracticeWithoutTimeLimitModeWhetherNewPage = new UserPracticeWithoutTimeLimitModeWhetherNewPage(screenSize, user);
         userPracticeWithoutTimeLimitModeWhetherNewPage.setVisible(true);
         this.add(userPracticeWithoutTimeLimitModeWhetherNewPage);
         userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().addMouseListener(this);
         userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadUserPracticeWithTimeLimitModeWhetherNewPage(){
-        userPracticeWithTimeLimitModeWhetherNewPage = new UserPracticeWithTimeLimitModeWhetherNewPage(screenSize,user);
+
+    void LoadUserPracticeWithTimeLimitModeWhetherNewPage() {
+        userPracticeWithTimeLimitModeWhetherNewPage = new UserPracticeWithTimeLimitModeWhetherNewPage(screenSize, user);
         userPracticeWithTimeLimitModeWhetherNewPage.setVisible(true);
         this.add(userPracticeWithTimeLimitModeWhetherNewPage);
         userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().addMouseListener(this);
         userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().addMouseListener(this);
+        setFocusable(true);
+    }
+
+    void LoadUserPracticeWithoutLimitationModeChoosingPage() {
+        userPracticeWithoutLimitationModeChoosingPage = new UserPracticeWithoutLimitationModeChoosingPage(screenSize, user);
+        userPracticeWithoutLimitationModeChoosingPage.setVisible(true);
+        this.add(userPracticeWithoutLimitationModeChoosingPage);
+        userPracticeWithoutLimitationModeChoosingPage.getThreeOption().addMouseListener(this);
+        userPracticeWithoutLimitationModeChoosingPage.getFourOption().addMouseListener(this);
+        userPracticeWithoutLimitationModeChoosingPage.getDIYOption().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -332,12 +416,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
 
     @Override
-    public void keyPressed(KeyEvent e)   {
+    public void keyPressed(KeyEvent e) {
         int keyBeingActivated = e.getKeyCode();
         if (keyBeingActivated == KeyEvent.VK_ESCAPE) {
             this.outOfFullScreen();
             this.setVisible(true);
-        }else if (userRegistrationPage != null && e.isControlDown()&&e.getKeyCode() == KeyEvent.VK_B) {
+        } else if (userRegistrationPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
             this.remove(userRegistrationPage);
             userRegistrationPage = null;
             this.LoadLoginPage();
@@ -345,7 +429,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userLoginPage != null && e.isControlDown()&&e.getKeyCode() == KeyEvent.VK_B) {
+        } else if (userLoginPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
             this.remove(userLoginPage);
             userLoginPage = null;
             this.LoadLoginPage();
@@ -353,41 +437,69 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (inGamePageWithoutTimeLimit != null &&!winningPageIsOnShow&& keyBeingActivated == KeyEvent.VK_UP&&!timerIsRunning){
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0]==1){
+                whetherToSave = true;
+            }
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        } else if (inGamePageWithoutTimeLimit != null &&!winningPageIsOnShow&& keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1]==1){
+                whetherToSave = true;
+            }
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        } else if (inGamePageWithoutTimeLimit != null &&!winningPageIsOnShow&& keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2]==1){
+                whetherToSave = true;
+            }
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        } else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3]==1){
+                whetherToSave = true;
+            }
             controllingCenter.RightAction();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave){
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            }
             controllingCenter.UpdateGameValidity();
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithoutTimeLimit.RestartTheGame();
-        }else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP&&!timerIsRunning){
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
@@ -395,7 +507,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN&&!timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
@@ -403,7 +515,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT&&!timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
@@ -411,7 +523,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT&&!timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
@@ -419,7 +531,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             controllingCenter.UpdateGameValidity();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R&&!timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithTimeLimit.RestartTheGame();
         }
     }
@@ -440,7 +552,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        } else if(loginPage != null && componentActivated.equals(loginPage.getRegistrationOption())) {
+        } else if (loginPage != null && componentActivated.equals(loginPage.getRegistrationOption())) {
             remove(loginPage);
             loginPage = null;
             this.LoadUserRegistrationPage();
@@ -448,7 +560,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        } else if(loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+        } else if (loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
             remove(loginPage);
             loginPage = null;
             this.LoadModeChoosingPage();
@@ -464,7 +576,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getLimitedTimeOption())) {
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getLimitedTimeOption())) {
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadTimeLimitChoosingPage();
@@ -483,7 +595,15 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getDIYOption())) {
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
-            this.LoadBoardSizeDIYPageWithoutTimeLimit();
+            this.LoadBoardSizeDIYPageWithoutTimeLimitForTourist();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getDIYOption())) {
+            remove(userPracticeWithoutLimitationModeChoosingPage);
+            userPracticeWithoutLimitationModeChoosingPage = null;
+            this.LoadBoardSizeDIYPageWithoutTimeLimitForUserPractice();
             this.addMouseListener(this);
             this.setFocusable(true);
             repaint();
@@ -522,9 +642,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     componentActivated.setVisible(true);
                 }
             }
-        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
             skin = false;
-            if (inGamePageWithTimeLimit != null){
+            if (inGamePageWithTimeLimit != null) {
                 inGamePageWithTimeLimit = null;
                 controllingCenter = new ControllingCenter();
                 this.remove(touristDiePage);
@@ -534,7 +654,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 this.setFocusable(true);
                 repaint();
                 this.setVisible(true);
-            }else {
+            } else {
                 controllingCenter = new ControllingCenter();
                 this.remove(touristDiePage);
                 touristDiePage = null;
@@ -544,17 +664,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 repaint();
                 this.setVisible(true);
             }
-        }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
             skin = false;
-                controllingCenter = new ControllingCenter();
-                this.remove(userCompetitionWithoutLimitDiePage);
-                userCompetitionWithoutLimitDiePage = null;
-                this.LoadUserCompetitionChoosingPage();
-                this.addMouseListener(this);
-                this.setFocusable(true);
-                repaint();
-                this.setVisible(true);
-            }else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
+            controllingCenter = new ControllingCenter();
+            this.remove(userCompetitionWithoutLimitDiePage);
+            userCompetitionWithoutLimitDiePage = null;
+            this.LoadUserCompetitionChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
             skin = false;
             controllingCenter = new ControllingCenter();
             this.remove(userCompetitionWithLimitDiePage);
@@ -565,8 +685,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
-            if ( inGamePageWithTimeLimit == null){
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getBackToMenuOption())) {
+            skin = false;
+            controllingCenter = new ControllingCenter();
+            this.remove(userPracticeWithoutLimitDiePage);
+            userPracticeWithoutLimitDiePage = null;
+            this.LoadUserPracticeWithoutLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+            if (inGamePageWithTimeLimit == null) {
                 this.remove(touristDiePage);
                 touristDiePage = null;
                 controllingCenter.setWhetherReachedTheTargetScore(false);
@@ -588,30 +718,41 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 repaint();
                 setVisible(true);
             }
-        }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
             user.UpdateUserInformationForCompetition();
-                this.remove(userCompetitionWithoutLimitDiePage);
-                userCompetitionWithoutLimitDiePage = null;
-                controllingCenter.setWhetherReachedTheTargetScore(false);
-                controllingCenter.setWhetherAlreadyShownWinningPage(false);
-                controllingCenter.CleanThePlayingBoardForRestart();
-                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                this.LoadInGamePageForUserWithoutTimeLimitation();
-                repaint();
-                setVisible(true);
-        }else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
-                user.UpdateUserInformationForCompetition();
-                int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
-                this.remove(userCompetitionWithLimitDiePage);
-                userCompetitionWithLimitDiePage = null;
-                inGamePageWithTimeLimit = null;
-                controllingCenter.CleanThePlayingBoardForRestart();
-                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                controllingCenter.UpdateGameValidity();
-                this.LoadInGamePageForUserWithTimeLimitation(originalTimeLimit);
-                repaint();
-                setVisible(true);
-        }else if(userLoginPage != null && componentActivated.equals(userLoginPage.GetClickHereToRegister())) {
+            this.remove(userCompetitionWithoutLimitDiePage);
+            userCompetitionWithoutLimitDiePage = null;
+            controllingCenter.setWhetherReachedTheTargetScore(false);
+            controllingCenter.setWhetherAlreadyShownWinningPage(false);
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForUserWithoutTimeLimitationCompetition();
+            repaint();
+            setVisible(true);
+        } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
+            user.UpdateUserInformationForCompetition();
+            int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
+            this.remove(userCompetitionWithLimitDiePage);
+            userCompetitionWithLimitDiePage = null;
+            inGamePageWithTimeLimit = null;
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.UpdateGameValidity();
+            this.LoadInGamePageForUserWithTimeLimitationCompetition(originalTimeLimit);
+            repaint();
+            setVisible(true);
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getRestartOption())) {
+            this.remove(userPracticeWithoutLimitDiePage);
+            userPracticeWithoutLimitDiePage = null;
+            controllingCenter.setWhetherAlreadyShownWinningPage(false);
+            controllingCenter.setWhetherReachedTheTargetScore(false);
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.UpdateGameValidity();
+            this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+            repaint();
+            setVisible(true);
+        } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetClickHereToRegister())) {
             remove(userLoginPage);
             userLoginPage = null;
             this.LoadUserRegistrationPage();
@@ -619,7 +760,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if(userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetClickHereToLoginPanel())) {
+        } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetClickHereToLoginPanel())) {
             remove(userRegistrationPage);
             userRegistrationPage = null;
             this.LoadUserLoginPage();
@@ -627,7 +768,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        } else if(userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
+        } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
             this.DealWithRegistrationIssue();
         } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
             this.remove(successfullyRegisteredPage);
@@ -645,11 +786,11 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        } else if(userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
+        } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
             this.DealWithLoginIssue();
-        } else if(boardSizeDIYPage != null &&!boardSizeDIYPage.getWhetherTimeLimited()&& componentActivated.equals(boardSizeDIYPage.GetContinueButton())){
+        } else if (boardSizeDIYPage != null && !boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
             this.DealWithTheDIYSetting();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
             remove(timeLimitChoosingPage);
             timeLimitChoosingPage = null;
             this.LoadBoardSizeDIYPageWithTimeLimit();
@@ -657,9 +798,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if(boardSizeDIYPage != null &&boardSizeDIYPage.getWhetherTimeLimited()&& componentActivated.equals(boardSizeDIYPage.GetContinueButton())){
+        } else if (boardSizeDIYPage != null && boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
             this.DealWithTheDIYSetting();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
             remove(timeLimitChoosingPage);
             timeLimitChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -667,7 +808,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.LoadInGamePageForTouristWithTimeLimitation(180);
             repaint();
             setVisible(true);
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
             remove(timeLimitChoosingPage);
             timeLimitChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -675,16 +816,16 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.LoadInGamePageForTouristWithTimeLimitation(360);
             repaint();
             setVisible(true);
-        }else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
             remove(userCompetitionChoosingPage);
             userCompetitionChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
             controllingCenter.setInCompetition(true);
             controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-            this.LoadInGamePageForUserWithTimeLimitation(180);
+            this.LoadInGamePageForUserWithTimeLimitationCompetition(180);
             repaint();
             setVisible(true);
-        }else if ((inGamePageWithTimeLimit !=null &&!inGamePageWithTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+        } else if ((inGamePageWithTimeLimit != null && !inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithTimeLimit.LoadButtonController();
             inGamePageWithTimeLimit.GetUpButton().addMouseListener(this);
             inGamePageWithTimeLimit.GetDownButton().addMouseListener(this);
@@ -692,7 +833,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.GetRightButton().addMouseListener(this);
             repaint();
             setVisible(true);
-        }else if (inGamePageWithoutTimeLimit !=null &&!inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.LoadButtonController();
             inGamePageWithoutTimeLimit.GetUpButton().addMouseListener(this);
             inGamePageWithoutTimeLimit.GetDownButton().addMouseListener(this);
@@ -700,15 +841,15 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithoutTimeLimit.GetRightButton().addMouseListener(this);
             repaint();
             setVisible(true);
-        }else if ((inGamePageWithTimeLimit !=null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+        } else if ((inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithTimeLimit.CleanButtonController();
             repaint();
             setVisible(true);
-        }else if (inGamePageWithoutTimeLimit !=null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.CleanButtonController();
             repaint();
             setVisible(true);
-        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
             skin = false;
             inGamePageWithoutTimeLimit = null;
             controllingCenter = new ControllingCenter();
@@ -720,7 +861,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
             winningPageIsOnShow = false;
-        }else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
             skin = false;
             inGamePageWithoutTimeLimit = null;
             controllingCenter = new ControllingCenter();
@@ -732,7 +873,19 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
             winningPageIsOnShow = false;
-        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getBackToMenuOption())) {
+            skin = false;
+            inGamePageWithoutTimeLimit = null;
+            controllingCenter = new ControllingCenter();
+            this.remove(userPracticeWinningPage);
+            userPracticeWinningPage = null;
+            this.LoadUserPracticeWithoutLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
             this.remove(touristWinningPage);
             touristWinningPage = null;
             this.add(inGamePageWithoutTimeLimit);
@@ -741,7 +894,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
             winningPageIsOnShow = false;
-        }else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
             this.remove(userWinningPage);
             userWinningPage = null;
             this.add(inGamePageWithoutTimeLimit);
@@ -750,7 +903,16 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
             winningPageIsOnShow = false;
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())&&!timerIsRunning) {
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getContinueOption())) {
+            this.remove(userPracticeWinningPage);
+            userPracticeWinningPage = null;
+            this.add(inGamePageWithoutTimeLimit);
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetUpButton()) && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
@@ -758,7 +920,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())&&!timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetDownButton()) && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
@@ -766,7 +928,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())&&!timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton()) && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
@@ -774,7 +936,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())&&!timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetRightButton()) && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
@@ -782,7 +944,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
-        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
@@ -790,7 +952,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
@@ -798,7 +960,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
@@ -806,7 +968,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        }else if (inGamePageWithoutTimeLimit != null&&!winningPageIsOnShow &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())&&!timerIsRunning) {
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
             controllingCenter.UpdateGameValidity();
@@ -814,11 +976,11 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
-        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&!skin) {
-            skin=true;
-        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&skin) {
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && !skin) {
+            skin = true;
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && skin) {
             skin = false;
-        } else if (userGameTypeChoosingPage !=null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())){
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
             this.LoadUserSingleModeChoosingPage();
@@ -826,7 +988,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userSingleModeChoosingPage !=null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())){
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
             remove(userSingleModeChoosingPage);
             userSingleModeChoosingPage = null;
             this.LoadUserCompetitionChoosingPage();
@@ -834,7 +996,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userSingleModeChoosingPage !=null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())){
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
             remove(userSingleModeChoosingPage);
             userSingleModeChoosingPage = null;
             this.LoadUserPracticeModeChoosingPage();
@@ -842,7 +1004,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userPracticeModeChoosingPage !=null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())){
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
             remove(userPracticeModeChoosingPage);
             userPracticeModeChoosingPage = null;
             this.LoadUserPracticeWithoutTimeLimitModeWhetherNewPage();
@@ -850,7 +1012,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userPracticeModeChoosingPage !=null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())){
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
             remove(userPracticeModeChoosingPage);
             userPracticeModeChoosingPage = null;
             this.LoadUserPracticeWithTimeLimitModeWhetherNewPage();
@@ -858,16 +1020,24 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
             remove(userCompetitionChoosingPage);
             userCompetitionChoosingPage = null;
             user.UpdateUserInformationForCompetition();
             UpdateTheCoordinateSetInTheControllingCenterForFour();
             controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             controllingCenter.setInCompetition(true);
-            this.LoadInGamePageForUserWithoutTimeLimitation();
+            this.LoadInGamePageForUserWithoutTimeLimitationCompetition();
             repaint();
             setVisible(true);
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
+            remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
+            userPracticeWithoutTimeLimitModeWhetherNewPage = null;
+            this.LoadUserPracticeWithoutLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
         }
     }
 
@@ -920,35 +1090,35 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             boardSizeChoosingPage.getDIYOption().setBackground(Color.BLACK);
             boardSizeChoosingPage.getDIYOption().setVisible(true);
             boardSizeChoosingPage.getDIYOption().repaint();
-        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && !((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.BLACK);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
-        }else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+        } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated) && ((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
             componentActivated.setBackground(Color.RED);
             Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
             ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
             componentActivated.setVisible(true);
             componentActivated.repaint();
-        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
             touristDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             touristDiePage.getBackToMenuOption().setVisible(true);
             touristDiePage.getBackToMenuOption().repaint();
-        }else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
             touristDiePage.getRestartOption().setBackground(Color.BLACK);
             touristDiePage.getRestartOption().setVisible(true);
             touristDiePage.getRestartOption().repaint();
-        }  else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
+        } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
             userLoginPage.GetLoginConfirmPanel().setBackground(new Color(0xDEAC80));
             userLoginPage.GetLoginConfirmPanel().setVisible(true);
             userLoginPage.GetLoginConfirmPanel().repaint();
-        } else if (userRegistrationPage!=null&& userRegistrationPage.GetRegistrationConfirmPanel() != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
+        } else if (userRegistrationPage != null && userRegistrationPage.GetRegistrationConfirmPanel() != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
             userRegistrationPage.GetRegistrationConfirmPanel().setBackground(new Color(0xE8EFCF));
             userRegistrationPage.GetRegistrationConfirmPanel().setVisible(true);
             userRegistrationPage.GetRegistrationConfirmPanel().repaint();
-        }else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
             successfullyRegisteredPage.GetBackToMenu().setBackground(new Color(0xFDE49E));
             successfullyRegisteredPage.GetBackToMenu().setVisible(true);
             successfullyRegisteredPage.GetBackToMenu().repaint();
@@ -956,138 +1126,138 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyRegisteredPage.GetToLogin().setBackground(new Color(0xFDE49E));
             successfullyRegisteredPage.GetToLogin().setVisible(true);
             successfullyRegisteredPage.GetToLogin().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
             timeLimitChoosingPage.getThreeMinutesOption().setBackground(Color.BLACK);
             timeLimitChoosingPage.getThreeMinutesOption().setVisible(true);
             timeLimitChoosingPage.getThreeMinutesOption().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
             timeLimitChoosingPage.getSixMinutesOption().setBackground(Color.BLACK);
             timeLimitChoosingPage.getSixMinutesOption().setVisible(true);
             timeLimitChoosingPage.getSixMinutesOption().repaint();
-        }else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
             timeLimitChoosingPage.getDIYOption().setBackground(Color.BLACK);
             timeLimitChoosingPage.getDIYOption().setVisible(true);
             timeLimitChoosingPage.getDIYOption().repaint();
-        }else if(boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.GetContinueButton())){
+        } else if (boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
             boardSizeDIYPage.GetContinueButton().setBackground(Color.BLACK);
             boardSizeDIYPage.GetContinueLabel().setForeground(Color.WHITE);
-        } else if ((inGamePageWithTimeLimit !=null &&!inGamePageWithTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+        } else if ((inGamePageWithTimeLimit != null && !inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithTimeLimit.getButtonControllerSwitch().setBackground(Color.BLACK);
-        }else if (inGamePageWithTimeLimit !=null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithTimeLimit.getButtonControllerSwitch().setBackground(Color.RED);
-        }else if ((inGamePageWithoutTimeLimit !=null &&!inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut())&& componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+        } else if ((inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(Color.BLACK);
-        }else if (inGamePageWithoutTimeLimit !=null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
             inGamePageWithoutTimeLimit.getButtonControllerSwitch().setBackground(Color.RED);
-        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
             touristWinningPage.getBackToMenuOption().setBackground(Color.BLACK);
             touristWinningPage.getBackToMenuOption().setVisible(true);
             touristWinningPage.getBackToMenuOption().repaint();
-        }else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
             touristWinningPage.getContinueOption().setBackground(Color.BLACK);
             touristWinningPage.getContinueOption().setVisible(true);
             touristWinningPage.getContinueOption().repaint();
-        }else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
             userWinningPage.getBackToMenuOption().setBackground(Color.BLACK);
             userWinningPage.getBackToMenuOption().setVisible(true);
             userWinningPage.getBackToMenuOption().repaint();
-        }else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
             userWinningPage.getContinueOption().setBackground(Color.BLACK);
             userWinningPage.getContinueOption().setVisible(true);
             userWinningPage.getContinueOption().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetUpButton())) {
             inGamePageWithTimeLimit.GetUpButton().setBackground(new Color(0xFF7657));
             inGamePageWithTimeLimit.GetUpButton().setVisible(true);
             inGamePageWithTimeLimit.GetUpButton().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetDownButton())) {
             inGamePageWithTimeLimit.GetDownButton().setBackground(new Color(0xFF7657));
             inGamePageWithTimeLimit.GetDownButton().setVisible(true);
             inGamePageWithTimeLimit.GetDownButton().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton())) {
             inGamePageWithTimeLimit.GetLeftButton().setBackground(new Color(0xFF7657));
             inGamePageWithTimeLimit.GetLeftButton().setVisible(true);
             inGamePageWithTimeLimit.GetLeftButton().repaint();
-        }else if (inGamePageWithTimeLimit != null &&inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())) {
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetRightButton())) {
             inGamePageWithTimeLimit.GetRightButton().setBackground(new Color(0xFF7657));
             inGamePageWithTimeLimit.GetRightButton().setVisible(true);
             inGamePageWithTimeLimit.GetRightButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton())) {
             inGamePageWithoutTimeLimit.GetUpButton().setBackground(new Color(0xFF7657));
             inGamePageWithoutTimeLimit.GetUpButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetUpButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton())) {
             inGamePageWithoutTimeLimit.GetDownButton().setBackground(new Color(0xFF7657));
             inGamePageWithoutTimeLimit.GetDownButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetDownButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton())) {
             inGamePageWithoutTimeLimit.GetLeftButton().setBackground(new Color(0xFF7657));
             inGamePageWithoutTimeLimit.GetLeftButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetLeftButton().repaint();
-        }else if (inGamePageWithoutTimeLimit != null &&inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut()&& componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())) {
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton())) {
             inGamePageWithoutTimeLimit.GetRightButton().setBackground(new Color(0xFF7657));
             inGamePageWithoutTimeLimit.GetRightButton().setVisible(true);
             inGamePageWithoutTimeLimit.GetRightButton().repaint();
-        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&!skin) {
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && !skin) {
             boardSizeDIYPage.getSkinSwitcher().setBackground(Color.BLACK);
-        }else if ((boardSizeDIYPage !=null &&componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))&&skin) {
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && skin) {
             boardSizeDIYPage.getSkinSwitcher().setBackground(Color.RED);
-        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
             userGameTypeChoosingPage.getSinglePlayerOption().setBackground(Color.BLACK);
             userGameTypeChoosingPage.getSinglePlayerOption().setVisible(true);
             userGameTypeChoosingPage.getSinglePlayerOption().repaint();
-        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
             userGameTypeChoosingPage.getMultiPlayerOption().setBackground(Color.BLACK);
             userGameTypeChoosingPage.getMultiPlayerOption().setVisible(true);
             userGameTypeChoosingPage.getMultiPlayerOption().repaint();
-        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
             userGameTypeChoosingPage.getRecordOption().setBackground(Color.BLACK);
             userGameTypeChoosingPage.getRecordOption().setVisible(true);
             userGameTypeChoosingPage.getRecordOption().repaint();
-        }else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
             userSingleModeChoosingPage.getCompetitionOption().setBackground(Color.BLACK);
             userSingleModeChoosingPage.getCompetitionOption().setVisible(true);
             userSingleModeChoosingPage.getCompetitionOption().repaint();
-        }else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
             userSingleModeChoosingPage.getPracticeOption().setBackground(Color.BLACK);
             userSingleModeChoosingPage.getPracticeOption().setVisible(true);
             userSingleModeChoosingPage.getPracticeOption().repaint();
-        }else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
             userCompetitionChoosingPage.getWithoutTimeLimitationOption().setBackground(Color.BLACK);
             userCompetitionChoosingPage.getWithoutTimeLimitationOption().setVisible(true);
             userCompetitionChoosingPage.getWithoutTimeLimitationOption().repaint();
-        }else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
             userCompetitionChoosingPage.getWithTimeLimitationOption().setBackground(Color.BLACK);
             userCompetitionChoosingPage.getWithTimeLimitationOption().setVisible(true);
             userCompetitionChoosingPage.getWithTimeLimitationOption().repaint();
-        }else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
             userPracticeModeChoosingPage.getWithoutTimeLimitationOption().setBackground(Color.BLACK);
             userPracticeModeChoosingPage.getWithoutTimeLimitationOption().setVisible(true);
             userPracticeModeChoosingPage.getWithoutTimeLimitationOption().repaint();
-        }else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
             userPracticeModeChoosingPage.getWithTimeLimitationOption().setBackground(Color.BLACK);
             userPracticeModeChoosingPage.getWithTimeLimitationOption().setVisible(true);
             userPracticeModeChoosingPage.getWithTimeLimitationOption().repaint();
-        }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
             userCompetitionWithoutLimitDiePage.getBackToMenuOption().repaint();
-        }else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
             userCompetitionWithoutLimitDiePage.getRestartOption().setBackground(Color.BLACK);
             userCompetitionWithoutLimitDiePage.getRestartOption().setVisible(true);
             userCompetitionWithoutLimitDiePage.getRestartOption().repaint();
-        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
             userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.BLACK);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
-        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
             userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.BLACK);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
-        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption())) {
+        } else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption())) {
             userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.BLACK);
             userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
             userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
-        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+        } else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
             userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.BLACK);
             userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
             userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
@@ -1095,10 +1265,38 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userCompetitionWithLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             userCompetitionWithLimitDiePage.getBackToMenuOption().setVisible(true);
             userCompetitionWithLimitDiePage.getBackToMenuOption().repaint();
-        }else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
+        } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
             userCompetitionWithLimitDiePage.getRestartOption().setBackground(Color.BLACK);
             userCompetitionWithLimitDiePage.getRestartOption().setVisible(true);
             userCompetitionWithLimitDiePage.getRestartOption().repaint();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getThreeOption())) {
+            userPracticeWithoutLimitationModeChoosingPage.getThreeOption().setBackground(Color.BLACK);
+            userPracticeWithoutLimitationModeChoosingPage.getThreeOption().setVisible(true);
+            userPracticeWithoutLimitationModeChoosingPage.getThreeOption().repaint();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getFourOption())) {
+            userPracticeWithoutLimitationModeChoosingPage.getFourOption().setBackground(Color.BLACK);
+            userPracticeWithoutLimitationModeChoosingPage.getFourOption().setVisible(true);
+            userPracticeWithoutLimitationModeChoosingPage.getFourOption().repaint();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getDIYOption())) {
+            userPracticeWithoutLimitationModeChoosingPage.getDIYOption().setBackground(Color.BLACK);
+            userPracticeWithoutLimitationModeChoosingPage.getDIYOption().setVisible(true);
+            userPracticeWithoutLimitationModeChoosingPage.getDIYOption().repaint();
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getContinueOption())) {
+            userPracticeWinningPage.getContinueOption().setBackground(Color.BLACK);
+            userPracticeWinningPage.getContinueOption().setVisible(true);
+            userPracticeWinningPage.getContinueOption().repaint();
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getBackToMenuOption())) {
+            userPracticeWinningPage.getBackToMenuOption().setBackground(Color.BLACK);
+            userPracticeWinningPage.getBackToMenuOption().setVisible(true);
+            userPracticeWinningPage.getBackToMenuOption().repaint();
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getRestartOption())) {
+            userPracticeWithoutLimitDiePage.getRestartOption().setBackground(Color.BLACK);
+            userPracticeWithoutLimitDiePage.getRestartOption().setVisible(true);
+            userPracticeWithoutLimitDiePage.getRestartOption().repaint();
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getBackToMenuOption())) {
+            userPracticeWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
+            userPracticeWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
+            userPracticeWithoutLimitDiePage.getBackToMenuOption().repaint();
         }
     }
 
@@ -1302,22 +1500,50 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userPracticeModeChoosingPage.getWithTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
             userPracticeModeChoosingPage.getWithTimeLimitationOption().setVisible(true);
             userPracticeModeChoosingPage.getWithTimeLimitationOption().repaint();
-        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
             userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
-        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
             userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
             userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
-        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption())) {
+        } else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption())) {
             userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().setVisible(true);
             userPracticeWithTimeLimitModeWhetherNewPage.getNewGameOption().repaint();
-        }else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+        } else if (userPracticeWithTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
             userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().setVisible(true);
             userPracticeWithTimeLimitModeWhetherNewPage.getExistingArchiveOption().repaint();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getThreeOption())) {
+            userPracticeWithoutLimitationModeChoosingPage.getThreeOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithoutLimitationModeChoosingPage.getThreeOption().setVisible(true);
+            userPracticeWithoutLimitationModeChoosingPage.getThreeOption().repaint();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getFourOption())) {
+            userPracticeWithoutLimitationModeChoosingPage.getFourOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithoutLimitationModeChoosingPage.getFourOption().setVisible(true);
+            userPracticeWithoutLimitationModeChoosingPage.getFourOption().repaint();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getDIYOption())) {
+            userPracticeWithoutLimitationModeChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithoutLimitationModeChoosingPage.getDIYOption().setVisible(true);
+            userPracticeWithoutLimitationModeChoosingPage.getDIYOption().repaint();
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getContinueOption())) {
+            userPracticeWinningPage.getContinueOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWinningPage.getContinueOption().setVisible(true);
+            userPracticeWinningPage.getContinueOption().repaint();
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getBackToMenuOption())) {
+            userPracticeWinningPage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWinningPage.getBackToMenuOption().setVisible(true);
+            userPracticeWinningPage.getBackToMenuOption().repaint();
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getRestartOption())) {
+            userPracticeWithoutLimitDiePage.getRestartOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithoutLimitDiePage.getRestartOption().setVisible(true);
+            userPracticeWithoutLimitDiePage.getRestartOption().repaint();
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getBackToMenuOption())) {
+            userPracticeWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
+            userPracticeWithoutLimitDiePage.getBackToMenuOption().repaint();
         }
     }
 
@@ -1345,14 +1571,15 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 }
             }
         }
-        if (!currentInformationAboutCoordinate.isEmpty()){
-        currentInformationAboutCoordinate = getMinimumXCoordinates(currentInformationAboutCoordinate);
-        currentInformationAboutCoordinate = getMinimumYCoordinates(currentInformationAboutCoordinate);
-        controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(currentInformationAboutCoordinate);
-        controllingCenter.SetUpTheControllingCenterForDIY();}
+        if (!currentInformationAboutCoordinate.isEmpty()) {
+            currentInformationAboutCoordinate = getMinimumXCoordinates(currentInformationAboutCoordinate);
+            currentInformationAboutCoordinate = getMinimumYCoordinates(currentInformationAboutCoordinate);
+            controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(currentInformationAboutCoordinate);
+            controllingCenter.SetUpTheControllingCenterForDIY();
+        }
     }
 
-    private void UpdateTheCoordinateSetInTheControllingCenterForFour(){
+    private void UpdateTheCoordinateSetInTheControllingCenterForFour() {
         ArrayList<Integer> currentInformationAboutCoordinate = new ArrayList<>();
         currentInformationAboutCoordinate.add(0);
         currentInformationAboutCoordinate.add(0);
@@ -1389,7 +1616,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(currentInformationAboutCoordinate);
         controllingCenter.SetUpTheControllingCenterForDIY();
     }
-    private void UpdateTheCoordinateSetInTheControllingCenterForThree(){
+
+    private void UpdateTheCoordinateSetInTheControllingCenterForThree() {
         ArrayList<Integer> currentInformationAboutCoordinate = new ArrayList<>();
         currentInformationAboutCoordinate.add(0);
         currentInformationAboutCoordinate.add(0);
@@ -1427,13 +1655,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     break;
                 }
             }
-            if (whetherContinue){
+            if (whetherContinue) {
                 lastCoordinateInformation = new ArrayList<>();
                 lastCoordinateInformation.addAll(currentCoordinateInformation);
             }
         }
         return lastCoordinateInformation;
     }
+
     private ArrayList<Integer> getMinimumYCoordinates(ArrayList<Integer> originalCoordinateSet) {
         ArrayList<Integer> lastCoordinateInformation = new ArrayList<>();
         lastCoordinateInformation.addAll(originalCoordinateSet);
@@ -1442,19 +1671,20 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         boolean whetherContinue = true;
         while (whetherContinue) {
             for (int indexInPoints = 0; indexInPoints < lastCoordinateInformation.size() / 2; indexInPoints++) {
-                currentCoordinateInformation.set(indexInPoints * 2+1, currentCoordinateInformation.get(indexInPoints * 2+1) - 1);
-                if (currentCoordinateInformation.get(indexInPoints * 2+1) < 0) {
+                currentCoordinateInformation.set(indexInPoints * 2 + 1, currentCoordinateInformation.get(indexInPoints * 2 + 1) - 1);
+                if (currentCoordinateInformation.get(indexInPoints * 2 + 1) < 0) {
                     whetherContinue = false;
                     break;
                 }
             }
-            if (whetherContinue){
+            if (whetherContinue) {
                 lastCoordinateInformation = new ArrayList<>();
                 lastCoordinateInformation.addAll(currentCoordinateInformation);
             }
         }
         return lastCoordinateInformation;
     }
+
     public void JudgeWhetherEndOfGameWithoutTimeLimit() {
         controllingCenter.UpdateGameValidity();
         if (!controllingCenter.getGameValidity()) {
@@ -1469,10 +1699,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         setFocusable(true);
                         repaint();
                         setVisible(true);
-                    } else if (!inGamePageWithoutTimeLimit.GetWhetherTourist()){
+                    } else if (controllingCenter.GetInCompetition()) {
                         remove(inGamePageWithoutTimeLimit);
                         inGamePageWithoutTimeLimit = null;
                         LoadUserCompetitionWithoutLimitDiePage();
+                        setFocusable(true);
+                        repaint();
+                        setVisible(true);
+                    } else if (!controllingCenter.GetInCompetition()) {
+                        remove(inGamePageWithoutTimeLimit);
+                        inGamePageWithoutTimeLimit = null;
+                        LoadUserPracticeWithoutLimitDiePage();
                         setFocusable(true);
                         repaint();
                         setVisible(true);
@@ -1483,8 +1720,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             timer.start();
         }
     }
+
     public void JudgeWhetherWinningWithoutTimeLimit() {
-        if (controllingCenter.GetWhetherReachedTheTargetScore()&&!controllingCenter.GetWhetherAlreadyShownWinningPage()) {
+        if (controllingCenter.GetWhetherReachedTheTargetScore() && !controllingCenter.GetWhetherAlreadyShownWinningPage()) {
             winningPageIsOnShow = true;
             controllingCenter.setWhetherAlreadyShownWinningPage(true);
             timerIsRunning = true;
@@ -1497,9 +1735,15 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         setFocusable(true);
                         repaint();
                         setVisible(true);
-                    } else if (controllingCenter.GetInCompetition()){
+                    } else if (controllingCenter.GetInCompetition()) {
                         remove(inGamePageWithoutTimeLimit);
                         LoadUserWinningPage();
+                        setFocusable(true);
+                        repaint();
+                        setVisible(true);
+                    } else if (!controllingCenter.GetInCompetition()) {
+                        remove(inGamePageWithoutTimeLimit);
+                        LoadUserPracticeWinningPage();
                         setFocusable(true);
                         repaint();
                         setVisible(true);
@@ -1510,6 +1754,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             timer.start();
         }
     }
+
     public void JudgeWhetherEndOfGameWithTimeLimit() {
         if (!controllingCenter.getGameValidity()) {
             timerIsRunning = true;
@@ -1522,7 +1767,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         setFocusable(true);
                         repaint();
                         setVisible(true);
-                    } else if (!inGamePageWithTimeLimit.GetWhetherTourist()) {
+                    } else if (controllingCenter.GetInCompetition()) {
                         remove(inGamePageWithTimeLimit);
                         LoadUserCompetitionWithLimitDiePage();
                         setFocusable(true);
@@ -1535,26 +1780,27 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             timer.start();
         }
     }
-    private void DealWithRegistrationIssue(){
+
+    private void DealWithRegistrationIssue() {
         boolean whetherRegisterSuccessfully = true;
-        UserManger userManger= new UserManger();
+        UserManger userManger = new UserManger();
         userRegistrationPage.GetRegistrationFunctionPanel().CleanExistingWarning();
-        if (!userManger.ExamineValidityOfUserName(userRegistrationPage.GetUserName())){
+        if (!userManger.ExamineValidityOfUserName(userRegistrationPage.GetUserName())) {
             userRegistrationPage.GetRegistrationFunctionPanel().EstablishWarnForUserName(userManger.getFeedBackForUserName());
             whetherRegisterSuccessfully = false;
         }
-        if (!userManger.ExamineValidityOfPassWords(userRegistrationPage.GetUserPassWord())){
+        if (!userManger.ExamineValidityOfPassWords(userRegistrationPage.GetUserPassWord())) {
             userRegistrationPage.GetRegistrationFunctionPanel().EstablishWarnForPassWords(userManger.getFeedBackForPassWords());
             whetherRegisterSuccessfully = false;
         }
-        if (!userManger.ExamineValidityOfAgainPasswords(userRegistrationPage.GetUserAgainPassWord(),userRegistrationPage.GetUserPassWord())){
+        if (!userManger.ExamineValidityOfAgainPasswords(userRegistrationPage.GetUserAgainPassWord(), userRegistrationPage.GetUserPassWord())) {
             userRegistrationPage.GetRegistrationFunctionPanel().EstablishWarnForAgainPassWords(userManger.getFeedbackForConfirmPasswords());
             whetherRegisterSuccessfully = false;
         }
-        if (whetherRegisterSuccessfully){
+        if (whetherRegisterSuccessfully) {
             userManger.CreateDirectoryForSpecificUser(userRegistrationPage.GetUserName());
-            documentReaderAndWriter = new DocumentReaderAndWriter(controllingCenter,userRegistrationPage.GetUserName());
-            documentReaderAndWriter.saveUserLoginInformation(userRegistrationPage.GetUserName(),userRegistrationPage.GetUserPassWord());
+            documentReaderAndWriter = new DocumentReaderAndWriter(controllingCenter, userRegistrationPage.GetUserName());
+            documentReaderAndWriter.saveUserLoginInformation(userRegistrationPage.GetUserName(), userRegistrationPage.GetUserPassWord());
             documentReaderAndWriter = null;
             this.remove(userRegistrationPage);
             userRegistrationPage = null;
@@ -1565,19 +1811,20 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             setVisible(true);
         }
     }
-    private void DealWithLoginIssue(){
+
+    private void DealWithLoginIssue() {
         boolean whetherLoginSuccessfully = true;
-        UserManger userManger= new UserManger();
+        UserManger userManger = new UserManger();
         userLoginPage.getLoginFunctionPanel().CleanExistingWarning();
-        if (!userManger.ExamineValidityOfUserNameWhenLogin(userLoginPage.GetUserName())){
+        if (!userManger.ExamineValidityOfUserNameWhenLogin(userLoginPage.GetUserName())) {
             userLoginPage.getLoginFunctionPanel().EstablishWarnForUserName(userManger.getFeedBackForUserNameInLogin());
             whetherLoginSuccessfully = false;
         }
-        if (!userManger.ExamineValidityOfPassWordWhenLogin(userLoginPage.GetUserName(),userLoginPage.GetPassWord())){
+        if (!userManger.ExamineValidityOfPassWordWhenLogin(userLoginPage.GetUserName(), userLoginPage.GetPassWord())) {
             userLoginPage.getLoginFunctionPanel().EstablishWarnForPassWords(userManger.getFeedBackForPasswordInLogin());
             whetherLoginSuccessfully = false;
         }
-        if (whetherLoginSuccessfully){
+        if (whetherLoginSuccessfully) {
             this.SetUpTheLoginUser();
             this.remove(userLoginPage);
             userLoginPage = null;
@@ -1589,57 +1836,124 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
         }
     }
-    private void DealWithTheDIYSetting(){
+
+    private void DealWithTheDIYSetting() {
         boolean whetherDIYSucceed = true;
         UpdateTheCoordinateSetInTheControllingCenter();
         controllingCenter.setSkin(skin);
         boardSizeDIYPage.CleanExistingWarning();
-        if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().isEmpty()){
+        if (boardSizeDIYPage.getWhetherTourist()) {
+            if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().isEmpty()) {
                 boardSizeDIYPage.EstablishWarn("You should at least choose two blocks!");
                 whetherDIYSucceed = false;
-            }else if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().size()<2){
+            } else if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().size() < 2) {
                 boardSizeDIYPage.EstablishWarn("You should at least choose two blocks!");
                 whetherDIYSucceed = false;
             } else {
-            if (boardSizeDIYPage.getWhetherTimeLimited()){
-                if (boardSizeDIYPage.GetTimeLimitation().isEmpty()){
-                    boardSizeDIYPage.EstablishWarn("The time limitation can not be null!");
+                if (boardSizeDIYPage.getWhetherTimeLimited()) {
+                    if (boardSizeDIYPage.GetTimeLimitation().isEmpty()) {
+                        boardSizeDIYPage.EstablishWarn("The time limitation can not be null!");
+                        whetherDIYSucceed = false;
+                    } else {
+                        if (boardSizeDIYPage.GetTimeLimitation().length() > 5) {
+                            boardSizeDIYPage.EstablishWarn("Time limitation is too long!");
+                            whetherDIYSucceed = false;
+                        }
+                        try {
+                            int timeLimit = Integer.parseInt(boardSizeDIYPage.GetTimeLimitation());
+                            if (timeLimit > 3600) {
+                                boardSizeDIYPage.EstablishWarn("Time limitation should be no more than 3600 seconds!");
+                                whetherDIYSucceed = false;
+                            } else if (timeLimit <= 0) {
+                                boardSizeDIYPage.EstablishWarn("Time limitation should be positive!");
+                                whetherDIYSucceed = false;
+                            }
+                        } catch (NumberFormatException e) {
+                            boardSizeDIYPage.EstablishWarn("There exists invalid characters in time limitation!");
+                            whetherDIYSucceed = false;
+                        }
+                    }
+                }
+            }
+        } else if (!boardSizeDIYPage.getWhetherTimeLimited()) {
+            if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().isEmpty()) {
+                boardSizeDIYPage.EstablishWarn("You should at least choose two blocks!");
+                whetherDIYSucceed = false;
+            } else if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().size() < 2) {
+                boardSizeDIYPage.EstablishWarn("You should at least choose two blocks!");
+                whetherDIYSucceed = false;
+            } else {
+                if (boardSizeDIYPage.GetTargetWinningScore().isEmpty()) {
+                    boardSizeDIYPage.EstablishWarn("The target score can not be null!");
                     whetherDIYSucceed = false;
                 } else {
-                    if (boardSizeDIYPage.GetTimeLimitation().length() > 5) {
-                        boardSizeDIYPage.EstablishWarn("Time limitation is too long!");
+                    if (boardSizeDIYPage.GetTargetWinningScore().length() > 7) {
+                        boardSizeDIYPage.EstablishWarn("Target score is too large!");
                         whetherDIYSucceed = false;
                     }
                     try {
-                        int timeLimit = Integer.parseInt(boardSizeDIYPage.GetTimeLimitation());
-                        if (timeLimit > 3600) {
-                            boardSizeDIYPage.EstablishWarn("Time limitation should be no more than 3600 seconds!");
+                        int targetScore = Integer.parseInt(boardSizeDIYPage.GetTargetWinningScore());
+                        if (targetScore > 80000) {
+                            boardSizeDIYPage.EstablishWarn("Target score should be no more than 8000!");
                             whetherDIYSucceed = false;
-                        } else if (timeLimit<=0) {
-                            boardSizeDIYPage.EstablishWarn("Time limitation should be positive!");
+                        } else if (targetScore <= 0) {
+                            boardSizeDIYPage.EstablishWarn("Target score should be positive!");
                             whetherDIYSucceed = false;
                         }
                     } catch (NumberFormatException e) {
-                        boardSizeDIYPage.EstablishWarn("There exists invalid characters in time limitation!");
+                        boardSizeDIYPage.EstablishWarn("There exists invalid characters in target score!");
                         whetherDIYSucceed = false;
                     }
                 }
             }
         }
-        if (whetherDIYSucceed){
-            this.remove(boardSizeDIYPage);
-            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-            if (boardSizeDIYPage.getWhetherTimeLimited()){
-            this.LoadInGamePageForTouristWithTimeLimitation(boardSizeDIYPage.GetTimeLimit());
-            }else {
-                this.LoadInGamePageForTouristWithoutTimeLimitation();
+        if (whetherDIYSucceed&&!boardSizeDIYPage.getWhetherTourist()&&!boardSizeDIYPage.getWhetherTimeLimited()&&!boardSizeDIYPage.isWhetherCompetition()){
+            UserManger userManger = new UserManger();
+            if (boardSizeDIYPage.GetArchiveName().isEmpty()) {
+                boardSizeDIYPage.EstablishWarn("The archive name can not be null!");
+                whetherDIYSucceed = false;
+            } else if (boardSizeDIYPage.GetArchiveName().length()>16) {
+                boardSizeDIYPage.EstablishWarn("The archive name is too long!");
+                whetherDIYSucceed = false;
+            } else if (!userManger.ExaminePassWordsWhetherOnlyLetterNumber(boardSizeDIYPage.GetArchiveName())) {
+                boardSizeDIYPage.EstablishWarn("There exists invalid characters in your archive name!");
+                whetherDIYSucceed = false;
             }
-            boardSizeDIYPage = null;
-            repaint();
-            setVisible(true);
+        }
+        if (!boardSizeDIYPage.getWhetherTourist()) {
+            if (whetherDIYSucceed) {
+                this.remove(boardSizeDIYPage);
+                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                if (boardSizeDIYPage.getWhetherTimeLimited()) {
+                    this.LoadInGamePageForUserWithTimeLimitationPractice(boardSizeDIYPage.GetTimeLimit());
+                } else {
+                    controllingCenter.setTargetWinningScore(Integer.parseInt(boardSizeDIYPage.GetTargetWinningScore()));
+                    UserManger userManger = new UserManger();
+                    controllingCenter.setArchiveName(boardSizeDIYPage.GetArchiveName());
+                    userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user,boardSizeDIYPage.GetArchiveName(),controllingCenter);
+                    this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+                }
+                boardSizeDIYPage = null;
+                repaint();
+                setVisible(true);
+            }
+        } else {
+            if (whetherDIYSucceed) {
+                this.remove(boardSizeDIYPage);
+                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                if (boardSizeDIYPage.getWhetherTimeLimited()) {
+                    this.LoadInGamePageForTouristWithTimeLimitation(boardSizeDIYPage.GetTimeLimit());
+                } else {
+                    this.LoadInGamePageForTouristWithoutTimeLimitation();
+                }
+                boardSizeDIYPage = null;
+                repaint();
+                setVisible(true);
+            }
         }
     }
-    private void SetUpTheLoginUser(){
+
+    private void SetUpTheLoginUser() {
         user = new User(userLoginPage.GetUserName());
     }
 }

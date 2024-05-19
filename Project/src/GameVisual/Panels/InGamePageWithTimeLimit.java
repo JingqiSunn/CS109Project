@@ -175,7 +175,7 @@ public class InGamePageWithTimeLimit extends JPanel {
     }
 
     void LoadTheScorePanel() {
-        scorePanel = new ScorePanel(startXOfBlockSet, startYOfBlockSet, widthOfTheBlockSet, controllingCenter, whetherTourist,user,true);
+        scorePanel = new ScorePanel(startXOfBlockSet, startYOfBlockSet, widthOfTheBlockSet, controllingCenter, whetherTourist,user,true,whetherCompetition);
         scorePanel.setVisible(true);
         this.add(scorePanel);
     }

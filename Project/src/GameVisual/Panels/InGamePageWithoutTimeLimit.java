@@ -63,6 +63,15 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.SetUpUserPanel();
         this.setVisible(true);
     }
+
+    public ControllingCenter getControllingCenter() {
+        return controllingCenter;
+    }
+
+    public boolean isWhetherTourist() {
+        return whetherTourist;
+    }
+
     public JPanel GetUpButton() {
         return buttonController.up;
     }
@@ -80,6 +89,10 @@ public class InGamePageWithoutTimeLimit extends JPanel {
     }
     public JPanel getButtonControllerSwitch() {
         return buttonControllerSwitch;
+    }
+
+    public boolean getWhetherCompetition() {
+        return whetherCompetition;
     }
 
     public void setWhetherButtonControllerOut(boolean whetherButtonControllerOut) {
@@ -135,9 +148,11 @@ public class InGamePageWithoutTimeLimit extends JPanel {
     }
     void LoadTheScorePanel(){
         if (whetherTourist){
-        scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist);}
-        else{
-            scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist,user,whetherTimeLimited);
+        scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist);
+        } else if (whetherCompetition){
+            scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist,user,whetherTimeLimited,whetherCompetition);
+        } else if (!whetherCompetition){
+            scorePanel = new ScorePanel(startXOfBlockSet,startYOfBlockSet,widthOfTheBlockSet,controllingCenter,whetherTourist,user,whetherTimeLimited,whetherCompetition);
         }
         scorePanel.setVisible(true);
         this.add(scorePanel);

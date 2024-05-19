@@ -21,6 +21,8 @@ public class ControllingCenter {
     int numberOfStep;
     boolean inCompetition;
     int scoreEarnLastMove;
+    boolean whetherHasArchiveName;
+    String archiveName;
 
     public boolean getGameValidity() {
         return gameValidity;
@@ -38,9 +40,15 @@ public class ControllingCenter {
         return informationOfAllTheCoordinateOfTheBoardUnit;
     }
 
+    public void setTargetWinningScore(int targetWinningScore) {
+        this.targetWinningScore = targetWinningScore;
+    }
+
     private ArrayList<Integer> informationOfAllTheCoordinateOfTheBoardUnit;
 
     public ControllingCenter() {
+        archiveName = null;
+        whetherHasArchiveName = false;
         scoreEarnLastMove = 0;
         inCompetition = false;
         numberOfStep = 0;
@@ -56,6 +64,14 @@ public class ControllingCenter {
         currentPlayingBoard = new Board();
         informationOfAllTheCoordinateOfTheBoardUnit=new ArrayList<>();
         currentPlayingBoard.setControllingCenter(this);
+    }
+
+    public String getArchiveName() {
+        return archiveName;
+    }
+
+    public void setArchiveName(String archiveName) {
+        this.archiveName = archiveName;
     }
 
     public int getScoreEarnLastMove() {
@@ -270,6 +286,16 @@ public int FindTheMaxXCoordinate(){
         currentPlayingBoard.setCurrentScore(0);
         numberOfStep = 0;
     }
-
+public String GetTheValueSetForBlockUnitSet(){
+        StringBuilder valueSetInString = new StringBuilder();
+    for (int indexInBlockUnits = 0; indexInBlockUnits < currentPlayingBoard.getBoardLocationSet().size(); indexInBlockUnits++) {
+        if (currentPlayingBoard.getBoardLocationSet().get(indexInBlockUnits).getCell() == null){
+            valueSetInString.append(String.valueOf(0)+" ");
+        } else {
+            valueSetInString.append(String.valueOf(currentPlayingBoard.getBoardLocationSet().get(indexInBlockUnits).getCell().getValue())+" ");
+        }
+    }
+    return String.valueOf(valueSetInString);
+}
 }
 
