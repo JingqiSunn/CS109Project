@@ -1,9 +1,11 @@
 package MultiUserSupply;
 
+import GameElement.Board;
 import GameElement.BoardUnit;
 import GameElement.Cell;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
+import GameVisual.Panels.BreakTheRecordDiePage;
 import GameVisual.Panels.InGamePageWithoutTimeLimit;
 import GameVisual.Panels.UserPracticeWithoutLimitDiePage;
 
@@ -767,6 +769,7 @@ public class UserManger {
             properties.setProperty("BoardUnitLocationSet", String.valueOf(boardUnitLocationSet));
             properties.setProperty("TargetScore", String.valueOf(controllingCenter.getTargetWinningScore()));
             properties.setProperty("WhetherWon","false");
+            properties.setProperty("CurrentStepNumber","0");
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
@@ -785,6 +788,7 @@ public class UserManger {
             inputStream.close();
             properties.setProperty("Step" + String.valueOf(controllingCenter.getNumberOfStep()), controllingCenter.GetTheValueSetForBlockUnitSet());
             properties.setProperty("Score" + String.valueOf(controllingCenter.getNumberOfStep()), String.valueOf(controllingCenter.getCurrentGameScore()));
+            properties.setProperty("CurrentStepNumber" , String.valueOf(controllingCenter.getNumberOfStep()));
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
@@ -819,6 +823,7 @@ public class UserManger {
                 inputStream.close();
                 cellValueSet = properties.getProperty("Step" + String.valueOf(controllingCenter.getNumberOfStep()));
                 score = Integer.parseInt(properties.getProperty("Score" + String.valueOf(controllingCenter.getNumberOfStep())));
+                properties.setProperty("CurrentStepNumber" , String.valueOf(controllingCenter.getNumberOfStep()));
                 String[] cellValueSetInStringArraylist = cellValueSet.split(" ");
                 cellValueSetInIntArraylist = new int[cellValueSetInStringArraylist.length];
                 for (int indexInValueArraylist = 0; indexInValueArraylist < cellValueSetInStringArraylist.length; indexInValueArraylist++) {
@@ -885,5 +890,59 @@ public class UserManger {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public ControllingCenter BuildControllingCenterBasedOnTheArchive(String archiveName, User user,ControllingCenter controllingCenter){
+        int currentStepNumber=0;
+        int targetScore=0;
+        boolean whetherAlreadyWon=false;
+        int currentScore = 0;
+        ArrayList<Integer> informationOfBoardUnitLocation = new ArrayList<>();
+        int[] informationOfCellValue = null;
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            currentStepNumber = Integer.parseInt(properties.getProperty("CurrentStepNumber"));
+            targetScore = Integer.parseInt(properties.getProperty("TargetScore"));
+            currentScore = Integer.parseInt(properties.getProperty("Score" +String.valueOf(currentStepNumber)));
+            if (properties.getProperty("WhetherWon").equals(false)){
+                whetherAlreadyWon = false;
+            } else {
+                whetherAlreadyWon = true;
+            }
+            String boardLocationInformation = properties.getProperty("BoardUnitLocationSet");
+            for (int indexInTheStringLocationSet = 0; indexInTheStringLocationSet < boardLocationInformation.length(); indexInTheStringLocationSet++) {
+                informationOfBoardUnitLocation.add(Character.getNumericValue(boardLocationInformation.charAt(indexInTheStringLocationSet)));
+            }
+            String cellValueInformationSet = properties.getProperty("Step" +String.valueOf(currentStepNumber));
+            String[] cellValueSetInStringArraylist =cellValueInformationSet .split(" ");
+            informationOfCellValue = new int[cellValueSetInStringArraylist.length];
+            for (int indexInValueArraylist = 0; indexInValueArraylist < cellValueSetInStringArraylist.length; indexInValueArraylist++) {
+                informationOfCellValue[indexInValueArraylist] = Integer.parseInt(cellValueSetInStringArraylist[indexInValueArraylist]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        controllingCenter.setInformationOfAllTheCoordinateOfTheBoardUnit(informationOfBoardUnitLocation);
+        controllingCenter.getCurrentPlayingBoard().SetThePlayingBoard(controllingCenter.getInformationOfAllTheCoordinateOfTheBoardUnit());
+        controllingCenter.getCurrentPlayingBoard().GetBoardUnitsInTheSameColumn();
+        controllingCenter.getCurrentPlayingBoard().GetBoardUnitsInTheSameRow();
+        controllingCenter.getCurrentPlayingBoard().GetNeighborBoardUnitInColumn();
+        controllingCenter.getCurrentPlayingBoard().GetNeighborBoardUnitInRow();
+        for (int indexInValueSet = 0; indexInValueSet < controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().size(); indexInValueSet++) {
+            if (informationOfCellValue[indexInValueSet] != 0) {
+                controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet).setCell(new Cell(0,controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet)));
+                controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().get(indexInValueSet).getCell().setValue(informationOfCellValue[indexInValueSet]);
+            }
+        }
+        controllingCenter.setArchiveName(archiveName);
+        controllingCenter.setNumberOfStep(currentStepNumber);
+        controllingCenter.setWhetherAlreadyShownWinningPage(whetherAlreadyWon);
+        controllingCenter.setTargetWinningScore(targetScore);
+        controllingCenter.setCurrentGameScore(currentScore);
+        controllingCenter.getCurrentPlayingBoard().setCurrentScore(currentScore);
+        controllingCenter.UpdateGameValidity();
+        return controllingCenter;
     }
 }

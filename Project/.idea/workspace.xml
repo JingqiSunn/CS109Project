@@ -214,6 +214,10 @@
       <workItem from="1716035284624" duration="259000" />
       <workItem from="1716039792665" duration="17807000" />
       <workItem from="1716109773001" duration="15767000" />
+      <workItem from="1716170339255" duration="1018000" />
+      <workItem from="1716184577123" duration="273000" />
+      <workItem from="1716187962693" duration="390000" />
+      <workItem from="1716201012300" duration="4795000" />
     </task>
     <servers />
   </component>
@@ -246,6 +250,36 @@
           <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
           <line>286</line>
           <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
+          <line>2026</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
+          <line>214</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
+          <line>140</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
+          <line>946</line>
+          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

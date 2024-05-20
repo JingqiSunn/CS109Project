@@ -107,4 +107,8 @@ public class User {
         UserManger userManger = new UserManger();
         return userManger.ExamineWhetherArchiveAlreadyExisted(this,archiveName);
     }
+    public ControllingCenter BuildControllingCenterBasedOnTheArchive(String archiveName,ControllingCenter controllingCenter){
+        UserManger userManger = new UserManger();
+        return userManger.BuildControllingCenterBasedOnTheArchive(archiveName,this,controllingCenter);
+    }
 }

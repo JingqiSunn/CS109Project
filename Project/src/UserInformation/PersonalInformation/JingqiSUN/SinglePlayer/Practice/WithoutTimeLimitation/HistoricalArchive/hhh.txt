@@ -1,0 +1,14 @@
+#Mon May 20 10:17:05 CST 2024
+BoardUnitLocationSet=04140313021221312030
+Score1=0
+Score2=0
+Score3=0
+Score4=4
+Score5=12
+Step1=2 0 0 2 4 0 0 0 0 0 
+Step2=0 4 2 0 4 2 0 0 0 0 
+Step3=4 0 2 2 4 2 0 0 0 0 
+Step4=4 0 2 0 4 4 0 0 0 2 
+Step5=4 0 2 0 8 0 0 2 2 0 
+TargetScore=98
+WhetherWon=false

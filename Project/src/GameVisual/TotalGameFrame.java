@@ -2033,6 +2033,13 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             whetherArchiveAvailable = false;
         }
         if (whetherArchiveAvailable){
+            controllingCenter = new ControllingCenter();
+            user.BuildControllingCenterBasedOnTheArchive(askingForArchivePanel.GetArchiveName(),controllingCenter);
+            this.remove(askingForArchivePanel);
+            askingForArchivePanel = null;
+            this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+            repaint();
+            setVisible(true);
         }
     }
 }

@@ -138,6 +138,7 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.add(totalBoard);
         this.LoadTheScorePanel();
         this.LoadButtonControllerSwitch();
+        this.UpdateBlockUnitsInGame();
     }
     public void UpdateBlockUnitsInGame(){
         for (DrawnBlockUnit blockUnit : blockUnits) {

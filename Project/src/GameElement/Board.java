@@ -69,7 +69,7 @@ public class Board {
         boardLocationSet.add(additionBoardUnit);
     }
 
-    Board SetThePlayingBoard(ArrayList<Integer> theSetOfLocationOfBoardUnit) {
+    public Board SetThePlayingBoard(ArrayList<Integer> theSetOfLocationOfBoardUnit) {
         boolean whetherValidInput = true;
         Boolean whetherAlreadyExistX = false;
         Boolean whetherAlreadyExistY = false;
@@ -185,7 +185,7 @@ public class Board {
     }
 
 
-    void GetBoardUnitsInTheSameRow() {
+    public void GetBoardUnitsInTheSameRow() {
         ArrayList<Integer> copyOfExistingYCoordinateAfterSort = new ArrayList<>();
         copyOfExistingYCoordinateAfterSort = existingYCoordinate;
         Collections.sort(copyOfExistingYCoordinateAfterSort);
@@ -201,7 +201,7 @@ public class Board {
         }
     }
 
-    void GetBoardUnitsInTheSameColumn() {
+    public void GetBoardUnitsInTheSameColumn() {
         ArrayList<Integer> copyOfExistingXCoordinateAfterSort = new ArrayList<>();
         copyOfExistingXCoordinateAfterSort = existingXCoordinate;
         Collections.sort(copyOfExistingXCoordinateAfterSort);
@@ -217,7 +217,7 @@ public class Board {
         }
     }
 
-    void GetNeighborBoardUnitInRow() {
+    public void GetNeighborBoardUnitInRow() {
         ArrayList<BoardUnit> currentNeighborSet = new ArrayList<>();
         currentNeighborSet.add(boardUnitsInTheSameRow.get(0).get(0));
         BoardUnit lastBoardUnit = boardUnitsInTheSameRow.get(0).get(0);
@@ -240,7 +240,7 @@ public class Board {
         neighborBoardUnitsInRow.add(currentNeighborSet);
     }
 
-    void GetNeighborBoardUnitInColumn() {
+    public void GetNeighborBoardUnitInColumn() {
         ArrayList<BoardUnit> currentNeighborSet = new ArrayList<>();
         currentNeighborSet.add(boardUnitsIntheSameColumn.get(0).get(0));
         BoardUnit lastBoardUnit = boardUnitsIntheSameColumn.get(0).get(0);
