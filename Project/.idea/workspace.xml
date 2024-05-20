@@ -217,7 +217,8 @@
       <workItem from="1716170339255" duration="1018000" />
       <workItem from="1716184577123" duration="273000" />
       <workItem from="1716187962693" duration="390000" />
-      <workItem from="1716201012300" duration="4795000" />
+      <workItem from="1716201012300" duration="5006000" />
+      <workItem from="1716207693911" duration="8299000" />
     </task>
     <servers />
   </component>
@@ -243,28 +244,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>284</line>
+          <line>299</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>286</line>
+          <line>301</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
           <line>60</line>
           <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>2026</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>214</line>
-          <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
@@ -277,9 +268,19 @@
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
+          <line>2125</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
-          <line>946</line>
-          <option name="timeStamp" value="39" />
+          <line>829</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
+          <line>880</line>
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

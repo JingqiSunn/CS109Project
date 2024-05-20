@@ -48,6 +48,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     UserPracticeWinningPage userPracticeWinningPage;
     UserPracticeWithoutLimitDiePage userPracticeWithoutLimitDiePage;
     AskingForArchivePanel askingForArchivePanel;
+    UserPracticeWithLimitationModeChoosingPage userPracticeWithLimitationModeChoosingPage;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
@@ -167,6 +168,19 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
         setFocusable(true);
     }
+    void LoadBoardSizeDIYPageWithTimeLimitForUserPractice() {
+        boardSizeDIYPage = new BoardSizeDIYPage(screenSize, true, user, false);
+        boardSizeDIYPage.setVisible(true);
+        this.add(boardSizeDIYPage);
+        for (int layerInRow = 0; layerInRow < 10; layerInRow++) {
+            for (int layerInColumn = 0; layerInColumn < 10; layerInColumn++) {
+                boardSizeDIYPage.getBlockSet()[layerInRow][layerInColumn].addMouseListener(this);
+            }
+        }
+        boardSizeDIYPage.GetContinueButton().addMouseListener(this);
+        boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
+        setFocusable(true);
+    }
 
     void LoadBoardSizeDIYPageWithTimeLimit() {
         boardSizeDIYPage = new BoardSizeDIYPage(screenSize, true);
@@ -190,6 +204,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(inGamePageWithoutTimeLimit);
         setFocusable(true);
     }
+
     void LoadAskingForArchivePanel() {
         askingForArchivePanel = new AskingForArchivePanel(screenSize, user);
         askingForArchivePanel.addKeyListener(this);
@@ -419,6 +434,15 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userPracticeWithoutLimitationModeChoosingPage.getDIYOption().addMouseListener(this);
         setFocusable(true);
     }
+    void LoadUserPracticeWithLimitationModeChoosingPage() {
+        userPracticeWithLimitationModeChoosingPage = new UserPracticeWithLimitationModeChoosingPage(screenSize, user);
+        userPracticeWithLimitationModeChoosingPage.setVisible(true);
+        this.add(userPracticeWithLimitationModeChoosingPage);
+        userPracticeWithLimitationModeChoosingPage.getThreeOption().addMouseListener(this);
+        userPracticeWithLimitationModeChoosingPage.getFourOption().addMouseListener(this);
+        userPracticeWithLimitationModeChoosingPage.getDIYOption().addMouseListener(this);
+        setFocusable(true);
+    }
 
 
     @Override
@@ -451,14 +475,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
@@ -466,14 +490,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
@@ -481,14 +505,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
@@ -496,13 +520,13 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.RightAction();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             controllingCenter.UpdateGameValidity();
             this.repaint();
@@ -544,8 +568,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithTimeLimit.RestartTheGame();
-        } else if (inGamePageWithoutTimeLimit != null &&!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&& e.isControlDown() && e.getKeyCode() == KeyEvent.VK_W) {
-            user.GoingOneStepBackWards(controllingCenter.getArchiveName(),controllingCenter);
+        } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_W) {
+            user.GoingOneStepBackWards(controllingCenter.getArchiveName(), controllingCenter);
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             controllingCenter.UpdateGameValidity();
             this.repaint();
@@ -624,6 +648,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
+        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+            remove(userPracticeWithLimitationModeChoosingPage);
+            userPracticeWithLimitationModeChoosingPage = null;
+            this.LoadBoardSizeDIYPageWithTimeLimitForUserPractice();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getThreeOption())) {
+            remove(userPracticeWithoutLimitationModeChoosingPage);
+            userPracticeWithoutLimitationModeChoosingPage = null;
+            this.DealWithDefaultThreeInPractice();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getFourOption())) {
+            remove(userPracticeWithoutLimitationModeChoosingPage);
+            userPracticeWithoutLimitationModeChoosingPage = null;
+            this.DealWithDefaultFourInPractice();
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.FourOption)) {
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
@@ -765,7 +805,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             controllingCenter.CleanThePlayingBoardForRestart();
             controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             controllingCenter.UpdateGameValidity();
-            user.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(controllingCenter.getArchiveName(),controllingCenter);
+            user.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(controllingCenter.getArchiveName(), controllingCenter);
+            user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             this.LoadInGamePageForUserWithoutTimeLimitationPractice();
             repaint();
             setVisible(true);
@@ -964,14 +1005,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
@@ -979,14 +1020,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
@@ -994,14 +1035,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
@@ -1009,14 +1050,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton()) && !timerIsRunning) {
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
-            if (!inGamePageWithoutTimeLimit.isWhetherTourist()&&!inGamePageWithoutTimeLimit.getWhetherCompetition()&&controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3]==1){
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3] == 1) {
                 whetherToSave = true;
             }
             controllingCenter.RightAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-            if (whetherToSave){
-                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
             }
             this.repaint();
             this.JudgeWhetherWinningWithoutTimeLimit();
@@ -1060,7 +1101,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
             remove(userPracticeModeChoosingPage);
             userPracticeModeChoosingPage = null;
-            this.LoadUserPracticeWithTimeLimitModeWhetherNewPage();
+            this.LoadUserPracticeWithLimitationModeChoosingPage();
             this.addMouseListener(this);
             this.setFocusable(true);
             repaint();
@@ -1083,7 +1124,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
             remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
             userPracticeWithoutTimeLimitModeWhetherNewPage = null;
             this.LoadAskingForArchivePanel();
@@ -1091,7 +1132,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
+        } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
             this.DealWithArchiveInput();
         }
     }
@@ -1352,10 +1393,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().repaint();
-        }else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
+        } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
             askingForArchivePanel.getContinueToPlay().setBackground(Color.BLACK);
             askingForArchivePanel.getContinueToPlay().setVisible(true);
             askingForArchivePanel.getContinueToPlay().repaint();
+        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeOption())) {
+            userPracticeWithLimitationModeChoosingPage.getThreeOption().setBackground(Color.BLACK);
+            userPracticeWithLimitationModeChoosingPage.getThreeOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getThreeOption().repaint();
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getFourOption())) {
+            userPracticeWithLimitationModeChoosingPage.getFourOption().setBackground(Color.BLACK);
+            userPracticeWithLimitationModeChoosingPage.getFourOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getFourOption().repaint();
+        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+            userPracticeWithLimitationModeChoosingPage.getDIYOption().setBackground(Color.BLACK);
+            userPracticeWithLimitationModeChoosingPage.getDIYOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getDIYOption().repaint();
         }
     }
 
@@ -1603,10 +1656,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().setVisible(true);
             userPracticeWithoutLimitDiePage.getBackToMenuOption().repaint();
-        }else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
+        } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
             askingForArchivePanel.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
             askingForArchivePanel.getContinueToPlay().setVisible(true);
             askingForArchivePanel.getContinueToPlay().repaint();
+        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeOption())) {
+            userPracticeWithLimitationModeChoosingPage.getThreeOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithLimitationModeChoosingPage.getThreeOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getThreeOption().repaint();
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getFourOption())) {
+            userPracticeWithLimitationModeChoosingPage.getFourOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithLimitationModeChoosingPage.getFourOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getFourOption().repaint();
+        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+            userPracticeWithLimitationModeChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithLimitationModeChoosingPage.getDIYOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getDIYOption().repaint();
         }
     }
 
@@ -1969,19 +2034,52 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     }
                 }
             }
+        } else if (boardSizeDIYPage.getWhetherTimeLimited()) {
+            if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().isEmpty()) {
+                boardSizeDIYPage.EstablishWarn("You should at least choose two blocks!");
+                whetherDIYSucceed = false;
+            } else if (controllingCenter.getCurrentPlayingBoard().getBoardLocationSet().size() < 2) {
+                boardSizeDIYPage.EstablishWarn("You should at least choose two blocks!");
+                whetherDIYSucceed = false;
+            } else {
+                if (boardSizeDIYPage.getWhetherTimeLimited()) {
+                    if (boardSizeDIYPage.GetTimeLimitation().isEmpty()) {
+                        boardSizeDIYPage.EstablishWarn("The time limitation can not be null!");
+                        whetherDIYSucceed = false;
+                    } else {
+                        if (boardSizeDIYPage.GetTimeLimitation().length() > 5) {
+                            boardSizeDIYPage.EstablishWarn("Time limitation is too long!");
+                            whetherDIYSucceed = false;
+                        }
+                        try {
+                            int timeLimit = Integer.parseInt(boardSizeDIYPage.GetTimeLimitation());
+                            if (timeLimit > 3600) {
+                                boardSizeDIYPage.EstablishWarn("Time limitation should be no more than 3600 seconds!");
+                                whetherDIYSucceed = false;
+                            } else if (timeLimit <= 0) {
+                                boardSizeDIYPage.EstablishWarn("Time limitation should be positive!");
+                                whetherDIYSucceed = false;
+                            }
+                        } catch (NumberFormatException e) {
+                            boardSizeDIYPage.EstablishWarn("There exists invalid characters in time limitation!");
+                            whetherDIYSucceed = false;
+                        }
+                    }
+                }
+            }
         }
-        if (whetherDIYSucceed&&!boardSizeDIYPage.getWhetherTourist()&&!boardSizeDIYPage.getWhetherTimeLimited()&&!boardSizeDIYPage.isWhetherCompetition()){
+        if (whetherDIYSucceed && !boardSizeDIYPage.getWhetherTourist() && !boardSizeDIYPage.getWhetherTimeLimited() && !boardSizeDIYPage.isWhetherCompetition()) {
             UserManger userManger = new UserManger();
             if (boardSizeDIYPage.GetArchiveName().isEmpty()) {
                 boardSizeDIYPage.EstablishWarn("The archive name can not be null!");
                 whetherDIYSucceed = false;
-            } else if (boardSizeDIYPage.GetArchiveName().length()>16) {
+            } else if (boardSizeDIYPage.GetArchiveName().length() > 16) {
                 boardSizeDIYPage.EstablishWarn("The archive name is too long!");
                 whetherDIYSucceed = false;
             } else if (!userManger.ExaminePassWordsWhetherOnlyLetterNumber(boardSizeDIYPage.GetArchiveName())) {
                 boardSizeDIYPage.EstablishWarn("There exists invalid characters in your archive name!");
                 whetherDIYSucceed = false;
-            } else if (userManger.ExamineWhetherArchiveAlreadyExisted(user,boardSizeDIYPage.GetArchiveName())) {
+            } else if (userManger.ExamineWhetherArchiveAlreadyExisted(user, boardSizeDIYPage.GetArchiveName())) {
                 boardSizeDIYPage.EstablishWarn("Archive name already existed!");
                 whetherDIYSucceed = false;
             }
@@ -1996,8 +2094,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     controllingCenter.setTargetWinningScore(Integer.parseInt(boardSizeDIYPage.GetTargetWinningScore()));
                     UserManger userManger = new UserManger();
                     controllingCenter.setArchiveName(boardSizeDIYPage.GetArchiveName());
-                    userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user,boardSizeDIYPage.GetArchiveName(),controllingCenter);
-                    user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(),controllingCenter);
+                    userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user, boardSizeDIYPage.GetArchiveName(), controllingCenter);
+                    user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
                     this.LoadInGamePageForUserWithoutTimeLimitationPractice();
                 }
                 boardSizeDIYPage = null;
@@ -2019,27 +2117,74 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
     }
+
     private void SetUpTheLoginUser() {
         user = new User(userLoginPage.GetUserName());
     }
 
-    private void DealWithArchiveInput(){
+    private void DealWithArchiveInput() {
         boolean whetherArchiveAvailable = true;
-        if (askingForArchivePanel.GetArchiveName().isEmpty()){
-            askingForArchivePanel.EstablishWarn("The archive name can not be null!");
-            whetherArchiveAvailable = false;
-        } else if (!user.ExamineWhetherArchiveAlreadyExisted(askingForArchivePanel.GetArchiveName())){
+        boolean whetherDefault = false;
+        if (askingForArchivePanel.GetArchiveName().isEmpty()) {
+            if (!user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
+                askingForArchivePanel.EstablishWarn("There is no such archive!");
+                whetherArchiveAvailable = false;
+            } else {
+                whetherDefault = true;
+            }
+        } else if (!user.ExamineWhetherArchiveAlreadyExisted(askingForArchivePanel.GetArchiveName())) {
             askingForArchivePanel.EstablishWarn("There is no such archive!");
             whetherArchiveAvailable = false;
         }
-        if (whetherArchiveAvailable){
+        if (whetherArchiveAvailable) {
             controllingCenter = new ControllingCenter();
-            user.BuildControllingCenterBasedOnTheArchive(askingForArchivePanel.GetArchiveName(),controllingCenter);
+            if (whetherDefault) {
+                user.BuildControllingCenterBasedOnTheArchive("WhenYouHaveSomethingToSaySilenceIsALie", controllingCenter);
+            } else {
+                user.BuildControllingCenterBasedOnTheArchive(askingForArchivePanel.GetArchiveName(), controllingCenter);
+            }
             this.remove(askingForArchivePanel);
             askingForArchivePanel = null;
             this.LoadInGamePageForUserWithoutTimeLimitationPractice();
             repaint();
             setVisible(true);
         }
+    }
+
+    public void DealWithDefaultThreeInPractice() {
+        if (user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
+            user.DeleteCompleteArchive("WhenYouHaveSomethingToSaySilenceIsALie");
+        }
+        controllingCenter = new ControllingCenter();
+        controllingCenter.setSkin(skin);
+        this.UpdateTheCoordinateSetInTheControllingCenterForThree();
+        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+        controllingCenter.setTargetWinningScore(2048);
+        UserManger userManger = new UserManger();
+        controllingCenter.setArchiveName("WhenYouHaveSomethingToSaySilenceIsALie");
+        userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user, controllingCenter.getArchiveName(), controllingCenter);
+        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+        this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+        boardSizeDIYPage = null;
+        repaint();
+        setVisible(true);
+    }
+    public void DealWithDefaultFourInPractice() {
+        if (user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
+            user.DeleteCompleteArchive("WhenYouHaveSomethingToSaySilenceIsALie");
+        }
+        controllingCenter = new ControllingCenter();
+        controllingCenter.setSkin(skin);
+        this.UpdateTheCoordinateSetInTheControllingCenterForFour();
+        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+        controllingCenter.setTargetWinningScore(2048);
+        UserManger userManger = new UserManger();
+        controllingCenter.setArchiveName("WhenYouHaveSomethingToSaySilenceIsALie");
+        userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user, controllingCenter.getArchiveName(), controllingCenter);
+        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+        this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+        boardSizeDIYPage = null;
+        repaint();
+        setVisible(true);
     }
 }

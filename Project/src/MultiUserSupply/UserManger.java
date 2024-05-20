@@ -399,23 +399,6 @@ public class UserManger {
         }
     }
 
-    public ArrayList<String> GetBestFiveScoresForTimeLimitCompetition(User user) {
-        ArrayList<String> fiveBestScore = new ArrayList<String>();
-        try {
-            FileReader reader = new FileReader("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
-            Properties properties = new Properties();
-            properties.load(reader);
-            fiveBestScore.add(properties.getProperty("BestScoreOne"));
-            fiveBestScore.add(properties.getProperty("BestScoreTwo"));
-            fiveBestScore.add(properties.getProperty("BestScoreThree"));
-            fiveBestScore.add(properties.getProperty("BestScoreFour"));
-            fiveBestScore.add(properties.getProperty("BestScoreFive"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return fiveBestScore;
-    }
-
     public int GetBestScoreForWithoutTimeLimitCompetition(User user) {
         int bestScore = 0;
         try {
@@ -847,6 +830,9 @@ public class UserManger {
         DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
         ArrayList<String> archiveNameAlreadyExistedList = new ArrayList<>();
         archiveNameAlreadyExistedList = documentReaderAndWriter.getCurrentUserArchiveList(user);
+        if (archiveNameAlreadyExistedList.isEmpty()){
+            return false;
+        }
         boolean whetherAlreadyExisted = false;
         for (int indexInExistedArchiveNameList = 0; indexInExistedArchiveNameList < archiveNameAlreadyExistedList.size(); indexInExistedArchiveNameList++) {
             if (newArchiveName.equals(archiveNameAlreadyExistedList.get(indexInExistedArchiveNameList))) {
