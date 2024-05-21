@@ -1,7 +1,0 @@
-#Mon May 20 22:23:14 CST 2024
-BoardUnitLocationSet=00010203101112132021222330313233
-CurrentStepNumber=34
-Score0=0
-Step0=0 0 2 0 0 0 0 0 0 0 0 0 4 0 0 0 
-TargetScore=2048
-WhetherWon=false

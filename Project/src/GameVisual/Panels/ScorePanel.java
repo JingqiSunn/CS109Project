@@ -174,6 +174,31 @@ public class ScorePanel extends JPanel {
                 currentStepNumberPanel.setVisible(true);
                 this.add(currentScorePanel);
                 this.add(currentStepNumberPanel);
+            } else if (whetherTimeLimited) {
+                int controllingSize = Math.min(totalWidth / 3, startYForBlockSet - startYForBlockSet / 5);
+                this.UpdateTheCurrentFontForCurrentScore();
+                currentScorePanel = new JPanel(new BorderLayout());
+                currentScorePanel.setBounds(totalWidth / 3, 0, totalWidth / 3, startYForBlockSet - 2 * startYForBlockSet / 3);
+                currentScoreLabel = new JLabel(String.valueOf(controllingCenter.getCurrentGameScore()));
+                currentScoreLabel.setFont(currentFont);
+                currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+                currentScoreLabel.setVerticalAlignment(JLabel.CENTER);
+                currentScoreLabel.setVisible(true);
+                currentScorePanel.add(currentScoreLabel, BorderLayout.CENTER);
+                currentScorePanel.setBackground(Color.LIGHT_GRAY);
+                currentScorePanel.setVisible(true);
+                currentStepNumberPanel = new JPanel(new BorderLayout());
+                currentStepNumberPanel.setBounds(2 * totalWidth / 3, 0, totalWidth / 3, startYForBlockSet - 2 * startYForBlockSet / 3);
+                currentStepNumberLabel = new JLabel(String.valueOf(controllingCenter.getNumberOfStep()));
+                currentStepNumberLabel.setFont(new Font("Times New Roman", Font.BOLD, (int) ((double) controllingSize * 0.18)));
+                currentStepNumberLabel.setHorizontalAlignment(JLabel.CENTER);
+                currentStepNumberLabel.setVerticalAlignment(JLabel.CENTER);
+                currentStepNumberLabel.setVisible(true);
+                currentStepNumberPanel.add(currentScoreLabel, BorderLayout.CENTER);
+                currentStepNumberPanel.setBackground(Color.LIGHT_GRAY);
+                currentStepNumberPanel.setVisible(true);
+                this.add(currentScorePanel);
+                this.add(currentStepNumberPanel);
             }
         }
     }
@@ -264,24 +289,45 @@ public class ScorePanel extends JPanel {
                 this.add(currentStepNumberPanel);
             }
         }else if (!whetherCompetition){
-            this.UpdateTheCurrentFontForCurrentScore();
-            this.remove(currentScorePanel);
-            this.remove(currentStepNumberPanel);
-            currentScoreLabel.setText(String.valueOf(controllingCenter.getCurrentGameScore()));
-            currentScoreLabel.setFont(currentFont);
-            currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);
-            currentScoreLabel.setVerticalAlignment(JLabel.CENTER);
-            currentScoreLabel.setVisible(true);
-            currentScorePanel.add(currentScoreLabel, BorderLayout.CENTER);
-            currentScorePanel.setVisible(true);
-            currentStepNumberLabel.setText(String.valueOf(controllingCenter.getNumberOfStep()));
-            currentStepNumberLabel.setHorizontalAlignment(JLabel.CENTER);
-            currentStepNumberLabel.setVerticalAlignment(JLabel.CENTER);
-            currentStepNumberLabel.setVisible(true);
-            currentStepNumberPanel.add(currentStepNumberLabel, BorderLayout.CENTER);
-            currentScorePanel.setVisible(true);
-            this.add(currentScorePanel);
-            this.add(currentStepNumberPanel);
+            if (!whetherTimeLimited) {
+                this.UpdateTheCurrentFontForCurrentScore();
+                this.remove(currentScorePanel);
+                this.remove(currentStepNumberPanel);
+                currentScoreLabel.setText(String.valueOf(controllingCenter.getCurrentGameScore()));
+                currentScoreLabel.setFont(currentFont);
+                currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+                currentScoreLabel.setVerticalAlignment(JLabel.CENTER);
+                currentScoreLabel.setVisible(true);
+                currentScorePanel.add(currentScoreLabel, BorderLayout.CENTER);
+                currentScorePanel.setVisible(true);
+                currentStepNumberLabel.setText(String.valueOf(controllingCenter.getNumberOfStep()));
+                currentStepNumberLabel.setHorizontalAlignment(JLabel.CENTER);
+                currentStepNumberLabel.setVerticalAlignment(JLabel.CENTER);
+                currentStepNumberLabel.setVisible(true);
+                currentStepNumberPanel.add(currentStepNumberLabel, BorderLayout.CENTER);
+                currentScorePanel.setVisible(true);
+                this.add(currentScorePanel);
+                this.add(currentStepNumberPanel);
+            } else if (whetherTimeLimited){
+                this.UpdateTheCurrentFontForCurrentScore();
+                this.remove(currentScorePanel);
+                this.remove(currentStepNumberPanel);
+                currentScoreLabel.setText(String.valueOf(controllingCenter.getCurrentGameScore()));
+                currentScoreLabel.setFont(currentFont);
+                currentScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+                currentScoreLabel.setVerticalAlignment(JLabel.CENTER);
+                currentScoreLabel.setVisible(true);
+                currentScorePanel.add(currentScoreLabel, BorderLayout.CENTER);
+                currentScorePanel.setVisible(true);
+                currentStepNumberLabel.setText(String.valueOf(controllingCenter.getNumberOfStep()));
+                currentStepNumberLabel.setHorizontalAlignment(JLabel.CENTER);
+                currentStepNumberLabel.setVerticalAlignment(JLabel.CENTER);
+                currentStepNumberLabel.setVisible(true);
+                currentStepNumberPanel.add(currentStepNumberLabel, BorderLayout.CENTER);
+                currentScorePanel.setVisible(true);
+                this.add(currentScorePanel);
+                this.add(currentStepNumberPanel);
+            }
         }
     }
 }

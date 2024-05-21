@@ -49,6 +49,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     UserPracticeWithoutLimitDiePage userPracticeWithoutLimitDiePage;
     AskingForArchivePanel askingForArchivePanel;
     UserPracticeWithLimitationModeChoosingPage userPracticeWithLimitationModeChoosingPage;
+    UserPracticeWithLimitDiePage userPracticeWithLimitDiePage;
+    RecordModeSelectionPage recordModeSelectionPage;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
@@ -138,6 +140,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         boardSizeChoosingPage.getThreeOption().addMouseListener(this);
         boardSizeChoosingPage.getFourOption().addMouseListener(this);
         boardSizeChoosingPage.getDIYOption().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadRecordModeSelectionPage() {
+        recordModeSelectionPage = new RecordModeSelectionPage(screenSize,user);
+        recordModeSelectionPage.setVisible(true);
+        this.add(recordModeSelectionPage);
+        recordModeSelectionPage.getWithoutTimeLimitationOption().addMouseListener(this);
+        recordModeSelectionPage.getWithTimeLimitationOption().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -311,6 +321,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userCompetitionWithLimitDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
     }
+    void LoadUserPracticeWithLimitDiePage() {
+        userPracticeWithLimitDiePage = new UserPracticeWithLimitDiePage(screenSize, controllingCenter, user);
+        userPracticeWithLimitDiePage.setVisible(true);
+        this.add(userPracticeWithLimitDiePage);
+        userPracticeWithLimitDiePage.getBackToMenuOption().addMouseListener(this);
+        userPracticeWithLimitDiePage.getRestartOption().addMouseListener(this);
+        setFocusable(true);
+    }
 
     void LoadTouristWinningPage() {
         touristWinningPage = new TouristWinningPage(screenSize, controllingCenter);
@@ -438,8 +456,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userPracticeWithLimitationModeChoosingPage = new UserPracticeWithLimitationModeChoosingPage(screenSize, user);
         userPracticeWithLimitationModeChoosingPage.setVisible(true);
         this.add(userPracticeWithLimitationModeChoosingPage);
-        userPracticeWithLimitationModeChoosingPage.getThreeOption().addMouseListener(this);
-        userPracticeWithLimitationModeChoosingPage.getFourOption().addMouseListener(this);
+        userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().addMouseListener(this);
+        userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().addMouseListener(this);
         userPracticeWithLimitationModeChoosingPage.getDIYOption().addMouseListener(this);
         setFocusable(true);
     }
@@ -751,6 +769,16 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
+            skin = false;
+            controllingCenter = new ControllingCenter();
+            this.remove(userPracticeWithLimitDiePage);
+            userPracticeWithLimitDiePage = null;
+            this.LoadUserPracticeWithLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
         } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
             if (inGamePageWithTimeLimit == null) {
                 this.remove(touristDiePage);
@@ -774,6 +802,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 repaint();
                 setVisible(true);
             }
+        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+                int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
+                this.remove(userPracticeWithLimitDiePage);
+            userPracticeWithLimitDiePage = null;
+                inGamePageWithTimeLimit = null;
+                controllingCenter.CleanThePlayingBoardForRestart();
+                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                controllingCenter.UpdateGameValidity();
+                this.LoadInGamePageForUserWithTimeLimitationPractice(originalTimeLimit);
+                repaint();
+                setVisible(true);
         } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
             user.UpdateUserInformationForCompetition();
             this.remove(userCompetitionWithoutLimitDiePage);
@@ -864,6 +903,24 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             UpdateTheCoordinateSetInTheControllingCenterForFour();
             controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
             this.LoadInGamePageForTouristWithTimeLimitation(180);
+            repaint();
+            setVisible(true);
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
+            remove(userPracticeWithLimitationModeChoosingPage);
+            userPracticeWithLimitationModeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.setWhetherTimeLimitationMode(true);
+            this.LoadInGamePageForUserWithTimeLimitationPractice(180);
+            repaint();
+            setVisible(true);
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getSixMinutesOption())) {
+            remove(userPracticeWithLimitationModeChoosingPage);
+            userPracticeWithLimitationModeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.setWhetherTimeLimitationMode(true);
+            this.LoadInGamePageForUserWithTimeLimitationPractice(360);
             repaint();
             setVisible(true);
         } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
@@ -1134,6 +1191,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
         } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
             this.DealWithArchiveInput();
+        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
+            remove(userGameTypeChoosingPage);
+            userGameTypeChoosingPage = null;
+            this.LoadRecordModeSelectionPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
         }
     }
 
@@ -1397,18 +1462,34 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             askingForArchivePanel.getContinueToPlay().setBackground(Color.BLACK);
             askingForArchivePanel.getContinueToPlay().setVisible(true);
             askingForArchivePanel.getContinueToPlay().repaint();
-        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeOption())) {
-            userPracticeWithLimitationModeChoosingPage.getThreeOption().setBackground(Color.BLACK);
-            userPracticeWithLimitationModeChoosingPage.getThreeOption().setVisible(true);
-            userPracticeWithLimitationModeChoosingPage.getThreeOption().repaint();
-        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getFourOption())) {
-            userPracticeWithLimitationModeChoosingPage.getFourOption().setBackground(Color.BLACK);
-            userPracticeWithLimitationModeChoosingPage.getFourOption().setVisible(true);
-            userPracticeWithLimitationModeChoosingPage.getFourOption().repaint();
+        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
+            userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setBackground(Color.BLACK);
+            userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().repaint();
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getSixMinutesOption())) {
+            userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setBackground(Color.BLACK);
+            userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().repaint();
         }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setBackground(Color.BLACK);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().repaint();
+        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+            userPracticeWithLimitDiePage.getRestartOption().setBackground(Color.BLACK);
+            userPracticeWithLimitDiePage.getRestartOption().setVisible(true);
+            userPracticeWithLimitDiePage.getRestartOption().repaint();
+        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
+            userPracticeWithLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
+            userPracticeWithLimitDiePage.getBackToMenuOption().setVisible(true);
+            userPracticeWithLimitDiePage.getBackToMenuOption().repaint();
+        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
+            recordModeSelectionPage.getWithTimeLimitationOption().setBackground(Color.BLACK);
+            recordModeSelectionPage.getWithTimeLimitationOption().setVisible(true);
+            recordModeSelectionPage.getWithTimeLimitationOption().repaint();
+        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
+            recordModeSelectionPage.getWithoutTimeLimitationOption().setBackground(Color.BLACK);
+            recordModeSelectionPage.getWithoutTimeLimitationOption().setVisible(true);
+            recordModeSelectionPage.getWithoutTimeLimitationOption().repaint();
         }
     }
 
@@ -1660,18 +1741,34 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             askingForArchivePanel.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
             askingForArchivePanel.getContinueToPlay().setVisible(true);
             askingForArchivePanel.getContinueToPlay().repaint();
-        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeOption())) {
-            userPracticeWithLimitationModeChoosingPage.getThreeOption().setBackground(Color.LIGHT_GRAY);
-            userPracticeWithLimitationModeChoosingPage.getThreeOption().setVisible(true);
-            userPracticeWithLimitationModeChoosingPage.getThreeOption().repaint();
-        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getFourOption())) {
-            userPracticeWithLimitationModeChoosingPage.getFourOption().setBackground(Color.LIGHT_GRAY);
-            userPracticeWithLimitationModeChoosingPage.getFourOption().setVisible(true);
-            userPracticeWithLimitationModeChoosingPage.getFourOption().repaint();
+        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
+            userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().repaint();
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getSixMinutesOption())) {
+            userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setVisible(true);
+            userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().repaint();
         }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().repaint();
+        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+            userPracticeWithLimitDiePage.getRestartOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithLimitDiePage.getRestartOption().setVisible(true);
+            userPracticeWithLimitDiePage.getRestartOption().repaint();
+        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
+            userPracticeWithLimitDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
+            userPracticeWithLimitDiePage.getBackToMenuOption().setVisible(true);
+            userPracticeWithLimitDiePage.getBackToMenuOption().repaint();
+        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
+            recordModeSelectionPage.getWithTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
+            recordModeSelectionPage.getWithTimeLimitationOption().setVisible(true);
+            recordModeSelectionPage.getWithTimeLimitationOption().repaint();
+        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
+            recordModeSelectionPage.getWithoutTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
+            recordModeSelectionPage.getWithoutTimeLimitationOption().setVisible(true);
+            recordModeSelectionPage.getWithoutTimeLimitationOption().repaint();
         }
     }
 
@@ -1898,6 +1995,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     } else if (controllingCenter.GetInCompetition()) {
                         remove(inGamePageWithTimeLimit);
                         LoadUserCompetitionWithLimitDiePage();
+                        setFocusable(true);
+                        repaint();
+                        setVisible(true);
+                    } else if (!controllingCenter.GetInCompetition()) {
+                        remove(inGamePageWithTimeLimit);
+                        LoadUserPracticeWithLimitDiePage();
                         setFocusable(true);
                         repaint();
                         setVisible(true);

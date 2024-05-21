@@ -1,4 +1,5 @@
-#Sun May 19 18:40:26 CST 2024
+#UserCompetitionWithoutTimeLimit
+#Tue May 21 10:11:28 CST 2024
 AverageScore=0
 BestScoreFive=0
 BestScoreFour=0
@@ -7,5 +8,5 @@ BestScoreThree=0
 BestScoreTwo=0
 TimeOverFourteenThousand=0
 TimeOverSevenThousand=0
-TotalGameNumber=1
+TotalGameNumber=0
 TotalWinTime=0

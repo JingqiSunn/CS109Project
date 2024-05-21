@@ -21,11 +21,11 @@ public class UserPracticeWithLimitationModeChoosingPage extends JPanel {
     int yOfCenterOfThreeOption;
     int yOfCenterOfDIYOption;
     int yOfCenterOfFourOption;
-    public JPanel ThreeOption;
-    public JPanel FourOption;
+    public JPanel threeMinutesOption;
+    public JPanel sixMinutesOption;
     public JPanel DIYOption;
-    JLabel ThreeLabel;
-    JLabel FourLabel;
+    JLabel threeMinutesLabel;
+    JLabel sixMinutesLabel;
     JLabel DIYLabel;
     GridBagConstraints locationOfLabelInOption;
     JPanel userPanel;
@@ -43,12 +43,12 @@ public class UserPracticeWithLimitationModeChoosingPage extends JPanel {
         this.SetUpUserPanel();
     }
 
-    public JPanel getThreeOption() {
-        return ThreeOption;
+    public JPanel getThreeMinutesOption() {
+        return threeMinutesOption;
     }
 
-    public JPanel getFourOption() {
-        return FourOption;
+    public JPanel getSixMinutesOption() {
+        return sixMinutesOption;
     }
 
     public JPanel getDIYOption() {
@@ -56,18 +56,18 @@ public class UserPracticeWithLimitationModeChoosingPage extends JPanel {
     }
 
     void SetUpOptionsInTheLoginPage() {
-        ThreeOption = new JPanel(new GridBagLayout());
-        FourOption = new JPanel(new GridBagLayout());
+        threeMinutesOption = new JPanel(new GridBagLayout());
+        sixMinutesOption = new JPanel(new GridBagLayout());
         DIYOption = new JPanel(new GridBagLayout());
-        ThreeOption.setBounds(xOfCenterOfThreeOption - widthOfComponent / 2, yOfCenterOfThreeOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
-        FourOption.setBounds(xOfCenterOfFourOption - widthOfComponent / 2, yOfCenterOfFourOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        threeMinutesOption.setBounds(xOfCenterOfThreeOption - widthOfComponent / 2, yOfCenterOfThreeOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        sixMinutesOption.setBounds(xOfCenterOfFourOption - widthOfComponent / 2, yOfCenterOfFourOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
         DIYOption.setBounds(xOfCenterOfDIYOption - widthOfComponent / 2, yOfCenterOfDIYOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
         this.SetInsideComponentOfOptions();
-        ThreeOption.setVisible(true);
-        FourOption.setVisible(true);
+        threeMinutesOption.setVisible(true);
+        sixMinutesOption.setVisible(true);
         DIYOption.setVisible(true);
-        this.add(ThreeOption);
-        this.add(FourOption);
+        this.add(threeMinutesOption);
+        this.add(sixMinutesOption);
         this.add(DIYOption);
     }
 
@@ -86,24 +86,24 @@ public class UserPracticeWithLimitationModeChoosingPage extends JPanel {
     }
 
     void SetInsideComponentOfOptions() {
-        ThreeOption.setBackground(Color.LIGHT_GRAY);
-        FourOption.setBackground(Color.LIGHT_GRAY);
+        threeMinutesOption.setBackground(Color.LIGHT_GRAY);
+        sixMinutesOption.setBackground(Color.LIGHT_GRAY);
         DIYOption.setBackground(Color.LIGHT_GRAY);
         Font font = new Font("Times New Roman", Font.BOLD, 40);
-        ThreeLabel = new JLabel("Three By Three");
-        FourLabel = new JLabel("Four By Four");
+        threeMinutesLabel = new JLabel("Three Minutes");
+        sixMinutesLabel = new JLabel("Four Minutes");
         DIYLabel = new JLabel("Create Your Own");
-        ThreeLabel.setFont(font);
-        FourLabel.setFont(font);
+        threeMinutesLabel.setFont(font);
+        sixMinutesLabel.setFont(font);
         DIYLabel.setFont(font);
-        ThreeLabel.setForeground(Color.WHITE);
-        FourLabel.setForeground(Color.WHITE);
+        threeMinutesLabel.setForeground(Color.WHITE);
+        sixMinutesLabel.setForeground(Color.WHITE);
         DIYLabel.setForeground(Color.WHITE);
-        ThreeLabel.setVisible(true);
-        FourLabel.setVisible(true);
+        threeMinutesLabel.setVisible(true);
+        sixMinutesLabel.setVisible(true);
         DIYLabel.setVisible(true);
-        ThreeOption.add(ThreeLabel, locationOfLabelInOption);
-        FourOption.add(FourLabel, locationOfLabelInOption);
+        threeMinutesOption.add(threeMinutesLabel, locationOfLabelInOption);
+        sixMinutesOption.add(sixMinutesLabel, locationOfLabelInOption);
         DIYOption.add(DIYLabel, locationOfLabelInOption);
     }
 

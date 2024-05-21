@@ -1,6 +1,0 @@
-#Sun May 19 19:03:16 CST 2024
-BoardUnitLocationSet=03132333021222320111213100102030
-Score0=0
-Step0=0 0 2 0 0 0 0 0 0 0 0 0 0 0 4 0 
-TargetScore=23
-WhetherWon=false

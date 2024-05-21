@@ -29,20 +29,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="T:\Assignments\CS109\CS109Project\Project\src\Music" />
@@ -218,7 +218,11 @@
       <workItem from="1716184577123" duration="273000" />
       <workItem from="1716187962693" duration="390000" />
       <workItem from="1716201012300" duration="5006000" />
-      <workItem from="1716207693911" duration="8299000" />
+      <workItem from="1716207693911" duration="8586000" />
+      <workItem from="1716252622980" duration="617000" />
+      <workItem from="1716256749249" duration="1428000" />
+      <workItem from="1716260055058" duration="6000" />
+      <workItem from="1716267316169" duration="3993000" />
     </task>
     <servers />
   </component>
@@ -243,16 +247,6 @@
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>299</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>301</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
           <line>60</line>
           <option name="timeStamp" value="32" />
@@ -266,11 +260,6 @@
           <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
           <line>140</line>
           <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>2125</line>
-          <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
