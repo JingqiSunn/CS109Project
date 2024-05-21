@@ -931,4 +931,54 @@ public class UserManger {
         controllingCenter.UpdateGameValidity();
         return controllingCenter;
     }
+    void UpdateUserInformationForRecord(User user){
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/WithoutTimeLimit/CompetitionInformationWithoutTimeLimit.txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            user.setBestOneWithout(Integer.parseInt(properties.getProperty("BestScoreOne")));
+            user.setBestTwoWithout(Integer.parseInt(properties.getProperty("BestScoreTwo")));
+            user.setBestThreeWithout(Integer.parseInt(properties.getProperty("BestScoreThree")));
+            user.setBestFourWithout(Integer.parseInt(properties.getProperty("BestScoreFour")));
+            user.setBestFiveWithout(Integer.parseInt(properties.getProperty("BestScoreFive")));
+            user.setAverageWithout(Integer.parseInt(properties.getProperty("AverageScore")));
+            user.setNumberOverSevenThousand(Integer.parseInt(properties.getProperty("TimeOverSevenThousand")));
+            user.setNumberOverFourteenThousand(Integer.parseInt(properties.getProperty("TimeOverFourteenThousand")));
+            user.setTotalGameNumberWithout(Integer.parseInt(properties.getProperty("TotalGameNumber")));
+            user.setTotalWinTimeWithout(Integer.parseInt(properties.getProperty("TotalWinTime")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (user.getTotalGameNumberWithout() == 0){
+            user.setRateOverSevenThousand(0);
+            user.setRateOverFourteenThousand(0);
+            user.setTotalWinRateWithout(0);
+        } else {
+            user.setRateOverSevenThousand(
+                    (int)((double)(user.getNumberOverSevenThousand()*100)/(double)user.getTotalGameNumberWithout())
+            );
+            user.setRateOverFourteenThousand(
+                    (int)((double)(user.getNumberOverFourteenThousand()*100)/(double)user.getTotalGameNumberWithout())
+            );
+            user.setTotalWinRateWithout(
+                    (int)((double)(user.getTotalWinTimeWithout()*100)/(double)user.getTotalGameNumberWithout())
+            );
+        }
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Competition/InThreeMinutes/CompetitionInformationWithTimeLimit.txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            user.setBestOneWith(Integer.parseInt(properties.getProperty("BestScoreOne")));
+            user.setBestTwoWith(Integer.parseInt(properties.getProperty("BestScoreTwo")));
+            user.setBestThreeWith(Integer.parseInt(properties.getProperty("BestScoreThree")));
+            user.setBestFourWith(Integer.parseInt(properties.getProperty("BestScoreFour")));
+            user.setBestFiveWith(Integer.parseInt(properties.getProperty("BestScoreFive")));
+            user.setAverageWith(Integer.parseInt(properties.getProperty("AverageScore")));
+            user.setTotalGameNumberWith(Integer.parseInt(properties.getProperty("TotalGameNumber")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

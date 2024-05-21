@@ -51,9 +51,11 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     UserPracticeWithLimitationModeChoosingPage userPracticeWithLimitationModeChoosingPage;
     UserPracticeWithLimitDiePage userPracticeWithLimitDiePage;
     RecordModeSelectionPage recordModeSelectionPage;
+    RecordShowPageWithLimit recordShowPageWithLimit;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
+    RecordShowPageForWithoutLimit recordShowPageForWithoutLimit;
 
     public TotalGameFrame() {
         skin = false;
@@ -309,6 +311,18 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userPracticeWithoutLimitDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
         user.DeleteCompleteArchive(controllingCenter.getArchiveName());
+    }
+    void LoadRecordShowPageForWithoutLimit() {
+        recordShowPageForWithoutLimit = new RecordShowPageForWithoutLimit(screenSize,user);
+        recordShowPageForWithoutLimit.setVisible(true);
+        this.add(recordShowPageForWithoutLimit);
+        setFocusable(true);
+    }
+    void LoadRecordShowPageForWithLimit() {
+        recordShowPageWithLimit = new RecordShowPageWithLimit(screenSize,user);
+        recordShowPageWithLimit.setVisible(true);
+        this.add(recordShowPageWithLimit);
+        setFocusable(true);
     }
 
     void LoadUserCompetitionWithLimitDiePage() {
@@ -1195,6 +1209,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
             this.LoadRecordModeSelectionPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (recordModeSelectionPage !=null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())){
+            remove(recordModeSelectionPage);
+            recordModeSelectionPage = null;
+            this.LoadRecordShowPageForWithoutLimit();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (recordModeSelectionPage !=null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())){
+            remove(recordModeSelectionPage);
+            recordModeSelectionPage = null;
+            this.LoadRecordShowPageForWithLimit();
             this.addMouseListener(this);
             this.setFocusable(true);
             repaint();

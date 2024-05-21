@@ -33,9 +33,9 @@ public class RecordModeSelectionPage extends JPanel {
         this.user = user;
         this.setLayout(null);
         this.UpdateSizeAndLocationForOptions(screenSize);
-        this.setUpTheLocationOfLabelInOptions();
         this.setBounds(0, 0, totalWidth, totalHeight);
         this.SetUpOptionsInUserCompetitionChoosingPage();
+        this.setVisible(true);
     }
 
     public JPanel getWithoutTimeLimitationOption() {
@@ -87,12 +87,6 @@ public class RecordModeSelectionPage extends JPanel {
         withTimeLimitationOption.add(withTimeLimitationLabel, locationOfLabelInOption);
     }
 
-    void setUpTheLocationOfLabelInOptions() {
-        locationOfLabelInOption = new GridBagConstraints();
-        locationOfLabelInOption.gridx = 0;
-        locationOfLabelInOption.gridy = 0;
-        locationOfLabelInOption.anchor = GridBagConstraints.CENTER;
-    }
     void SetUpUserPanel(){
         userPanel = new JPanel();
         userPanel.setLayout(new BorderLayout());

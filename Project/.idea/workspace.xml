@@ -223,6 +223,9 @@
       <workItem from="1716256749249" duration="1428000" />
       <workItem from="1716260055058" duration="6000" />
       <workItem from="1716267316169" duration="3993000" />
+      <workItem from="1716272060530" duration="7343000" />
+      <workItem from="1716301059933" duration="17000" />
+      <workItem from="1716301084717" duration="3215000" />
     </task>
     <servers />
   </component>
@@ -270,6 +273,11 @@
           <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
           <line>880</line>
           <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
+          <line>1216</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
