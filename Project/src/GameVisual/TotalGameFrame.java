@@ -52,6 +52,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     UserPracticeWithLimitDiePage userPracticeWithLimitDiePage;
     RecordModeSelectionPage recordModeSelectionPage;
     RecordShowPageWithLimit recordShowPageWithLimit;
+    WhetherNewGameRoomPage whetherNewGameRoomPage;
+    CreateGameRoomPage createGameRoomPage;
+    EnterGameRoomPage enterGameRoomPage;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
@@ -142,6 +145,28 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         boardSizeChoosingPage.getThreeOption().addMouseListener(this);
         boardSizeChoosingPage.getFourOption().addMouseListener(this);
         boardSizeChoosingPage.getDIYOption().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadCreateGameRoomPage() {
+        createGameRoomPage = new CreateGameRoomPage(screenSize,user);
+        createGameRoomPage.setVisible(true);
+        this.add(createGameRoomPage);
+        createGameRoomPage.getContinueToPlay().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadEnterGameRoomPage() {
+        enterGameRoomPage = new EnterGameRoomPage(screenSize,user);
+        enterGameRoomPage.setVisible(true);
+        this.add(enterGameRoomPage);
+        enterGameRoomPage.getContinueToPlay().addMouseListener(this);
+        setFocusable(true);
+    }
+    void LoadWhetherNewGameRoomPage() {
+        whetherNewGameRoomPage = new WhetherNewGameRoomPage(screenSize,user);
+        whetherNewGameRoomPage.setVisible(true);
+        this.add(whetherNewGameRoomPage);
+        whetherNewGameRoomPage.getCreateNewGameRoomOption().addMouseListener(this);
+        whetherNewGameRoomPage.getEnterExistingGameRoomOption().addMouseListener(this);
         setFocusable(true);
     }
     void LoadRecordModeSelectionPage() {
@@ -1229,6 +1254,30 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
+        }else if (userGameTypeChoosingPage !=null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())){
+            remove(userGameTypeChoosingPage);
+            userGameTypeChoosingPage = null;
+            this.LoadWhetherNewGameRoomPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (whetherNewGameRoomPage !=null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())){
+            remove(whetherNewGameRoomPage);
+            whetherNewGameRoomPage = null;
+            this.LoadCreateGameRoomPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (whetherNewGameRoomPage !=null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())){
+            remove(whetherNewGameRoomPage);
+            whetherNewGameRoomPage = null;
+            this.LoadEnterGameRoomPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
         }
     }
 
@@ -1520,6 +1569,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             recordModeSelectionPage.getWithoutTimeLimitationOption().setBackground(Color.BLACK);
             recordModeSelectionPage.getWithoutTimeLimitationOption().setVisible(true);
             recordModeSelectionPage.getWithoutTimeLimitationOption().repaint();
+        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
+            whetherNewGameRoomPage.getCreateNewGameRoomOption().setBackground(Color.BLACK);
+            whetherNewGameRoomPage.getCreateNewGameRoomOption().setVisible(true);
+            whetherNewGameRoomPage.getCreateNewGameRoomOption().repaint();
+        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
+            whetherNewGameRoomPage.getEnterExistingGameRoomOption().setBackground(Color.BLACK);
+            whetherNewGameRoomPage.getEnterExistingGameRoomOption().setVisible(true);
+            whetherNewGameRoomPage.getEnterExistingGameRoomOption().repaint();
+        }else if (createGameRoomPage != null && componentActivated.equals(createGameRoomPage.getContinueToPlay())) {
+            createGameRoomPage.getContinueToPlay().setBackground(Color.BLACK);
+            createGameRoomPage.getContinueToPlay().setVisible(true);
+            createGameRoomPage.getContinueToPlay().repaint();
+        }else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
+            enterGameRoomPage.getContinueToPlay().setBackground(Color.BLACK);
+            enterGameRoomPage.getContinueToPlay().setVisible(true);
+            enterGameRoomPage.getContinueToPlay().repaint();
         }
     }
 
@@ -1799,6 +1864,22 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             recordModeSelectionPage.getWithoutTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
             recordModeSelectionPage.getWithoutTimeLimitationOption().setVisible(true);
             recordModeSelectionPage.getWithoutTimeLimitationOption().repaint();
+        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
+            whetherNewGameRoomPage.getCreateNewGameRoomOption().setBackground(Color.LIGHT_GRAY);
+            whetherNewGameRoomPage.getCreateNewGameRoomOption().setVisible(true);
+            whetherNewGameRoomPage.getCreateNewGameRoomOption().repaint();
+        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
+            whetherNewGameRoomPage.getEnterExistingGameRoomOption().setBackground(Color.LIGHT_GRAY);
+            whetherNewGameRoomPage.getEnterExistingGameRoomOption().setVisible(true);
+            whetherNewGameRoomPage.getEnterExistingGameRoomOption().repaint();
+        }else if (createGameRoomPage != null && componentActivated.equals(createGameRoomPage.getContinueToPlay())) {
+            createGameRoomPage.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
+            createGameRoomPage.getContinueToPlay().setVisible(true);
+            createGameRoomPage.getContinueToPlay().repaint();
+        }else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
+            enterGameRoomPage.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
+            enterGameRoomPage.getContinueToPlay().setVisible(true);
+            enterGameRoomPage.getContinueToPlay().repaint();
         }
     }
 

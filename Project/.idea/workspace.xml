@@ -226,6 +226,9 @@
       <workItem from="1716272060530" duration="7343000" />
       <workItem from="1716301059933" duration="17000" />
       <workItem from="1716301084717" duration="3215000" />
+      <workItem from="1716306758887" duration="57000" />
+      <workItem from="1716306825438" duration="48000" />
+      <workItem from="1716334762275" duration="2150000" />
     </task>
     <servers />
   </component>
@@ -276,7 +279,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>1216</line>
+          <line>1241</line>
           <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
