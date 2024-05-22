@@ -1,5 +1,8 @@
 package GameVisual;
 
+import Competition.ClientRunnable;
+import Competition.Server;
+import Competition.ServerRunnable;
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
@@ -11,6 +14,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.Timer;
 
@@ -55,11 +59,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     WhetherNewGameRoomPage whetherNewGameRoomPage;
     CreateGameRoomPage createGameRoomPage;
     EnterGameRoomPage enterGameRoomPage;
+    Thread serverThread;
+    Thread clientThread;
+    ClientRunnable clientRunnable;
+    ServerRunnable serverRunnable;
     boolean timerIsRunning;
     boolean winningPageIsOnShow;
     boolean skin;
+    public String serverName;
+    public String clientName;
     RecordShowPageForWithoutLimit recordShowPageForWithoutLimit;
-
+SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
     public TotalGameFrame() {
         skin = false;
         winningPageIsOnShow = false;
@@ -500,6 +510,19 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         userPracticeWithLimitationModeChoosingPage.getDIYOption().addMouseListener(this);
         setFocusable(true);
     }
+    void LoadSuccessfullyCreateGameRoomWaitingPageForServer(int roomNumber){
+        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(roomNumber, screenSize,user.getUserName());
+        successfullyCreateGameRoomWaitingPage.setVisible(true);
+        this.add(successfullyCreateGameRoomWaitingPage);
+        setFocusable(true);
+    }
+    void LoadSuccessfullyCreateGameRoomWaitingPageForClient(int roomNumber,String serverName){
+        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(roomNumber ,screenSize,serverName,user.getUserName());
+        successfullyCreateGameRoomWaitingPage.setVisible(true);
+        this.add(successfullyCreateGameRoomWaitingPage);
+        successfullyCreateGameRoomWaitingPage.getContinuePanel().addMouseListener(this);
+        setFocusable(true);
+    }
 
 
     @Override
@@ -525,6 +548,103 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.remove(userLoginPage);
             userLoginPage = null;
             this.LoadLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userGameTypeChoosingPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userGameTypeChoosingPage);
+            userGameTypeChoosingPage = null;
+            user = null;
+            this.LoadLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userSingleModeChoosingPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userSingleModeChoosingPage);
+            userSingleModeChoosingPage = null;
+            this.LoadUserGameTypeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (whetherNewGameRoomPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(whetherNewGameRoomPage);
+            whetherNewGameRoomPage = null;
+            this.LoadUserGameTypeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (recordModeSelectionPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(recordModeSelectionPage);
+            recordModeSelectionPage = null;
+            this.LoadUserGameTypeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }else if (recordShowPageWithLimit != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(recordShowPageWithLimit);
+            recordShowPageWithLimit = null;
+            this.LoadRecordModeSelectionPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (recordShowPageForWithoutLimit != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(recordShowPageForWithoutLimit);
+            recordShowPageForWithoutLimit = null;
+            this.LoadRecordModeSelectionPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userCompetitionChoosingPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userCompetitionChoosingPage);
+            userCompetitionChoosingPage = null;
+            this.LoadUserSingleModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeModeChoosingPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userPracticeModeChoosingPage);
+            userPracticeModeChoosingPage = null;
+            this.LoadUserSingleModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userPracticeWithoutLimitationModeChoosingPage);
+            userPracticeWithoutLimitationModeChoosingPage = null;
+            this.LoadUserPracticeWithoutTimeLimitModeWhetherNewPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithLimitationModeChoosingPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userPracticeWithLimitationModeChoosingPage);
+            userPracticeWithLimitationModeChoosingPage = null;
+            this.LoadUserPracticeWithTimeLimitModeWhetherNewPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
+            userPracticeWithoutTimeLimitModeWhetherNewPage = null;
+            this.LoadUserPracticeModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithTimeLimitModeWhetherNewPage != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+            this.remove(userPracticeWithTimeLimitModeWhetherNewPage);
+            userPracticeWithTimeLimitModeWhetherNewPage = null;
+            this.LoadUserPracticeModeChoosingPage();
             this.addMouseListener(this);
             this.setFocusable(true);
             repaint();
@@ -1278,6 +1398,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
+        } else if (createGameRoomPage !=null && componentActivated.equals(createGameRoomPage.getContinueToPlay())){
+            this.DealWithCreatingGameRoom();
         }
     }
 
@@ -1585,6 +1707,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             enterGameRoomPage.getContinueToPlay().setBackground(Color.BLACK);
             enterGameRoomPage.getContinueToPlay().setVisible(true);
             enterGameRoomPage.getContinueToPlay().repaint();
+        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
+            successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.BLACK);
+            successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
+            successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
         }
     }
 
@@ -1880,6 +2006,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             enterGameRoomPage.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
             enterGameRoomPage.getContinueToPlay().setVisible(true);
             enterGameRoomPage.getContinueToPlay().repaint();
+        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
+            successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.LIGHT_GRAY);
+            successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
+            successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
         }
     }
 
@@ -2400,5 +2530,66 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         boardSizeDIYPage = null;
         repaint();
         setVisible(true);
+    }
+    private void DealWithCreatingGameRoom(){
+        boolean whetherSuccessfullyCreated = true;
+        if (createGameRoomPage.GetGameRoomName().length()!=5){
+            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
+            whetherSuccessfullyCreated = false;
+        } else if (!whetherAStringIsANumber(createGameRoomPage.GetGameRoomName())){
+            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
+            whetherSuccessfullyCreated = false;
+        }else if (Integer.parseInt(createGameRoomPage.GetGameRoomName())>60000){
+            createGameRoomPage.EstablishWarn("Number should be no more than 60000!");
+            whetherSuccessfullyCreated = false;
+        }
+        if (whetherSuccessfullyCreated){
+            this.serverName = user.getUserName();
+            this.remove(createGameRoomPage);
+            this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(Integer.parseInt(createGameRoomPage.GetGameRoomName()));
+            serverThread = new Thread(new ServerRunnable(Integer.parseInt(createGameRoomPage.GetGameRoomName()),user,this));
+            serverThread.start();
+            createGameRoomPage = null;
+            repaint();
+            setVisible(true);
+        }
+    }
+    private void DealWithEnteringGameRoom(){
+        boolean whetherSuccessfullyCreated = true;
+        if (createGameRoomPage.GetGameRoomName().length()!=5){
+            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
+            whetherSuccessfullyCreated = false;
+        } else if (!whetherAStringIsANumber(createGameRoomPage.GetGameRoomName())){
+            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
+            whetherSuccessfullyCreated = false;
+        }else if (Integer.parseInt(createGameRoomPage.GetGameRoomName())>60000){
+            createGameRoomPage.EstablishWarn("Number should be no more than 60000!");
+            whetherSuccessfullyCreated = false;
+        }
+        try {
+            clientThread = new Thread(new ClientRunnable(Integer.parseInt(createGameRoomPage.GetGameRoomName()),user,this));
+            clientThread.start();
+        } catch (RuntimeException runtimeException){
+            createGameRoomPage.EstablishWarn("Fail to find the game room!");
+            whetherSuccessfullyCreated = false;
+        }
+        if (whetherSuccessfullyCreated){
+            this.clientName = user.getUserName();
+            this.remove(createGameRoomPage);
+            this.LoadSuccessfullyCreateGameRoomWaitingPageForClient(Integer.parseInt(createGameRoomPage.GetGameRoomName()),this.serverName);
+            createGameRoomPage = null;
+            repaint();
+            setVisible(true);
+        }
+    }
+    private boolean whetherAStringIsANumber(String targetString){
+        boolean whetherAnNumber = true;
+        for (int inDexInString = 0; inDexInString < targetString.length(); inDexInString++) {
+            if (!Character.isDigit(targetString.charAt(inDexInString))){
+                whetherAnNumber = false;
+                return whetherAnNumber;
+            }
+        }
+        return whetherAnNumber;
     }
 }

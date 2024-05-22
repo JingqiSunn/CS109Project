@@ -1,0 +1,12 @@
+#UserCompetitionWithoutTimeLimit
+#Wed May 22 16:13:56 CST 2024
+AverageScore=0
+BestScoreFive=0
+BestScoreFour=0
+BestScoreOne=0
+BestScoreThree=0
+BestScoreTwo=0
+TimeOverFourteenThousand=0
+TimeOverSevenThousand=0
+TotalGameNumber=0
+TotalWinTime=0

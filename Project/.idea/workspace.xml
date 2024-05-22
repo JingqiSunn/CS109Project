@@ -31,7 +31,9 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -229,6 +231,10 @@
       <workItem from="1716306758887" duration="57000" />
       <workItem from="1716306825438" duration="48000" />
       <workItem from="1716334762275" duration="2150000" />
+      <workItem from="1716343412563" duration="117000" />
+      <workItem from="1716354951679" duration="2254000" />
+      <workItem from="1716360732164" duration="854000" />
+      <workItem from="1716377919950" duration="10327000" />
     </task>
     <servers />
   </component>
@@ -276,11 +282,6 @@
           <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
           <line>880</line>
           <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GameVisual/TotalGameFrame.java</url>
-          <line>1241</line>
-          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
