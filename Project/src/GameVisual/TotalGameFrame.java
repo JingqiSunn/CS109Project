@@ -2395,6 +2395,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 }
             }
         }
+        return null;
     }
 
     private void DealWithRegistrationIssue() {
