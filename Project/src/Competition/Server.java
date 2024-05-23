@@ -47,6 +47,29 @@ public class Server {
             e.printStackTrace();
         }
     }
+    public Server(int totalScore,User user, TotalGameFrame totalGameFrame) {
+        this.whetherSame = false;
+        this.whetherWon = false;
+        this.whetherDie = false;
+        this.whetherEnemyDie = false;
+        this.whetherStart = false;
+        this.whetherEnemyStart = false;
+        this.whetherShowDiePage = false;
+        this.totalGameFrame = totalGameFrame;
+        this.user = user;
+        try {
+            serverSocket = new ServerSocket(7656);
+            System.out.println("Server started. Waiting for client connection...");
+            WaitingForClient();
+            EstablishConnectionWithClient();
+            ExchangeScoreWithClient();
+//            FetchCommandToStartTheGame();
+//            this.InGameInformationTransportation();
+//            handleClient();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setWhetherDie(boolean whetherDie) {
         this.whetherDie = whetherDie;
@@ -104,6 +127,15 @@ public class Server {
             e.printStackTrace();
         }
         totalGameFrame.whetherSuccessfullyConnected = true;
+    }
+    private void ExchangeScoreWithClient(){
+        try {
+            totalGameFrame.enemyScore = dataInputStream.readInt();
+            dataOutputStream.writeInt(totalGameFrame.getControllingCenter().getCurrentGameScore());
+            dataOutputStream.flush();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
     private void FetchCommandToStartTheGame() throws IOException {
         while (!totalGameFrame.whetherStartTheMultiPlayerGame) {

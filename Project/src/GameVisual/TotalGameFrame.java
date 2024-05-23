@@ -1,6 +1,8 @@
 package GameVisual;
 
+import Competition.Client;
 import Competition.ClientRunnable;
+import Competition.Server;
 import Competition.ServerRunnable;
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
@@ -13,6 +15,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -77,7 +80,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
     public boolean whetherMultiGameOver;
     DiePageForMultiUser diePageForMultiUser;
-    String IPOfServer;
+    public String IPOfServer;
+    public int enemyScore;
+    private Server server;
+    private Client client;
 
     public TotalGameFrame() {
         whetherMultiGameOver = false;
@@ -2356,11 +2362,39 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 public void actionPerformed(ActionEvent e) {
                     timerIsRunning = false;
                     if (inGamePageWithTimeLimitForMultiUser.isWhetherServer()) {
-                        serverRunnable.getServer().setWhetherDie(true);
-                        WaitToShowTheDiePage();
+                        server = new Server(controllingCenter.getCurrentGameScore(),user,TotalGameFrame.this);
+                        if (enemyScore> controllingCenter.getCurrentGameScore()){
+                            TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
+                            inGamePageWithTimeLimitForMultiUser = null;
+                            TotalGameFrame.this.LoadDiePageForMultiUser("You Lose!");
+                        } else if (enemyScore< controllingCenter.getCurrentGameScore()){
+                            TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
+                            inGamePageWithTimeLimitForMultiUser = null;
+                            TotalGameFrame.this.LoadDiePageForMultiUser("You Win!");
+                        } else {
+                            TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
+                            inGamePageWithTimeLimitForMultiUser = null;
+                            TotalGameFrame.this.LoadDiePageForMultiUser("The Same");
+                        }
                     } else {
-                        clientRunnable.getClient().setWhetherDie(true);
-                        WaitToShowTheDiePage();
+                        try {
+                            client = new Client(controllingCenter.getCurrentGameScore(),IPOfServer,user,TotalGameFrame.this);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        if (enemyScore> controllingCenter.getCurrentGameScore()){
+                            TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
+                            inGamePageWithTimeLimitForMultiUser = null;
+                            TotalGameFrame.this.LoadDiePageForMultiUser("You Lose!");
+                        } else if (enemyScore< controllingCenter.getCurrentGameScore()){
+                            TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
+                            inGamePageWithTimeLimitForMultiUser = null;
+                            TotalGameFrame.this.LoadDiePageForMultiUser("You Win!");
+                        } else {
+                            TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
+                            inGamePageWithTimeLimitForMultiUser = null;
+                            TotalGameFrame.this.LoadDiePageForMultiUser("The Same");
+                        }
                     }
                 }
             });

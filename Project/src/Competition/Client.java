@@ -38,6 +38,21 @@ public class Client {
         this.FetchCommandToStartTheGame();
 //        this.InGameInformationTransportation();
     }
+    public Client(int totalScore,String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException {
+        this.whetherSame = false;
+        this.whetherWon = false;
+        this.whetherDie = false;
+        this.whetherEnemyDie = false;
+        this.whetherStart = false;
+        this.whetherEnemyStart = false;
+        this.totalGameFrame = totalGameFrame;
+        this.user = user;
+        this.IPAddress =  IPAddress;
+        this.TryConnectToServer();
+        totalGameFrame.IPOfServer = IPAddress;
+        this.ExchangeScoreWithClient();
+//        this.InGameInformationTransportation();
+    }
 
     public void setWhetherStart(boolean whetherStart) {
         this.whetherStart = whetherStart;
@@ -97,6 +112,15 @@ public class Client {
                 whetherEnemyStart = dataInputStream.readBoolean();
                 totalGameFrame.whetherStartTheMultiPlayerGame = true;
             }
+        }
+    }
+    private void ExchangeScoreWithClient(){
+        try {
+            dataOutputStream.writeInt(totalGameFrame.getControllingCenter().getCurrentGameScore());
+            dataOutputStream.flush();
+            totalGameFrame.enemyScore = dataInputStream.readInt();
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
     private void InGameInformationTransportation() throws IOException {
