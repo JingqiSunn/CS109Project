@@ -36,7 +36,7 @@ public class Client {
         this.TryConnectToServer();
         this.ExchangeNameWithServer();
         this.FetchCommandToStartTheGame();
-        this.InGameInformationTransportation();
+//        this.InGameInformationTransportation();
     }
 
     public void setWhetherStart(boolean whetherStart) {
@@ -95,8 +95,8 @@ public class Client {
                 dataOutputStream.writeBoolean(true);
                 dataOutputStream.flush();
                 whetherEnemyStart = dataInputStream.readBoolean();
+                totalGameFrame.whetherStartTheMultiPlayerGame = true;
             }
-            totalGameFrame.whetherStartTheMultiPlayerGame = true;
         }
     }
     private void InGameInformationTransportation() throws IOException {

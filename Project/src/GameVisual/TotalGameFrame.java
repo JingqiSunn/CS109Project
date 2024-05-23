@@ -77,6 +77,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
     public boolean whetherMultiGameOver;
     DiePageForMultiUser diePageForMultiUser;
+    String IPOfServer;
 
     public TotalGameFrame() {
         whetherMultiGameOver = false;
@@ -1478,12 +1479,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
             this.DealWithCreatingGameRoom();
         } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
-            if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()) {
-                serverRunnable.getServer().setWhetherStart(true);
-            } else {
-                clientRunnable.getClient().setWhetherStart(true);
-            }
-            WaitToStartTheGame();
             this.remove(successfullyCreateGameRoomWaitingPage);
             LoadInGamePageForMultiUserWithTimeLimitation();
         }
@@ -2744,19 +2739,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         return whetherAnNumber;
-    }
-
-    public void WaitToStartTheGame() {
-        while (!whetherStartTheMultiPlayerGame) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (whetherStartTheMultiPlayerGame) {
-                break;
-            }
-        }
     }
 
     private String FindIpForComputer() {

@@ -40,8 +40,8 @@ public class Server {
             WaitingForClient();
             EstablishConnectionWithClient();
             ExchangeNameWithClient();
-            FetchCommandToStartTheGame();
-            this.InGameInformationTransportation();
+//            FetchCommandToStartTheGame();
+//            this.InGameInformationTransportation();
 //            handleClient();
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,9 +110,10 @@ public class Server {
             if (whetherStart) {
                 whetherEnemyStart = dataInputStream.readBoolean();
                 dataOutputStream.writeBoolean(true);
+                System.out.println("no");
                 dataOutputStream.flush();
+                totalGameFrame.whetherStartTheMultiPlayerGame = true;
             }
-            totalGameFrame.whetherStartTheMultiPlayerGame = true;
         }
     }
     private void InGameInformationTransportation() throws IOException {
