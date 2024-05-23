@@ -17,9 +17,9 @@ public class EnterGameRoomPage extends JPanel {
     JLabel continueToPlayLabel;
     JPanel userPanel;
     JLabel userLabel;
-    JPanel askForGameRoomName;
-    JLabel askForGameRoomNameLabel;
-    JTextField askForGameRoomNameField;
+    JPanel askForIP;
+    JLabel askForIPLabel;
+    JTextField askForIPField;
 
     public EnterGameRoomPage(Dimension screenSize, User user){
         this.user = user;
@@ -29,8 +29,8 @@ public class EnterGameRoomPage extends JPanel {
         this.SetUpOptionsInTheLoginPage();
         this.SetUpUserPanel();
     }
-    public String GetGameRoomName(){
-        return askForGameRoomNameField.getText();
+    public String GetIP(){
+        return askForIPField.getText();
     }
 
     public JPanel getContinueToPlay() {
@@ -57,21 +57,21 @@ public class EnterGameRoomPage extends JPanel {
         this.SetUpForAskForGameRoomName();
     }
     public void SetUpForAskForGameRoomName() {
-        askForGameRoomName = new JPanel();
-        askForGameRoomName.setLayout(new BorderLayout());
-        askForGameRoomName.setBackground(Color.LIGHT_GRAY);
-        askForGameRoomName.setBounds((int) (((double)totalWidth*(double)2 )/(double) 9),(int) (((double)totalHeight*(double)5 )/(double) 12),(int) (((double)totalWidth*(double)2 )/(double) 9),(int) (((double)totalHeight)/(double) 12));
-        askForGameRoomNameLabel = new JLabel("Game Room Name: ");
-        askForGameRoomNameLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
-        askForGameRoomNameLabel.setForeground(Color.BLACK);
-        askForGameRoomNameLabel.setHorizontalAlignment(JLabel.CENTER);
-        askForGameRoomNameLabel.setVerticalAlignment(JLabel.CENTER);
-        askForGameRoomName.add(askForGameRoomNameLabel);
-        askForGameRoomNameField = new JTextField();
-        askForGameRoomNameField.setFont(new Font("Times New Roman", Font.BOLD, 40));
-        askForGameRoomNameField.setBounds((int) (((double)totalWidth*(double)4 )/(double) 9),(int) (((double)totalHeight*(double)5 )/(double) 12),(int) (((double)totalWidth*(double)3 )/(double) 9),(int) (((double)totalHeight)/(double) 12));
-        this.add(askForGameRoomName);
-        this.add(askForGameRoomNameField);
+        askForIP = new JPanel();
+        askForIP.setLayout(new BorderLayout());
+        askForIP.setBackground(Color.LIGHT_GRAY);
+        askForIP.setBounds((int) (((double)totalWidth*(double)2 )/(double) 9),(int) (((double)totalHeight*(double)5 )/(double) 12),(int) (((double)totalWidth*(double)2 )/(double) 9),(int) (((double)totalHeight)/(double) 12));
+        askForIPLabel = new JLabel("IP Address: ");
+        askForIPLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
+        askForIPLabel.setForeground(Color.BLACK);
+        askForIPLabel.setHorizontalAlignment(JLabel.CENTER);
+        askForIPLabel.setVerticalAlignment(JLabel.CENTER);
+        askForIP.add(askForIPLabel);
+        askForIPField = new JTextField();
+        askForIPField.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        askForIPField.setBounds((int) (((double)totalWidth*(double)4 )/(double) 9),(int) (((double)totalHeight*(double)5 )/(double) 12),(int) (((double)totalWidth*(double)3 )/(double) 9),(int) (((double)totalHeight)/(double) 12));
+        this.add(askForIP);
+        this.add(askForIPField);
     }
 
     public void EstablishWarn(String wordsOutput) {

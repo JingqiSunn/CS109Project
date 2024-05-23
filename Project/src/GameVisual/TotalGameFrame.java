@@ -1,7 +1,6 @@
 package GameVisual;
 
 import Competition.ClientRunnable;
-import Competition.Server;
 import Competition.ServerRunnable;
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
@@ -14,8 +13,10 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import javax.swing.Timer;
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
@@ -68,9 +69,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     boolean skin;
     public String serverName;
     public String clientName;
+    public boolean whetherSuccessfullyConnected;
     RecordShowPageForWithoutLimit recordShowPageForWithoutLimit;
-SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
+    SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
+
     public TotalGameFrame() {
+        whetherSuccessfullyConnected = false;
         skin = false;
         winningPageIsOnShow = false;
         controllingCenter = new ControllingCenter();
@@ -157,30 +161,34 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         boardSizeChoosingPage.getDIYOption().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadCreateGameRoomPage() {
-        createGameRoomPage = new CreateGameRoomPage(screenSize,user);
+        createGameRoomPage = new CreateGameRoomPage(screenSize, user);
         createGameRoomPage.setVisible(true);
         this.add(createGameRoomPage);
         createGameRoomPage.getContinueToPlay().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadEnterGameRoomPage() {
-        enterGameRoomPage = new EnterGameRoomPage(screenSize,user);
+        enterGameRoomPage = new EnterGameRoomPage(screenSize, user);
         enterGameRoomPage.setVisible(true);
         this.add(enterGameRoomPage);
         enterGameRoomPage.getContinueToPlay().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadWhetherNewGameRoomPage() {
-        whetherNewGameRoomPage = new WhetherNewGameRoomPage(screenSize,user);
+        whetherNewGameRoomPage = new WhetherNewGameRoomPage(screenSize, user);
         whetherNewGameRoomPage.setVisible(true);
         this.add(whetherNewGameRoomPage);
         whetherNewGameRoomPage.getCreateNewGameRoomOption().addMouseListener(this);
         whetherNewGameRoomPage.getEnterExistingGameRoomOption().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadRecordModeSelectionPage() {
-        recordModeSelectionPage = new RecordModeSelectionPage(screenSize,user);
+        recordModeSelectionPage = new RecordModeSelectionPage(screenSize, user);
         recordModeSelectionPage.setVisible(true);
         this.add(recordModeSelectionPage);
         recordModeSelectionPage.getWithoutTimeLimitationOption().addMouseListener(this);
@@ -215,6 +223,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadBoardSizeDIYPageWithTimeLimitForUserPractice() {
         boardSizeDIYPage = new BoardSizeDIYPage(screenSize, true, user, false);
         boardSizeDIYPage.setVisible(true);
@@ -347,14 +356,16 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         setFocusable(true);
         user.DeleteCompleteArchive(controllingCenter.getArchiveName());
     }
+
     void LoadRecordShowPageForWithoutLimit() {
-        recordShowPageForWithoutLimit = new RecordShowPageForWithoutLimit(screenSize,user);
+        recordShowPageForWithoutLimit = new RecordShowPageForWithoutLimit(screenSize, user);
         recordShowPageForWithoutLimit.setVisible(true);
         this.add(recordShowPageForWithoutLimit);
         setFocusable(true);
     }
+
     void LoadRecordShowPageForWithLimit() {
-        recordShowPageWithLimit = new RecordShowPageWithLimit(screenSize,user);
+        recordShowPageWithLimit = new RecordShowPageWithLimit(screenSize, user);
         recordShowPageWithLimit.setVisible(true);
         this.add(recordShowPageWithLimit);
         setFocusable(true);
@@ -370,6 +381,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         userCompetitionWithLimitDiePage.getRestartOption().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadUserPracticeWithLimitDiePage() {
         userPracticeWithLimitDiePage = new UserPracticeWithLimitDiePage(screenSize, controllingCenter, user);
         userPracticeWithLimitDiePage.setVisible(true);
@@ -501,6 +513,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         userPracticeWithoutLimitationModeChoosingPage.getDIYOption().addMouseListener(this);
         setFocusable(true);
     }
+
     void LoadUserPracticeWithLimitationModeChoosingPage() {
         userPracticeWithLimitationModeChoosingPage = new UserPracticeWithLimitationModeChoosingPage(screenSize, user);
         userPracticeWithLimitationModeChoosingPage.setVisible(true);
@@ -510,14 +523,16 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         userPracticeWithLimitationModeChoosingPage.getDIYOption().addMouseListener(this);
         setFocusable(true);
     }
-    void LoadSuccessfullyCreateGameRoomWaitingPageForServer(int roomNumber){
-        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(roomNumber, screenSize,user.getUserName());
+
+    void LoadSuccessfullyCreateGameRoomWaitingPageForServer(String IPAddress) {
+        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(IPAddress, screenSize, user.getUserName());
         successfullyCreateGameRoomWaitingPage.setVisible(true);
         this.add(successfullyCreateGameRoomWaitingPage);
         setFocusable(true);
     }
-    void LoadSuccessfullyCreateGameRoomWaitingPageForClient(int roomNumber,String serverName){
-        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(roomNumber ,screenSize,serverName,user.getUserName());
+
+    void LoadSuccessfullyCreateGameRoomWaitingPageForClient(String IPAddress, String serverName) {
+        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(IPAddress, screenSize, serverName, user.getUserName());
         successfullyCreateGameRoomWaitingPage.setVisible(true);
         this.add(successfullyCreateGameRoomWaitingPage);
         successfullyCreateGameRoomWaitingPage.getContinuePanel().addMouseListener(this);
@@ -585,7 +600,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (recordShowPageWithLimit != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
+        } else if (recordShowPageWithLimit != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_B) {
             this.remove(recordShowPageWithLimit);
             recordShowPageWithLimit = null;
             this.LoadRecordModeSelectionPage();
@@ -825,7 +840,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
             remove(userPracticeWithLimitationModeChoosingPage);
             userPracticeWithLimitationModeChoosingPage = null;
             this.LoadBoardSizeDIYPageWithTimeLimitForUserPractice();
@@ -961,17 +976,17 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
                 repaint();
                 setVisible(true);
             }
-        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
-                int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
-                this.remove(userPracticeWithLimitDiePage);
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+            int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
+            this.remove(userPracticeWithLimitDiePage);
             userPracticeWithLimitDiePage = null;
-                inGamePageWithTimeLimit = null;
-                controllingCenter.CleanThePlayingBoardForRestart();
-                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                controllingCenter.UpdateGameValidity();
-                this.LoadInGamePageForUserWithTimeLimitationPractice(originalTimeLimit);
-                repaint();
-                setVisible(true);
+            inGamePageWithTimeLimit = null;
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.UpdateGameValidity();
+            this.LoadInGamePageForUserWithTimeLimitationPractice(originalTimeLimit);
+            repaint();
+            setVisible(true);
         } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
             user.UpdateUserInformationForCompetition();
             this.remove(userCompetitionWithoutLimitDiePage);
@@ -1350,7 +1365,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setVisible(true);
         } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
             this.DealWithArchiveInput();
-        }else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
             this.LoadRecordModeSelectionPage();
@@ -1358,7 +1373,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        } else if (recordModeSelectionPage !=null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())){
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
             remove(recordModeSelectionPage);
             recordModeSelectionPage = null;
             this.LoadRecordShowPageForWithoutLimit();
@@ -1366,7 +1381,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (recordModeSelectionPage !=null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())){
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
             remove(recordModeSelectionPage);
             recordModeSelectionPage = null;
             this.LoadRecordShowPageForWithLimit();
@@ -1374,7 +1389,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (userGameTypeChoosingPage !=null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())){
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
             this.LoadWhetherNewGameRoomPage();
@@ -1382,15 +1397,9 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        }else if (whetherNewGameRoomPage !=null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())){
-            remove(whetherNewGameRoomPage);
-            whetherNewGameRoomPage = null;
-            this.LoadCreateGameRoomPage();
-            this.addMouseListener(this);
-            this.setFocusable(true);
-            repaint();
-            this.setVisible(true);
-        }else if (whetherNewGameRoomPage !=null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())){
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
+            this.DealWithCreatingGameRoom();
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
             remove(whetherNewGameRoomPage);
             whetherNewGameRoomPage = null;
             this.LoadEnterGameRoomPage();
@@ -1398,9 +1407,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setFocusable(true);
             repaint();
             this.setVisible(true);
-        } else if (createGameRoomPage !=null && componentActivated.equals(createGameRoomPage.getContinueToPlay())){
-            this.DealWithCreatingGameRoom();
-        }else if (enterGameRoomPage !=null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())){
+        } else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
             this.DealWithEnteringGameRoom();
         }
     }
@@ -1665,7 +1672,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             askingForArchivePanel.getContinueToPlay().setBackground(Color.BLACK);
             askingForArchivePanel.getContinueToPlay().setVisible(true);
             askingForArchivePanel.getContinueToPlay().repaint();
-        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
             userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setBackground(Color.BLACK);
             userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().repaint();
@@ -1673,43 +1680,43 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setBackground(Color.BLACK);
             userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().repaint();
-        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setBackground(Color.BLACK);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().repaint();
-        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
             userPracticeWithLimitDiePage.getRestartOption().setBackground(Color.BLACK);
             userPracticeWithLimitDiePage.getRestartOption().setVisible(true);
             userPracticeWithLimitDiePage.getRestartOption().repaint();
-        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
             userPracticeWithLimitDiePage.getBackToMenuOption().setBackground(Color.BLACK);
             userPracticeWithLimitDiePage.getBackToMenuOption().setVisible(true);
             userPracticeWithLimitDiePage.getBackToMenuOption().repaint();
-        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
             recordModeSelectionPage.getWithTimeLimitationOption().setBackground(Color.BLACK);
             recordModeSelectionPage.getWithTimeLimitationOption().setVisible(true);
             recordModeSelectionPage.getWithTimeLimitationOption().repaint();
-        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
             recordModeSelectionPage.getWithoutTimeLimitationOption().setBackground(Color.BLACK);
             recordModeSelectionPage.getWithoutTimeLimitationOption().setVisible(true);
             recordModeSelectionPage.getWithoutTimeLimitationOption().repaint();
-        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
             whetherNewGameRoomPage.getCreateNewGameRoomOption().setBackground(Color.BLACK);
             whetherNewGameRoomPage.getCreateNewGameRoomOption().setVisible(true);
             whetherNewGameRoomPage.getCreateNewGameRoomOption().repaint();
-        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
             whetherNewGameRoomPage.getEnterExistingGameRoomOption().setBackground(Color.BLACK);
             whetherNewGameRoomPage.getEnterExistingGameRoomOption().setVisible(true);
             whetherNewGameRoomPage.getEnterExistingGameRoomOption().repaint();
-        }else if (createGameRoomPage != null && componentActivated.equals(createGameRoomPage.getContinueToPlay())) {
+        } else if (createGameRoomPage != null && componentActivated.equals(createGameRoomPage.getContinueToPlay())) {
             createGameRoomPage.getContinueToPlay().setBackground(Color.BLACK);
             createGameRoomPage.getContinueToPlay().setVisible(true);
             createGameRoomPage.getContinueToPlay().repaint();
-        }else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
+        } else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
             enterGameRoomPage.getContinueToPlay().setBackground(Color.BLACK);
             enterGameRoomPage.getContinueToPlay().setVisible(true);
             enterGameRoomPage.getContinueToPlay().repaint();
-        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.BLACK);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
@@ -1964,7 +1971,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             askingForArchivePanel.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
             askingForArchivePanel.getContinueToPlay().setVisible(true);
             askingForArchivePanel.getContinueToPlay().repaint();
-        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
             userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption().repaint();
@@ -1972,43 +1979,43 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getSixMinutesOption().repaint();
-        }else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().setVisible(true);
             userPracticeWithLimitationModeChoosingPage.getDIYOption().repaint();
-        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
             userPracticeWithLimitDiePage.getRestartOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithLimitDiePage.getRestartOption().setVisible(true);
             userPracticeWithLimitDiePage.getRestartOption().repaint();
-        }else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
             userPracticeWithLimitDiePage.getBackToMenuOption().setBackground(Color.LIGHT_GRAY);
             userPracticeWithLimitDiePage.getBackToMenuOption().setVisible(true);
             userPracticeWithLimitDiePage.getBackToMenuOption().repaint();
-        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
             recordModeSelectionPage.getWithTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
             recordModeSelectionPage.getWithTimeLimitationOption().setVisible(true);
             recordModeSelectionPage.getWithTimeLimitationOption().repaint();
-        }else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
             recordModeSelectionPage.getWithoutTimeLimitationOption().setBackground(Color.LIGHT_GRAY);
             recordModeSelectionPage.getWithoutTimeLimitationOption().setVisible(true);
             recordModeSelectionPage.getWithoutTimeLimitationOption().repaint();
-        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
             whetherNewGameRoomPage.getCreateNewGameRoomOption().setBackground(Color.LIGHT_GRAY);
             whetherNewGameRoomPage.getCreateNewGameRoomOption().setVisible(true);
             whetherNewGameRoomPage.getCreateNewGameRoomOption().repaint();
-        }else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
             whetherNewGameRoomPage.getEnterExistingGameRoomOption().setBackground(Color.LIGHT_GRAY);
             whetherNewGameRoomPage.getEnterExistingGameRoomOption().setVisible(true);
             whetherNewGameRoomPage.getEnterExistingGameRoomOption().repaint();
-        }else if (createGameRoomPage != null && componentActivated.equals(createGameRoomPage.getContinueToPlay())) {
+        } else if (createGameRoomPage != null && componentActivated.equals(createGameRoomPage.getContinueToPlay())) {
             createGameRoomPage.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
             createGameRoomPage.getContinueToPlay().setVisible(true);
             createGameRoomPage.getContinueToPlay().repaint();
-        }else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
+        } else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
             enterGameRoomPage.getContinueToPlay().setBackground(Color.LIGHT_GRAY);
             enterGameRoomPage.getContinueToPlay().setVisible(true);
             enterGameRoomPage.getContinueToPlay().repaint();
-        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.LIGHT_GRAY);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
@@ -2481,7 +2488,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         } else if (!user.ExamineWhetherArchiveAlreadyExisted(askingForArchivePanel.GetArchiveName())) {
             askingForArchivePanel.EstablishWarn("There is no such archive!");
             whetherArchiveAvailable = false;
-        } else if (user.WhetherInvalidlyModified(askingForArchivePanel.GetArchiveName())){
+        } else if (user.WhetherInvalidlyModified(askingForArchivePanel.GetArchiveName())) {
             user.DeleteCompleteArchive(askingForArchivePanel.GetArchiveName());
             askingForArchivePanel.EstablishWarn("Invalid archive!");
             whetherArchiveAvailable = false;
@@ -2519,6 +2526,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         repaint();
         setVisible(true);
     }
+
     public void DealWithDefaultFourInPractice() {
         if (user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
             user.DeleteCompleteArchive("WhenYouHaveSomethingToSaySilenceIsALie");
@@ -2537,66 +2545,80 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         repaint();
         setVisible(true);
     }
-    private void DealWithCreatingGameRoom(){
-        boolean whetherSuccessfullyCreated = true;
-        if (createGameRoomPage.GetGameRoomName().length()!=5){
-            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
-            whetherSuccessfullyCreated = false;
-        } else if (!whetherAStringIsANumber(createGameRoomPage.GetGameRoomName())){
-            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
-            whetherSuccessfullyCreated = false;
-        }else if (Integer.parseInt(createGameRoomPage.GetGameRoomName())>60000){
-            createGameRoomPage.EstablishWarn("Number should be no more than 60000!");
-            whetherSuccessfullyCreated = false;
+
+    private void DealWithCreatingGameRoom() {
+        String IPAddress = this.FindIpForComputer();
+        this.remove(whetherNewGameRoomPage);
+        whetherNewGameRoomPage = null;
+        this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(IPAddress);
+        repaint();
+        setVisible(true);
+        serverThread = new Thread(new ServerRunnable(user, this));
+        serverThread.start();
+        while (!whetherSuccessfullyConnected) {
+            try {
+                Thread.sleep(1000); // 1000毫秒 = 1秒
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (whetherSuccessfullyConnected) {
+                break;
+            }
         }
-        if (whetherSuccessfullyCreated){
-            this.serverName = user.getUserName();
-            this.remove(createGameRoomPage);
-            this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(Integer.parseInt(createGameRoomPage.GetGameRoomName()));
-            serverThread = new Thread(new ServerRunnable(Integer.parseInt(createGameRoomPage.GetGameRoomName()),user,this));
-            serverThread.run();
-            createGameRoomPage = null;
-            repaint();
-            setVisible(true);
-        }
+        successfullyCreateGameRoomWaitingPage.UpdatePanelForClient();
     }
     private void DealWithEnteringGameRoom(){
-        boolean whetherSuccessfullyCreated = true;
-        if (enterGameRoomPage.GetGameRoomName().length()!=5){
-            enterGameRoomPage.EstablishWarn("Please enter a five-digit number!");
-            whetherSuccessfullyCreated = false;
-        } else if (!whetherAStringIsANumber(enterGameRoomPage.GetGameRoomName())){
-            enterGameRoomPage.EstablishWarn("Please enter a five-digit number!");
-            whetherSuccessfullyCreated = false;
-        }else if (Integer.parseInt(enterGameRoomPage.GetGameRoomName())>60000){
-            enterGameRoomPage.EstablishWarn("Number should be no more than 60000!");
-            whetherSuccessfullyCreated = false;
+        clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(),user, this));
+        serverThread.start();
+        while (!whetherSuccessfullyConnected) {
+            try {
+                Thread.sleep(1000); // 1000毫秒 = 1秒
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (whetherSuccessfullyConnected) {
+                break;
+            }
         }
-        try {
-            clientThread = new Thread(new ClientRunnable(Integer.parseInt(enterGameRoomPage.GetGameRoomName()),user,this));
-            clientThread.run();
-        } catch (RuntimeException runtimeException){
-            enterGameRoomPage.EstablishWarn("Fail to find the game room!");
-            whetherSuccessfullyCreated = false;
-        }
-        if (whetherSuccessfullyCreated){
-            this.clientName = user.getUserName();
-            this.remove(enterGameRoomPage);
-            this.LoadSuccessfullyCreateGameRoomWaitingPageForClient(Integer.parseInt(enterGameRoomPage.GetGameRoomName()),this.serverName);
-            System.out.println(serverName);
-            enterGameRoomPage = null;
-            repaint();
-            setVisible(true);
-        }
+        this.remove(enterGameRoomPage);
+        LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(),this.serverName);
+        enterGameRoomPage = null;
     }
-    private boolean whetherAStringIsANumber(String targetString){
+    private boolean whetherAStringIsANumber(String targetString) {
         boolean whetherAnNumber = true;
         for (int inDexInString = 0; inDexInString < targetString.length(); inDexInString++) {
-            if (!Character.isDigit(targetString.charAt(inDexInString))){
+            if (!Character.isDigit(targetString.charAt(inDexInString))) {
                 whetherAnNumber = false;
                 return whetherAnNumber;
             }
         }
         return whetherAnNumber;
+    }
+
+    private String FindIpForComputer() {
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = networkInterfaces.nextElement();
+
+                if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                    continue;
+                }
+
+                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+
+                while (inetAddresses.hasMoreElements()) {
+                    InetAddress inetAddress = inetAddresses.nextElement();
+
+                    if (inetAddress.getAddress().length == 4 && !inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "No Net Work";
     }
 }

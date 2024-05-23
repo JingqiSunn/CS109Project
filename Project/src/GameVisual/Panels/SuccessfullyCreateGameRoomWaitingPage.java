@@ -11,7 +11,7 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
     int totalHeight;
     int unitHeight;
     int unitWidth;
-    int roomNumber;
+    String IPAddress;
     boolean whetherServer;
     String serverUser;
     String clientUser;
@@ -23,10 +23,10 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
     JLabel continueLabel;
     JPanel roomNumberPanel;
     JLabel roomNumberLabel;
-    public SuccessfullyCreateGameRoomWaitingPage(int roomNumber, Dimension screenSize, String serverUser){
+    public SuccessfullyCreateGameRoomWaitingPage(String IPAddress, Dimension screenSize, String serverUser){
         this.setBounds(0,0, screenSize.width,screenSize.height);
         this.setLayout(null);
-        this.roomNumber = roomNumber;
+        this.IPAddress = IPAddress;
         this.whetherServer = true;
         this.serverUser = serverUser;
         this.UpdateSizeInformation(screenSize);
@@ -34,10 +34,10 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
         this.UpdatePanelForServer();
         this.setVisible(true);
     }
-    public SuccessfullyCreateGameRoomWaitingPage(int roomNumber, Dimension screenSize, String serverUser, String clientUser){
+    public SuccessfullyCreateGameRoomWaitingPage(String IPAddress, Dimension screenSize, String serverUser, String clientUser){
         this.setBounds(0,0, screenSize.width,screenSize.height);
         this.setLayout(null);
-        this.roomNumber = roomNumber;
+        this.IPAddress = IPAddress;
         this.whetherServer = true;
         this.serverUser = serverUser;
         this.UpdateSizeInformation(screenSize);
@@ -92,7 +92,7 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
         roomNumberPanel = new JPanel();
         roomNumberPanel.setBounds(4*unitWidth,unitHeight,3*unitWidth,unitHeight);
         roomNumberPanel.setLayout(new BorderLayout());
-        roomNumberLabel = new JLabel(String.valueOf(roomNumber));
+        roomNumberLabel = new JLabel(IPAddress);
         roomNumberLabel.setFont(new Font("Times New Roman", Font.BOLD, 50));
         roomNumberLabel.setForeground(Color.BLACK);
         roomNumberLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -103,14 +103,14 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
         this.add(continuePanel);
         this.add(roomNumberPanel);
     }
-    void UpdatePanelForServer(){
+    public void UpdatePanelForServer(){
         this.setVisible(false);
         serverLabel.setText(serverUser);
         serverPanel.setBackground(new Color(0xB0EBB4));
         this.repaint();
         this.setVisible(true);
     }
-    void UpdatePanelForClient(){
+    public void UpdatePanelForClient(){
         this.setVisible(false);
         clientLabel.setText(serverUser);
         clientPanel.setBackground(new Color(0xB0EBB4));
