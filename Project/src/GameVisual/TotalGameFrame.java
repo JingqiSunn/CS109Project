@@ -2417,7 +2417,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         if (enemyScore> controllingCenter.getCurrentGameScore()){
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            server = null;
+                            client = null;
                             controllingCenter = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser("You Lose!");
                             TotalGameFrame.this.setVisible(false);
@@ -2426,7 +2426,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         } else if (enemyScore< controllingCenter.getCurrentGameScore()){
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            server = null;
+                            client = null;
                             controllingCenter = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser("You Win!");
                             TotalGameFrame.this.setVisible(false);
@@ -2435,7 +2435,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         } else {
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            server = null;
+                            client = null;
                             controllingCenter = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser("The Same");
                             TotalGameFrame.this.setVisible(false);
