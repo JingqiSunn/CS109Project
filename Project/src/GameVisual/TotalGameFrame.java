@@ -4,7 +4,6 @@ import Competition.Client;
 import Competition.ClientRunnable;
 import Competition.Server;
 import Competition.ServerRunnable;
-import GameElement.ArtificialIntelligenceSupply;
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
@@ -85,10 +84,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     public int enemyScore;
     private Server server;
     private Client client;
-    ArtificialIntelligenceSupply ai;
 
     public TotalGameFrame() {
-        ai = new ArtificialIntelligenceSupply();
         whetherMultiGameOver = false;
         whetherStartTheMultiPlayerGame = false;
         whetherSuccessfullyConnected = false;
@@ -1498,9 +1495,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 clientThread = null;
             }
             LoadInGamePageForMultiUserWithTimeLimitation();
-            this.setVisible(false);
-            this.repaint();
-            this.setVisible(true);
         }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
             remove(diePageForMultiUser);
             diePageForMultiUser = null;
@@ -2389,7 +2383,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         if (enemyScore> controllingCenter.getCurrentGameScore()){
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            server = new Server(user,TotalGameFrame.this);
+                            server = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser(String.format("%d : %d, You Lose!",controllingCenter.getCurrentGameScore(),enemyScore));
                             controllingCenter = null;
                             TotalGameFrame.this.setVisible(false);
@@ -2398,7 +2392,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         } else if (enemyScore< controllingCenter.getCurrentGameScore()){
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            server = new Server(user,TotalGameFrame.this);
+                            server = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser(String.format("%d : %d, You Win!",controllingCenter.getCurrentGameScore(),enemyScore));
                             controllingCenter = null;
                             TotalGameFrame.this.setVisible(false);
@@ -2407,7 +2401,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         } else {
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            server = new Server(user,TotalGameFrame.this);
+                            server = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser(String.format("%d : %d, The Same!",controllingCenter.getCurrentGameScore(),enemyScore));
                             controllingCenter = null;
                             TotalGameFrame.this.setVisible(false);
@@ -2423,11 +2417,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         if (enemyScore> controllingCenter.getCurrentGameScore()){
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            try {
-                                client = new Client("12121212121",user,TotalGameFrame.this);
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            client = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser(String.format("%d : %d, You Lose!",controllingCenter.getCurrentGameScore(),enemyScore));
                             controllingCenter = null;
                             TotalGameFrame.this.setVisible(false);
@@ -2436,11 +2426,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         } else if (enemyScore< controllingCenter.getCurrentGameScore()){
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            try {
-                                client = new Client("12121212121",user,TotalGameFrame.this);
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            client = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser(String.format("%d : %d, You Win!",controllingCenter.getCurrentGameScore(),enemyScore));
                             controllingCenter = null;
                             TotalGameFrame.this.setVisible(false);
@@ -2449,11 +2435,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                         } else {
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
-                            try {
-                                client = new Client("12121212121",user,TotalGameFrame.this);
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            client = null;
                             TotalGameFrame.this.LoadDiePageForMultiUser(String.format("%d : %d, The Same!",controllingCenter.getCurrentGameScore(),enemyScore));
                             controllingCenter = null;
                             TotalGameFrame.this.setVisible(false);
