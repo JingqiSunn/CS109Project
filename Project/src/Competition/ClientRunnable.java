@@ -7,6 +7,7 @@ public class ClientRunnable implements Runnable {
     private int port;
     String IPAddress;
     User user;
+    Client client;
 TotalGameFrame totalGameFrame;
     public ClientRunnable(String IPAddress, User user, TotalGameFrame totalGameFrame) {
         this.IPAddress = IPAddress;
@@ -14,8 +15,13 @@ TotalGameFrame totalGameFrame;
         this.totalGameFrame = totalGameFrame;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
     @Override
     public void run() {
-        new Client(IPAddress,user,totalGameFrame);
+
+        client= new Client(IPAddress,user,totalGameFrame);
     }
 }

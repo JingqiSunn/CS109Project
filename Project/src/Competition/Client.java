@@ -16,14 +16,21 @@ public class Client {
     DataInputStream dataInputStream;
     DataOutputStream dataOutputStream;
     Scanner scanner;
-    private AtomicBoolean running = new AtomicBoolean(true);
+    boolean whetherStart;
+    boolean whetherEnemyStart;
 
     public Client(String IPAddress, User user, TotalGameFrame totalGameFrame) {
+        this.whetherStart = false;
+        this.whetherEnemyStart = false;
         this.totalGameFrame = totalGameFrame;
         this.user = user;
         this.IPAddress =  IPAddress;
         this.TryConnectToServer();
         this.ExchangeNameWithServer();
+    }
+
+    public void setWhetherStart(boolean whetherStart) {
+        this.whetherStart = whetherStart;
     }
 
     public void TryConnectToServer() {

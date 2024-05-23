@@ -13,9 +13,11 @@ public class Server {
     private Socket clientSocket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-
-
+    boolean whetherStart;
+    boolean whetherEnemyStart;
     public Server(User user, TotalGameFrame totalGameFrame) {
+        this.whetherStart = false;
+        this.whetherEnemyStart = false;
         this.totalGameFrame = totalGameFrame;
         this.user = user;
         try {
@@ -29,6 +31,10 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setWhetherStart(boolean whetherStart) {
+        this.whetherStart = whetherStart;
     }
 
     public void WaitingForClient() {

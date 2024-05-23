@@ -72,8 +72,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     public boolean whetherSuccessfullyConnected;
     RecordShowPageForWithoutLimit recordShowPageForWithoutLimit;
     SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
-
+boolean whetherStartTheMultiPlayerGame;
     public TotalGameFrame() {
+        whetherStartTheMultiPlayerGame = false;
         whetherSuccessfullyConnected = false;
         skin = false;
         winningPageIsOnShow = false;
@@ -528,6 +529,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(IPAddress, screenSize, this, user);
         successfullyCreateGameRoomWaitingPage.setVisible(true);
         this.add(successfullyCreateGameRoomWaitingPage);
+        successfullyCreateGameRoomWaitingPage.getOpenPanel().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -1398,7 +1400,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
-            this.DealWithCreatingGameRoom();
+            this.OpenGameRoom();
         } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
             remove(whetherNewGameRoomPage);
             whetherNewGameRoomPage = null;
@@ -1409,6 +1411,15 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
         } else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
             this.DealWithEnteringGameRoom();
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())){
+            this.DealWithCreatingGameRoom();
+        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())){
+            if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()){
+                serverRunnable.getServer().setWhetherStart(true);
+            } else {
+                clientRunnable.getClient().setWhetherStart(true);
+            }
+            WaitToStartTheGame();
         }
     }
 
@@ -1720,6 +1731,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.BLACK);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
+        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
+            successfullyCreateGameRoomWaitingPage.getOpenPanel().setBackground(Color.BLACK);
+            successfullyCreateGameRoomWaitingPage.getOpenPanel().setVisible(true);
+            successfullyCreateGameRoomWaitingPage.getOpenPanel().repaint();
         }
     }
 
@@ -2019,6 +2034,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.LIGHT_GRAY);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
+        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
+            successfullyCreateGameRoomWaitingPage.getOpenPanel().setBackground(Color.LIGHT_GRAY);
+            successfullyCreateGameRoomWaitingPage.getOpenPanel().setVisible(true);
+            successfullyCreateGameRoomWaitingPage.getOpenPanel().repaint();
         }
     }
 
@@ -2546,7 +2565,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         setVisible(true);
     }
 
-    private void DealWithCreatingGameRoom() {
+    private void OpenGameRoom() {
         this.serverName = user.getUserName();
         String IPAddress = this.FindIpForComputer();
         this.remove(whetherNewGameRoomPage);
@@ -2554,6 +2573,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(IPAddress);
         repaint();
         setVisible(true);
+    }
+    private void DealWithCreatingGameRoom(){
         serverThread = new Thread(new ServerRunnable(user, this));
         serverThread.start();
         while (!whetherSuccessfullyConnected) {
@@ -2567,6 +2588,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         successfullyCreateGameRoomWaitingPage.UpdatePanelForClient();
+        successfullyCreateGameRoomWaitingPage.UpdateBottomPanel();
         successfullyCreateGameRoomWaitingPage.getContinuePanel().addMouseListener(this);
         repaint();
         setVisible(true);
@@ -2574,7 +2596,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     private void DealWithEnteringGameRoom(){
         this.clientName = user.getUserName();
         clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(),user, this));
-        serverThread.start();
+        clientThread.start();
         while (!whetherSuccessfullyConnected) {
             try {
                 Thread.sleep(1000);
@@ -2601,7 +2623,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         return whetherAnNumber;
     }
+public void WaitToStartTheGame(){
 
+}
     private String FindIpForComputer() {
         try {
             Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
