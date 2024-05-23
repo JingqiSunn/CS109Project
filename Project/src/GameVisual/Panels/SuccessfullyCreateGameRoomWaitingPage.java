@@ -40,7 +40,7 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
         this.setBounds(0,0, screenSize.width,screenSize.height);
         this.setLayout(null);
         this.IPAddress = IPAddress;
-        this.whetherServer = true;
+        this.whetherServer = false;
         this.totalGameFrame = totalGameFrame;
 
         this.UpdateSizeInformation(screenSize);

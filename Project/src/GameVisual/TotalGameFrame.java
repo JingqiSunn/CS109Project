@@ -314,6 +314,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         inGamePageWithTimeLimitForMultiUser.getButtonControllerSwitch().addMouseListener(this);
         this.add(inGamePageWithTimeLimitForMultiUser);
         setFocusable(true);
+        repaint();
     }
 
     void LoadInGamePageForUserWithTimeLimitationCompetition(int timeLimit) {
@@ -1467,6 +1468,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 clientRunnable.getClient().setWhetherStart(true);
             }
             WaitToStartTheGame();
+            this.remove(successfullyCreateGameRoomWaitingPage);
+            successfullyCreateGameRoomWaitingPage = null;
             LoadInGamePageForMultiUserWithTimeLimitation();
         }
     }
