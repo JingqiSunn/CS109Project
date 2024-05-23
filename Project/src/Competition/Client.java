@@ -72,6 +72,16 @@ public class Client {
             e.printStackTrace();
         }
     }
+    public void TryConnectToServerSecond() {
+        try {
+            socket = new Socket(IPAddress, 8885);
+            dataInputStream = new DataInputStream(socket.getInputStream());
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            scanner = new Scanner(System.in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void ExchangeNameWithServer() {
         try {

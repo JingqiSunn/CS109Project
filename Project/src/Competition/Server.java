@@ -58,7 +58,7 @@ public class Server {
         this.totalGameFrame = totalGameFrame;
         this.user = user;
         try {
-            serverSocket = new ServerSocket(7656);
+            serverSocket = new ServerSocket(8885);
             System.out.println("Server started. Waiting for client connection...");
             WaitingForClient();
             EstablishConnectionWithClient();
