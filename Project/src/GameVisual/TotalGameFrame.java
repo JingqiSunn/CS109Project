@@ -218,6 +218,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         diePageForMultiUser = new DiePageForMultiUser(screenSize, content);
         diePageForMultiUser.setVisible(true);
         this.add(diePageForMultiUser);
+        diePageForMultiUser.getBackOption().addMouseListener(this);
         setFocusable(true);
         repaint();
     }
@@ -1494,6 +1495,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 clientThread = null;
             }
             LoadInGamePageForMultiUserWithTimeLimitation();
+        }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
+            remove(diePageForMultiUser);
+            diePageForMultiUser = null;
+            this.LoadUserGameTypeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
         }
     }
 
@@ -1809,6 +1818,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setBackground(Color.BLACK);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().repaint();
+        }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
+            diePageForMultiUser.getBackOption().setBackground(Color.BLACK);
+            diePageForMultiUser.getBackOption().setVisible(true);
+            diePageForMultiUser.getBackOption().repaint();
         }
     }
 
@@ -2112,6 +2125,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setBackground(Color.LIGHT_GRAY);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().repaint();
+        }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
+            diePageForMultiUser.getBackOption().setBackground(Color.LIGHT_GRAY);
+            diePageForMultiUser.getBackOption().setVisible(true);
+            diePageForMultiUser.getBackOption().repaint();
         }
     }
 

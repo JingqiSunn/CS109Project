@@ -16,15 +16,14 @@ public class DiePageForMultiUser extends JPanel {
     int heightOfComponent;
     int widthOfComponent;
 
-    int xOfCenterOfWithoutTimeLimitationOption;
-    int xOfCenterOfWithTimeLimitationOption;
-    int yOfCenterOfWithoutTimeLimitationOption;
-    int yOfCenterOfWithTimeLimitationOption;
-    public JPanel withoutTimeLimitationOption;
-    public JPanel withTimeLimitationOption;
-    JLabel withoutTimeLimitationLabel;
-    JLabel withTimeLimitationLabel;
-    GridBagConstraints locationOfLabelInOption;
+    int xOfCenterOfContentOption;
+    int xOfCenterOfBackOption;
+    int yOfCenterOfContentOption;
+    int yOfCenterOfBackOption;
+    public JPanel contentOption;
+    public JPanel backOption;
+    JLabel contentLabel;
+    JLabel backLabel;
     String content;
 
 
@@ -32,26 +31,25 @@ public class DiePageForMultiUser extends JPanel {
         this.content = content;
         this.setLayout(null);
         this.UpdateSizeAndLocationForOptions(screenSize);
-        this.setUpTheLocationOfLabelInOptions();
         this.setBounds(0, 0, totalWidth, totalHeight);
         this.SetUpOptionsInUserCompetitionChoosingPage();
     }
 
 
-    public JPanel getWithTimeLimitationOption() {
-        return withTimeLimitationOption;
+    public JPanel getBackOption() {
+        return backOption;
     }
 
     void SetUpOptionsInUserCompetitionChoosingPage() {
-        withoutTimeLimitationOption = new JPanel(new GridBagLayout());
-        withTimeLimitationOption = new JPanel(new GridBagLayout());
-        withoutTimeLimitationOption.setBounds(xOfCenterOfWithoutTimeLimitationOption - widthOfComponent / 2, yOfCenterOfWithoutTimeLimitationOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
-        withTimeLimitationOption.setBounds(xOfCenterOfWithTimeLimitationOption - widthOfComponent / 2, yOfCenterOfWithTimeLimitationOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        contentOption = new JPanel(new BorderLayout());
+        backOption = new JPanel(new BorderLayout());
+        contentOption.setBounds(xOfCenterOfContentOption - widthOfComponent / 2, yOfCenterOfContentOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
+        backOption.setBounds(xOfCenterOfBackOption - widthOfComponent / 2, yOfCenterOfBackOption - heightOfComponent / 2, widthOfComponent, heightOfComponent);
         this.SetInsideComponentOfOptions();
-        withoutTimeLimitationOption.setVisible(true);
-        withTimeLimitationOption.setVisible(true);
-        this.add(withoutTimeLimitationOption);
-        this.add(withTimeLimitationOption);
+        contentOption.setVisible(true);
+        backOption.setVisible(true);
+        this.add(contentOption);
+        this.add(backOption);
     }
 
     void UpdateSizeAndLocationForOptions(Dimension screenSize) {
@@ -60,31 +58,28 @@ public class DiePageForMultiUser extends JPanel {
         totalWidth = totalSize.width;
         heightOfComponent = totalHeight / 7;
         widthOfComponent = totalWidth * 3 / 7;
-        xOfCenterOfWithoutTimeLimitationOption = totalWidth / 2;
-        xOfCenterOfWithTimeLimitationOption = totalWidth / 2;
-        yOfCenterOfWithoutTimeLimitationOption = totalHeight * 5 / 14;
-        yOfCenterOfWithTimeLimitationOption = totalHeight * 9 / 14;
+        xOfCenterOfContentOption = totalWidth / 2;
+        xOfCenterOfBackOption = totalWidth / 2;
+        yOfCenterOfContentOption = totalHeight * 5 / 14;
+        yOfCenterOfBackOption = totalHeight * 9 / 14;
     }
 
     void SetInsideComponentOfOptions() {
-        withTimeLimitationOption.setBackground(Color.LIGHT_GRAY);
+        backOption.setBackground(Color.LIGHT_GRAY);
         Font font = new Font("Times New Roman", Font.BOLD, 40);
-        withoutTimeLimitationLabel = new JLabel(content);
-        withTimeLimitationLabel = new JLabel("With Time Limitation");
-        withoutTimeLimitationLabel.setFont(font);
-        withTimeLimitationLabel.setFont(font);
-        withoutTimeLimitationLabel.setForeground(Color.BLACK);
-        withTimeLimitationLabel.setForeground(Color.WHITE);
-        withoutTimeLimitationLabel.setVisible(true);
-        withTimeLimitationLabel.setVisible(true);
-        withoutTimeLimitationOption.add(withoutTimeLimitationLabel, locationOfLabelInOption);
-        withTimeLimitationOption.add(withTimeLimitationLabel, locationOfLabelInOption);
-    }
-
-    void setUpTheLocationOfLabelInOptions() {
-        locationOfLabelInOption = new GridBagConstraints();
-        locationOfLabelInOption.gridx = 0;
-        locationOfLabelInOption.gridy = 0;
-        locationOfLabelInOption.anchor = GridBagConstraints.CENTER;
+        contentLabel = new JLabel(content);
+        contentLabel.setHorizontalAlignment(JLabel.CENTER);
+        contentLabel.setVerticalAlignment(JLabel.CENTER);
+        backLabel = new JLabel("Back to Menu");
+        backLabel.setHorizontalAlignment(JLabel.CENTER);
+        backLabel.setVerticalAlignment(JLabel.CENTER);
+        contentLabel.setFont(font);
+        backLabel.setFont(font);
+        contentLabel.setForeground(Color.BLACK);
+        backLabel.setForeground(Color.WHITE);
+        contentLabel.setVisible(true);
+        backLabel.setVisible(true);
+        contentOption.add(contentLabel, BorderLayout.CENTER);
+        backOption.add(backLabel, BorderLayout.CENTER);
     }
 }
