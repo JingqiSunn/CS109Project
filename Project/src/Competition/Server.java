@@ -41,7 +41,7 @@ public class Server {
             EstablishConnectionWithClient();
             ExchangeNameWithClient();
             FetchCommandToStartTheGame();
-//            this.InGameInformationTransportation();
+            this.InGameInformationTransportation();
 //            handleClient();
         } catch (IOException e) {
             e.printStackTrace();
