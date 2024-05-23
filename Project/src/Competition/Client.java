@@ -23,7 +23,7 @@ public class Client {
     int enemyScore;
     public boolean whetherWon;
     public boolean whetherSame;
-    public Client(String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException {
+    public Client(String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException, InterruptedException {
         this.whetherSame = false;
         this.whetherWon = false;
         this.whetherDie = false;
@@ -99,7 +99,8 @@ public class Client {
             totalGameFrame.whetherStartTheMultiPlayerGame = true;
         }
     }
-    private void InGameInformationTransportation() throws IOException {
+    private void InGameInformationTransportation() throws IOException, InterruptedException {
+        Thread.sleep(3000);
         ListenToDieMessageFromEnemy listenToDieMessageFromEnemy= new ListenToDieMessageFromEnemy();
         listenToDieMessageFromEnemy.start();
         CallDieMessageToEnemy callDieMessageToEnemy = new CallDieMessageToEnemy();
