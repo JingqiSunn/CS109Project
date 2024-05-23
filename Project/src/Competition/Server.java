@@ -79,5 +79,6 @@ public class Server {
             e.printStackTrace();
         }
         totalGameFrame.whetherSuccessfullyConnected = true;
+        totalGameFrame.setWhetherSuccessfullyConnected(true);
     }
 }

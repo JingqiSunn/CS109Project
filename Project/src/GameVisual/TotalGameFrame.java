@@ -23,6 +23,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     User user;
     int totalWides;
     int totalHeight;
+    private final Object lock = new Object();
     Dimension screenSize;
     LoginPage loginPage;
     ModeChoosingPage modeChoosingPage;
@@ -2571,26 +2572,27 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         repaint();
         setVisible(true);
     }
-    private void DealWithEnteringGameRoom(){
+
+    private void DealWithEnteringGameRoom() {
         this.clientName = user.getUserName();
-        clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(),user, this));
-        serverThread.start();
-        while (!whetherSuccessfullyConnected) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (whetherSuccessfullyConnected) {
-                break;
+        clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(), user, this));
+        clientThread.start();
+        synchronized (lock) {
+            while (!whetherSuccessfullyConnected) {
+                try {
+                    lock.wait(); // 等待通知
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
         this.remove(enterGameRoomPage);
-        LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(),this.serverName);
+        LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(), this.serverName);
         enterGameRoomPage = null;
         repaint();
         setVisible(true);
     }
+
     private boolean whetherAStringIsANumber(String targetString) {
         boolean whetherAnNumber = true;
         for (int inDexInString = 0; inDexInString < targetString.length(); inDexInString++) {
@@ -2627,5 +2629,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             e.printStackTrace();
         }
         return "No Net Work";
+    }
+
+    public void setWhetherSuccessfullyConnected(boolean value) {
+        synchronized (lock) {
+            whetherSuccessfullyConnected = value;
+            if (value) {
+                lock.notify(); // 通知等待的线程
+            }
+        }
     }
 }
