@@ -121,7 +121,7 @@ public class Client {
             whetherWon = false;
         } else {
             whetherSame = true;
-        }
+//        }
         totalGameFrame.whetherMultiGameOver = true;
     }
     class ListenToDieMessageFromEnemy extends Thread {
