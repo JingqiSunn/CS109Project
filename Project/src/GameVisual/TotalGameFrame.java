@@ -2379,7 +2379,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 public void actionPerformed(ActionEvent e) {
                     timerIsRunning = false;
                     if (inGamePageWithTimeLimitForMultiUser.isWhetherServer()) {
-                        server = new Server(user,TotalGameFrame.this);
+                        server = new Server(controllingCenter.getCurrentGameScore(),user,TotalGameFrame.this);
                         if (enemyScore> controllingCenter.getCurrentGameScore()){
                             TotalGameFrame.this.remove(inGamePageWithTimeLimitForMultiUser);
                             inGamePageWithTimeLimitForMultiUser = null;
