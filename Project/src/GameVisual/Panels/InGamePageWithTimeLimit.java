@@ -48,6 +48,7 @@ public class InGamePageWithTimeLimit extends JPanel {
         this.setLayout(null);
         this.whetherOutOfTime = false;
         this.totalGameFrame = totalGameFrame;
+        this.whetherCompetition = false;
         this.whetherTourist = whetherTourist;
         this.originalTimeLimit = timeLimit;
         currentTime = originalTimeLimit;
@@ -78,6 +79,10 @@ public class InGamePageWithTimeLimit extends JPanel {
         this.setVisible(true);
         threadForTimer = new ThreadForTimer();
         threadForTimer.start();
+    }
+
+    public boolean isWhetherCompetition() {
+        return whetherCompetition;
     }
 
     public void setWhetherButtonControllerOut(boolean whetherButtonControllerOut) {

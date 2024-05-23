@@ -4,6 +4,7 @@ import Competition.Client;
 import Competition.ClientRunnable;
 import Competition.Server;
 import Competition.ServerRunnable;
+import GameElement.ArtificialIntelligenceSupply;
 import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
@@ -84,8 +85,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     public int enemyScore;
     private Server server;
     private Client client;
+    ArtificialIntelligenceSupply AI;
 
     public TotalGameFrame() {
+        AI = new ArtificialIntelligenceSupply();
         whetherMultiGameOver = false;
         whetherStartTheMultiPlayerGame = false;
         whetherSuccessfullyConnected = false;
@@ -802,7 +805,42 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithTimeLimit.RestartTheGame();
-        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+        } else if (inGamePageWithTimeLimit != null &&!inGamePageWithTimeLimit.isWhetherCompetition()&& e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A && !timerIsRunning) {
+            String direction = AI.mostScoresEarned(controllingCenter);
+            if (direction == "Down"){
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.DownAction();
+                controllingCenter.UpdateGameValidity();
+                inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+            } else if (direction == "Up") {
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.UpAction();
+                controllingCenter.UpdateGameValidity();
+                inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+            }else if (direction == "Left"){
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.LeftAction();
+                controllingCenter.UpdateGameValidity();
+                inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+            } else if (direction == "Right") {
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.RightAction();
+                inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+                controllingCenter.UpdateGameValidity();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+            }
+        }else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
