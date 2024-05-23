@@ -19,7 +19,7 @@ public class Client {
     boolean whetherStart;
     boolean whetherEnemyStart;
 
-    public Client(String IPAddress, User user, TotalGameFrame totalGameFrame) {
+    public Client(String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException {
         this.whetherStart = false;
         this.whetherEnemyStart = false;
         this.totalGameFrame = totalGameFrame;
@@ -27,6 +27,7 @@ public class Client {
         this.IPAddress =  IPAddress;
         this.TryConnectToServer();
         this.ExchangeNameWithServer();
+        this.FetchCommandToStartTheGame();
     }
 
     public void setWhetherStart(boolean whetherStart) {
@@ -73,6 +74,16 @@ public class Client {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+    private void FetchCommandToStartTheGame() throws IOException {
+        while (!totalGameFrame.whetherStartTheMultiPlayerGame) {
+            if (whetherStart) {
+                dataOutputStream.writeBoolean(true);
+                dataOutputStream.flush();
+                whetherEnemyStart = dataInputStream.readBoolean();
+            }
+            totalGameFrame.whetherStartTheMultiPlayerGame = true;
         }
     }
 }

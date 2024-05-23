@@ -3,6 +3,8 @@ package Competition;
 import GameVisual.TotalGameFrame;
 import MultiUserSupply.User;
 
+import java.io.IOException;
+
 public class ClientRunnable implements Runnable {
     private int port;
     String IPAddress;
@@ -22,6 +24,10 @@ TotalGameFrame totalGameFrame;
     @Override
     public void run() {
 
-        client= new Client(IPAddress,user,totalGameFrame);
+        try {
+            client= new Client(IPAddress,user,totalGameFrame);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

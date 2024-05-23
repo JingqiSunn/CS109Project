@@ -26,7 +26,7 @@ public class Server {
             WaitingForClient();
             EstablishConnectionWithClient();
             ExchangeNameWithClient();
-            System.out.println(totalGameFrame.clientName);
+            FetchCommandToStartTheGame();
 //            handleClient();
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,5 +85,15 @@ public class Server {
             e.printStackTrace();
         }
         totalGameFrame.whetherSuccessfullyConnected = true;
+    }
+    private void FetchCommandToStartTheGame() throws IOException {
+        while (!totalGameFrame.whetherStartTheMultiPlayerGame) {
+            if (whetherStart) {
+                whetherEnemyStart = dataInputStream.readBoolean();
+                dataOutputStream.writeBoolean(true);
+                dataOutputStream.flush();
+            }
+            totalGameFrame.whetherStartTheMultiPlayerGame = true;
+        }
     }
 }

@@ -70,9 +70,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     public String serverName;
     public String clientName;
     public boolean whetherSuccessfullyConnected;
+    public boolean whetherStartTheMultiPlayerGame;
+    InGamePageWithTimeLimitForMultiUser inGamePageWithTimeLimitForMultiUser;
+
     RecordShowPageForWithoutLimit recordShowPageForWithoutLimit;
     SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
-boolean whetherStartTheMultiPlayerGame;
+
     public TotalGameFrame() {
         whetherStartTheMultiPlayerGame = false;
         whetherSuccessfullyConnected = false;
@@ -298,6 +301,18 @@ boolean whetherStartTheMultiPlayerGame;
         inGamePageWithTimeLimit.setVisible(true);
         inGamePageWithTimeLimit.getButtonControllerSwitch().addMouseListener(this);
         this.add(inGamePageWithTimeLimit);
+        setFocusable(true);
+    }
+
+    void LoadInGamePageForMultiUserWithTimeLimitation() {
+        controllingCenter = new ControllingCenter();
+        this.UpdateTheCoordinateSetInTheControllingCenterForFour();
+        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+        inGamePageWithTimeLimitForMultiUser = new InGamePageWithTimeLimitForMultiUser(screenSize, controllingCenter, true, 180, this);
+        inGamePageWithTimeLimitForMultiUser.addKeyListener(this);
+        inGamePageWithTimeLimitForMultiUser.setVisible(true);
+        inGamePageWithTimeLimitForMultiUser.getButtonControllerSwitch().addMouseListener(this);
+        this.add(inGamePageWithTimeLimitForMultiUser);
         setFocusable(true);
     }
 
@@ -762,6 +777,38 @@ boolean whetherStartTheMultiPlayerGame;
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithTimeLimit.RestartTheGame();
+        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            controllingCenter.UpdateGameValidity();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
         } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_W) {
             user.GoingOneStepBackWards(controllingCenter.getArchiveName(), controllingCenter);
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
@@ -1411,15 +1458,16 @@ boolean whetherStartTheMultiPlayerGame;
             this.setVisible(true);
         } else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
             this.DealWithEnteringGameRoom();
-        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())){
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
             this.DealWithCreatingGameRoom();
-        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())){
-            if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()){
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
+            if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()) {
                 serverRunnable.getServer().setWhetherStart(true);
             } else {
                 clientRunnable.getClient().setWhetherStart(true);
             }
             WaitToStartTheGame();
+            LoadInGamePageForMultiUserWithTimeLimitation();
         }
     }
 
@@ -1731,7 +1779,7 @@ boolean whetherStartTheMultiPlayerGame;
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.BLACK);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
-        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setBackground(Color.BLACK);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().repaint();
@@ -2034,7 +2082,7 @@ boolean whetherStartTheMultiPlayerGame;
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setBackground(Color.LIGHT_GRAY);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getContinuePanel().repaint();
-        }else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setBackground(Color.LIGHT_GRAY);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().setVisible(true);
             successfullyCreateGameRoomWaitingPage.getOpenPanel().repaint();
@@ -2274,6 +2322,23 @@ boolean whetherStartTheMultiPlayerGame;
                         repaint();
                         setVisible(true);
                     }
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }
+    public void JudgeWhetherEndOfGameWithTimeLimitForMultiUser() {
+        if (!controllingCenter.getGameValidity()) {
+            timerIsRunning = true;
+            Timer timer = new Timer(2000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timerIsRunning = false;
+                        remove(inGamePageWithTimeLimitForMultiUser);
+                        LoadTouristDiePage();
+                        setFocusable(true);
+                        repaint();
+                        setVisible(true);
                 }
             });
             timer.setRepeats(false);
@@ -2574,7 +2639,8 @@ boolean whetherStartTheMultiPlayerGame;
         repaint();
         setVisible(true);
     }
-    private void DealWithCreatingGameRoom(){
+
+    private void DealWithCreatingGameRoom() {
         serverThread = new Thread(new ServerRunnable(user, this));
         serverThread.start();
         while (!whetherSuccessfullyConnected) {
@@ -2593,9 +2659,10 @@ boolean whetherStartTheMultiPlayerGame;
         repaint();
         setVisible(true);
     }
-    private void DealWithEnteringGameRoom(){
+
+    private void DealWithEnteringGameRoom() {
         this.clientName = user.getUserName();
-        clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(),user, this));
+        clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(), user, this));
         clientThread.start();
         while (!whetherSuccessfullyConnected) {
             try {
@@ -2608,11 +2675,12 @@ boolean whetherStartTheMultiPlayerGame;
             }
         }
         this.remove(enterGameRoomPage);
-        LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(),this.serverName);
+        LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(), this.serverName);
         enterGameRoomPage = null;
         repaint();
         setVisible(true);
     }
+
     private boolean whetherAStringIsANumber(String targetString) {
         boolean whetherAnNumber = true;
         for (int inDexInString = 0; inDexInString < targetString.length(); inDexInString++) {
@@ -2623,9 +2691,20 @@ boolean whetherStartTheMultiPlayerGame;
         }
         return whetherAnNumber;
     }
-public void WaitToStartTheGame(){
 
-}
+    public void WaitToStartTheGame() {
+        while (!whetherStartTheMultiPlayerGame) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (whetherStartTheMultiPlayerGame) {
+                break;
+            }
+        }
+    }
+
     private String FindIpForComputer() {
         try {
             Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
