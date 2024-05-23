@@ -45,8 +45,6 @@ public class Server {
 //            handleClient();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -117,8 +115,7 @@ public class Server {
             totalGameFrame.whetherStartTheMultiPlayerGame = true;
         }
     }
-    private void InGameInformationTransportation() throws IOException, InterruptedException {
-        Thread.sleep(3000);
+    private void InGameInformationTransportation() throws IOException {
         ListenToDieMessageFromEnemy listenToDieMessageFromEnemy= new ListenToDieMessageFromEnemy();
         listenToDieMessageFromEnemy.start();
         CallDieMessageToEnemy callDieMessageToEnemy = new CallDieMessageToEnemy();
