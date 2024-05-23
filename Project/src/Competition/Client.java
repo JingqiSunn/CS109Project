@@ -6,6 +6,7 @@ import MultiUserSupply.User;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Client {
     User user;
@@ -22,8 +23,6 @@ public class Client {
     int enemyScore;
     public boolean whetherWon;
     public boolean whetherSame;
-    private volatile boolean running = true;
-
     public Client(String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException {
         this.whetherSame = false;
         this.whetherWon = false;
@@ -33,13 +32,13 @@ public class Client {
         this.whetherEnemyStart = false;
         this.totalGameFrame = totalGameFrame;
         this.user = user;
-        this.IPAddress = IPAddress;
+        this.IPAddress =  IPAddress;
         this.TryConnectToServer();
         this.ExchangeNameWithServer();
         this.FetchCommandToStartTheGame();
+//        this.InGameInformationTransportation();
     }
-
-    public Client(int totalScore, String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException {
+    public Client(int totalScore,String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException {
         this.whetherSame = false;
         this.whetherWon = false;
         this.whetherDie = false;
@@ -48,9 +47,10 @@ public class Client {
         this.whetherEnemyStart = false;
         this.totalGameFrame = totalGameFrame;
         this.user = user;
-        this.IPAddress = IPAddress;
+        this.IPAddress =  IPAddress;
         this.TryConnectToServerSecond();
         this.ExchangeScoreWithClient();
+//        this.InGameInformationTransportation();
     }
 
     public void setWhetherStart(boolean whetherStart) {
@@ -71,7 +71,6 @@ public class Client {
             e.printStackTrace();
         }
     }
-
     public void TryConnectToServerSecond() {
         try {
             socket = new Socket(IPAddress, 8885);
@@ -95,7 +94,7 @@ public class Client {
     }
 
     public void CommunicationWithServer() {
-        while (running) {
+        while (true) {
             try {
                 System.out.print("Enter message: ");
                 String message = scanner.nextLine();
@@ -110,18 +109,12 @@ public class Client {
                 String response = dataInputStream.readUTF();
                 System.out.println("Received from server: " + response);
             } catch (IOException e) {
-                if (running) {
-                    throw new RuntimeException(e);
-                } else {
-                    break;
-                }
+                throw new RuntimeException(e);
             }
         }
-        closeConnections();
     }
-
     private void FetchCommandToStartTheGame() throws IOException {
-        while (running && !totalGameFrame.whetherStartTheMultiPlayerGame) {
+        while (!totalGameFrame.whetherStartTheMultiPlayerGame) {
             if (whetherStart) {
                 dataOutputStream.writeBoolean(true);
                 dataOutputStream.flush();
@@ -130,98 +123,66 @@ public class Client {
             }
         }
     }
-
-    private void ExchangeScoreWithClient() {
+    private void ExchangeScoreWithClient(){
         try {
             dataOutputStream.writeInt(totalGameFrame.getControllingCenter().getCurrentGameScore());
             dataOutputStream.flush();
             totalGameFrame.enemyScore = dataInputStream.readInt();
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
     }
-
     private void InGameInformationTransportation() throws IOException {
-        ListenToDieMessageFromEnemy listenToDieMessageFromEnemy = new ListenToDieMessageFromEnemy();
+        ListenToDieMessageFromEnemy listenToDieMessageFromEnemy= new ListenToDieMessageFromEnemy();
         listenToDieMessageFromEnemy.start();
         CallDieMessageToEnemy callDieMessageToEnemy = new CallDieMessageToEnemy();
         callDieMessageToEnemy.start();
-        while (running && !whetherEnemyDie && !whetherDie) {
+        while (!whetherEnemyDie&&!whetherDie){
+
         }
-        while (running && whetherEnemyDie && !whetherDie) {
+        while (whetherEnemyDie&&!whetherDie){
+
         }
-        while (running && whetherEnemyDie && whetherDie) {
+        while (whetherEnemyDie&&whetherDie){;
             dataOutputStream.writeInt(totalGameFrame.getControllingCenter().getCurrentGameScore());
             dataOutputStream.flush();
             enemyScore = dataInputStream.readInt();
         }
-        if (enemyScore < totalGameFrame.getControllingCenter().getCurrentGameScore()) {
+        if (enemyScore<totalGameFrame.getControllingCenter().getCurrentGameScore()){
             whetherWon = true;
-        } else if (enemyScore > totalGameFrame.getControllingCenter().getCurrentGameScore()) {
+        } else if (enemyScore > totalGameFrame.getControllingCenter().getCurrentGameScore()){
             whetherWon = false;
         } else {
             whetherSame = true;
         }
         totalGameFrame.whetherMultiGameOver = true;
     }
-
     class ListenToDieMessageFromEnemy extends Thread {
         public void run() {
+            super.run();
             try {
                 whetherEnemyDie = dataInputStream.readBoolean();
             } catch (IOException e) {
-                if (running) {
-                    throw new RuntimeException(e);
-                }
+                throw new RuntimeException(e);
             }
         }
     }
-
     class CallDieMessageToEnemy extends Thread {
         public void run() {
-            while (running && !whetherDie) {
+            super.run();
+            while (!whetherDie){
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    if (running) {
-                        throw new RuntimeException(e);
-                    }
+                    throw new RuntimeException(e);
                 }
             }
-            if (running) {
-                try {
-                    dataOutputStream.writeBoolean(true);
-                    dataOutputStream.flush();
-                } catch (IOException e) {
-                    if (running) {
-                        throw new RuntimeException(e);
-                    }
-                }
+            try {
+                dataOutputStream.writeBoolean(true);
+                dataOutputStream.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        }
-    }
-
-    public void stop() {
-        running = false;
-        closeConnections();
-    }
-
-    private void closeConnections() {
-        try {
-            if (dataInputStream != null) {
-                dataInputStream.close();
-            }
-            if (dataOutputStream != null) {
-                dataOutputStream.close();
-            }
-            if (socket != null) {
-                socket.close();
-            }
-            if (scanner != null) {
-                scanner.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
