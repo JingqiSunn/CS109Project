@@ -28,6 +28,8 @@ TotalGameFrame totalGameFrame;
             client= new Client(IPAddress,user,totalGameFrame);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
