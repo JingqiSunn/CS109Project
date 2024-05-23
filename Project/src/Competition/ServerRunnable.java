@@ -3,8 +3,6 @@ package Competition;
 import GameVisual.TotalGameFrame;
 import MultiUserSupply.User;
 
-import java.util.concurrent.CountDownLatch;
-
 public class ServerRunnable implements Runnable {
     TotalGameFrame totalGameFrame;
     User user;
