@@ -2641,7 +2641,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
 
     private void DealWithCreatingGameRoom() {
-        serverThread = new Thread(new ServerRunnable(user, this));
+        serverRunnable = new ServerRunnable(user, this);
+        serverThread = new Thread(serverRunnable);
         serverThread.start();
         while (!whetherSuccessfullyConnected) {
             try {
@@ -2662,7 +2663,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
 
     private void DealWithEnteringGameRoom() {
         this.clientName = user.getUserName();
-        clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(), user, this));
+        clientRunnable = new ClientRunnable(enterGameRoomPage.GetIP(), user, this);
+        clientThread = new Thread(clientRunnable);
         clientThread.start();
         while (!whetherSuccessfullyConnected) {
             try {
