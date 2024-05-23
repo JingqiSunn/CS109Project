@@ -32,7 +32,6 @@ public class Client {
         this.whetherEnemyStart = false;
         this.totalGameFrame = totalGameFrame;
         this.user = user;
-        this.IPAddress =  IPAddress;
         this.TryConnectToServer();
         this.ExchangeNameWithServer();
         this.FetchCommandToStartTheGame();
@@ -48,7 +47,7 @@ public class Client {
         this.totalGameFrame = totalGameFrame;
         this.user = user;
         this.IPAddress =  IPAddress;
-        this.TryConnectToServer();
+        this.TryConnectToServerSecond();
         totalGameFrame.IPOfServer = IPAddress;
         this.ExchangeScoreWithClient();
 //        this.InGameInformationTransportation();

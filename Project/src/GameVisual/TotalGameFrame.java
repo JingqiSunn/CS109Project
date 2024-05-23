@@ -2752,6 +2752,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     private void DealWithEnteringGameRoom() {
         this.clientName = user.getUserName();
         clientRunnable = new ClientRunnable(enterGameRoomPage.GetIP(), user, this);
+        this.IPOfServer = enterGameRoomPage.GetIP();
         clientThread = new Thread(clientRunnable);
         clientThread.start();
         while (!whetherSuccessfullyConnected) {
