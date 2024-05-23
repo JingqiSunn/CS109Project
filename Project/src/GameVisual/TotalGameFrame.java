@@ -1400,6 +1400,8 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.setVisible(true);
         } else if (createGameRoomPage !=null && componentActivated.equals(createGameRoomPage.getContinueToPlay())){
             this.DealWithCreatingGameRoom();
+        }else if (enterGameRoomPage !=null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())){
+            this.DealWithEnteringGameRoom();
         }
     }
 
@@ -2548,7 +2550,7 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
             this.remove(createGameRoomPage);
             this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(Integer.parseInt(createGameRoomPage.GetGameRoomName()));
             serverThread = new Thread(new ServerRunnable(Integer.parseInt(createGameRoomPage.GetGameRoomName()),user,this));
-            serverThread.start();
+            serverThread.run();
             createGameRoomPage = null;
             repaint();
             setVisible(true);
@@ -2556,28 +2558,29 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
     }
     private void DealWithEnteringGameRoom(){
         boolean whetherSuccessfullyCreated = true;
-        if (createGameRoomPage.GetGameRoomName().length()!=5){
-            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
+        if (enterGameRoomPage.GetGameRoomName().length()!=5){
+            enterGameRoomPage.EstablishWarn("Please enter a five-digit number!");
             whetherSuccessfullyCreated = false;
-        } else if (!whetherAStringIsANumber(createGameRoomPage.GetGameRoomName())){
-            createGameRoomPage.EstablishWarn("Please enter a five-digit number!");
+        } else if (!whetherAStringIsANumber(enterGameRoomPage.GetGameRoomName())){
+            enterGameRoomPage.EstablishWarn("Please enter a five-digit number!");
             whetherSuccessfullyCreated = false;
-        }else if (Integer.parseInt(createGameRoomPage.GetGameRoomName())>60000){
-            createGameRoomPage.EstablishWarn("Number should be no more than 60000!");
+        }else if (Integer.parseInt(enterGameRoomPage.GetGameRoomName())>60000){
+            enterGameRoomPage.EstablishWarn("Number should be no more than 60000!");
             whetherSuccessfullyCreated = false;
         }
         try {
-            clientThread = new Thread(new ClientRunnable(Integer.parseInt(createGameRoomPage.GetGameRoomName()),user,this));
-            clientThread.start();
+            clientThread = new Thread(new ClientRunnable(Integer.parseInt(enterGameRoomPage.GetGameRoomName()),user,this));
+            clientThread.run();
         } catch (RuntimeException runtimeException){
-            createGameRoomPage.EstablishWarn("Fail to find the game room!");
+            enterGameRoomPage.EstablishWarn("Fail to find the game room!");
             whetherSuccessfullyCreated = false;
         }
         if (whetherSuccessfullyCreated){
             this.clientName = user.getUserName();
-            this.remove(createGameRoomPage);
-            this.LoadSuccessfullyCreateGameRoomWaitingPageForClient(Integer.parseInt(createGameRoomPage.GetGameRoomName()),this.serverName);
-            createGameRoomPage = null;
+            this.remove(enterGameRoomPage);
+            this.LoadSuccessfullyCreateGameRoomWaitingPageForClient(Integer.parseInt(enterGameRoomPage.GetGameRoomName()),this.serverName);
+            System.out.println(serverName);
+            enterGameRoomPage = null;
             repaint();
             setVisible(true);
         }

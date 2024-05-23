@@ -28,7 +28,7 @@ public class Server {
             EstablishConnectionWithClient();
             ExchangeNameWithClient();
             System.out.println(totalGameFrame.clientName);
-            handleClient();
+//            handleClient();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,6 +91,7 @@ public class Server {
         public void run() {
             try {
                 DatagramSocket broadcastSocket = new DatagramSocket();
+                broadcastSocket.setBroadcast(true);
                 InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
                 InetAddress localAddress = InetAddress.getLocalHost();
                 String message = "Server IP Address is: " + localAddress.getHostAddress();

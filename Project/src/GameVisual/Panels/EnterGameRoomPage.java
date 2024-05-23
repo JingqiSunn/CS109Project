@@ -29,7 +29,7 @@ public class EnterGameRoomPage extends JPanel {
         this.SetUpOptionsInTheLoginPage();
         this.SetUpUserPanel();
     }
-    public String GetArchiveName(){
+    public String GetGameRoomName(){
         return askForGameRoomNameField.getText();
     }
 
