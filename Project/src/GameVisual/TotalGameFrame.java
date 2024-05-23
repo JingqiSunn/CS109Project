@@ -525,14 +525,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
 
     void LoadSuccessfullyCreateGameRoomWaitingPageForServer(String IPAddress) {
-        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(IPAddress, screenSize, user.getUserName());
+        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(IPAddress, screenSize, this, user);
         successfullyCreateGameRoomWaitingPage.setVisible(true);
         this.add(successfullyCreateGameRoomWaitingPage);
         setFocusable(true);
     }
 
     void LoadSuccessfullyCreateGameRoomWaitingPageForClient(String IPAddress, String serverName) {
-        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(IPAddress, screenSize, serverName, user.getUserName());
+        successfullyCreateGameRoomWaitingPage = new SuccessfullyCreateGameRoomWaitingPage(IPAddress, screenSize, this);
         successfullyCreateGameRoomWaitingPage.setVisible(true);
         this.add(successfullyCreateGameRoomWaitingPage);
         successfullyCreateGameRoomWaitingPage.getContinuePanel().addMouseListener(this);
@@ -2547,6 +2547,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     }
 
     private void DealWithCreatingGameRoom() {
+        this.serverName = user.getUserName();
         String IPAddress = this.FindIpForComputer();
         this.remove(whetherNewGameRoomPage);
         whetherNewGameRoomPage = null;
@@ -2557,7 +2558,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         serverThread.start();
         while (!whetherSuccessfullyConnected) {
             try {
-                Thread.sleep(1000); // 1000毫秒 = 1秒
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -2566,13 +2567,17 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         successfullyCreateGameRoomWaitingPage.UpdatePanelForClient();
+        successfullyCreateGameRoomWaitingPage.getContinuePanel().addMouseListener(this);
+        repaint();
+        setVisible(true);
     }
     private void DealWithEnteringGameRoom(){
+        this.clientName = user.getUserName();
         clientThread = new Thread(new ClientRunnable(enterGameRoomPage.GetIP(),user, this));
         serverThread.start();
         while (!whetherSuccessfullyConnected) {
             try {
-                Thread.sleep(1000); // 1000毫秒 = 1秒
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -2583,6 +2588,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.remove(enterGameRoomPage);
         LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(),this.serverName);
         enterGameRoomPage = null;
+        repaint();
+        setVisible(true);
     }
     private boolean whetherAStringIsANumber(String targetString) {
         boolean whetherAnNumber = true;

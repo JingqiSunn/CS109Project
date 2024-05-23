@@ -1,11 +1,13 @@
 package GameVisual.Panels;
 
+import GameVisual.TotalGameFrame;
 import MultiUserSupply.User;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
+    TotalGameFrame totalGameFrame;
     Dimension screenSize;
     int totalWides;
     int totalHeight;
@@ -13,8 +15,6 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
     int unitWidth;
     String IPAddress;
     boolean whetherServer;
-    String serverUser;
-    String clientUser;
     JPanel serverPanel;
     JLabel serverLabel;
     JPanel clientPanel;
@@ -23,23 +23,24 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
     JLabel continueLabel;
     JPanel roomNumberPanel;
     JLabel roomNumberLabel;
-    public SuccessfullyCreateGameRoomWaitingPage(String IPAddress, Dimension screenSize, String serverUser){
+    public SuccessfullyCreateGameRoomWaitingPage(String IPAddress, Dimension screenSize,TotalGameFrame totalGameFrame,User user){
         this.setBounds(0,0, screenSize.width,screenSize.height);
         this.setLayout(null);
         this.IPAddress = IPAddress;
         this.whetherServer = true;
-        this.serverUser = serverUser;
+        this.totalGameFrame = totalGameFrame;
         this.UpdateSizeInformation(screenSize);
         this.EstablishTheInsidePanels();
         this.UpdatePanelForServer();
         this.setVisible(true);
     }
-    public SuccessfullyCreateGameRoomWaitingPage(String IPAddress, Dimension screenSize, String serverUser, String clientUser){
+    public SuccessfullyCreateGameRoomWaitingPage(String IPAddress, Dimension screenSize, TotalGameFrame totalGameFrame){
         this.setBounds(0,0, screenSize.width,screenSize.height);
         this.setLayout(null);
         this.IPAddress = IPAddress;
         this.whetherServer = true;
-        this.serverUser = serverUser;
+        this.totalGameFrame = totalGameFrame;
+
         this.UpdateSizeInformation(screenSize);
         this.EstablishTheInsidePanels();
         this.UpdatePanelForServer();
@@ -105,14 +106,14 @@ public class SuccessfullyCreateGameRoomWaitingPage extends JPanel{
     }
     public void UpdatePanelForServer(){
         this.setVisible(false);
-        serverLabel.setText(serverUser);
+        serverLabel.setText(totalGameFrame.serverName);
         serverPanel.setBackground(new Color(0xB0EBB4));
         this.repaint();
         this.setVisible(true);
     }
     public void UpdatePanelForClient(){
         this.setVisible(false);
-        clientLabel.setText(serverUser);
+        clientLabel.setText(totalGameFrame.clientName);
         clientPanel.setBackground(new Color(0xB0EBB4));
         this.repaint();
         this.setVisible(true);
