@@ -2481,6 +2481,10 @@ SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
         } else if (!user.ExamineWhetherArchiveAlreadyExisted(askingForArchivePanel.GetArchiveName())) {
             askingForArchivePanel.EstablishWarn("There is no such archive!");
             whetherArchiveAvailable = false;
+        } else if (user.WhetherInvalidlyModified(askingForArchivePanel.GetArchiveName())){
+            user.DeleteCompleteArchive(askingForArchivePanel.GetArchiveName());
+            askingForArchivePanel.EstablishWarn("Invalid archive!");
+            whetherArchiveAvailable = false;
         }
         if (whetherArchiveAvailable) {
             controllingCenter = new ControllingCenter();

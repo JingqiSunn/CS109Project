@@ -295,4 +295,8 @@ public class User {
         UserManger userManger = new UserManger();
         userManger.UpdateUserInformationForRecord(this);
     }
+    public boolean WhetherInvalidlyModified(String archiveName){
+        UserManger userManger = new UserManger();
+        return userManger.WhetherInvalidlyModified(this,archiveName);
+    }
 }

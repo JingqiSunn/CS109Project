@@ -756,6 +756,7 @@ public class UserManger {
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
+            this.UpdateLastModifiedTime(user,archiveName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -775,6 +776,7 @@ public class UserManger {
             FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
             properties.store(outputStream, null);
             outputStream.close();
+            this.UpdateLastModifiedTime(user,archiveName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -792,6 +794,7 @@ public class UserManger {
                 FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
                 properties.store(outputStream, null);
                 outputStream.close();
+                this.UpdateLastModifiedTime(user,archiveName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -980,5 +983,42 @@ public class UserManger {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void UpdateLastModifiedTime(User user, String archiveName){
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            File file = new File("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+            DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+            properties.setProperty("LastModifiedTime",documentReaderAndWriter.hashPassword(String.valueOf(file.lastModified()/1000)));
+            FileOutputStream outputStream = new FileOutputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+            properties.store(outputStream, null);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public boolean WhetherInvalidlyModified(User user, String archiveName){
+        boolean whetherInvalidlyModified = false;
+        String properTime = null;
+        try {
+            FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            inputStream.close();
+            properTime=properties.getProperty("LastModifiedTime");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File file = new File("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
+        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
+        String actualTime = documentReaderAndWriter.hashPassword(String.valueOf(file.lastModified()/1000));
+        if(!actualTime.equals(properTime)){
+            whetherInvalidlyModified = true;
+            return whetherInvalidlyModified;
+        }
+        return whetherInvalidlyModified;
     }
 }
