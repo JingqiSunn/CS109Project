@@ -44,7 +44,9 @@ public class InGamePageWithTimeLimitForMultiUser extends JPanel {
     JPanel userPanel;
     JLabel userLabel;
     boolean whetherCompetition;
-    public InGamePageWithTimeLimitForMultiUser(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame) {
+    boolean whetherServer;
+    public InGamePageWithTimeLimitForMultiUser(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame, boolean whetherServer) {
+        this.whetherServer = whetherServer;
         this.setLayout(null);
         this.whetherOutOfTime = false;
         this.totalGameFrame = totalGameFrame;
@@ -60,24 +62,9 @@ public class InGamePageWithTimeLimitForMultiUser extends JPanel {
         threadForTimer = new ThreadForTimer();
         threadForTimer.start();
     }
-    public InGamePageWithTimeLimitForMultiUser(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist, int timeLimit, TotalGameFrame totalGameFrame,User user,boolean whetherCompetition) {
-        this.whetherCompetition = whetherCompetition;
-        this.user = user;
-        this.setLayout(null);
-        this.whetherOutOfTime = false;
-        this.totalGameFrame = totalGameFrame;
-        this.whetherTourist = whetherTourist;
-        this.originalTimeLimit = timeLimit;
-        currentTime = originalTimeLimit;
-        this.controllingCenter = controllingCenter;
-        this.totalSize = screenSize;
-        this.UpdateSizeAndLocationForOptions(totalSize, controllingCenter);
-        this.setBounds(0, 0, totalWidth, totalHeight);
-        this.SetUpBlockUnitsInGame();
-        this.SetUpUserPanel();
-        this.setVisible(true);
-        threadForTimer = new ThreadForTimer();
-        threadForTimer.start();
+
+    public boolean isWhetherServer() {
+        return whetherServer;
     }
 
     public void setWhetherButtonControllerOut(boolean whetherButtonControllerOut) {

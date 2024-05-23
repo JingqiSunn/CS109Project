@@ -18,8 +18,16 @@ public class Client {
     Scanner scanner;
     boolean whetherStart;
     boolean whetherEnemyStart;
-
+    boolean whetherDie;
+    boolean whetherEnemyDie;
+    int enemyScore;
+    public boolean whetherWon;
+    public boolean whetherSame;
     public Client(String IPAddress, User user, TotalGameFrame totalGameFrame) throws IOException {
+        this.whetherSame = false;
+        this.whetherWon = false;
+        this.whetherDie = false;
+        this.whetherEnemyDie = false;
         this.whetherStart = false;
         this.whetherEnemyStart = false;
         this.totalGameFrame = totalGameFrame;
@@ -28,10 +36,15 @@ public class Client {
         this.TryConnectToServer();
         this.ExchangeNameWithServer();
         this.FetchCommandToStartTheGame();
+        this.InGameInformationTransportation();
     }
 
     public void setWhetherStart(boolean whetherStart) {
         this.whetherStart = whetherStart;
+    }
+
+    public void setWhetherDie(boolean whetherDie) {
+        this.whetherDie = whetherDie;
     }
 
     public void TryConnectToServer() {
@@ -84,6 +97,59 @@ public class Client {
                 whetherEnemyStart = dataInputStream.readBoolean();
             }
             totalGameFrame.whetherStartTheMultiPlayerGame = true;
+        }
+    }
+    private void InGameInformationTransportation() throws IOException {
+        ListenToDieMessageFromEnemy listenToDieMessageFromEnemy= new ListenToDieMessageFromEnemy();
+        listenToDieMessageFromEnemy.start();
+        CallDieMessageToEnemy callDieMessageToEnemy = new CallDieMessageToEnemy();
+        callDieMessageToEnemy.start();
+        while (!whetherEnemyDie&&!whetherDie){
+
+        }
+        while (whetherEnemyDie&&!whetherDie){
+
+        }
+        while (whetherEnemyDie&&whetherDie){;
+            dataOutputStream.writeInt(totalGameFrame.getControllingCenter().getCurrentGameScore());
+            dataOutputStream.flush();
+            enemyScore = dataInputStream.readInt();
+        }
+        if (enemyScore<totalGameFrame.getControllingCenter().getCurrentGameScore()){
+            whetherWon = true;
+        } else if (enemyScore > totalGameFrame.getControllingCenter().getCurrentGameScore()){
+            whetherWon = false;
+        } else {
+            whetherSame = true;
+        }
+        totalGameFrame.whetherMultiGameOver = true;
+    }
+    class ListenToDieMessageFromEnemy extends Thread {
+        public void run() {
+            super.run();
+            try {
+                whetherEnemyDie = dataInputStream.readBoolean();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    class CallDieMessageToEnemy extends Thread {
+        public void run() {
+            super.run();
+            while (!whetherDie){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            try {
+                dataOutputStream.writeBoolean(true);
+                dataOutputStream.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

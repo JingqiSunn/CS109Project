@@ -75,8 +75,11 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
 
     RecordShowPageForWithoutLimit recordShowPageForWithoutLimit;
     SuccessfullyCreateGameRoomWaitingPage successfullyCreateGameRoomWaitingPage;
+    public boolean whetherMultiGameOver;
+    DiePageForMultiUser diePageForMultiUser;
 
     public TotalGameFrame() {
+        whetherMultiGameOver = false;
         whetherStartTheMultiPlayerGame = false;
         whetherSuccessfullyConnected = false;
         skin = false;
@@ -103,6 +106,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else {
             System.out.println("Full screen is not supported in your device!");
         }
+    }
+
+    public ControllingCenter getControllingCenter() {
+        return controllingCenter;
     }
 
     void outOfFullScreen() {
@@ -198,6 +205,14 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         recordModeSelectionPage.getWithoutTimeLimitationOption().addMouseListener(this);
         recordModeSelectionPage.getWithTimeLimitationOption().addMouseListener(this);
         setFocusable(true);
+    }
+
+    void LoadDiePageForMultiUser(String content) {
+        diePageForMultiUser = new DiePageForMultiUser(screenSize, content);
+        diePageForMultiUser.setVisible(true);
+        this.add(diePageForMultiUser);
+        setFocusable(true);
+        repaint();
     }
 
     void LoadBoardSizeDIYPageWithoutTimeLimitForTourist() {
@@ -308,7 +323,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         controllingCenter = new ControllingCenter();
         this.UpdateTheCoordinateSetInTheControllingCenterForFour();
         controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-        inGamePageWithTimeLimitForMultiUser = new InGamePageWithTimeLimitForMultiUser(screenSize, controllingCenter, true, 180, this);
+        inGamePageWithTimeLimitForMultiUser = new InGamePageWithTimeLimitForMultiUser(screenSize, controllingCenter, true, 180, this, successfullyCreateGameRoomWaitingPage.GetWhetherServer());
+        successfullyCreateGameRoomWaitingPage = null;
         inGamePageWithTimeLimitForMultiUser.addKeyListener(this);
         inGamePageWithTimeLimitForMultiUser.setVisible(true);
         inGamePageWithTimeLimitForMultiUser.getButtonControllerSwitch().addMouseListener(this);
@@ -1469,7 +1485,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
             WaitToStartTheGame();
             this.remove(successfullyCreateGameRoomWaitingPage);
-            successfullyCreateGameRoomWaitingPage = null;
             LoadInGamePageForMultiUserWithTimeLimitation();
         }
     }
@@ -2331,21 +2346,54 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             timer.start();
         }
     }
+
     public void JudgeWhetherEndOfGameWithTimeLimitForMultiUser() {
         if (!controllingCenter.getGameValidity()) {
             timerIsRunning = true;
             Timer timer = new Timer(2000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     timerIsRunning = false;
-                        remove(inGamePageWithTimeLimitForMultiUser);
-                        LoadTouristDiePage();
-                        setFocusable(true);
-                        repaint();
-                        setVisible(true);
+                    if (inGamePageWithTimeLimitForMultiUser.isWhetherServer()) {
+                        serverRunnable.getServer().setWhetherDie(true);
+                        WaitToShowTheDiePage();
+                    } else {
+                        clientRunnable.getClient().setWhetherDie(true);
+                        WaitToShowTheDiePage();
+                    }
                 }
             });
             timer.setRepeats(false);
             timer.start();
+        }
+    }
+
+    public Void WaitToShowTheDiePage() {
+        while (!whetherMultiGameOver) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.remove(inGamePageWithTimeLimitForMultiUser);
+            if (whetherMultiGameOver) {
+                if (inGamePageWithTimeLimitForMultiUser.isWhetherServer()) {
+                    if (serverRunnable.getServer().whetherSame) {
+                        LoadDiePageForMultiUser("The Same!");
+                    } else if (serverRunnable.getServer().whetherWon) {
+                        LoadDiePageForMultiUser("You won!");
+                    } else if (serverRunnable.getServer().whetherWon) {
+                        LoadDiePageForMultiUser("You lose!");
+                    }
+                } else {
+                    if (clientRunnable.getClient().whetherSame) {
+                        LoadDiePageForMultiUser("The Same!");
+                    } else if (clientRunnable.getClient().whetherWon) {
+                        LoadDiePageForMultiUser("You won!");
+                    } else if (clientRunnable.getClient().whetherWon) {
+                        LoadDiePageForMultiUser("You lose!");
+                    }
+                }
+            }
         }
     }
 
