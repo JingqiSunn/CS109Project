@@ -2553,6 +2553,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         whetherNewGameRoomPage = null;
         this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(IPAddress);
         repaint();
+        System.out.println("hi");
         setVisible(true);
         serverThread = new Thread(new ServerRunnable(user, this));
         serverThread.start();

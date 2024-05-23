@@ -18,6 +18,11 @@ public class ServerRunnable implements Runnable {
 
     @Override
     public void run() {
+        try {
+            Thread.sleep(3000); // 等待1秒
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         server= new Server(user,totalGameFrame);
     }
 }
