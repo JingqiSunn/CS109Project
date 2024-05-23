@@ -24,7 +24,6 @@ public class Server {
     int enemyScore;
     public boolean whetherWon;
     public boolean whetherSame;
-    private volatile boolean running = true;
     public Server(User user, TotalGameFrame totalGameFrame) {
         this.whetherSame = false;
         this.whetherWon = false;
@@ -61,11 +60,9 @@ public class Server {
         try {
             serverSocket = new ServerSocket(8885);
             System.out.println("Server started. Waiting for client connection...");
-            while(running) {
-                WaitingForClient();
-                EstablishConnectionWithClient();
-                ExchangeScoreWithClient();
-            }
+            WaitingForClient();
+            EstablishConnectionWithClient();
+            ExchangeScoreWithClient();
 //            FetchCommandToStartTheGame();
 //            this.InGameInformationTransportation();
 //            handleClient();
@@ -202,16 +199,6 @@ public class Server {
                 dataOutputStream.flush();
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
-        }
-    }
-    public void stopServer() {
-        running = false;
-        if (serverSocket != null && !serverSocket.isClosed()) {
-            try {
-                serverSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
