@@ -32,7 +32,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Client.executor": "Run",
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "Application.Server.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",

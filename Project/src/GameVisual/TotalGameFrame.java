@@ -1480,6 +1480,13 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.DealWithCreatingGameRoom();
         } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
             this.remove(successfullyCreateGameRoomWaitingPage);
+            if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()){
+                serverRunnable = null;
+                serverThread = null;
+            }else {
+                clientRunnable = null;
+                clientThread = null;
+            }
             LoadInGamePageForMultiUserWithTimeLimitation();
         }
     }
