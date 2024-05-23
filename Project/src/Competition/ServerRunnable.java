@@ -7,6 +7,7 @@ public class ServerRunnable implements Runnable {
     TotalGameFrame totalGameFrame;
     User user;
     Server server;
+    private volatile boolean running = true;
     public ServerRunnable( User user, TotalGameFrame totalGameFrame) {
         this.totalGameFrame = totalGameFrame;
         this.user = user;
@@ -14,6 +15,15 @@ public class ServerRunnable implements Runnable {
 
     public Server getServer() {
         return server;
+    }
+    public void stop() {
+        running = false;
+        if (server != null) {
+            server.stopServer();
+        }
+        if (thread != null) {
+            thread.interrupt();
+        }
     }
 
     @Override
