@@ -1489,10 +1489,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.remove(successfullyCreateGameRoomWaitingPage);
             if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()){
                 serverRunnable = null;
-                serverThread = null;
+                stopServerThread();
             }else {
                 clientRunnable = null;
-                clientThread = null;
+                stopClientThread();
             }
             LoadInGamePageForMultiUserWithTimeLimitation();
         }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
@@ -2855,5 +2855,33 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             e.printStackTrace();
         }
         return "No Net Work";
+    }
+    private void stopServerThread() {
+        if (serverRunnable != null) {
+            serverRunnable.stop();
+        }
+        try {
+            if (serverThread != null) {
+                serverThread.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        serverRunnable = null;
+        serverThread = null;
+    }
+    private void stopClientThread() {
+        if (clientRunnable != null) {
+            clientRunnable.stop();
+        }
+        try {
+            if (clientThread != null) {
+                clientThread.join(); // 等待线程终止
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        clientRunnable = null;
+        clientThread = null;
     }
 }

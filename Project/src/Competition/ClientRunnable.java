@@ -6,11 +6,11 @@ import MultiUserSupply.User;
 import java.io.IOException;
 
 public class ClientRunnable implements Runnable {
-    private int port;
-    String IPAddress;
-    User user;
-    Client client;
-TotalGameFrame totalGameFrame;
+    private String IPAddress;
+    private User user;
+    private Client client;
+    private TotalGameFrame totalGameFrame;
+
     public ClientRunnable(String IPAddress, User user, TotalGameFrame totalGameFrame) {
         this.IPAddress = IPAddress;
         this.user = user;
@@ -23,11 +23,16 @@ TotalGameFrame totalGameFrame;
 
     @Override
     public void run() {
-
         try {
-            client= new Client(IPAddress,user,totalGameFrame);
+            client = new Client(IPAddress, user, totalGameFrame);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void stop() {
+        if (client != null) {
+            client.stop();
         }
     }
 }
