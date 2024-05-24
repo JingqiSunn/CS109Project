@@ -275,6 +275,10 @@ public class User {
         UserManger userManger = new UserManger();
         userManger.DeleteCompleteArchive(this,archiveName);
     }
+    public void DeleteArchiveInList(String archiveName){
+        UserManger userManger = new UserManger();
+        userManger.DeleteArchiveInList(this,archiveName);
+    }
     public void SetWhetherWonToBeTrue(String archiveName){
         UserManger userManger = new UserManger();
         userManger.SetWhetherWonToBeTrue(this,archiveName);

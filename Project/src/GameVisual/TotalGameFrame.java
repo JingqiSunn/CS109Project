@@ -16,11 +16,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Properties;
 import javax.swing.Timer;
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
@@ -2745,11 +2747,24 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (!user.ExamineWhetherArchiveAlreadyExisted(askingForArchivePanel.GetArchiveName())) {
             askingForArchivePanel.EstablishWarn("There is no such archive!");
             whetherArchiveAvailable = false;
-        } else if (user.WhetherInvalidlyModified(askingForArchivePanel.GetArchiveName())) {
-            user.DeleteCompleteArchive(askingForArchivePanel.GetArchiveName());
-            askingForArchivePanel.EstablishWarn("Invalid archive!");
-            whetherArchiveAvailable = false;
+        }  else {
+            try {
+                FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + askingForArchivePanel.GetArchiveName()+ ".txt");
+                Properties properties = new Properties();
+                properties.load(inputStream);
+                inputStream.close();
+            } catch (IOException e){
+                askingForArchivePanel.EstablishWarn("Archive disappeared! Error Code: 101");
+                whetherArchiveAvailable = false;
+                user.DeleteArchiveInList(askingForArchivePanel.GetArchiveName());
+            }
         }
+        if (whetherArchiveAvailable){
+        if (user.WhetherInvalidlyModified(askingForArchivePanel.GetArchiveName())) {
+            user.DeleteCompleteArchive(askingForArchivePanel.GetArchiveName());
+            askingForArchivePanel.EstablishWarn("Invalid archive! Error Code: 103");
+            whetherArchiveAvailable = false;
+        }}
         if (whetherArchiveAvailable) {
             controllingCenter = new ControllingCenter();
             if (whetherDefault) {
