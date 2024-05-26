@@ -866,21 +866,6 @@ public class UserManger {
             System.out.println(e.getMessage());
         }
     }
-    public void DeleteArchiveInList(User user, String archiveName){
-        DocumentReaderAndWriter documentReaderAndWriter = new DocumentReaderAndWriter();
-        ArrayList<String> archiveNameAlreadyExistedList = new ArrayList<>();
-        archiveNameAlreadyExistedList = documentReaderAndWriter.getCurrentUserArchiveList(user);
-        archiveNameAlreadyExistedList.remove(archiveName);
-        try {
-            FileWriter fileWriter = new FileWriter("src/UserInformation/PersonalInformation/"+user.getUserName()+"/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/ArchiveNameList.txt", false);
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (int indexInArchiveNameList = 0; indexInArchiveNameList < archiveNameAlreadyExistedList.size(); indexInArchiveNameList++) {
-            documentReaderAndWriter.saveUserArchiveInformation(archiveNameAlreadyExistedList.get(indexInArchiveNameList),user);
-        }
-    }
     public void SetWhetherWonToBeTrue(User user, String archiveName){
         try {
             FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + archiveName + ".txt");
