@@ -35,6 +35,7 @@ public class BoardSizeDIYPage extends JPanel {
     JPanel continueToPlay;
     JLabel continueToPlayLabel;
     JPanel skinSwitcher;
+    JPanel animatedSwitcher;
     JPanel userPanel;
     JLabel userLabel;
     boolean whetherTourist;
@@ -120,6 +121,10 @@ public class BoardSizeDIYPage extends JPanel {
         return continueToPlayLabel;
     }
 
+    public JPanel getAnimatedSwitcher() {
+        return animatedSwitcher;
+    }
+
     public JPanel getSkinSwitcher() {
         return skinSwitcher;
     }
@@ -177,6 +182,7 @@ public class BoardSizeDIYPage extends JPanel {
         continueToPlay.add(continueToPlayLabel);
         this.add(continueToPlay);
         this.LoadSkinSwitcher();
+        this.LoadAnimatedSwitcher();
     }
     public void SetUpForAskForTimeLimit() {
         askForLimit = new JPanel();
@@ -264,8 +270,13 @@ public class BoardSizeDIYPage extends JPanel {
     }
     void LoadSkinSwitcher(){
         skinSwitcher = new JPanel();
-        skinSwitcher.setBounds((int)(((double)totalWidth*47)/(double)48),4*totalHeight/5,(int)(((double)totalWidth)/(double)48),5*totalHeight/5);
+        skinSwitcher.setBounds((int)(((double)totalWidth*47)/(double)48),4*totalHeight/5,(int)(((double)totalWidth)/(double)48),totalHeight/5);
         this.add(skinSwitcher);
+    }
+    void LoadAnimatedSwitcher(){
+        animatedSwitcher = new JPanel();
+        animatedSwitcher.setBounds((int)(((double)totalWidth*47)/(double)48),2*totalHeight/5,(int)(((double)totalWidth)/(double)48),totalHeight/5);
+        this.add(animatedSwitcher);
     }
     void SetUpUserPanel(){
         userPanel = new JPanel();

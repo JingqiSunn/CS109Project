@@ -41,6 +41,10 @@ public class ControllingCenter {
         return informationOfAllTheCoordinateOfTheBoardUnit;
     }
 
+    public boolean isWhetherAnimated() {
+        return whetherAnimated;
+    }
+
     public void setTargetWinningScore(int targetWinningScore) {
         this.targetWinningScore = targetWinningScore;
     }

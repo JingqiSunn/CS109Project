@@ -26,6 +26,7 @@ import java.util.Properties;
 import javax.swing.Timer;
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
+    boolean whetherAnimated;
     User user;
     int totalWides;
     int totalHeight;
@@ -90,6 +91,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     ArtificialIntelligenceSupply AI;
 
     public TotalGameFrame() {
+        whetherAnimated = false;
         AI = new ArtificialIntelligenceSupply();
         whetherMultiGameOver = false;
         whetherStartTheMultiPlayerGame = false;
@@ -239,6 +241,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         boardSizeDIYPage.GetContinueButton().addMouseListener(this);
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
+        boardSizeDIYPage.getAnimatedSwitcher().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -253,6 +256,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         boardSizeDIYPage.GetContinueButton().addMouseListener(this);
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
+        boardSizeDIYPage.getAnimatedSwitcher().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -267,6 +271,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         boardSizeDIYPage.GetContinueButton().addMouseListener(this);
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
+        boardSizeDIYPage.getAnimatedSwitcher().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -281,6 +286,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         }
         boardSizeDIYPage.GetContinueButton().addMouseListener(this);
         boardSizeDIYPage.getSkinSwitcher().addMouseListener(this);
+        boardSizeDIYPage.getAnimatedSwitcher().addMouseListener(this);
         setFocusable(true);
     }
 
@@ -1411,6 +1417,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             skin = true;
         } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && skin) {
             skin = false;
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getAnimatedSwitcher())) && whetherAnimated) {
+            whetherAnimated = false;
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getAnimatedSwitcher())) && !whetherAnimated) {
+            whetherAnimated = true;
         } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
@@ -1706,6 +1716,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             boardSizeDIYPage.getSkinSwitcher().setBackground(Color.BLACK);
         } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && skin) {
             boardSizeDIYPage.getSkinSwitcher().setBackground(Color.RED);
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getAnimatedSwitcher())) && !whetherAnimated) {
+            boardSizeDIYPage.getAnimatedSwitcher().setBackground(Color.BLACK);
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getAnimatedSwitcher())) && whetherAnimated) {
+            boardSizeDIYPage.getAnimatedSwitcher().setBackground(Color.RED);
         } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
             userGameTypeChoosingPage.getSinglePlayerOption().setBackground(Color.BLACK);
             userGameTypeChoosingPage.getSinglePlayerOption().setVisible(true);
@@ -2013,6 +2027,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             inGamePageWithoutTimeLimit.GetRightButton().repaint();
         } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher()))) {
             boardSizeDIYPage.getSkinSwitcher().setBackground(null);
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getAnimatedSwitcher()))) {
+            boardSizeDIYPage.getAnimatedSwitcher().setBackground(null);
         } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
             userGameTypeChoosingPage.getSinglePlayerOption().setBackground(Color.LIGHT_GRAY);
             userGameTypeChoosingPage.getSinglePlayerOption().setVisible(true);
@@ -2700,6 +2716,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             if (whetherDIYSucceed) {
                 this.remove(boardSizeDIYPage);
                 controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                controllingCenter.whetherAnimated = whetherAnimated;
                 if (boardSizeDIYPage.getWhetherTimeLimited()) {
                     this.LoadInGamePageForUserWithTimeLimitationPractice(boardSizeDIYPage.GetTimeLimit());
                 } else {
@@ -2718,6 +2735,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             if (whetherDIYSucceed) {
                 this.remove(boardSizeDIYPage);
                 controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                controllingCenter.whetherAnimated = whetherAnimated;
                 if (boardSizeDIYPage.getWhetherTimeLimited()) {
                     this.LoadInGamePageForTouristWithTimeLimitation(boardSizeDIYPage.GetTimeLimit());
                 } else {
