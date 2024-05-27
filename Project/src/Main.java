@@ -10,6 +10,8 @@ public class Main {
     public static void main(String[] args) {
 
         TotalGameFrame totalGameFrame = new TotalGameFrame();
+        BackGroundMusic audioPlayWave = new BackGroundMusic("src/Music/Music_BackGround.wav");
+        audioPlayWave.start();
 
         /*JFrame jf = new JFrame("Game_2048");
         myBoard currentBoard = new myBoard();
