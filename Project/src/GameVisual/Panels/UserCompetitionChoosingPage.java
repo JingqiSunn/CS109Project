@@ -105,4 +105,5 @@ public class UserCompetitionChoosingPage extends JPanel {
         userPanel.add(userLabel,BorderLayout.WEST);
         this.add(userPanel);
     }
+
 }

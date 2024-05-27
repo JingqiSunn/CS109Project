@@ -3,9 +3,6 @@ package GameVisual.Panels;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class LoginPage extends JPanel {
 
@@ -30,7 +27,10 @@ public class LoginPage extends JPanel {
     JLabel touristLabel;
     JLabel registrationLabel;
     GridBagConstraints locationOfLabelInOption;
+    JLabel backgroundLabel;
 
+    // Icon JLabel
+    JLabel iconLabel;
 
     public LoginPage(Dimension screenSize) {
         this.setLayout(null);
@@ -38,7 +38,9 @@ public class LoginPage extends JPanel {
         this.setUpTheLocationOfLabelInOptions();
         this.setBounds(0, 0, totalWidth, totalHeight);
         this.SetUpOptionsInTheLoginPage();
+        this.addIconToTopLeft();
     }
+
 
     public JPanel getLoginOption() {
         return loginOption;
@@ -110,4 +112,15 @@ public class LoginPage extends JPanel {
         locationOfLabelInOption.gridy = 0;
         locationOfLabelInOption.anchor = GridBagConstraints.CENTER;
     }
+
+    void addIconToTopLeft() {
+        // Load the icon image
+        ImageIcon icon = new ImageIcon("src/GameVisual/PhotoResource/LOGO.jpg");
+        iconLabel = new JLabel(icon);
+        iconLabel.setBounds(10, 10, icon.getIconWidth(), icon.getIconHeight()); // Adjust position and size
+        this.add(iconLabel);
+        // Add the icon label to the panel
+    }
+
 }
+

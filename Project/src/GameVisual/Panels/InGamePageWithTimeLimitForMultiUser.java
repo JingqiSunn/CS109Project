@@ -338,4 +338,5 @@ public class InGamePageWithTimeLimitForMultiUser extends JPanel {
         userPanel.add(userLabel,BorderLayout.WEST);
         this.add(userPanel);
     }
+
 }

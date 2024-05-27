@@ -11,6 +11,10 @@ import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
 import MultiUserSupply.User;
 import MultiUserSupply.UserManger;
+import Music.BackGroundMusic;
+import Music.ClickMusic;
+import Music.SlipMusic;
+import Music.die;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -718,6 +722,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+            SlipMusic audioPlayWave = new SlipMusic("src/Music/slip.wav");
+            audioPlayWave.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0] == 1) {
@@ -733,6 +739,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1] == 1) {
@@ -748,6 +756,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2] == 1) {
@@ -763,6 +773,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3] == 1) {
@@ -780,6 +792,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithoutTimeLimit.RestartTheGame();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
@@ -788,6 +802,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
@@ -796,6 +812,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
@@ -804,6 +822,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
@@ -814,8 +834,10 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithTimeLimit.RestartTheGame();
         } else if (inGamePageWithTimeLimit != null &&!inGamePageWithTimeLimit.isWhetherCompetition()&& e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A && !timerIsRunning) {
-            String direction = AI.mostScoresEarned(controllingCenter);
-            if (direction == "Down"){
+            int direction = AI.twoCombinedTogether(controllingCenter);
+            if (direction == 2){
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
                 controllingCenter.UpdateTheAvailableDirectionSet();
                 controllingCenter.DownAction();
@@ -823,7 +845,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
                 this.repaint();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-            } else if (direction == "Up") {
+            } else if (direction == 0) {
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
                 controllingCenter.UpdateTheAvailableDirectionSet();
                 controllingCenter.UpAction();
@@ -831,7 +855,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
                 this.repaint();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-            }else if (direction == "Left"){
+            }else if (direction == 3){
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
                 controllingCenter.UpdateTheAvailableDirectionSet();
                 controllingCenter.LeftAction();
@@ -839,7 +865,9 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
                 this.repaint();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-            } else if (direction == "Right") {
+            } else if (direction == 1) {
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
                 controllingCenter.UpdateTheAvailableDirectionSet();
                 controllingCenter.RightAction();
@@ -849,6 +877,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 this.JudgeWhetherEndOfGameWithTimeLimit();
             }
         }else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
@@ -857,6 +887,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
         } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
@@ -865,6 +897,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
         } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
@@ -873,6 +907,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
         } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
@@ -881,6 +917,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
         } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_W) {
+            SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+            audioPlay.start();
             user.GoingOneStepBackWards(controllingCenter.getArchiveName(), controllingCenter);
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             controllingCenter.UpdateGameValidity();
@@ -897,6 +935,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
     public void mouseClicked(MouseEvent e) {
         Component componentActivated = e.getComponent();
         if (loginPage != null && componentActivated.equals(loginPage.getLoginOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(loginPage);
             loginPage = null;
             this.LoadUserLoginPage();
@@ -905,6 +945,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (loginPage != null && componentActivated.equals(loginPage.getRegistrationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(loginPage);
             loginPage = null;
             this.LoadUserRegistrationPage();
@@ -913,6 +955,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(loginPage);
             loginPage = null;
             this.LoadModeChoosingPage();
@@ -921,6 +965,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getNoTimeLimitationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadBoardSizeChoosingPage();
@@ -929,6 +975,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getLimitedTimeOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadTimeLimitChoosingPage();
@@ -937,6 +985,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getRegisterOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(modeChoosingPage);
             modeChoosingPage = null;
             this.LoadUserRegistrationPage();
@@ -945,6 +995,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getDIYOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             this.LoadBoardSizeDIYPageWithoutTimeLimitForTourist();
@@ -953,6 +1005,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getDIYOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithoutLimitationModeChoosingPage);
             userPracticeWithoutLimitationModeChoosingPage = null;
             this.LoadBoardSizeDIYPageWithoutTimeLimitForUserPractice();
@@ -961,6 +1015,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithLimitationModeChoosingPage);
             userPracticeWithLimitationModeChoosingPage = null;
             this.LoadBoardSizeDIYPageWithTimeLimitForUserPractice();
@@ -969,14 +1025,20 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getThreeOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithoutLimitationModeChoosingPage);
             userPracticeWithoutLimitationModeChoosingPage = null;
             this.DealWithDefaultThreeInPractice();
         } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getFourOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithoutLimitationModeChoosingPage);
             userPracticeWithoutLimitationModeChoosingPage = null;
             this.DealWithDefaultFourInPractice();
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.FourOption)) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -985,6 +1047,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.ThreeOption)) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(boardSizeChoosingPage);
             boardSizeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForThree();
@@ -995,6 +1059,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
             if (componentActivated instanceof UnitBlockInDIY) {
                 if (!((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+                    audioPlay.start();
                     componentActivated.setBackground(Color.LIGHT_GRAY);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
                     ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
@@ -1002,6 +1068,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                     repaint();
                     componentActivated.setVisible(true);
                 } else if (((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+                    audioPlay.start();
                     componentActivated.setBackground(Color.WHITE);
                     Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
                     ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
@@ -1013,6 +1081,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
             skin = false;
             if (inGamePageWithTimeLimit != null) {
+                ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+                audioPlay.start();
                 inGamePageWithTimeLimit = null;
                 controllingCenter = new ControllingCenter();
                 this.remove(touristDiePage);
@@ -1023,6 +1093,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 repaint();
                 this.setVisible(true);
             } else {
+                ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+                audioPlay.start();
                 controllingCenter = new ControllingCenter();
                 this.remove(touristDiePage);
                 touristDiePage = null;
@@ -1033,6 +1105,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 this.setVisible(true);
             }
         } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             skin = false;
             controllingCenter = new ControllingCenter();
             this.remove(userCompetitionWithoutLimitDiePage);
@@ -1043,6 +1117,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             skin = false;
             controllingCenter = new ControllingCenter();
             this.remove(userCompetitionWithLimitDiePage);
@@ -1054,6 +1130,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getBackToMenuOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             skin = false;
             controllingCenter = new ControllingCenter();
             this.remove(userPracticeWithoutLimitDiePage);
@@ -1064,6 +1142,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             skin = false;
             controllingCenter = new ControllingCenter();
             this.remove(userPracticeWithLimitDiePage);
@@ -1075,6 +1155,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
         } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
             if (inGamePageWithTimeLimit == null) {
+                ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+                audioPlay.start();
                 this.remove(touristDiePage);
                 touristDiePage = null;
                 controllingCenter.setWhetherReachedTheTargetScore(false);
@@ -1085,6 +1167,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 repaint();
                 setVisible(true);
             } else {
+                ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+                audioPlay.start();
                 int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
                 this.remove(touristDiePage);
                 touristDiePage = null;
@@ -1097,6 +1181,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 setVisible(true);
             }
         } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
             this.remove(userPracticeWithLimitDiePage);
             userPracticeWithLimitDiePage = null;
@@ -1108,6 +1194,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             user.UpdateUserInformationForCompetition();
             this.remove(userCompetitionWithoutLimitDiePage);
             userCompetitionWithoutLimitDiePage = null;
@@ -1119,6 +1207,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             user.UpdateUserInformationForCompetition();
             int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
             this.remove(userCompetitionWithLimitDiePage);
@@ -1131,6 +1221,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getRestartOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.remove(userPracticeWithoutLimitDiePage);
             userPracticeWithoutLimitDiePage = null;
             controllingCenter.setWhetherAlreadyShownWinningPage(false);
@@ -1144,6 +1236,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetClickHereToRegister())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userLoginPage);
             userLoginPage = null;
             this.LoadUserRegistrationPage();
@@ -1152,6 +1246,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetClickHereToLoginPanel())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userRegistrationPage);
             userRegistrationPage = null;
             this.LoadUserLoginPage();
@@ -1160,8 +1256,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.DealWithRegistrationIssue();
         } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.remove(successfullyRegisteredPage);
             successfullyRegisteredPage = null;
             this.LoadLoginPage();
@@ -1170,6 +1270,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetToLogin())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(successfullyRegisteredPage);
             successfullyRegisteredPage = null;
             this.LoadUserLoginPage();
@@ -1178,10 +1280,16 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.DealWithLoginIssue();
         } else if (boardSizeDIYPage != null && !boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.DealWithTheDIYSetting();
         } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(timeLimitChoosingPage);
             timeLimitChoosingPage = null;
             this.LoadBoardSizeDIYPageWithTimeLimit();
@@ -1190,8 +1298,12 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (boardSizeDIYPage != null && boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.DealWithTheDIYSetting();
         } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(timeLimitChoosingPage);
             timeLimitChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -1200,6 +1312,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithLimitationModeChoosingPage);
             userPracticeWithLimitationModeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -1209,6 +1323,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getSixMinutesOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithLimitationModeChoosingPage);
             userPracticeWithLimitationModeChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -1218,6 +1334,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(timeLimitChoosingPage);
             timeLimitChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -1226,6 +1344,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userCompetitionChoosingPage);
             userCompetitionChoosingPage = null;
             UpdateTheCoordinateSetInTheControllingCenterForFour();
@@ -1235,6 +1355,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if ((inGamePageWithTimeLimit != null && !inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             inGamePageWithTimeLimit.LoadButtonController();
             inGamePageWithTimeLimit.GetUpButton().addMouseListener(this);
             inGamePageWithTimeLimit.GetDownButton().addMouseListener(this);
@@ -1243,6 +1365,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             inGamePageWithoutTimeLimit.LoadButtonController();
             inGamePageWithoutTimeLimit.GetUpButton().addMouseListener(this);
             inGamePageWithoutTimeLimit.GetDownButton().addMouseListener(this);
@@ -1251,14 +1375,20 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if ((inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             inGamePageWithTimeLimit.CleanButtonController();
             repaint();
             setVisible(true);
         } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             inGamePageWithoutTimeLimit.CleanButtonController();
             repaint();
             setVisible(true);
         } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             skin = false;
             inGamePageWithoutTimeLimit = null;
             controllingCenter = new ControllingCenter();
@@ -1271,6 +1401,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
             winningPageIsOnShow = false;
         } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             skin = false;
             inGamePageWithoutTimeLimit = null;
             controllingCenter = new ControllingCenter();
@@ -1283,6 +1415,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
             winningPageIsOnShow = false;
         } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getBackToMenuOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             skin = false;
             inGamePageWithoutTimeLimit = null;
             controllingCenter = new ControllingCenter();
@@ -1295,6 +1429,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
             winningPageIsOnShow = false;
         } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.remove(touristWinningPage);
             touristWinningPage = null;
             this.add(inGamePageWithoutTimeLimit);
@@ -1304,6 +1440,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
             winningPageIsOnShow = false;
         } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.remove(userWinningPage);
             userWinningPage = null;
             this.add(inGamePageWithoutTimeLimit);
@@ -1313,6 +1451,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
             winningPageIsOnShow = false;
         } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getContinueOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.remove(userPracticeWinningPage);
             userPracticeWinningPage = null;
             this.add(inGamePageWithoutTimeLimit);
@@ -1322,6 +1462,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.setVisible(true);
             winningPageIsOnShow = false;
         } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetUpButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.UpAction();
@@ -1330,6 +1472,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetDownButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.DownAction();
@@ -1338,6 +1482,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.LeftAction();
@@ -1346,6 +1492,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetRightButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.JudgeWhetherEndOfGameWithTimeLimit();
             controllingCenter.UpdateTheAvailableDirectionSet();
             controllingCenter.RightAction();
@@ -1354,6 +1502,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.repaint();
             this.JudgeWhetherEndOfGameWithTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0] == 1) {
@@ -1369,6 +1519,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1] == 1) {
@@ -1384,6 +1536,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2] == 1) {
@@ -1399,6 +1553,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             this.JudgeWhetherWinningWithoutTimeLimit();
             this.JudgeWhetherEndOfGameWithoutTimeLimit();
         } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton()) && !timerIsRunning) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             controllingCenter.UpdateTheAvailableDirectionSet();
             boolean whetherToSave = false;
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3] == 1) {
@@ -1422,6 +1578,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getAnimatedSwitcher())) && !whetherAnimated) {
             whetherAnimated = true;
         } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
             this.LoadUserSingleModeChoosingPage();
@@ -1430,6 +1588,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userSingleModeChoosingPage);
             userSingleModeChoosingPage = null;
             this.LoadUserCompetitionChoosingPage();
@@ -1438,6 +1598,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userSingleModeChoosingPage);
             userSingleModeChoosingPage = null;
             this.LoadUserPracticeModeChoosingPage();
@@ -1446,6 +1608,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeModeChoosingPage);
             userPracticeModeChoosingPage = null;
             this.LoadUserPracticeWithoutTimeLimitModeWhetherNewPage();
@@ -1454,6 +1618,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeModeChoosingPage);
             userPracticeModeChoosingPage = null;
             this.LoadUserPracticeWithLimitationModeChoosingPage();
@@ -1462,6 +1628,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userCompetitionChoosingPage);
             userCompetitionChoosingPage = null;
             user.UpdateUserInformationForCompetition();
@@ -1472,6 +1640,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             setVisible(true);
         } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
             userPracticeWithoutTimeLimitModeWhetherNewPage = null;
             this.LoadUserPracticeWithoutLimitationModeChoosingPage();
@@ -1480,6 +1650,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
             userPracticeWithoutTimeLimitModeWhetherNewPage = null;
             this.LoadAskingForArchivePanel();
@@ -1490,6 +1662,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
             this.DealWithArchiveInput();
         } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
             this.LoadRecordModeSelectionPage();
@@ -1498,6 +1672,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(recordModeSelectionPage);
             recordModeSelectionPage = null;
             this.LoadRecordShowPageForWithoutLimit();
@@ -1506,6 +1682,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(recordModeSelectionPage);
             recordModeSelectionPage = null;
             this.LoadRecordShowPageForWithLimit();
@@ -1514,6 +1692,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             repaint();
             this.setVisible(true);
         } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(userGameTypeChoosingPage);
             userGameTypeChoosingPage = null;
             this.LoadWhetherNewGameRoomPage();
@@ -1524,6 +1704,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
             this.OpenGameRoom();
         } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(whetherNewGameRoomPage);
             whetherNewGameRoomPage = null;
             this.LoadEnterGameRoomPage();
@@ -1536,6 +1718,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
             this.DealWithCreatingGameRoom();
         } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             this.remove(successfullyCreateGameRoomWaitingPage);
             if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()){
                 serverRunnable = null;
@@ -1546,6 +1730,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             }
             LoadInGamePageForMultiUserWithTimeLimitation();
         }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
+            ClickMusic audioPlay = new ClickMusic("src/Music/music_click.wav");
+            audioPlay.start();
             remove(diePageForMultiUser);
             diePageForMultiUser = null;
             this.LoadUserGameTypeChoosingPage();

@@ -27,6 +27,7 @@ public class DrawnBlockUnit extends JPanel {
     public ControllingCenter controllingCenter;
     public int xCoordinate;
     public int yCoordinate;
+    Thread animationThread = null;
 
     DrawnBlockUnit(int xCoordinate, int yCoordinate, int sizeOfTheBlockUnit, ControllingCenter controllingCenter) {
         currentValue = 0;
@@ -281,26 +282,71 @@ public class DrawnBlockUnit extends JPanel {
             }
         }
     }
-    private void AnimateEffect(){
-        if (controllingCenter.whetherAnimated){
-        final int steps = 15;
-        final int[] currentStep = {0};
-        Timer timer = new Timer(5, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentStep[0] >= steps) {
-                    ((Timer) e.getSource()).stop();
-                    return;
-                }
-                int red =(colorOfTheBlock.getRed()-255)/steps*currentStep[0]+255;
-                int green = (colorOfTheBlock.getGreen()-255)/steps * currentStep[0]+255;
-                int blue = (colorOfTheBlock.getBlue()-255)/steps * currentStep[0]+255;
-                setBackground(new Color(red,green,blue));
-                currentStep[0]++;
+    private void AnimateEffect() {
+        if (controllingCenter.whetherAnimated) {
+            if (animationThread != null && animationThread.isAlive()) {
+                // 如果动画线程已经在运行，则先尝试中断它
+                animationThread.interrupt();
             }
-        });
-        timer.start();} else {
-            setBackground(new Color(colorOfTheBlock.getRed(),colorOfTheBlock.getGreen(),colorOfTheBlock.getBlue()));
+
+            Runnable task = new Runnable() {
+                @Override
+                public void run() {
+                    final int steps = 25;
+                    for (int currentStep = 0; currentStep < steps && !Thread.currentThread().isInterrupted(); currentStep++) {
+                        int red = (colorOfTheBlock.getRed() - 123) / steps * currentStep + 123;
+                        int green = (colorOfTheBlock.getGreen() - 104) / steps * currentStep + 104;
+                        int blue = (colorOfTheBlock.getBlue()-238)  / steps * currentStep +238;
+
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                setBackground(new Color(red, green, blue));
+                            }
+                        });
+
+                        try {
+                            Thread.sleep(5);
+                        } catch (InterruptedException e) {
+                            // 如果线程被中断，则退出循环
+                            return;
+                        }
+                    }
+                }
+            };
+
+            // 创建一个新线程并启动它
+            animationThread = new Thread(task);
+            animationThread.start();
+        } else {
+            // 如果不需要动画，则直接设置背景色
+            setBackground(new Color(colorOfTheBlock.getRed(), colorOfTheBlock.getGreen(), colorOfTheBlock.getBlue()));
         }
+
+        /*if (controllingCenter.whetherAnimated) {
+            if (animationTimer != null) {
+                animationTimer.stop();
+            }
+            final int steps = 15;
+            final int[] currentStep = {0};
+            Timer timer = new Timer(5, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (currentStep[0] >= steps) {
+                        ((Timer) e.getSource()).stop();
+                        animationTimer = null;
+                        return;
+                    }
+                    int red = (colorOfTheBlock.getRed() - 255) / steps * currentStep[0] + 255;
+                    int green = (colorOfTheBlock.getGreen() - 255) / steps * currentStep[0] + 255;
+                    int blue = (colorOfTheBlock.getBlue() - 255) / steps * currentStep[0] + 255;
+                    setBackground(new Color(red, green, blue));
+                    currentStep[0]++;
+                }
+            });
+            timer.start();
+        } else {
+            setBackground(new Color(colorOfTheBlock.getRed(), colorOfTheBlock.getGreen(), colorOfTheBlock.getBlue()));
+        }*/
     }
 }

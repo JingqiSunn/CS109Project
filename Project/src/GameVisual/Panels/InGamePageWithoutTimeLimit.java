@@ -36,6 +36,7 @@ public class InGamePageWithoutTimeLimit extends JPanel {
     JLabel userLabel;
     boolean whetherTimeLimited;
     boolean whetherCompetition;
+    JLabel backgroundLabel;
 
     public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist){
         whetherButtonControllerOut = false;
@@ -46,6 +47,7 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         this.UpdateSizeAndLocationForOptions(totalSize,controllingCenter);
         this.setBounds(0,0,totalWidth,totalHeight);
         this.SetUpBlockUnitsInGame();
+        this.setBackgroundImage();
         this.setVisible(true);
     }
     public InGamePageWithoutTimeLimit(Dimension screenSize, ControllingCenter controllingCenter, boolean whetherTourist,User user,boolean whetherCompetition,boolean whetherTimeLimited){
@@ -249,5 +251,13 @@ public class InGamePageWithoutTimeLimit extends JPanel {
         userLabel.setVerticalAlignment(JLabel.CENTER);
         userPanel.add(userLabel,BorderLayout.WEST);
         this.add(userPanel);
+    }
+    void setBackgroundImage() {
+        ImageIcon backgroundIcon = new ImageIcon("src/GameVisual/PhotoResource/background.jpg");
+        backgroundLabel = new JLabel(backgroundIcon);
+        backgroundLabel.setBounds(0, 0, totalWidth, totalHeight);
+        this.add(backgroundLabel);
+        this.setVisible(true);
+        this.setComponentZOrder(backgroundLabel, this.getComponentCount() - 1); // Ensure the background is at the bottom
     }
 }
