@@ -1,0 +1,20 @@
+#Mon May 27 08:17:05 CST 2024
+BoardUnitLocationSet=02011121001020
+CurrentStepNumber=6
+LastModifiedTime=f5715ee8d28384aae80849a3a4c9dc93bcc5f7d2be6b9e2d7da7b4731ff0c420
+Score0=0
+Score1=0
+Score2=0
+Score3=0
+Score4=8
+Score5=8
+Score6=16
+Step0=0 0 0 2 0 4 0 
+Step1=0 0 0 0 2 4 2 
+Step2=2 0 4 2 4 0 0 
+Step3=4 2 0 0 4 4 2 
+Step4=4 2 0 2 8 2 0 
+Step5=4 2 0 2 8 2 2 
+Step6=4 4 2 0 8 4 0 
+TargetScore=98
+WhetherWon=false
