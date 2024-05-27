@@ -188,17 +188,6 @@ public class myBoard extends JPanel implements KeyListener {
                 Left();
             } else if (keyCode == KeyEvent.VK_SPACE) {
                 Reinit();
-            } else if (keyCode == KeyEvent.VK_S) {
-                String direction = AI.mostScoresEarned(controllingCenter);
-                if (direction == "Down"){
-                    Down();
-                } else if (direction == "Up") {
-                    Up();
-                }else if (direction == "Left"){
-                    Left();
-                } else if (direction == "Right") {
-                    Right();
-                }
             }
             if (bestScore < score) {
                 bestScore = score;
