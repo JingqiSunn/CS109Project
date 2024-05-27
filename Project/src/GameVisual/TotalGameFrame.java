@@ -9,14 +9,14 @@ import GameElement.BoardUnit;
 import GameElement.ControllingCenter;
 import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
-        import MultiUserSupply.User;
+import MultiUserSupply.User;
 import MultiUserSupply.UserManger;
 
 import javax.swing.*;
-        import javax.swing.border.Border;
+import javax.swing.border.Border;
 import java.awt.*;
-        import java.awt.event.*;
-        import java.io.FileInputStream;
+import java.awt.event.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -808,7 +808,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
             inGamePageWithTimeLimit.RestartTheGame();
         } else if (inGamePageWithTimeLimit != null &&!inGamePageWithTimeLimit.isWhetherCompetition()&& e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A && !timerIsRunning) {
-            String direction = String.valueOf(AI.mostScoresEarned(controllingCenter));
+            String direction = AI.mostScoresEarned(controllingCenter);
             if (direction == "Down"){
                 this.JudgeWhetherEndOfGameWithTimeLimit();
                 controllingCenter.UpdateTheAvailableDirectionSet();
@@ -2747,7 +2747,7 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (!user.ExamineWhetherArchiveAlreadyExisted(askingForArchivePanel.GetArchiveName())) {
             askingForArchivePanel.EstablishWarn("There is no such archive!");
             whetherArchiveAvailable = false;
-        }  else {
+        } else {
             try {
                 FileInputStream inputStream = new FileInputStream("src/UserInformation/PersonalInformation/" + user.getUserName() + "/SinglePlayer/Practice/WithoutTimeLimitation/HistoricalArchive/" + askingForArchivePanel.GetArchiveName()+ ".txt");
                 Properties properties = new Properties();
@@ -2764,7 +2764,8 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 user.DeleteCompleteArchive(askingForArchivePanel.GetArchiveName());
                 askingForArchivePanel.EstablishWarn("Invalid archive! Error Code: 103");
                 whetherArchiveAvailable = false;
-            }}
+            }
+        }
         if (whetherArchiveAvailable) {
             controllingCenter = new ControllingCenter();
             if (whetherDefault) {
@@ -2772,134 +2773,141 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             } else {
                 user.BuildControllingCenterBasedOnTheArchive(askingForArchivePanel.GetArchiveName(), controllingCenter);
             }
-        }}
-
-            public void DealWithDefaultThreeInPractice() {
-    if (user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
-        user.DeleteCompleteArchive("WhenYouHaveSomethingToSaySilenceIsALie");
-    }
-    controllingCenter = new ControllingCenter();
-    controllingCenter.setSkin(skin);
-    this.UpdateTheCoordinateSetInTheControllingCenterForThree();
-    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-    controllingCenter.setTargetWinningScore(2048);
-    UserManger userManger = new UserManger();
-    controllingCenter.setArchiveName("WhenYouHaveSomethingToSaySilenceIsALie");
-    userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user, controllingCenter.getArchiveName(), controllingCenter);
-    user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
-    this.LoadInGamePageForUserWithoutTimeLimitationPractice();
-    boardSizeDIYPage = null;
-    repaint();
-    setVisible(true);
-}
-
-public void DealWithDefaultFourInPractice() {
-    if (user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
-        user.DeleteCompleteArchive("WhenYouHaveSomethingToSaySilenceIsALie");
-    }
-    controllingCenter = new ControllingCenter();
-    controllingCenter.setSkin(skin);
-    this.UpdateTheCoordinateSetInTheControllingCenterForFour();
-    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-    controllingCenter.setTargetWinningScore(2048);
-    UserManger userManger = new UserManger();
-    controllingCenter.setArchiveName("WhenYouHaveSomethingToSaySilenceIsALie");
-    userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user, controllingCenter.getArchiveName(), controllingCenter);
-    user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
-    this.LoadInGamePageForUserWithoutTimeLimitationPractice();
-    boardSizeDIYPage = null;
-    repaint();
-    setVisible(true);
-}
-
-private void OpenGameRoom() {
-    this.serverName = user.getUserName();
-    String IPAddress = this.FindIpForComputer();
-    this.remove(whetherNewGameRoomPage);
-    whetherNewGameRoomPage = null;
-    this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(IPAddress);
-    repaint();
-    setVisible(true);
-}
-
-private void DealWithCreatingGameRoom() {
-    serverRunnable = new ServerRunnable(user, this);
-    serverThread = new Thread(serverRunnable);
-    serverThread.start();
-    while (!whetherSuccessfullyConnected) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (whetherSuccessfullyConnected) {
-            break;
+            this.remove(askingForArchivePanel);
+            askingForArchivePanel = null;
+            this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+            repaint();
+            setVisible(true);
         }
     }
-    successfullyCreateGameRoomWaitingPage.UpdatePanelForClient();
-    successfullyCreateGameRoomWaitingPage.UpdateBottomPanel();
-    successfullyCreateGameRoomWaitingPage.getContinuePanel().addMouseListener(this);
-    repaint();
-    setVisible(true);
-}
 
-private void DealWithEnteringGameRoom() {
-    this.clientName = user.getUserName();
-    clientRunnable = new ClientRunnable(enterGameRoomPage.GetIP(), user, this);
-    this.IPOfServer = enterGameRoomPage.GetIP();
-    clientThread = new Thread(clientRunnable);
-    clientThread.start();
-    while (!whetherSuccessfullyConnected) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void DealWithDefaultThreeInPractice() {
+        if (user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
+            user.DeleteCompleteArchive("WhenYouHaveSomethingToSaySilenceIsALie");
         }
-        if (whetherSuccessfullyConnected) {
-            break;
-        }
+        controllingCenter = new ControllingCenter();
+        controllingCenter.setSkin(skin);
+        this.UpdateTheCoordinateSetInTheControllingCenterForThree();
+        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+        controllingCenter.setTargetWinningScore(2048);
+        UserManger userManger = new UserManger();
+        controllingCenter.setArchiveName("WhenYouHaveSomethingToSaySilenceIsALie");
+        userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user, controllingCenter.getArchiveName(), controllingCenter);
+        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+        this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+        boardSizeDIYPage = null;
+        repaint();
+        setVisible(true);
     }
-    this.remove(enterGameRoomPage);
-    LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(), this.serverName);
-    enterGameRoomPage = null;
-    repaint();
-    setVisible(true);
-}
 
-private boolean whetherAStringIsANumber(String targetString) {
-    boolean whetherAnNumber = true;
-    for (int inDexInString = 0; inDexInString < targetString.length(); inDexInString++) {
-        if (!Character.isDigit(targetString.charAt(inDexInString))) {
-            whetherAnNumber = false;
-            return whetherAnNumber;
+    public void DealWithDefaultFourInPractice() {
+        if (user.ExamineWhetherArchiveAlreadyExisted("WhenYouHaveSomethingToSaySilenceIsALie")) {
+            user.DeleteCompleteArchive("WhenYouHaveSomethingToSaySilenceIsALie");
         }
+        controllingCenter = new ControllingCenter();
+        controllingCenter.setSkin(skin);
+        this.UpdateTheCoordinateSetInTheControllingCenterForFour();
+        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+        controllingCenter.setTargetWinningScore(2048);
+        UserManger userManger = new UserManger();
+        controllingCenter.setArchiveName("WhenYouHaveSomethingToSaySilenceIsALie");
+        userManger.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(user, controllingCenter.getArchiveName(), controllingCenter);
+        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+        this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+        boardSizeDIYPage = null;
+        repaint();
+        setVisible(true);
     }
-    return whetherAnNumber;
-}
 
-private String FindIpForComputer() {
-    try {
-        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+    private void OpenGameRoom() {
+        this.serverName = user.getUserName();
+        String IPAddress = this.FindIpForComputer();
+        this.remove(whetherNewGameRoomPage);
+        whetherNewGameRoomPage = null;
+        this.LoadSuccessfullyCreateGameRoomWaitingPageForServer(IPAddress);
+        repaint();
+        setVisible(true);
+    }
 
-        while (networkInterfaces.hasMoreElements()) {
-            NetworkInterface networkInterface = networkInterfaces.nextElement();
-
-            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
-                continue;
+    private void DealWithCreatingGameRoom() {
+        serverRunnable = new ServerRunnable(user, this);
+        serverThread = new Thread(serverRunnable);
+        serverThread.start();
+        while (!whetherSuccessfullyConnected) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            if (whetherSuccessfullyConnected) {
+                break;
+            }
+        }
+        successfullyCreateGameRoomWaitingPage.UpdatePanelForClient();
+        successfullyCreateGameRoomWaitingPage.UpdateBottomPanel();
+        successfullyCreateGameRoomWaitingPage.getContinuePanel().addMouseListener(this);
+        repaint();
+        setVisible(true);
+    }
 
-            Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+    private void DealWithEnteringGameRoom() {
+        this.clientName = user.getUserName();
+        clientRunnable = new ClientRunnable(enterGameRoomPage.GetIP(), user, this);
+        this.IPOfServer = enterGameRoomPage.GetIP();
+        clientThread = new Thread(clientRunnable);
+        clientThread.start();
+        while (!whetherSuccessfullyConnected) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (whetherSuccessfullyConnected) {
+                break;
+            }
+        }
+        this.remove(enterGameRoomPage);
+        LoadSuccessfullyCreateGameRoomWaitingPageForClient(enterGameRoomPage.GetIP(), this.serverName);
+        enterGameRoomPage = null;
+        repaint();
+        setVisible(true);
+    }
 
-            while (inetAddresses.hasMoreElements()) {
-                InetAddress inetAddress = inetAddresses.nextElement();
+    private boolean whetherAStringIsANumber(String targetString) {
+        boolean whetherAnNumber = true;
+        for (int inDexInString = 0; inDexInString < targetString.length(); inDexInString++) {
+            if (!Character.isDigit(targetString.charAt(inDexInString))) {
+                whetherAnNumber = false;
+                return whetherAnNumber;
+            }
+        }
+        return whetherAnNumber;
+    }
 
-                if (inetAddress.getAddress().length == 4 && !inetAddress.isLoopbackAddress()) {
-                    return inetAddress.getHostAddress();
+    private String FindIpForComputer() {
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = networkInterfaces.nextElement();
+
+                if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                    continue;
+                }
+
+                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+
+                while (inetAddresses.hasMoreElements()) {
+                    InetAddress inetAddress = inetAddresses.nextElement();
+
+                    if (inetAddress.getAddress().length == 4 && !inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return "No Net Work";
     }
-    return "No Net Work";
-}}
+}
