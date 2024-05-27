@@ -11,20 +11,18 @@ import GameSave.DocumentReaderAndWriter;
 import GameVisual.Panels.*;
 import MultiUserSupply.User;
 import MultiUserSupply.UserManger;
-import Music.BackGroundMusic;
-import Music.ClickMusic;
-import Music.DieMusic;
-import Music.SlipMusic;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Properties;
 import javax.swing.Timer;
 
 public class TotalGameFrame extends JFrame implements KeyListener, MouseListener {
@@ -227,8 +225,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(diePageForMultiUser);
         diePageForMultiUser.getBackOption().addMouseListener(this);
         setFocusable(true);
-        DieMusic audioPlay = new DieMusic("src/Music/music_Die.wav");
-        audioPlay.start();
         repaint();
     }
 
@@ -377,8 +373,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
         this.add(touristDiePage);
         touristDiePage.getBackToMenuOption().addMouseListener(this);
         touristDiePage.getRestartOption().addMouseListener(this);
-        DieMusic audioPlay = new DieMusic("src/Music/music_Die.wav");
-        audioPlay.start();
         setFocusable(true);
     }
 
@@ -723,8 +717,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0] == 1) {
                 whetherToSave = true;
             }
-            SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-            audioPlayWave.start();
             controllingCenter.UpAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
@@ -740,8 +732,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1] == 1) {
                 whetherToSave = true;
             }
-            SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-            audioPlayWave.start();
             controllingCenter.DownAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
@@ -757,8 +747,6 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2] == 1) {
                 whetherToSave = true;
             }
-            SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-            audioPlayWave.start();
             controllingCenter.LeftAction();
             controllingCenter.UpdateGameValidity();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
@@ -774,967 +762,791 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
             if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3] == 1) {
                 whetherToSave = true;
             }
-            SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-            audioPlayWave.start();
             controllingCenter.RightAction();
             inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
             if (whetherToSave) {
-
-                @@ -773,787 +789,965 @@
-                        inGamePageWithoutTimeLimit.RestartTheGame();
-            } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+            }
+            controllingCenter.UpdateGameValidity();
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        } else if (inGamePageWithoutTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
+            inGamePageWithoutTimeLimit.RestartTheGame();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            controllingCenter.UpdateGameValidity();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
+            inGamePageWithTimeLimit.RestartTheGame();
+        } else if (inGamePageWithTimeLimit != null &&!inGamePageWithTimeLimit.isWhetherCompetition()&& e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A && !timerIsRunning) {
+            String direction = AI.mostScoresEarned(controllingCenter);
+            if (direction == "Down"){
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-                SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                audioPlayWave.start();
-                controllingCenter.UpdateTheAvailableDirectionSet();
-                controllingCenter.UpAction();
-                controllingCenter.UpdateGameValidity();
-                inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                this.repaint();
-                this.JudgeWhetherEndOfGameWithTimeLimit();
-            } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
-                this.JudgeWhetherEndOfGameWithTimeLimit();
-                SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                audioPlayWave.start();
                 controllingCenter.UpdateTheAvailableDirectionSet();
                 controllingCenter.DownAction();
                 controllingCenter.UpdateGameValidity();
                 inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
                 this.repaint();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-            } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
+            } else if (direction == "Up") {
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-                SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                audioPlayWave.start();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.UpAction();
+                controllingCenter.UpdateGameValidity();
+                inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+            }else if (direction == "Left"){
+                this.JudgeWhetherEndOfGameWithTimeLimit();
                 controllingCenter.UpdateTheAvailableDirectionSet();
                 controllingCenter.LeftAction();
                 controllingCenter.UpdateGameValidity();
                 inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
                 this.repaint();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-            } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
+            } else if (direction == "Right") {
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-                SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                audioPlayWave.start();
                 controllingCenter.UpdateTheAvailableDirectionSet();
                 controllingCenter.RightAction();
                 inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
                 controllingCenter.UpdateGameValidity();
                 this.repaint();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
-            } else if (inGamePageWithTimeLimit != null && keyBeingActivated == KeyEvent.VK_R && !timerIsRunning) {
-                inGamePageWithTimeLimit.RestartTheGame();
-            } else if (inGamePageWithTimeLimit != null &&!inGamePageWithTimeLimit.isWhetherCompetition()&& e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A && !timerIsRunning) {
-                    int direction = AI.twoCombinedTogether(controllingCenter);
-                    if (direction == 2){
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                        SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                        audioPlayWave.start();
-                        controllingCenter.UpdateTheAvailableDirectionSet();
-                        controllingCenter.DownAction();
-                        controllingCenter.UpdateGameValidity();
-                        inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                        this.repaint();
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                    } else if (direction == 0) {
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                        SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                        audioPlayWave.start();
-                        controllingCenter.UpdateTheAvailableDirectionSet();
-                        controllingCenter.UpAction();
-                        controllingCenter.UpdateGameValidity();
-                        inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                        this.repaint();
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                    }else if (direction == 3){
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                        SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                        audioPlayWave.start();
-                        controllingCenter.UpdateTheAvailableDirectionSet();
-                        controllingCenter.LeftAction();
-                        controllingCenter.UpdateGameValidity();
-                        inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                        this.repaint();
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                    } else if (direction == 1) {
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                        SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                        audioPlayWave.start();
-                        controllingCenter.UpdateTheAvailableDirectionSet();
-                        controllingCenter.RightAction();
-                        inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                        controllingCenter.UpdateGameValidity();
-                        this.repaint();
-                        this.JudgeWhetherEndOfGameWithTimeLimit();
-                    }
-                }else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                    SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.UpAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                    SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.DownAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                    SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.LeftAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                    SlipMusic audioPlayWave = new SlipMusic("src/Music/Music_slip.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.RightAction();
-                    inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
-                    controllingCenter.UpdateGameValidity();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
-                } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_W) {
-                    user.GoingOneStepBackWards(controllingCenter.getArchiveName(), controllingCenter);
-                    inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-                    controllingCenter.UpdateGameValidity();
-                    this.repaint();
+            }
+        }else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_DOWN && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_LEFT && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+        } else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_RIGHT && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+            controllingCenter.UpdateGameValidity();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+        } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_W) {
+            user.GoingOneStepBackWards(controllingCenter.getArchiveName(), controllingCenter);
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            controllingCenter.UpdateGameValidity();
+            this.repaint();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        Component componentActivated = e.getComponent();
+        if (loginPage != null && componentActivated.equals(loginPage.getLoginOption())) {
+            remove(loginPage);
+            loginPage = null;
+            this.LoadUserLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (loginPage != null && componentActivated.equals(loginPage.getRegistrationOption())) {
+            remove(loginPage);
+            loginPage = null;
+            this.LoadUserRegistrationPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
+            remove(loginPage);
+            loginPage = null;
+            this.LoadModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getNoTimeLimitationOption())) {
+            remove(modeChoosingPage);
+            modeChoosingPage = null;
+            this.LoadBoardSizeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getLimitedTimeOption())) {
+            remove(modeChoosingPage);
+            modeChoosingPage = null;
+            this.LoadTimeLimitChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getRegisterOption())) {
+            remove(modeChoosingPage);
+            modeChoosingPage = null;
+            this.LoadUserRegistrationPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getDIYOption())) {
+            remove(boardSizeChoosingPage);
+            boardSizeChoosingPage = null;
+            this.LoadBoardSizeDIYPageWithoutTimeLimitForTourist();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getDIYOption())) {
+            remove(userPracticeWithoutLimitationModeChoosingPage);
+            userPracticeWithoutLimitationModeChoosingPage = null;
+            this.LoadBoardSizeDIYPageWithoutTimeLimitForUserPractice();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
+            remove(userPracticeWithLimitationModeChoosingPage);
+            userPracticeWithLimitationModeChoosingPage = null;
+            this.LoadBoardSizeDIYPageWithTimeLimitForUserPractice();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getThreeOption())) {
+            remove(userPracticeWithoutLimitationModeChoosingPage);
+            userPracticeWithoutLimitationModeChoosingPage = null;
+            this.DealWithDefaultThreeInPractice();
+        } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getFourOption())) {
+            remove(userPracticeWithoutLimitationModeChoosingPage);
+            userPracticeWithoutLimitationModeChoosingPage = null;
+            this.DealWithDefaultFourInPractice();
+        } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.FourOption)) {
+            remove(boardSizeChoosingPage);
+            boardSizeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForTouristWithoutTimeLimitation();
+            repaint();
+            setVisible(true);
+        } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.ThreeOption)) {
+            remove(boardSizeChoosingPage);
+            boardSizeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForThree();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForTouristWithoutTimeLimitation();
+            repaint();
+            setVisible(true);
+        } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
+            if (componentActivated instanceof UnitBlockInDIY) {
+                if (!((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    componentActivated.setBackground(Color.LIGHT_GRAY);
+                    Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
+                    ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
+                    ((UnitBlockInDIY) componentActivated).setWhetherChoosing(true);
+                    repaint();
+                    componentActivated.setVisible(true);
+                } else if (((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
+                    componentActivated.setBackground(Color.WHITE);
+                    Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
+                    ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
+                    ((UnitBlockInDIY) componentActivated).setWhetherChoosing(false);
+                    repaint();
+                    componentActivated.setVisible(true);
                 }
             }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
+            skin = false;
+            if (inGamePageWithTimeLimit != null) {
+                inGamePageWithTimeLimit = null;
+                controllingCenter = new ControllingCenter();
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                this.LoadTimeLimitChoosingPage();
+                this.addMouseListener(this);
+                this.setFocusable(true);
+                repaint();
+                this.setVisible(true);
+            } else {
+                controllingCenter = new ControllingCenter();
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                this.LoadBoardSizeChoosingPage();
+                this.addMouseListener(this);
+                this.setFocusable(true);
+                repaint();
+                this.setVisible(true);
             }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Component componentActivated = e.getComponent();
-                if (loginPage != null && componentActivated.equals(loginPage.getLoginOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(loginPage);
-                    loginPage = null;
-                    this.LoadUserLoginPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (loginPage != null && componentActivated.equals(loginPage.getRegistrationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(loginPage);
-                    loginPage = null;
-                    this.LoadUserRegistrationPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (loginPage != null && componentActivated.equals(loginPage.getTouristOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(loginPage);
-                    loginPage = null;
-                    this.LoadModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getNoTimeLimitationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(modeChoosingPage);
-                    modeChoosingPage = null;
-                    this.LoadBoardSizeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getLimitedTimeOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(modeChoosingPage);
-                    modeChoosingPage = null;
-                    this.LoadTimeLimitChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (modeChoosingPage != null && componentActivated.equals(modeChoosingPage.getRegisterOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(modeChoosingPage);
-                    modeChoosingPage = null;
-                    this.LoadUserRegistrationPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.getDIYOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(boardSizeChoosingPage);
-                    boardSizeChoosingPage = null;
-                    this.LoadBoardSizeDIYPageWithoutTimeLimitForTourist();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getDIYOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeWithoutLimitationModeChoosingPage);
-                    userPracticeWithoutLimitationModeChoosingPage = null;
-                    this.LoadBoardSizeDIYPageWithoutTimeLimitForUserPractice();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getDIYOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeWithLimitationModeChoosingPage);
-                    userPracticeWithLimitationModeChoosingPage = null;
-                    this.LoadBoardSizeDIYPageWithTimeLimitForUserPractice();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getThreeOption())) {
-                    remove(userPracticeWithoutLimitationModeChoosingPage);
-                    userPracticeWithoutLimitationModeChoosingPage = null;
-                    this.DealWithDefaultThreeInPractice();
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                } else if (userPracticeWithoutLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithoutLimitationModeChoosingPage.getFourOption())) {
-                    remove(userPracticeWithoutLimitationModeChoosingPage);
-                    userPracticeWithoutLimitationModeChoosingPage = null;
-                    this.DealWithDefaultFourInPractice();
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.FourOption)) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(boardSizeChoosingPage);
-                    boardSizeChoosingPage = null;
-                    UpdateTheCoordinateSetInTheControllingCenterForFour();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    this.LoadInGamePageForTouristWithoutTimeLimitation();
-                    repaint();
-                    setVisible(true);
-                } else if (boardSizeChoosingPage != null && componentActivated.equals(boardSizeChoosingPage.ThreeOption)) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(boardSizeChoosingPage);
-                    boardSizeChoosingPage = null;
-                    UpdateTheCoordinateSetInTheControllingCenterForThree();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    this.LoadInGamePageForTouristWithoutTimeLimitation();
-                    repaint();
-                    setVisible(true);
-                } else if (boardSizeDIYPage != null && whetherTheComponentIsBelongingToTheBlocks(componentActivated)) {
-                    if (componentActivated instanceof UnitBlockInDIY) {
-                        if (!((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
-                            ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                            audioPlayWave.start();
-                            componentActivated.setBackground(Color.LIGHT_GRAY);
-                            Border borderOfTheBlock = BorderFactory.createLineBorder(Color.WHITE, 6, false);
-                            ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
-                            ((UnitBlockInDIY) componentActivated).setWhetherChoosing(true);
-                            repaint();
-                            componentActivated.setVisible(true);
-                        } else if (((UnitBlockInDIY) componentActivated).getWhetherChoosing()) {
-                            ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                            audioPlayWave.start();
-                            componentActivated.setBackground(Color.WHITE);
-                            Border borderOfTheBlock = BorderFactory.createLineBorder(Color.BLACK, 6, false);
-                            ((UnitBlockInDIY) componentActivated).setBorder(borderOfTheBlock);
-                            ((UnitBlockInDIY) componentActivated).setWhetherChoosing(false);
-                            repaint();
-                            componentActivated.setVisible(true);
-                        }
-                    }
-                } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getBackToMenuOption())) {
-                    skin = false;
-                    if (inGamePageWithTimeLimit != null) {
-                        ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                        audioPlayWave.start();
-                        inGamePageWithTimeLimit = null;
-                        controllingCenter = new ControllingCenter();
-                        this.remove(touristDiePage);
-                        touristDiePage = null;
-                        this.LoadTimeLimitChoosingPage();
-                        this.addMouseListener(this);
-                        this.setFocusable(true);
-                        repaint();
-                        this.setVisible(true);
-                    } else {
-                        ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                        audioPlayWave.start();
-                        controllingCenter = new ControllingCenter();
-                        this.remove(touristDiePage);
-                        touristDiePage = null;
-                        this.LoadBoardSizeChoosingPage();
-                        this.addMouseListener(this);
-                        this.setFocusable(true);
-                        repaint();
-                        this.setVisible(true);
-                    }
-                } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    skin = false;
-                    controllingCenter = new ControllingCenter();
-                    this.remove(userCompetitionWithoutLimitDiePage);
-                    userCompetitionWithoutLimitDiePage = null;
-                    this.LoadUserCompetitionChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    skin = false;
-                    controllingCenter = new ControllingCenter();
-                    this.remove(userCompetitionWithLimitDiePage);
-                    userCompetitionWithoutLimitDiePage = null;
-                    inGamePageWithTimeLimit = null;
-                    this.LoadUserCompetitionChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getBackToMenuOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    skin = false;
-                    controllingCenter = new ControllingCenter();
-                    this.remove(userPracticeWithoutLimitDiePage);
-                    userPracticeWithoutLimitDiePage = null;
-                    this.LoadUserPracticeWithoutLimitationModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    skin = false;
-                    controllingCenter = new ControllingCenter();
-                    this.remove(userPracticeWithLimitDiePage);
-                    userPracticeWithLimitDiePage = null;
-                    this.LoadUserPracticeWithLimitationModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
-                    if (inGamePageWithTimeLimit == null) {
-                        ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                        audioPlayWave.start();
-                        this.remove(touristDiePage);
-                        touristDiePage = null;
-                        controllingCenter.setWhetherReachedTheTargetScore(false);
-                        controllingCenter.setWhetherAlreadyShownWinningPage(false);
-                        controllingCenter.CleanThePlayingBoardForRestart();
-                        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                        this.LoadInGamePageForTouristWithoutTimeLimitation();
-                        repaint();
-                        setVisible(true);
-                    } else {
-                        ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                        audioPlayWave.start();
-                        int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
-                        this.remove(touristDiePage);
-                        touristDiePage = null;
-                        inGamePageWithTimeLimit = null;
-                        controllingCenter.CleanThePlayingBoardForRestart();
-                        controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                        controllingCenter.UpdateGameValidity();
-                        this.LoadInGamePageForTouristWithTimeLimitation(originalTimeLimit);
-                        repaint();
-                        setVisible(true);
-                    }
-                } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
-                    this.remove(userPracticeWithLimitDiePage);
-                    userPracticeWithLimitDiePage = null;
-                    inGamePageWithTimeLimit = null;
-                    controllingCenter.CleanThePlayingBoardForRestart();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    controllingCenter.UpdateGameValidity();
-                    this.LoadInGamePageForUserWithTimeLimitationPractice(originalTimeLimit);
-                    repaint();
-                    setVisible(true);
-                } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    user.UpdateUserInformationForCompetition();
-                    this.remove(userCompetitionWithoutLimitDiePage);
-                    userCompetitionWithoutLimitDiePage = null;
-                    controllingCenter.setWhetherReachedTheTargetScore(false);
-                    controllingCenter.setWhetherAlreadyShownWinningPage(false);
-                    controllingCenter.CleanThePlayingBoardForRestart();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    this.LoadInGamePageForUserWithoutTimeLimitationCompetition();
-                    repaint();
-                    setVisible(true);
-                } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    user.UpdateUserInformationForCompetition();
-                    int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
-                    this.remove(userCompetitionWithLimitDiePage);
-                    userCompetitionWithLimitDiePage = null;
-                    inGamePageWithTimeLimit = null;
-                    controllingCenter.CleanThePlayingBoardForRestart();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    controllingCenter.UpdateGameValidity();
-                    this.LoadInGamePageForUserWithTimeLimitationCompetition(originalTimeLimit);
-                    repaint();
-                    setVisible(true);
-                } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getRestartOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.remove(userPracticeWithoutLimitDiePage);
-                    userPracticeWithoutLimitDiePage = null;
-                    controllingCenter.setWhetherAlreadyShownWinningPage(false);
-                    controllingCenter.setWhetherReachedTheTargetScore(false);
-                    controllingCenter.CleanThePlayingBoardForRestart();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    controllingCenter.UpdateGameValidity();
-                    user.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(controllingCenter.getArchiveName(), controllingCenter);
-                    user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
-                    this.LoadInGamePageForUserWithoutTimeLimitationPractice();
-                    repaint();
-                    setVisible(true);
-                } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetClickHereToRegister())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userLoginPage);
-                    userLoginPage = null;
-                    this.LoadUserRegistrationPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetClickHereToLoginPanel())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userRegistrationPage);
-                    userRegistrationPage = null;
-                    this.LoadUserLoginPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.DealWithRegistrationIssue();
-                } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.remove(successfullyRegisteredPage);
-                    successfullyRegisteredPage = null;
-                    this.LoadLoginPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetToLogin())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(successfullyRegisteredPage);
-                    successfullyRegisteredPage = null;
-                    this.LoadUserLoginPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.DealWithLoginIssue();
-                } else if (boardSizeDIYPage != null && !boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.DealWithTheDIYSetting();
-                } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(timeLimitChoosingPage);
-                    timeLimitChoosingPage = null;
-                    this.LoadBoardSizeDIYPageWithTimeLimit();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (boardSizeDIYPage != null && boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.DealWithTheDIYSetting();
-                } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(timeLimitChoosingPage);
-                    timeLimitChoosingPage = null;
-                    UpdateTheCoordinateSetInTheControllingCenterForFour();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    this.LoadInGamePageForTouristWithTimeLimitation(180);
-                    repaint();
-                    setVisible(true);
-                } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeWithLimitationModeChoosingPage);
-                    userPracticeWithLimitationModeChoosingPage = null;
-                    UpdateTheCoordinateSetInTheControllingCenterForFour();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    controllingCenter.setWhetherTimeLimitationMode(true);
-                    this.LoadInGamePageForUserWithTimeLimitationPractice(180);
-                    repaint();
-                    setVisible(true);
-                } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getSixMinutesOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeWithLimitationModeChoosingPage);
-                    userPracticeWithLimitationModeChoosingPage = null;
-                    UpdateTheCoordinateSetInTheControllingCenterForFour();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    controllingCenter.setWhetherTimeLimitationMode(true);
-                    this.LoadInGamePageForUserWithTimeLimitationPractice(360);
-                    repaint();
-                    setVisible(true);
-                } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(timeLimitChoosingPage);
-                    timeLimitChoosingPage = null;
-                    UpdateTheCoordinateSetInTheControllingCenterForFour();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    this.LoadInGamePageForTouristWithTimeLimitation(360);
-                    repaint();
-                    setVisible(true);
-                } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userCompetitionChoosingPage);
-                    userCompetitionChoosingPage = null;
-                    UpdateTheCoordinateSetInTheControllingCenterForFour();
-                    controllingCenter.setInCompetition(true);
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    this.LoadInGamePageForUserWithTimeLimitationCompetition(180);
-                    repaint();
-                    setVisible(true);
-                } else if ((inGamePageWithTimeLimit != null && !inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    inGamePageWithTimeLimit.LoadButtonController();
-                    inGamePageWithTimeLimit.GetUpButton().addMouseListener(this);
-                    inGamePageWithTimeLimit.GetDownButton().addMouseListener(this);
-                    inGamePageWithTimeLimit.GetLeftButton().addMouseListener(this);
-                    inGamePageWithTimeLimit.GetRightButton().addMouseListener(this);
-                    repaint();
-                    setVisible(true);
-                } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    inGamePageWithoutTimeLimit.LoadButtonController();
-                    inGamePageWithoutTimeLimit.GetUpButton().addMouseListener(this);
-                    inGamePageWithoutTimeLimit.GetDownButton().addMouseListener(this);
-                    inGamePageWithoutTimeLimit.GetLeftButton().addMouseListener(this);
-                    inGamePageWithoutTimeLimit.GetRightButton().addMouseListener(this);
-                    repaint();
-                    setVisible(true);
-                } else if ((inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    inGamePageWithTimeLimit.CleanButtonController();
-                    repaint();
-                    setVisible(true);
-                } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    inGamePageWithoutTimeLimit.CleanButtonController();
-                    repaint();
-                    setVisible(true);
-                } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    skin = false;
-                    inGamePageWithoutTimeLimit = null;
-                    controllingCenter = new ControllingCenter();
-                    this.remove(touristWinningPage);
-                    touristWinningPage = null;
-                    this.LoadBoardSizeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                    winningPageIsOnShow = false;
-                } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    skin = false;
-                    inGamePageWithoutTimeLimit = null;
-                    controllingCenter = new ControllingCenter();
-                    this.remove(userWinningPage);
-                    userWinningPage = null;
-                    this.LoadUserCompetitionChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                    winningPageIsOnShow = false;
-                } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getBackToMenuOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    skin = false;
-                    inGamePageWithoutTimeLimit = null;
-                    controllingCenter = new ControllingCenter();
-                    this.remove(userPracticeWinningPage);
-                    userPracticeWinningPage = null;
-                    this.LoadUserPracticeWithoutLimitationModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                    winningPageIsOnShow = false;
-                } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.remove(touristWinningPage);
-                    touristWinningPage = null;
-                    this.add(inGamePageWithoutTimeLimit);
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                    winningPageIsOnShow = false;
-                } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.remove(userWinningPage);
-                    userWinningPage = null;
-                    this.add(inGamePageWithoutTimeLimit);
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                    winningPageIsOnShow = false;
-                } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getContinueOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.remove(userPracticeWinningPage);
-                    userPracticeWinningPage = null;
-                    this.add(inGamePageWithoutTimeLimit);
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                    winningPageIsOnShow = false;
-                } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetUpButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.UpAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetDownButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.DownAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.LeftAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetRightButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    controllingCenter.RightAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
-                    this.repaint();
-                    this.JudgeWhetherEndOfGameWithTimeLimit();
-                } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    boolean whetherToSave = false;
-                    if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0] == 1) {
-                        whetherToSave = true;
-                    }
-                    controllingCenter.UpAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-                    if (whetherToSave) {
-                        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
-                    }
-                    this.repaint();
-                    this.JudgeWhetherWinningWithoutTimeLimit();
-                    this.JudgeWhetherEndOfGameWithoutTimeLimit();
-                } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    boolean whetherToSave = false;
-                    if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1] == 1) {
-                        whetherToSave = true;
-                    }
-                    controllingCenter.DownAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-                    if (whetherToSave) {
-                        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
-                    }
-                    this.repaint();
-                    this.JudgeWhetherWinningWithoutTimeLimit();
-                    this.JudgeWhetherEndOfGameWithoutTimeLimit();
-                } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    boolean whetherToSave = false;
-                    if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2] == 1) {
-                        whetherToSave = true;
-                    }
-                    controllingCenter.LeftAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-                    if (whetherToSave) {
-                        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
-                    }
-                    this.repaint();
-                    this.JudgeWhetherWinningWithoutTimeLimit();
-                    this.JudgeWhetherEndOfGameWithoutTimeLimit();
-                } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton()) && !timerIsRunning) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    controllingCenter.UpdateTheAvailableDirectionSet();
-                    boolean whetherToSave = false;
-                    if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3] == 1) {
-                        whetherToSave = true;
-                    }
-                    controllingCenter.RightAction();
-                    controllingCenter.UpdateGameValidity();
-                    inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
-                    if (whetherToSave) {
-                        user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
-                    }
-                    this.repaint();
-                    this.JudgeWhetherWinningWithoutTimeLimit();
-                    this.JudgeWhetherEndOfGameWithoutTimeLimit();
-                } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && !skin) {
-                    skin = true;
-                } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && skin) {
-                    skin = false;
-                } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userGameTypeChoosingPage);
-                    userGameTypeChoosingPage = null;
-                    this.LoadUserSingleModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userSingleModeChoosingPage);
-                    userSingleModeChoosingPage = null;
-                    this.LoadUserCompetitionChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userSingleModeChoosingPage);
-                    userSingleModeChoosingPage = null;
-                    this.LoadUserPracticeModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeModeChoosingPage);
-                    userPracticeModeChoosingPage = null;
-                    this.LoadUserPracticeWithoutTimeLimitModeWhetherNewPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeModeChoosingPage);
-                    userPracticeModeChoosingPage = null;
-                    this.LoadUserPracticeWithLimitationModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userCompetitionChoosingPage);
-                    userCompetitionChoosingPage = null;
-                    user.UpdateUserInformationForCompetition();
-                    UpdateTheCoordinateSetInTheControllingCenterForFour();
-                    controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
-                    controllingCenter.setInCompetition(true);
-                    this.LoadInGamePageForUserWithoutTimeLimitationCompetition();
-                    repaint();
-                    setVisible(true);
-                } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
-                    userPracticeWithoutTimeLimitModeWhetherNewPage = null;
-                    this.LoadUserPracticeWithoutLimitationModeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
-                    userPracticeWithoutTimeLimitModeWhetherNewPage = null;
-                    this.LoadAskingForArchivePanel();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
-                    this.DealWithArchiveInput();
-                } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userGameTypeChoosingPage);
-                    userGameTypeChoosingPage = null;
-                    this.LoadRecordModeSelectionPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(recordModeSelectionPage);
-                    recordModeSelectionPage = null;
-                    this.LoadRecordShowPageForWithoutLimit();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(recordModeSelectionPage);
-                    recordModeSelectionPage = null;
-                    this.LoadRecordShowPageForWithLimit();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(userGameTypeChoosingPage);
-                    userGameTypeChoosingPage = null;
-                    this.LoadWhetherNewGameRoomPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.OpenGameRoom();
-                } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(whetherNewGameRoomPage);
-                    whetherNewGameRoomPage = null;
-                    this.LoadEnterGameRoomPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                } else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.DealWithEnteringGameRoom();
-                } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.DealWithCreatingGameRoom();
-                } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    this.remove(successfullyCreateGameRoomWaitingPage);
-                    if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()){
-                        serverRunnable = null;
-                        serverThread=null;
-                    }else {
-                        clientRunnable = null;
-                        clientThread = null;
-                    }
-                    LoadInGamePageForMultiUserWithTimeLimitation();
-                }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
-                    ClickMusic audioPlayWave = new ClickMusic("src/Music/Music_click.wav");
-                    audioPlayWave.start();
-                    remove(diePageForMultiUser);
-                    diePageForMultiUser = null;
-                    this.LoadUserGameTypeChoosingPage();
-                    this.addMouseListener(this);
-                    this.setFocusable(true);
-                    repaint();
-                    this.setVisible(true);
-                }
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getBackToMenuOption())) {
+            skin = false;
+            controllingCenter = new ControllingCenter();
+            this.remove(userCompetitionWithoutLimitDiePage);
+            userCompetitionWithoutLimitDiePage = null;
+            this.LoadUserCompetitionChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getBackToMenuOption())) {
+            skin = false;
+            controllingCenter = new ControllingCenter();
+            this.remove(userCompetitionWithLimitDiePage);
+            userCompetitionWithoutLimitDiePage = null;
+            inGamePageWithTimeLimit = null;
+            this.LoadUserCompetitionChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getBackToMenuOption())) {
+            skin = false;
+            controllingCenter = new ControllingCenter();
+            this.remove(userPracticeWithoutLimitDiePage);
+            userPracticeWithoutLimitDiePage = null;
+            this.LoadUserPracticeWithoutLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getBackToMenuOption())) {
+            skin = false;
+            controllingCenter = new ControllingCenter();
+            this.remove(userPracticeWithLimitDiePage);
+            userPracticeWithLimitDiePage = null;
+            this.LoadUserPracticeWithLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (touristDiePage != null && componentActivated.equals(touristDiePage.getRestartOption())) {
+            if (inGamePageWithTimeLimit == null) {
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                controllingCenter.setWhetherReachedTheTargetScore(false);
+                controllingCenter.setWhetherAlreadyShownWinningPage(false);
+                controllingCenter.CleanThePlayingBoardForRestart();
+                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                this.LoadInGamePageForTouristWithoutTimeLimitation();
+                repaint();
+                setVisible(true);
+            } else {
+                int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
+                this.remove(touristDiePage);
+                touristDiePage = null;
+                inGamePageWithTimeLimit = null;
+                controllingCenter.CleanThePlayingBoardForRestart();
+                controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+                controllingCenter.UpdateGameValidity();
+                this.LoadInGamePageForTouristWithTimeLimitation(originalTimeLimit);
+                repaint();
+                setVisible(true);
             }
+        } else if (userPracticeWithLimitDiePage != null && componentActivated.equals(userPracticeWithLimitDiePage.getRestartOption())) {
+            int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
+            this.remove(userPracticeWithLimitDiePage);
+            userPracticeWithLimitDiePage = null;
+            inGamePageWithTimeLimit = null;
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.UpdateGameValidity();
+            this.LoadInGamePageForUserWithTimeLimitationPractice(originalTimeLimit);
+            repaint();
+            setVisible(true);
+        } else if (userCompetitionWithoutLimitDiePage != null && componentActivated.equals(userCompetitionWithoutLimitDiePage.getRestartOption())) {
+            user.UpdateUserInformationForCompetition();
+            this.remove(userCompetitionWithoutLimitDiePage);
+            userCompetitionWithoutLimitDiePage = null;
+            controllingCenter.setWhetherReachedTheTargetScore(false);
+            controllingCenter.setWhetherAlreadyShownWinningPage(false);
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForUserWithoutTimeLimitationCompetition();
+            repaint();
+            setVisible(true);
+        } else if (userCompetitionWithLimitDiePage != null && componentActivated.equals(userCompetitionWithLimitDiePage.getRestartOption())) {
+            user.UpdateUserInformationForCompetition();
+            int originalTimeLimit = inGamePageWithTimeLimit.getOriginalTimeLimit();
+            this.remove(userCompetitionWithLimitDiePage);
+            userCompetitionWithLimitDiePage = null;
+            inGamePageWithTimeLimit = null;
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.UpdateGameValidity();
+            this.LoadInGamePageForUserWithTimeLimitationCompetition(originalTimeLimit);
+            repaint();
+            setVisible(true);
+        } else if (userPracticeWithoutLimitDiePage != null && componentActivated.equals(userPracticeWithoutLimitDiePage.getRestartOption())) {
+            this.remove(userPracticeWithoutLimitDiePage);
+            userPracticeWithoutLimitDiePage = null;
+            controllingCenter.setWhetherAlreadyShownWinningPage(false);
+            controllingCenter.setWhetherReachedTheTargetScore(false);
+            controllingCenter.CleanThePlayingBoardForRestart();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.UpdateGameValidity();
+            user.SaveGameBoardToASpecificArchivePracticeWithoutTimeLimit(controllingCenter.getArchiveName(), controllingCenter);
+            user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+            this.LoadInGamePageForUserWithoutTimeLimitationPractice();
+            repaint();
+            setVisible(true);
+        } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetClickHereToRegister())) {
+            remove(userLoginPage);
+            userLoginPage = null;
+            this.LoadUserRegistrationPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetClickHereToLoginPanel())) {
+            remove(userRegistrationPage);
+            userRegistrationPage = null;
+            this.LoadUserLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userRegistrationPage != null && componentActivated.equals(userRegistrationPage.GetRegistrationConfirmPanel())) {
+            this.DealWithRegistrationIssue();
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetBackToMenu())) {
+            this.remove(successfullyRegisteredPage);
+            successfullyRegisteredPage = null;
+            this.LoadLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (successfullyRegisteredPage != null && componentActivated.equals(successfullyRegisteredPage.GetToLogin())) {
+            remove(successfullyRegisteredPage);
+            successfullyRegisteredPage = null;
+            this.LoadUserLoginPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userLoginPage != null && componentActivated.equals(userLoginPage.GetLoginConfirmPanel())) {
+            this.DealWithLoginIssue();
+        } else if (boardSizeDIYPage != null && !boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
+            this.DealWithTheDIYSetting();
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getDIYOption())) {
+            remove(timeLimitChoosingPage);
+            timeLimitChoosingPage = null;
+            this.LoadBoardSizeDIYPageWithTimeLimit();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (boardSizeDIYPage != null && boardSizeDIYPage.getWhetherTimeLimited() && componentActivated.equals(boardSizeDIYPage.GetContinueButton())) {
+            this.DealWithTheDIYSetting();
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getThreeMinutesOption())) {
+            remove(timeLimitChoosingPage);
+            timeLimitChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForTouristWithTimeLimitation(180);
+            repaint();
+            setVisible(true);
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getThreeMinutesOption())) {
+            remove(userPracticeWithLimitationModeChoosingPage);
+            userPracticeWithLimitationModeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.setWhetherTimeLimitationMode(true);
+            this.LoadInGamePageForUserWithTimeLimitationPractice(180);
+            repaint();
+            setVisible(true);
+        } else if (userPracticeWithLimitationModeChoosingPage != null && componentActivated.equals(userPracticeWithLimitationModeChoosingPage.getSixMinutesOption())) {
+            remove(userPracticeWithLimitationModeChoosingPage);
+            userPracticeWithLimitationModeChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.setWhetherTimeLimitationMode(true);
+            this.LoadInGamePageForUserWithTimeLimitationPractice(360);
+            repaint();
+            setVisible(true);
+        } else if (timeLimitChoosingPage != null && componentActivated.equals(timeLimitChoosingPage.getSixMinutesOption())) {
+            remove(timeLimitChoosingPage);
+            timeLimitChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForTouristWithTimeLimitation(360);
+            repaint();
+            setVisible(true);
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithTimeLimitationOption())) {
+            remove(userCompetitionChoosingPage);
+            userCompetitionChoosingPage = null;
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.setInCompetition(true);
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            this.LoadInGamePageForUserWithTimeLimitationCompetition(180);
+            repaint();
+            setVisible(true);
+        } else if ((inGamePageWithTimeLimit != null && !inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+            inGamePageWithTimeLimit.LoadButtonController();
+            inGamePageWithTimeLimit.GetUpButton().addMouseListener(this);
+            inGamePageWithTimeLimit.GetDownButton().addMouseListener(this);
+            inGamePageWithTimeLimit.GetLeftButton().addMouseListener(this);
+            inGamePageWithTimeLimit.GetRightButton().addMouseListener(this);
+            repaint();
+            setVisible(true);
+        } else if (inGamePageWithoutTimeLimit != null && !inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+            inGamePageWithoutTimeLimit.LoadButtonController();
+            inGamePageWithoutTimeLimit.GetUpButton().addMouseListener(this);
+            inGamePageWithoutTimeLimit.GetDownButton().addMouseListener(this);
+            inGamePageWithoutTimeLimit.GetLeftButton().addMouseListener(this);
+            inGamePageWithoutTimeLimit.GetRightButton().addMouseListener(this);
+            repaint();
+            setVisible(true);
+        } else if ((inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut()) && componentActivated.equals(inGamePageWithTimeLimit.getButtonControllerSwitch())) {
+            inGamePageWithTimeLimit.CleanButtonController();
+            repaint();
+            setVisible(true);
+        } else if (inGamePageWithoutTimeLimit != null && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.getButtonControllerSwitch())) {
+            inGamePageWithoutTimeLimit.CleanButtonController();
+            repaint();
+            setVisible(true);
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getBackToMenuOption())) {
+            skin = false;
+            inGamePageWithoutTimeLimit = null;
+            controllingCenter = new ControllingCenter();
+            this.remove(touristWinningPage);
+            touristWinningPage = null;
+            this.LoadBoardSizeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getBackToMenuOption())) {
+            skin = false;
+            inGamePageWithoutTimeLimit = null;
+            controllingCenter = new ControllingCenter();
+            this.remove(userWinningPage);
+            userWinningPage = null;
+            this.LoadUserCompetitionChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getBackToMenuOption())) {
+            skin = false;
+            inGamePageWithoutTimeLimit = null;
+            controllingCenter = new ControllingCenter();
+            this.remove(userPracticeWinningPage);
+            userPracticeWinningPage = null;
+            this.LoadUserPracticeWithoutLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (touristWinningPage != null && componentActivated.equals(touristWinningPage.getContinueOption())) {
+            this.remove(touristWinningPage);
+            touristWinningPage = null;
+            this.add(inGamePageWithoutTimeLimit);
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (userWinningPage != null && componentActivated.equals(userWinningPage.getContinueOption())) {
+            this.remove(userWinningPage);
+            userWinningPage = null;
+            this.add(inGamePageWithoutTimeLimit);
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (userPracticeWinningPage != null && componentActivated.equals(userPracticeWinningPage.getContinueOption())) {
+            this.remove(userPracticeWinningPage);
+            userPracticeWinningPage = null;
+            this.add(inGamePageWithoutTimeLimit);
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+            winningPageIsOnShow = false;
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetUpButton()) && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetDownButton()) && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetLeftButton()) && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithTimeLimit != null && inGamePageWithTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithTimeLimit.GetRightButton()) && !timerIsRunning) {
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            controllingCenter.RightAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithTimeLimit.UpdateBlockUnitsInGame();
+            this.repaint();
+            this.JudgeWhetherEndOfGameWithTimeLimit();
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetUpButton()) && !timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[0] == 1) {
+                whetherToSave = true;
+            }
+            controllingCenter.UpAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+            }
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetDownButton()) && !timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[1] == 1) {
+                whetherToSave = true;
+            }
+            controllingCenter.DownAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+            }
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetLeftButton()) && !timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[2] == 1) {
+                whetherToSave = true;
+            }
+            controllingCenter.LeftAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+            }
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        } else if (inGamePageWithoutTimeLimit != null && !winningPageIsOnShow && inGamePageWithoutTimeLimit.GetWhetherDirectionButtonOut() && componentActivated.equals(inGamePageWithoutTimeLimit.GetRightButton()) && !timerIsRunning) {
+            controllingCenter.UpdateTheAvailableDirectionSet();
+            boolean whetherToSave = false;
+            if (!inGamePageWithoutTimeLimit.isWhetherTourist() && !inGamePageWithoutTimeLimit.getWhetherCompetition() && controllingCenter.getCurrentPlayingBoard().getAvailableDirectionSet()[3] == 1) {
+                whetherToSave = true;
+            }
+            controllingCenter.RightAction();
+            controllingCenter.UpdateGameValidity();
+            inGamePageWithoutTimeLimit.UpdateBlockUnitsInGame();
+            if (whetherToSave) {
+                user.SavingCellValueSavingForCurrentStep(controllingCenter.getArchiveName(), controllingCenter);
+            }
+            this.repaint();
+            this.JudgeWhetherWinningWithoutTimeLimit();
+            this.JudgeWhetherEndOfGameWithoutTimeLimit();
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && !skin) {
+            skin = true;
+        } else if ((boardSizeDIYPage != null && componentActivated.equals(boardSizeDIYPage.getSkinSwitcher())) && skin) {
+            skin = false;
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getSinglePlayerOption())) {
+            remove(userGameTypeChoosingPage);
+            userGameTypeChoosingPage = null;
+            this.LoadUserSingleModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getCompetitionOption())) {
+            remove(userSingleModeChoosingPage);
+            userSingleModeChoosingPage = null;
+            this.LoadUserCompetitionChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userSingleModeChoosingPage != null && componentActivated.equals(userSingleModeChoosingPage.getPracticeOption())) {
+            remove(userSingleModeChoosingPage);
+            userSingleModeChoosingPage = null;
+            this.LoadUserPracticeModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithoutTimeLimitationOption())) {
+            remove(userPracticeModeChoosingPage);
+            userPracticeModeChoosingPage = null;
+            this.LoadUserPracticeWithoutTimeLimitModeWhetherNewPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeModeChoosingPage != null && componentActivated.equals(userPracticeModeChoosingPage.getWithTimeLimitationOption())) {
+            remove(userPracticeModeChoosingPage);
+            userPracticeModeChoosingPage = null;
+            this.LoadUserPracticeWithLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userCompetitionChoosingPage != null && componentActivated.equals(userCompetitionChoosingPage.getWithoutTimeLimitationOption())) {
+            remove(userCompetitionChoosingPage);
+            userCompetitionChoosingPage = null;
+            user.UpdateUserInformationForCompetition();
+            UpdateTheCoordinateSetInTheControllingCenterForFour();
+            controllingCenter.RandomlyGenerateTwoCellInEmptyBoardUnitsForSetUp();
+            controllingCenter.setInCompetition(true);
+            this.LoadInGamePageForUserWithoutTimeLimitationCompetition();
+            repaint();
+            setVisible(true);
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getNewGameOption())) {
+            remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
+            userPracticeWithoutTimeLimitModeWhetherNewPage = null;
+            this.LoadUserPracticeWithoutLimitationModeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userPracticeWithoutTimeLimitModeWhetherNewPage != null && componentActivated.equals(userPracticeWithoutTimeLimitModeWhetherNewPage.getExistingArchiveOption())) {
+            remove(userPracticeWithoutTimeLimitModeWhetherNewPage);
+            userPracticeWithoutTimeLimitModeWhetherNewPage = null;
+            this.LoadAskingForArchivePanel();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (askingForArchivePanel != null && componentActivated.equals(askingForArchivePanel.getContinueToPlay())) {
+            this.DealWithArchiveInput();
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getRecordOption())) {
+            remove(userGameTypeChoosingPage);
+            userGameTypeChoosingPage = null;
+            this.LoadRecordModeSelectionPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithoutTimeLimitationOption())) {
+            remove(recordModeSelectionPage);
+            recordModeSelectionPage = null;
+            this.LoadRecordShowPageForWithoutLimit();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (recordModeSelectionPage != null && componentActivated.equals(recordModeSelectionPage.getWithTimeLimitationOption())) {
+            remove(recordModeSelectionPage);
+            recordModeSelectionPage = null;
+            this.LoadRecordShowPageForWithLimit();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (userGameTypeChoosingPage != null && componentActivated.equals(userGameTypeChoosingPage.getMultiPlayerOption())) {
+            remove(userGameTypeChoosingPage);
+            userGameTypeChoosingPage = null;
+            this.LoadWhetherNewGameRoomPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getCreateNewGameRoomOption())) {
+            this.OpenGameRoom();
+        } else if (whetherNewGameRoomPage != null && componentActivated.equals(whetherNewGameRoomPage.getEnterExistingGameRoomOption())) {
+            remove(whetherNewGameRoomPage);
+            whetherNewGameRoomPage = null;
+            this.LoadEnterGameRoomPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        } else if (enterGameRoomPage != null && componentActivated.equals(enterGameRoomPage.getContinueToPlay())) {
+            this.DealWithEnteringGameRoom();
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getOpenPanel())) {
+            this.DealWithCreatingGameRoom();
+        } else if (successfullyCreateGameRoomWaitingPage != null && componentActivated.equals(successfullyCreateGameRoomWaitingPage.getContinuePanel())) {
+            this.remove(successfullyCreateGameRoomWaitingPage);
+            if (successfullyCreateGameRoomWaitingPage.GetWhetherServer()){
+                serverRunnable = null;
+                serverThread=null;
+            }else {
+                clientRunnable = null;
+                clientThread = null;
+            }
+            LoadInGamePageForMultiUserWithTimeLimitation();
+        }else if (diePageForMultiUser != null && componentActivated.equals(diePageForMultiUser.getBackOption())) {
+            remove(diePageForMultiUser);
+            diePageForMultiUser = null;
+            this.LoadUserGameTypeChoosingPage();
+            this.addMouseListener(this);
+            this.setFocusable(true);
+            repaint();
+            this.setVisible(true);
+        }
+    }
 
-
-            @Override
+    @Override
     public void mousePressed(MouseEvent e) {
 
     }
