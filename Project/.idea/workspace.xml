@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="84b23187-489a-439b-b09d-0f98be192935" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -7,10 +10,20 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 0
-}</component>
+    &quot;customColor&quot;: &quot;&quot;,
+    &quot;associatedIndex&quot;: 0
+    }</component>
   <component name="ProjectId" id="2erEfUNLwuCCCZIz5Dw4mSNe2ni" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -18,13 +31,59 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/孙璟琦/OneDrive/桌面/Project/src&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="T:\Assignments\CS109\CS109Project\Project\src\Music" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Projector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GameViual.Projector" />
+      <module name="Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GameVisual.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.Projector" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Projector" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -42,10 +101,217 @@
       <updated>1712654402267</updated>
       <workItem from="1712654403324" duration="171000" />
       <workItem from="1712707185598" duration="2000" />
+      <workItem from="1713174003270" duration="339000" />
+      <workItem from="1713177793152" duration="595000" />
+      <workItem from="1713197208735" duration="1196000" />
+      <workItem from="1713200810019" duration="9000" />
+      <workItem from="1713444472850" duration="1520000" />
+      <workItem from="1713484044978" duration="9568000" />
+      <workItem from="1713538857393" duration="2285000" />
+      <workItem from="1713622476664" duration="1847000" />
+      <workItem from="1713655210845" duration="27000" />
+      <workItem from="1713655314092" duration="86000" />
+      <workItem from="1713655484043" duration="750000" />
+      <workItem from="1713673778952" duration="2730000" />
+      <workItem from="1713744464291" duration="6666000" />
+      <workItem from="1713755779697" duration="399000" />
+      <workItem from="1713763376389" duration="2458000" />
+      <workItem from="1713768766686" duration="479000" />
+      <workItem from="1713775448846" duration="14784000" />
+      <workItem from="1713830009931" duration="1368000" />
+      <workItem from="1713841988753" duration="1291000" />
+      <workItem from="1713849082381" duration="3209000" />
+      <workItem from="1713853977125" duration="4713000" />
+      <workItem from="1713859252557" duration="1156000" />
+      <workItem from="1713873643708" duration="343000" />
+      <workItem from="1714032720605" duration="1682000" />
+      <workItem from="1714044860189" duration="22000" />
+      <workItem from="1714047108817" duration="749000" />
+      <workItem from="1714048273531" duration="615000" />
+      <workItem from="1714211073302" duration="15885000" />
+      <workItem from="1714393893370" duration="1243000" />
+      <workItem from="1714396592335" duration="9892000" />
+      <workItem from="1714438416884" duration="301000" />
+      <workItem from="1714443607096" duration="196000" />
+      <workItem from="1714454381205" duration="8386000" />
+      <workItem from="1714464491225" duration="560000" />
+      <workItem from="1714468519321" duration="555000" />
+      <workItem from="1714491123353" duration="1350000" />
+      <workItem from="1714492484297" duration="70000" />
+      <workItem from="1714540608731" duration="24000" />
+      <workItem from="1714555456157" duration="1509000" />
+      <workItem from="1714560830687" duration="1363000" />
+      <workItem from="1714569792429" duration="52000" />
+      <workItem from="1714701338835" duration="31386000" />
+      <workItem from="1714743292713" duration="693000" />
+      <workItem from="1714788164094" duration="33000" />
+      <workItem from="1714788614062" duration="335000" />
+      <workItem from="1714825857766" duration="4844000" />
+      <workItem from="1714913733130" duration="4844000" />
+      <workItem from="1714951845392" duration="2044000" />
+      <workItem from="1714954831123" duration="4703000" />
+      <workItem from="1714965009558" duration="622000" />
+      <workItem from="1714974568103" duration="6352000" />
+      <workItem from="1714982375219" duration="5391000" />
+      <workItem from="1714988009440" duration="7000" />
+      <workItem from="1715039043819" duration="150000" />
+      <workItem from="1715047287810" duration="1202000" />
+      <workItem from="1715051498599" duration="654000" />
+      <workItem from="1715052730779" duration="23000" />
+      <workItem from="1715058475957" duration="3293000" />
+      <workItem from="1715067409125" duration="2230000" />
+      <workItem from="1715086246295" duration="5164000" />
+      <workItem from="1715234489061" duration="5144000" />
+      <workItem from="1715240164934" duration="6950000" />
+      <workItem from="1715250341911" duration="10852000" />
+      <workItem from="1715305642747" duration="51000" />
+      <workItem from="1715306596901" duration="1327000" />
+      <workItem from="1715311023365" duration="483000" />
+      <workItem from="1715318787278" duration="927000" />
+      <workItem from="1715320085137" duration="678000" />
+      <workItem from="1715349890060" duration="4257000" />
+      <workItem from="1715354857385" duration="156000" />
+      <workItem from="1715355180074" duration="124000" />
+      <workItem from="1715355578565" duration="630000" />
+      <workItem from="1715404939381" duration="1078000" />
+      <workItem from="1715406054499" duration="316000" />
+      <workItem from="1715432624098" duration="3678000" />
+      <workItem from="1715443807406" duration="1228000" />
+      <workItem from="1715445356873" duration="1779000" />
+      <workItem from="1715473120523" duration="40782000" />
+      <workItem from="1715556290897" duration="8623000" />
+      <workItem from="1715569900403" duration="606000" />
+      <workItem from="1715575905581" duration="716000" />
+      <workItem from="1715583161550" duration="1484000" />
+      <workItem from="1715586099752" duration="229000" />
+      <workItem from="1715586362336" duration="2471000" />
+      <workItem from="1715595077090" duration="13000" />
+      <workItem from="1715612649375" duration="2367000" />
+      <workItem from="1715644163556" duration="319000" />
+      <workItem from="1715648232854" duration="147000" />
+      <workItem from="1715651801298" duration="901000" />
+      <workItem from="1715654011202" duration="647000" />
+      <workItem from="1715654947592" duration="18000" />
+      <workItem from="1715656129186" duration="754000" />
+      <workItem from="1715657164297" duration="2000" />
+      <workItem from="1715663234812" duration="9232000" />
+      <workItem from="1715678134058" duration="344000" />
+      <workItem from="1715684650533" duration="12568000" />
+      <workItem from="1715730012651" duration="1250000" />
+      <workItem from="1715734509480" duration="4100000" />
+      <workItem from="1715753263178" duration="6364000" />
+      <workItem from="1715772967207" duration="12305000" />
+      <workItem from="1715825566163" duration="56000" />
+      <workItem from="1715829093563" duration="449000" />
+      <workItem from="1715836123569" duration="3275000" />
+      <workItem from="1715842332800" duration="181000" />
+      <workItem from="1715845888410" duration="13949000" />
+      <workItem from="1715861504457" duration="339000" />
+      <workItem from="1715865721711" duration="4039000" />
+      <workItem from="1715907174416" duration="490000" />
+      <workItem from="1715911465659" duration="954000" />
+      <workItem from="1715915724485" duration="158000" />
+      <workItem from="1715921426869" duration="3844000" />
+      <workItem from="1715991014369" duration="3220000" />
+      <workItem from="1715997871203" duration="3303000" />
+      <workItem from="1716007295272" duration="13688000" />
+      <workItem from="1716035284624" duration="259000" />
+      <workItem from="1716039792665" duration="17807000" />
+      <workItem from="1716109773001" duration="15767000" />
+      <workItem from="1716170339255" duration="1018000" />
+      <workItem from="1716184577123" duration="273000" />
+      <workItem from="1716187962693" duration="390000" />
+      <workItem from="1716201012300" duration="5006000" />
+      <workItem from="1716207693911" duration="8586000" />
+      <workItem from="1716252622980" duration="617000" />
+      <workItem from="1716256749249" duration="1428000" />
+      <workItem from="1716260055058" duration="6000" />
+      <workItem from="1716267316169" duration="3993000" />
+      <workItem from="1716272060530" duration="7343000" />
+      <workItem from="1716301059933" duration="17000" />
+      <workItem from="1716301084717" duration="3215000" />
+      <workItem from="1716306758887" duration="57000" />
+      <workItem from="1716306825438" duration="48000" />
+      <workItem from="1716334762275" duration="2150000" />
+      <workItem from="1716343412563" duration="117000" />
+      <workItem from="1716354951679" duration="2254000" />
+      <workItem from="1716360732164" duration="854000" />
+      <workItem from="1716377919950" duration="16228000" />
+      <workItem from="1716394623230" duration="813000" />
+      <workItem from="1716444106639" duration="222000" />
+      <workItem from="1716452331355" duration="3000" />
+      <workItem from="1716452879203" duration="735000" />
+      <workItem from="1716453876521" duration="4328000" />
+      <workItem from="1716461739246" duration="4133000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.StackOverflowError" package="java.lang" />
+          <option name="timeStamp" value="7" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/TouristWinningPage.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithTimeLimit.java</url>
+          <line>277</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GameVisual/Panels/InGamePageWithoutTimeLimit.java</url>
+          <line>140</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
+          <line>832</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MultiUserSupply/UserManger.java</url>
+          <line>898</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.Boolean" memberName="value" />
+        <PinnedItemInfo parentTag="GameElement.Board" memberName="neighborBoardUnitsInRow" />
+        <PinnedItemInfo parentTag="GameElement.Board" memberName="boardLocationSet" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="controllingCenter.gameValidity" />
+        <watch expression="((java.util.ArrayList)((Board)((ControllingCenter)((myBoard)this).controllingCenter).currentPlayingBoard).boardUnitsInTheSameRow).get(0)" custom="GameElement.Board,GameElement.ControllingCenter,GameVisual.myBoard,java.util.ArrayList" />
+        <watch expression="((TotalGameFrame)this).serverThread" custom="GameVisual.TotalGameFrame" />
+        <watch expression="((TotalGameFrame)this).serverRunnable" custom="GameVisual.TotalGameFrame" />
+        <watch expression="((TotalGameFrame)this).serverRunnable" custom="GameVisual.TotalGameFrame" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

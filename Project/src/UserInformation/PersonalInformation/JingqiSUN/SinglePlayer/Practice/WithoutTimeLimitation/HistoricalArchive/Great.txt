@@ -1,0 +1,8 @@
+#Thu May 23 17:00:51 CST 2024
+BoardUnitLocationSet=03132302122201112100102030
+CurrentStepNumber=0
+LastModifiedTime=28a5def5403db158b58acfb9f9b6272c73a4cb65a953808c48d5d6123a25dd3b
+Score0=0
+Step0=0 0 0 0 4 2 0 0 0 0 0 0 0 
+TargetScore=17
+WhetherWon=false
