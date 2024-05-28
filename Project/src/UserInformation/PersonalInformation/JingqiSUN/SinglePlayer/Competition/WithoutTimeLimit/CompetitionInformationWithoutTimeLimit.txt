@@ -1,5 +1,5 @@
-#Tue May 28 13:39:35 CST 2024
-AverageScore=3829
+#Wed May 22 13:25:20 CST 2024
+AverageScore=3912
 BestScoreFive=5460
 BestScoreFour=5532
 BestScoreOne=11372
@@ -7,5 +7,5 @@ BestScoreThree=7412
 BestScoreTwo=10720
 TimeOverFourteenThousand=0
 TimeOverSevenThousand=3
-TotalGameNumber=21
+TotalGameNumber=20
 TotalWinTime=0
