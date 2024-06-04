@@ -876,6 +876,49 @@ public class TotalGameFrame extends JFrame implements KeyListener, MouseListener
                 this.repaint();
                 this.JudgeWhetherEndOfGameWithTimeLimit();
             }
+        }else if (inGamePageWithTimeLimitForMultiUser != null && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A && !timerIsRunning) {
+            int direction = AI.twoCombinedTogether(controllingCenter);
+            if (direction == 2){
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.DownAction();
+                controllingCenter.UpdateGameValidity();
+                inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            } else if (direction == 0) {
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.UpAction();
+                controllingCenter.UpdateGameValidity();
+                inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            }else if (direction == 3){
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.LeftAction();
+                controllingCenter.UpdateGameValidity();
+                inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            } else if (direction == 1) {
+                SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
+                audioPlay.start();
+                this.JudgeWhetherEndOfGameWithTimeLimit();
+                controllingCenter.UpdateTheAvailableDirectionSet();
+                controllingCenter.RightAction();
+                inGamePageWithTimeLimitForMultiUser.UpdateBlockUnitsInGame();
+                controllingCenter.UpdateGameValidity();
+                this.repaint();
+                this.JudgeWhetherEndOfGameWithTimeLimitForMultiUser();
+            }
         }else if (inGamePageWithTimeLimitForMultiUser != null && keyBeingActivated == KeyEvent.VK_UP && !timerIsRunning) {
             SlipMusic audioPlay = new SlipMusic("src/Music/slip.wav");
             audioPlay.start();
