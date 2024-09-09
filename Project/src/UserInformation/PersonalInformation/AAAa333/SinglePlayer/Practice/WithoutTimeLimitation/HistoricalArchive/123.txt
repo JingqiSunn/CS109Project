@@ -1,0 +1,16 @@
+#Tue Jul 16 17:14:14 CST 2024
+BoardUnitLocationSet=021222011121001020
+CurrentStepNumber=4
+LastModifiedTime=a72cfe988b0b72cc7da67312a18eedab8f5a87bb108989d58472c9d2eb084999
+Score0=0
+Score1=0
+Score2=0
+Score3=4
+Score4=12
+Step0=0 0 0 2 0 0 0 0 4 
+Step1=2 0 0 0 0 2 0 0 4 
+Step2=0 4 2 0 0 2 0 0 4 
+Step3=0 0 0 0 0 4 2 4 4 
+Step4=0 0 0 0 0 4 4 2 8 
+TargetScore=4
+WhetherWon=true
